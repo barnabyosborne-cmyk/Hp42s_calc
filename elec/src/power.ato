@@ -1,0 +1,174 @@
+from "parts.ato" import BQ25185, TPS63900, MAX17048, USBCReceptacle, TPD4E05U06
+from "parts.ato" import Battery, Resistor, Capacitor, Inductor
+
+# ---------------------------------------------------------------------------
+# power.ato -- USB-C in, linear charger with power path, buck-boost to 3V3.
+#
+#   VBUS --[BQ25185]-- SYS --[TPS63900]-- +3V3
+#              |
+#             BAT --[MAX17048 fuel gauge]
+#
+# The buck-boost is not optional. A single LiPo swings 4.2 V down to 3.0 V and
+# the panel's VCI will not take 4.2 V, so a plain LDO would either burn the
+# headroom at full charge or brown out the panel at the bottom of the
+# discharge. The TPS63900's 75 nA quiescent current is also most of why the
+# standing draw comes out at ~25 uA in deep sleep.
+# ---------------------------------------------------------------------------
+
+module Power:
+    signal vbus
+    signal bat
+    signal sys
+    signal v3v3
+    signal gnd
+    signal usb_dp
+    signal usb_dm
+    signal cc1
+    signal cc2
+    signal chg_stat
+    signal i2c_sda
+    signal i2c_scl
+
+    # --- USB-C inlet ---------------------------------------------------------
+    usb = new USBCReceptacle
+    usb.VBUS ~ vbus
+    usb.GND ~ gnd
+    usb.DP ~ usb_dp
+    usb.DM ~ usb_dm
+    usb.CC1 ~ cc1
+    usb.CC2 ~ cc2
+    usb.SHIELD ~ gnd
+
+    # Two SEPARATE 5.1k pulldowns, one per CC line. A single shared resistor
+    # is the classic USB-C mistake: it makes the sink look like a 10k Rd and
+    # some sources will not enumerate it.
+    r_cc1 = new Resistor
+    r_cc1.value = "5.1k"
+    r_cc1.p1 ~ cc1
+    r_cc1.p2 ~ gnd
+
+    r_cc2 = new Resistor
+    r_cc2.value = "5.1k"
+    r_cc2.p1 ~ cc2
+    r_cc2.p2 ~ gnd
+
+    esd = new TPD4E05U06
+    esd.ch1 ~ usb_dp
+    esd.ch2 ~ usb_dm
+    esd.ch3 ~ cc1
+    esd.ch4 ~ cc2
+    esd.GND ~ gnd
+
+    c_vbus = new Capacitor
+    c_vbus.value = "1u"
+    c_vbus.footprint = "C_0603_1608Metric"
+    c_vbus.p1 ~ vbus
+    c_vbus.p2 ~ gnd
+
+    # --- charger -------------------------------------------------------------
+    chg = new BQ25185
+    chg.IN ~ vbus
+    chg.SYS ~ sys
+    chg.BAT ~ bat
+    chg.GND ~ gnd
+    chg.PAD ~ gnd
+    chg.CE_N ~ gnd          # charging always enabled
+    chg.CHG_N ~ chg_stat
+
+    # ISET sets fast-charge current. Size for 0.5 C of the cell actually
+    # fitted -- 825 mA for the 1650 mAh cell -- from the datasheet's K_ISET,
+    # which has to be read before this value is real.
+    r_iset = new Resistor
+    r_iset.value = "TBD -- size for 0.5C from BQ25185 K_ISET"
+    r_iset.p1 ~ chg.ISET
+    r_iset.p2 ~ gnd
+
+    # ILIM strapped for a 500 mA input limit, which is what a bare USB port
+    # will give without negotiation.
+    r_ilim = new Resistor
+    r_ilim.value = "TBD -- 500 mA input limit"
+    r_ilim.p1 ~ chg.ILIM
+    r_ilim.p2 ~ gnd
+
+    r_chg_pu = new Resistor
+    r_chg_pu.value = "100k"
+    r_chg_pu.p1 ~ chg_stat
+    r_chg_pu.p2 ~ v3v3
+
+    cell = new Battery
+    cell.p ~ bat
+    cell.n ~ gnd
+
+    c_bat = new Capacitor
+    c_bat.value = "10u"
+    c_bat.footprint = "C_0805_2012Metric"
+    c_bat.p1 ~ bat
+    c_bat.p2 ~ gnd
+
+    c_sys = new Capacitor
+    c_sys.value = "22u"
+    c_sys.footprint = "C_0805_2012Metric"
+    c_sys.p1 ~ sys
+    c_sys.p2 ~ gnd
+
+    # --- buck-boost ----------------------------------------------------------
+    reg = new TPS63900
+    reg.VIN ~ sys
+    reg.VOUT ~ v3v3
+    reg.EN ~ v3v3
+    reg.VSEL ~ gnd          # fixed 3.3 V; tie high only for dynamic scaling
+    reg.GND ~ gnd
+    reg.PAD ~ gnd
+
+    # The one fast node on the board. Keep this loop under a few mm-squared
+    # and away from the panel's SPI.
+    l_sw = new Inductor
+    l_sw.value = "2.2u"
+    l_sw.p1 ~ reg.L1
+    l_sw.p2 ~ reg.L2
+
+    r_fb_top = new Resistor
+    r_fb_top.value = "TBD -- divider for 3.3 V"
+    r_fb_top.p1 ~ v3v3
+    r_fb_top.p2 ~ reg.FB
+
+    r_fb_bot = new Resistor
+    r_fb_bot.value = "TBD -- divider for 3.3 V"
+    r_fb_bot.p1 ~ reg.FB
+    r_fb_bot.p2 ~ gnd
+
+    c_out = new Capacitor
+    c_out.value = "22u"
+    c_out.footprint = "C_0805_2012Metric"
+    c_out.p1 ~ v3v3
+    c_out.p2 ~ gnd
+
+    c_out_hf = new Capacitor
+    c_out_hf.value = "100n"
+    c_out_hf.p1 ~ v3v3
+    c_out_hf.p2 ~ gnd
+
+    # --- fuel gauge ----------------------------------------------------------
+    gauge = new MAX17048
+    gauge.VDD ~ v3v3
+    gauge.CELL ~ bat
+    gauge.SDA ~ i2c_sda
+    gauge.SCL ~ i2c_scl
+    gauge.GND ~ gnd
+    # ALRT_N is left unconnected. Bring it to a spare GPIO only if you want
+    # low-battery interrupts rather than polling.
+
+    c_gauge = new Capacitor
+    c_gauge.value = "100n"
+    c_gauge.p1 ~ v3v3
+    c_gauge.p2 ~ gnd
+
+    r_sda = new Resistor
+    r_sda.value = "4.7k"
+    r_sda.p1 ~ i2c_sda
+    r_sda.p2 ~ v3v3
+
+    r_scl = new Resistor
+    r_scl.value = "4.7k"
+    r_scl.p1 ~ i2c_scl
+    r_scl.p2 ~ v3v3

@@ -1,0 +1,257 @@
+# ---------------------------------------------------------------------------
+# parts.ato -- component declarations for the HP-42S clone.
+#
+# PIN NAMES, NOT PIN NUMBERS.
+#
+# Every IC below declares its pins by the name the datasheet uses (IN, SYS,
+# BAT, ...) rather than by number. atopile is happy with either; names are
+# used deliberately, because inventing pin numbers from memory is exactly the
+# error that costs a board spin. When these parts are given real KiCad
+# symbols, the names here have to be reconciled with the symbol's numbering.
+# Until then the netlist is correct about *what connects to what* and silent
+# about which physical pin that is.
+#
+# Footprint strings are also unchecked: atopile passes them through to the
+# netlist verbatim and never looks for the file. Only the two Snaptron dome
+# footprints in elec/footprints/hp42s.pretty/ actually exist in this repo.
+# ---------------------------------------------------------------------------
+
+# --- passives --------------------------------------------------------------
+
+component Resistor:
+    footprint = "R_0402_1005Metric"
+    designator_prefix = "R"
+    designator: string
+    value: string
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+
+component Capacitor:
+    footprint = "C_0402_1005Metric"
+    designator_prefix = "C"
+    designator: string
+    value: string
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+
+component Inductor:
+    footprint = "L_0806_2016Metric"
+    designator_prefix = "L"
+    designator: string
+    value: string
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+
+component Diode:
+    footprint = "D_SOD-323"
+    designator_prefix = "D"
+    designator: string
+    value: string
+    signal anode ~ pin A
+    signal cathode ~ pin K
+
+component NFET:
+    # 2N7002 small-signal N-channel, SOT-23
+    footprint = "SOT-23"
+    designator_prefix = "Q"
+    designator: string
+    value = "2N7002"
+    signal gate ~ pin G
+    signal drain ~ pin D
+    signal source ~ pin S
+
+component TestPad:
+    footprint = "TestPoint_Pad_D1.5mm"
+    designator_prefix = "TP"
+    designator: string
+    value = "test pad"
+    signal p ~ pin 1
+
+# --- keypad ----------------------------------------------------------------
+
+component DomeKey10:
+    # Snaptron F10260: 10 mm, 260 gf. Digits and operators.
+    # Pad 1 is the outer ring, pad 2 the centre -- see tools/gen_dome_footprints.py.
+    footprint = "Snaptron_F10260_Dome"
+    designator_prefix = "SW"
+    designator: string
+    value = "F10260"
+    signal ring ~ pin 1
+    signal centre ~ pin 2
+
+component DomeKey85:
+    # Snaptron F08210: 8.5 mm, 210 gf. Function rows and ENTER.
+    footprint = "Snaptron_F08210_Dome"
+    designator_prefix = "SW"
+    designator: string
+    value = "F08210"
+    signal ring ~ pin 1
+    signal centre ~ pin 2
+
+# --- power -----------------------------------------------------------------
+
+component BQ25185:
+    # Single-cell linear charger with power path. 4 uA quiescent.
+    footprint = "WSON-10-1EP_2x2mm"
+    designator_prefix = "U"
+    designator: string
+    value = "BQ25185"
+    signal IN   ~ pin IN
+    signal SYS  ~ pin SYS
+    signal BAT  ~ pin BAT
+    signal ISET ~ pin ISET
+    signal ILIM ~ pin ILIM
+    signal CE_N ~ pin CE
+    signal CHG_N ~ pin CHG
+    signal GND  ~ pin GND
+    signal PAD  ~ pin PAD
+
+component TPS63900:
+    # Buck-boost to 3.3 V. 75 nA quiescent. Mandatory: the panel's VCI
+    # cannot take a 4.2 V cell directly.
+    footprint = "VQFN-12_2.5x3mm"
+    designator_prefix = "U"
+    designator: string
+    value = "TPS63900"
+    signal VIN  ~ pin VIN
+    signal VOUT ~ pin VOUT
+    signal L1   ~ pin L1
+    signal L2   ~ pin L2
+    signal VSEL ~ pin VSEL
+    signal FB   ~ pin FB
+    signal EN   ~ pin EN
+    signal GND  ~ pin GND
+    signal PAD  ~ pin PAD
+
+component MAX17048:
+    # ModelGauge fuel gauge, I2C, no sense resistor.
+    footprint = "WLP-8_1.2x0.9mm"
+    designator_prefix = "U"
+    designator: string
+    value = "MAX17048"
+    signal VDD  ~ pin VDD
+    signal CELL ~ pin CELL
+    signal SDA  ~ pin SDA
+    signal SCL  ~ pin SCL
+    signal ALRT_N ~ pin ALRT
+    signal GND  ~ pin GND
+
+component USBCReceptacle:
+    # 16-pin USB-C 2.0 receptacle. Both VBUS pins, both GND pins and both
+    # D+/D- pairs are tied, which is what makes the plug reversible.
+    footprint = "USB_C_Receptacle_16P"
+    designator_prefix = "J"
+    designator: string
+    value = "USB-C 2.0"
+    signal VBUS ~ pin VBUS
+    signal GND  ~ pin GND
+    signal CC1  ~ pin CC1
+    signal CC2  ~ pin CC2
+    signal DP   ~ pin DP
+    signal DM   ~ pin DM
+    signal SHIELD ~ pin SHIELD
+
+component TPD4E05U06:
+    # 4-channel ESD array for the USB data and CC lines.
+    footprint = "SOT-23-6"
+    designator_prefix = "U"
+    designator: string
+    value = "TPD4E05U06"
+    signal ch1 ~ pin CH1
+    signal ch2 ~ pin CH2
+    signal ch3 ~ pin CH3
+    signal ch4 ~ pin CH4
+    signal GND ~ pin GND
+
+component Battery:
+    # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh. Two-pad JST or soldered tabs.
+    footprint = "JST_PH_B2B-PH-K"
+    designator_prefix = "BT"
+    designator: string
+    value = "LiPo 1650 mAh"
+    signal p ~ pin 1
+    signal n ~ pin 2
+
+# --- MCU, display, sound ---------------------------------------------------
+
+component ESP32S3MINI1:
+    # ESP32-S3-MINI-1-N8: 8 MB flash, NO PSRAM.
+    # The no-PSRAM part matters. Octal PSRAM would take IO33-IO37, which is
+    # exactly where the panel interface lives below.
+    footprint = "ESP32-S3-MINI-1"
+    designator_prefix = "U"
+    designator: string
+    value = "ESP32-S3-MINI-1-N8"
+    signal V3P3 ~ pin "3V3"
+    signal GND  ~ pin GND
+    signal EN   ~ pin EN
+    signal IO0  ~ pin IO0
+    signal IO1  ~ pin IO1
+    signal IO2  ~ pin IO2
+    signal IO4  ~ pin IO4
+    signal IO5  ~ pin IO5
+    signal IO6  ~ pin IO6
+    signal IO7  ~ pin IO7
+    signal IO8  ~ pin IO8
+    signal IO9  ~ pin IO9
+    signal IO10 ~ pin IO10
+    signal IO11 ~ pin IO11
+    signal IO12 ~ pin IO12
+    signal IO13 ~ pin IO13
+    signal IO14 ~ pin IO14
+    signal IO17 ~ pin IO17
+    signal IO18 ~ pin IO18
+    signal IO19 ~ pin IO19
+    signal IO20 ~ pin IO20
+    signal IO21 ~ pin IO21
+    signal IO33 ~ pin IO33
+    signal IO34 ~ pin IO34
+    signal IO35 ~ pin IO35
+    signal IO36 ~ pin IO36
+    signal IO37 ~ pin IO37
+    signal IO38 ~ pin IO38
+    signal IO43 ~ pin TXD0
+    signal IO44 ~ pin RXD0
+    signal IO47 ~ pin IO47
+    signal IO48 ~ pin IO48
+
+component EPDConnector:
+    # 24-pin 0.5 mm FPC, bottom contact, for the Good Display GDEY0266T90.
+    # The panel mounts on the FRONT of the board and the tail folds through a
+    # slot to this connector on the BACK, so its height stays out of the
+    # front stack-up.
+    #
+    # The charge-pump pins are named here but their network is NOT in this
+    # file: copy it from Good Display's reference schematic for this exact
+    # panel, not from a generic SSD1680 example. The cap values differ.
+    footprint = "FPC_24_0.5mm_BottomContact"
+    designator_prefix = "J"
+    designator: string
+    value = "GDEY0266T90 FPC"
+    signal BUSY ~ pin BUSY
+    signal RES  ~ pin RES
+    signal DC   ~ pin DC
+    signal CS   ~ pin CS
+    signal SCL  ~ pin SCL
+    signal SDA  ~ pin SDA
+    signal VCI  ~ pin VCI
+    signal VDD  ~ pin VDD
+    signal VSS  ~ pin VSS
+    signal GND  ~ pin GND
+
+component Buzzer:
+    footprint = "Buzzer_12x12mm"
+    designator_prefix = "LS"
+    designator: string
+    value = "magnetic transducer"
+    signal p ~ pin 1
+    signal n ~ pin 2
+
+component IRLED:
+    # HP-82240 infrared printing, 940 nm.
+    footprint = "LED_0805_2012Metric"
+    designator_prefix = "D"
+    designator: string
+    value = "IR 940 nm"
+    signal anode ~ pin A
+    signal cathode ~ pin K

@@ -1,0 +1,188 @@
+from "parts.ato" import ESP32S3MINI1, EPDConnector, Buzzer, IRLED
+from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
+from "power.ato" import Power
+from "keypad.ato" import Keypad
+
+# ---------------------------------------------------------------------------
+# hp42s.ato -- top level.
+#
+# An HP-42S-shaped calculator running Plus42 on an ESP32-S3, with a 2.66 inch
+# e-paper panel and a 37-key metal dome keypad. Case 148 x 80 x 15 mm.
+#
+# The GPIO map below is not free choice. Three things pin it down:
+#   - IO19/IO20 are the USB PHY. Fixed in silicon, not reassignable.
+#   - IO1-IO7 are RTC-capable, which is what lets the columns be ext1 wake
+#     sources. The keypad wakes the chip with no scanner IC and no standing
+#     current, and that is most of the battery life.
+#   - IO33-IO38 are free ONLY on the -N8 module, which has no PSRAM. On an
+#     -N4R2 the octal PSRAM takes them and the panel interface has to move.
+#
+# Deliberately unused: IO0/IO3/IO45/IO46 are strapping pins (IO0 goes to a
+# BOOT test pad and nothing else), IO26-IO32 are the module's internal flash,
+# IO39-IO42 are left free for JTAG.
+# ---------------------------------------------------------------------------
+
+module HP42S:
+    signal gnd
+    signal v3v3
+
+    # Named so the netlist carries readable net names into KiCad. Without
+    # these the panel bus comes through as net, net-1, net-2 ...
+    signal epd_cs
+    signal epd_dc
+    signal epd_rst
+    signal epd_busy
+    signal epd_sck
+    signal epd_mosi
+    signal buzzer
+    signal ir_led
+    signal uart0_tx
+    signal uart0_rx
+    signal boot
+    signal en
+
+    power = new Power
+    power.gnd ~ gnd
+    power.v3v3 ~ v3v3
+
+    keypad = new Keypad
+
+    mcu = new ESP32S3MINI1
+    mcu.GND ~ gnd
+    mcu.V3P3 ~ v3v3
+
+    # --- reset / enable ------------------------------------------------------
+    mcu.EN ~ en
+    mcu.IO0 ~ boot
+    mcu.IO43 ~ uart0_tx
+    mcu.IO44 ~ uart0_rx
+
+    r_en = new Resistor
+    r_en.value = "10k"
+    r_en.p1 ~ en
+    r_en.p2 ~ v3v3
+
+    c_en = new Capacitor
+    c_en.value = "1u"
+    c_en.p1 ~ en
+    c_en.p2 ~ gnd
+
+    c_mcu = new Capacitor
+    c_mcu.value = "100n"
+    c_mcu.p1 ~ v3v3
+    c_mcu.p2 ~ gnd
+
+    # --- USB -----------------------------------------------------------------
+    mcu.IO19 ~ power.usb_dm
+    mcu.IO20 ~ power.usb_dp
+
+    # --- I2C and charge status ----------------------------------------------
+    mcu.IO17 ~ power.i2c_sda
+    mcu.IO18 ~ power.i2c_scl
+    mcu.IO48 ~ power.chg_stat
+
+    # --- keypad: columns on RTC pins, rows on ordinary GPIO -------------------
+    mcu.IO1 ~ keypad.col0
+    mcu.IO2 ~ keypad.col1
+    mcu.IO4 ~ keypad.col2
+    mcu.IO5 ~ keypad.col3
+    mcu.IO6 ~ keypad.col4
+    mcu.IO7 ~ keypad.col5
+
+    mcu.IO8  ~ keypad.row0
+    mcu.IO9  ~ keypad.row1
+    mcu.IO10 ~ keypad.row2
+    mcu.IO11 ~ keypad.row3
+    mcu.IO12 ~ keypad.row4
+    mcu.IO13 ~ keypad.row5
+    mcu.IO14 ~ keypad.row6
+
+    # --- e-paper panel -------------------------------------------------------
+    # BUSY is an input and also the light-sleep wake source during a refresh.
+    # Sleeping on BUSY rather than spinning through the ~400 ms partial update
+    # is worth about 5x on the energy cost of a keystroke.
+    mcu.IO33 ~ epd_cs
+    mcu.IO34 ~ epd_dc
+    mcu.IO35 ~ epd_rst
+    mcu.IO36 ~ epd_busy
+    mcu.IO37 ~ epd_sck
+    mcu.IO38 ~ epd_mosi
+
+    epd = new EPDConnector
+    epd.CS   ~ epd_cs
+    epd.DC   ~ epd_dc
+    epd.RES  ~ epd_rst
+    epd.BUSY ~ epd_busy
+    epd.SCL  ~ epd_sck
+    epd.SDA  ~ epd_mosi
+    epd.VCI ~ v3v3
+    epd.VDD ~ v3v3
+    epd.VSS ~ gnd
+    epd.GND ~ gnd
+    # The charge-pump network for this panel is NOT here. Take it from Good
+    # Display's reference schematic for the GDEY0266T90 specifically -- the
+    # cap values differ between panels that share the SSD1680 controller.
+
+    # --- buzzer --------------------------------------------------------------
+    ls = new Buzzer
+    ls.p ~ v3v3
+    q_buz = new NFET
+    q_buz.drain ~ ls.n
+    q_buz.source ~ gnd
+    r_buz = new Resistor
+    r_buz.value = "1k"
+    mcu.IO21 ~ buzzer
+    r_buz.p1 ~ buzzer
+    r_buz.p2 ~ q_buz.gate
+    d_buz = new Diode
+    d_buz.value = "flyback"
+    d_buz.anode ~ ls.n
+    d_buz.cathode ~ v3v3
+
+    # --- IR printing (HP-82240) ----------------------------------------------
+    ir = new IRLED
+    ir.anode ~ v3v3
+    q_ir = new NFET
+    r_ir_series = new Resistor
+    r_ir_series.value = "22"
+    r_ir_series.p1 ~ ir.cathode
+    r_ir_series.p2 ~ q_ir.drain
+    q_ir.source ~ gnd
+    r_ir_gate = new Resistor
+    r_ir_gate.value = "1k"
+    mcu.IO47 ~ ir_led
+    r_ir_gate.p1 ~ ir_led
+    r_ir_gate.p2 ~ q_ir.gate
+
+    # --- test pads -----------------------------------------------------------
+    tp_bat = new TestPad
+    tp_bat.value = "BAT"
+    tp_bat.p ~ power.bat
+
+    tp_sys = new TestPad
+    tp_sys.value = "SYS"
+    tp_sys.p ~ power.sys
+
+    tp_3v3 = new TestPad
+    tp_3v3.value = "3V3"
+    tp_3v3.p ~ v3v3
+
+    tp_gnd = new TestPad
+    tp_gnd.value = "GND"
+    tp_gnd.p ~ gnd
+
+    tp_tx = new TestPad
+    tp_tx.value = "UART0_TX"
+    tp_tx.p ~ uart0_tx
+
+    tp_rx = new TestPad
+    tp_rx.value = "UART0_RX"
+    tp_rx.p ~ uart0_rx
+
+    tp_en = new TestPad
+    tp_en.value = "EN"
+    tp_en.p ~ en
+
+    tp_boot = new TestPad
+    tp_boot.value = "BOOT (IO0)"
+    tp_boot.p ~ boot

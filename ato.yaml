@@ -1,0 +1,17 @@
+# atopile project for the HP-42S clone board.
+#
+#   ato build            # netlist + BOM + designator map into build/
+#   ato build --target netlist
+#
+# atopile does the wiring and the netlist. It does NOT place or route --
+# layout stays in KiCad, in elec/layout/.
+ato-version: ^0.2.0
+
+paths:
+  src: elec/src
+  layout: elec/layout
+  footprints: elec/footprints
+
+builds:
+  default:
+    entry: elec/src/hp42s.ato:HP42S

@@ -1,0 +1,237 @@
+from "parts.ato" import DomeKey10, DomeKey85
+
+# ---------------------------------------------------------------------------
+# keypad.ato -- 37 keys on a 6 x 7 matrix, no diodes.
+#
+# Key numbers are the calculator core's own ordering, so a scan can hand the
+# number straight to core_keydown(). Designators are SW1..SW37 to match, plus
+# SW38 for ENTER's second dome.
+#
+# Wiring per key: ring (the outer annulus) -> COLUMN, centre pad -> ROW.
+# Ring-to-column is deliberate. The ring is the larger conductor and the
+# columns are the nets held at a defined level during sleep, so the wake path
+# sees the lower impedance.
+#
+# Sleep and wake: all 7 rows are driven LOW as outputs, all 6 columns are
+# inputs with internal pull-ups armed as ext1 wake on ANY_LOW. A keypress
+# shorts a column to a row and pulls that column down. No scanner IC, no
+# external pull-ups, no standing current.
+#
+# Dome choice: rows 0-2 (the function rows and ENTER) use the 8.5 mm F08210
+# at 210 gf; rows 3-6 (digits and operators) use the 10 mm F10260 at 260 gf.
+# See docs/connections.md for why 10 mm domes are tight on an 11.8 mm pitch.
+# ---------------------------------------------------------------------------
+
+module Keypad:
+    signal row0
+    signal row1
+    signal row2
+    signal row3
+    signal row4
+    signal row5
+    signal row6
+    signal col0
+    signal col1
+    signal col2
+    signal col3
+    signal col4
+    signal col5
+
+    # --- ROW 0: SUM+  1/x  sqrt  LOG  LN  XEQ --------------------------------
+    k1 = new DomeKey85
+    k1.designator = "SW1"
+    k1.ring ~ col0
+    k1.centre ~ row0
+
+    k2 = new DomeKey85
+    k2.designator = "SW2"
+    k2.ring ~ col1
+    k2.centre ~ row0
+
+    k3 = new DomeKey85
+    k3.designator = "SW3"
+    k3.ring ~ col2
+    k3.centre ~ row0
+
+    k4 = new DomeKey85
+    k4.designator = "SW4"
+    k4.ring ~ col3
+    k4.centre ~ row0
+
+    k5 = new DomeKey85
+    k5.designator = "SW5"
+    k5.ring ~ col4
+    k5.centre ~ row0
+
+    k6 = new DomeKey85
+    k6.designator = "SW6"
+    k6.ring ~ col5
+    k6.centre ~ row0
+
+    # --- ROW 1: STO  RCL  Rdown  SIN  COS  TAN -------------------------------
+    k7 = new DomeKey85
+    k7.designator = "SW7"
+    k7.ring ~ col0
+    k7.centre ~ row1
+
+    k8 = new DomeKey85
+    k8.designator = "SW8"
+    k8.ring ~ col1
+    k8.centre ~ row1
+
+    k9 = new DomeKey85
+    k9.designator = "SW9"
+    k9.ring ~ col2
+    k9.centre ~ row1
+
+    k10 = new DomeKey85
+    k10.designator = "SW10"
+    k10.ring ~ col3
+    k10.centre ~ row1
+
+    k11 = new DomeKey85
+    k11.designator = "SW11"
+    k11.ring ~ col4
+    k11.centre ~ row1
+
+    k12 = new DomeKey85
+    k12.designator = "SW12"
+    k12.ring ~ col5
+    k12.centre ~ row1
+
+    # --- ROW 2: ENTER (double width)  x<>y  +/-  E  backspace ----------------
+    # ENTER spans COL0 and COL1 and uses TWO domes wired in parallel, both on
+    # row2/col0. COL1 is genuinely unused on ROW2 -- that is not an omission.
+    k13 = new DomeKey85
+    k13.designator = "SW13"
+    k13.ring ~ col0
+    k13.centre ~ row2
+
+    k13b = new DomeKey85
+    k13b.designator = "SW38"
+    k13b.ring ~ col0
+    k13b.centre ~ row2
+
+    k14 = new DomeKey85
+    k14.designator = "SW14"
+    k14.ring ~ col2
+    k14.centre ~ row2
+
+    k15 = new DomeKey85
+    k15.designator = "SW15"
+    k15.ring ~ col3
+    k15.centre ~ row2
+
+    k16 = new DomeKey85
+    k16.designator = "SW16"
+    k16.ring ~ col4
+    k16.centre ~ row2
+
+    k17 = new DomeKey85
+    k17.designator = "SW17"
+    k17.ring ~ col5
+    k17.centre ~ row2
+
+    # --- ROW 3: up  7  8  9  div --------------------------------------------
+    k18 = new DomeKey10
+    k18.designator = "SW18"
+    k18.ring ~ col0
+    k18.centre ~ row3
+
+    k19 = new DomeKey10
+    k19.designator = "SW19"
+    k19.ring ~ col1
+    k19.centre ~ row3
+
+    k20 = new DomeKey10
+    k20.designator = "SW20"
+    k20.ring ~ col2
+    k20.centre ~ row3
+
+    k21 = new DomeKey10
+    k21.designator = "SW21"
+    k21.ring ~ col3
+    k21.centre ~ row3
+
+    k22 = new DomeKey10
+    k22.designator = "SW22"
+    k22.ring ~ col4
+    k22.centre ~ row3
+
+    # --- ROW 4: down  4  5  6  mul ------------------------------------------
+    k23 = new DomeKey10
+    k23.designator = "SW23"
+    k23.ring ~ col0
+    k23.centre ~ row4
+
+    k24 = new DomeKey10
+    k24.designator = "SW24"
+    k24.ring ~ col1
+    k24.centre ~ row4
+
+    k25 = new DomeKey10
+    k25.designator = "SW25"
+    k25.ring ~ col2
+    k25.centre ~ row4
+
+    k26 = new DomeKey10
+    k26.designator = "SW26"
+    k26.ring ~ col3
+    k26.centre ~ row4
+
+    k27 = new DomeKey10
+    k27.designator = "SW27"
+    k27.ring ~ col4
+    k27.centre ~ row4
+
+    # --- ROW 5: SHIFT  1  2  3  minus ---------------------------------------
+    k28 = new DomeKey10
+    k28.designator = "SW28"
+    k28.ring ~ col0
+    k28.centre ~ row5
+
+    k29 = new DomeKey10
+    k29.designator = "SW29"
+    k29.ring ~ col1
+    k29.centre ~ row5
+
+    k30 = new DomeKey10
+    k30.designator = "SW30"
+    k30.ring ~ col2
+    k30.centre ~ row5
+
+    k31 = new DomeKey10
+    k31.designator = "SW31"
+    k31.ring ~ col3
+    k31.centre ~ row5
+
+    k32 = new DomeKey10
+    k32.designator = "SW32"
+    k32.ring ~ col4
+    k32.centre ~ row5
+
+    # --- ROW 6: EXIT/ON  0  .  R/S  plus ------------------------------------
+    k33 = new DomeKey10
+    k33.designator = "SW33"
+    k33.ring ~ col0
+    k33.centre ~ row6
+
+    k34 = new DomeKey10
+    k34.designator = "SW34"
+    k34.ring ~ col1
+    k34.centre ~ row6
+
+    k35 = new DomeKey10
+    k35.designator = "SW35"
+    k35.ring ~ col2
+    k35.centre ~ row6
+
+    k36 = new DomeKey10
+    k36.designator = "SW36"
+    k36.ring ~ col3
+    k36.centre ~ row6
+
+    k37 = new DomeKey10
+    k37.designator = "SW37"
+    k37.ring ~ col4
+    k37.centre ~ row6
