@@ -16,37 +16,41 @@
 # footprints in elec/footprints/hp42s.pretty/ actually exist in this repo.
 # ---------------------------------------------------------------------------
 
+# NO `designator` IN THESE BODIES. Instances set their own (keypad.ato gives
+# every key the core's key number, so SW19 is the `7` key). Two dead ends got
+# us here: a placeholder like `designator = "R?"` in a component body is taken
+# as a real designator and the second instance fails with "Designator R?
+# already in use"; and the type-annotation form `designator: string` parses
+# locally but is rejected by atopile's newer parser -- "expected name, got
+# 'string'". Assigning per instance works in both.
+
 # --- passives --------------------------------------------------------------
 
 component Resistor:
     footprint = "R_0402_1005Metric"
     designator_prefix = "R"
-    designator: string
-    value: string
+    value = "?"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
 component Capacitor:
     footprint = "C_0402_1005Metric"
     designator_prefix = "C"
-    designator: string
-    value: string
+    value = "?"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
 component Inductor:
     footprint = "L_0806_2016Metric"
     designator_prefix = "L"
-    designator: string
-    value: string
+    value = "?"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
 component Diode:
     footprint = "D_SOD-323"
     designator_prefix = "D"
-    designator: string
-    value: string
+    value = "?"
     signal anode ~ pin A
     signal cathode ~ pin K
 
@@ -54,7 +58,6 @@ component NFET:
     # 2N7002 small-signal N-channel, SOT-23
     footprint = "SOT-23"
     designator_prefix = "Q"
-    designator: string
     value = "2N7002"
     signal gate ~ pin G
     signal drain ~ pin D
@@ -63,7 +66,6 @@ component NFET:
 component TestPad:
     footprint = "TestPoint_Pad_D1.5mm"
     designator_prefix = "TP"
-    designator: string
     value = "test pad"
     signal p ~ pin 1
 
@@ -74,7 +76,6 @@ component DomeKey10:
     # Pad 1 is the outer ring, pad 2 the centre -- see tools/gen_dome_footprints.py.
     footprint = "Snaptron_F10260_Dome"
     designator_prefix = "SW"
-    designator: string
     value = "F10260"
     signal ring ~ pin 1
     signal centre ~ pin 2
@@ -83,7 +84,6 @@ component DomeKey85:
     # Snaptron F08210: 8.5 mm, 210 gf. Function rows and ENTER.
     footprint = "Snaptron_F08210_Dome"
     designator_prefix = "SW"
-    designator: string
     value = "F08210"
     signal ring ~ pin 1
     signal centre ~ pin 2
@@ -94,7 +94,6 @@ component BQ25185:
     # Single-cell linear charger with power path. 4 uA quiescent.
     footprint = "WSON-10-1EP_2x2mm"
     designator_prefix = "U"
-    designator: string
     value = "BQ25185"
     signal IN   ~ pin IN
     signal SYS  ~ pin SYS
@@ -111,7 +110,6 @@ component TPS63900:
     # cannot take a 4.2 V cell directly.
     footprint = "VQFN-12_2.5x3mm"
     designator_prefix = "U"
-    designator: string
     value = "TPS63900"
     signal VIN  ~ pin VIN
     signal VOUT ~ pin VOUT
@@ -127,7 +125,6 @@ component MAX17048:
     # ModelGauge fuel gauge, I2C, no sense resistor.
     footprint = "WLP-8_1.2x0.9mm"
     designator_prefix = "U"
-    designator: string
     value = "MAX17048"
     signal VDD  ~ pin VDD
     signal CELL ~ pin CELL
@@ -141,7 +138,6 @@ component USBCReceptacle:
     # D+/D- pairs are tied, which is what makes the plug reversible.
     footprint = "USB_C_Receptacle_16P"
     designator_prefix = "J"
-    designator: string
     value = "USB-C 2.0"
     signal VBUS ~ pin VBUS
     signal GND  ~ pin GND
@@ -155,7 +151,6 @@ component TPD4E05U06:
     # 4-channel ESD array for the USB data and CC lines.
     footprint = "SOT-23-6"
     designator_prefix = "U"
-    designator: string
     value = "TPD4E05U06"
     signal ch1 ~ pin CH1
     signal ch2 ~ pin CH2
@@ -167,7 +162,6 @@ component Battery:
     # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh. Two-pad JST or soldered tabs.
     footprint = "JST_PH_B2B-PH-K"
     designator_prefix = "BT"
-    designator: string
     value = "LiPo 1650 mAh"
     signal p ~ pin 1
     signal n ~ pin 2
@@ -180,7 +174,6 @@ component ESP32S3MINI1:
     # exactly where the panel interface lives below.
     footprint = "ESP32-S3-MINI-1"
     designator_prefix = "U"
-    designator: string
     value = "ESP32-S3-MINI-1-N8"
     signal V3P3 ~ pin "3V3"
     signal GND  ~ pin GND
@@ -226,7 +219,6 @@ component EPDConnector:
     # panel, not from a generic SSD1680 example. The cap values differ.
     footprint = "FPC_24_0.5mm_BottomContact"
     designator_prefix = "J"
-    designator: string
     value = "GDEY0266T90 FPC"
     signal BUSY ~ pin BUSY
     signal RES  ~ pin RES
@@ -242,7 +234,6 @@ component EPDConnector:
 component Buzzer:
     footprint = "Buzzer_12x12mm"
     designator_prefix = "LS"
-    designator: string
     value = "magnetic transducer"
     signal p ~ pin 1
     signal n ~ pin 2
@@ -251,7 +242,6 @@ component IRLED:
     # HP-82240 infrared printing, 940 nm.
     footprint = "LED_0805_2012Metric"
     designator_prefix = "D"
-    designator: string
     value = "IR 940 nm"
     signal anode ~ pin A
     signal cathode ~ pin K
