@@ -61,7 +61,7 @@ module Power:
 
     c_vbus = new Capacitor
     c_vbus.value = "1u"
-    c_vbus.footprint = "C_0603_1608Metric"
+    c_vbus.footprint = "Capacitor_SMD:C_0603_1608Metric"
     c_vbus.p1 ~ vbus
     c_vbus.p2 ~ gnd
 
@@ -101,13 +101,13 @@ module Power:
 
     c_bat = new Capacitor
     c_bat.value = "10u"
-    c_bat.footprint = "C_0805_2012Metric"
+    c_bat.footprint = "Capacitor_SMD:C_0805_2012Metric"
     c_bat.p1 ~ bat
     c_bat.p2 ~ gnd
 
     c_sys = new Capacitor
     c_sys.value = "22u"
-    c_sys.footprint = "C_0805_2012Metric"
+    c_sys.footprint = "Capacitor_SMD:C_0805_2012Metric"
     c_sys.p1 ~ sys
     c_sys.p2 ~ gnd
 
@@ -139,7 +139,7 @@ module Power:
 
     c_out = new Capacitor
     c_out.value = "22u"
-    c_out.footprint = "C_0805_2012Metric"
+    c_out.footprint = "Capacitor_SMD:C_0805_2012Metric"
     c_out.p1 ~ v3v3
     c_out.p2 ~ gnd
 
