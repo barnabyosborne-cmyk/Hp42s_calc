@@ -1,6 +1,35 @@
 # Firmware — porting Plus42
 
-Nothing here yet.
+The **board layer is written and building**: pin map, SSD1680 panel driver,
+6 x 7 keypad scan with deep-sleep wake, and a bring-up app that draws a test
+pattern and echoes keys. The **Plus42 core is not here yet** — codeberg.org is
+blocked by this session's network policy and there is no GitHub mirror, so the
+source has to come from Barnaby.
+
+## What is here
+
+| File | What it does |
+|---|---|
+| `main/board.h` | Every pin number, in one place. The only file that changes for a different board. |
+| `main/epd.c` | SSD1680 driver for the GDEY0266T90: init, full update, partial update, deep sleep. Landscape 296 x 152. |
+| `main/keypad.c` | 6 x 7 diodeless scan, debounce, and `ext1` wake on any column going low. |
+| `main/main.c` | Bring-up app. Draws a frame, a corner block and a 37-bar chart, then echoes key presses with partial updates and deep-sleeps after 10 s idle. |
+
+## Building
+
+```
+. $IDF_PATH/export.sh
+idf.py set-target esp32s3
+idf.py build
+idf.py -p /dev/ttyACM0 flash monitor
+```
+
+Built clean against ESP-IDF v5.5 on 2026-09-19: 245 KB, 77 % of the app
+partition free.
+
+For running any of this on a Seeed XIAO ESP32-S3 instead of the real board,
+see `docs/breadboard.md` — the pin map in `board.h` does **not** transfer,
+because the XIAO's octal PSRAM eats GPIO33-37.
 
 Plus42 is Thomas Okken's extension of Free42: algebraic expressions, units,
 directories, TVM, function plotting. Same GPLv2, same author, same repo

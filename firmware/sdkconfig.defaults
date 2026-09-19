@@ -1,0 +1,12 @@
+CONFIG_IDF_TARGET="esp32s3"
+
+# 8 MB flash, no PSRAM -- that is the -N8 module, and the no-PSRAM part is why
+# IO33 to IO38 are free for the panel.
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+
+# UART0 only. The USB peripheral belongs to the calculator for mass storage,
+# so the console cannot have it; the two test pads are the debug path.
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+
+# The panel framebuffer is 5.6 kB and gets DMAed in one transfer.
+CONFIG_SPI_MASTER_ISR_IN_IRAM=y

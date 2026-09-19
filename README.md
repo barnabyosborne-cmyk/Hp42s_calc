@@ -19,6 +19,7 @@ Case dimensions follow the original HP-42S as closely as the parts allow:
 | `docs/connections.md` | The connection table in prose, with the reasoning. |
 | `docs/keypad-geometry.md` | The measured key grid, and the clearances that follow. |
 | `docs/kicad-setup.md` | Getting the netlist into KiCad without a wall of errors. |
+| `docs/breadboard.md` | What a XIAO ESP32-S3 and a spare Waveshare panel can and cannot prove. |
 | `firmware/` | The Plus42 port. Not started. |
 | `hardware/` | Case and keycap files. Barnaby's own CAD. |
 
@@ -58,10 +59,6 @@ place or route. Layout stays in KiCad.
 
 ## What is not settled
 
-- **Display technology.** E-paper costs about 0.4 s per keystroke. A Sharp
-  LS027B7DH01 memory LCD gives 33 × 15 cells and millisecond updates within
-  the same 80 mm width, at the price of a nominally 5 V part and a patchier
-  supply. On the numbers the memory LCD is the stronger option. Undecided.
 - **Which power slider leg is the wiper.** The Shouhan drawing does not say.
   The circuit is wired so that it does not matter — see `elec/src/power.ato` —
   at the cost of 4 µA. Buzz it out with a meter and that comes back.
