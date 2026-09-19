@@ -92,6 +92,63 @@ def mm(v):
     return pcbnew.FromMM(float(v))
 
 
+
+# ---------------------------------------------------------------------------
+# TOP-EDGE CONTROLS
+#
+# USB-C, the power slider and the reset button all live on the top edge of the
+# case, on the BACK of the board, and all three are found by footprint rather
+# than by reference designator: atopile assigns SW39/SW40 automatically and
+# those numbers move whenever a part is added.
+#
+# Y here is depth into the board from its top edge. Each part is rotated 180
+# degrees so its mouth, knob or plunger faces the edge, and each sits far
+# enough in that the actuator clears the board by a little under a millimetre
+# and pokes into the case wall.
+#
+#   part            x     y     actuator reaches   courtyard reaches
+#   slide switch   14.0   2.30   y = -0.80          y = 5.15
+#   USB-C          38.0   3.67   y =  0.00          y = 8.57
+#   reset button   62.0   1.50   y = -0.54          y = 3.55
+#
+# X positions are in the board's own coordinates, which pcbnew keeps
+# front-referenced even for parts on the back, so there is no mirroring to do
+# by hand -- SetLayerAndFlip handles it.
+#
+# All three reach further into the board than the 6 mm of bezel above the
+# panel, which is exactly why they are on the back. The panel is on the front
+# and does not care what is underneath it. The one thing to look at: this
+# USB-C receptacle anchors with through-hole shield legs, so it leaves solder
+# fillets on the FRONT, under the panel. The panel's foam tape swallows that,
+# but check it when you dry-fit rather than after you glue.
+# ---------------------------------------------------------------------------
+
+EDGE_PARTS = {
+    "SW_SPDT_Shouhan_MSK12C02": (14.0, 2.30, "power slider"),
+    "USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A": (38.0, 3.67, "USB-C"),
+    "SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010": (62.0, 1.50, "reset"),
+}
+
+
+def place_edge(board):
+    """Put USB-C and the two switches on the top edge, on the back."""
+    found = 0
+    for fp in board.GetFootprints():
+        name = str(fp.GetFPID().GetLibItemName())
+        if name not in EDGE_PARTS:
+            continue
+        x, y, label = EDGE_PARTS[name]
+        if fp.GetLayer() != pcbnew.B_Cu:
+            fp.SetLayerAndFlip(pcbnew.B_Cu)
+        fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
+        fp.SetOrientationDegrees(180)
+        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
+        found += 1
+    if found != len(EDGE_PARTS):
+        print(f"top edge: placed {found} of {len(EDGE_PARTS)} -- check the netlist import")
+    return found
+
+
 def place():
     board = pcbnew.GetBoard()
 
@@ -105,6 +162,9 @@ def place():
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
         fp.SetOrientationDegrees(0)
         placed += 1
+
+    print("top edge:")
+    place_edge(board)
 
     draw_outline(board)
 

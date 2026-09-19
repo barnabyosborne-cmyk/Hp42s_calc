@@ -1,5 +1,5 @@
 from "parts.ato" import BQ25185, TPS63900, MAX17048, USBCReceptacle, TPD4E05U06
-from "parts.ato" import Battery, Resistor, Capacitor, Inductor
+from "parts.ato" import Battery, Resistor, Capacitor, Inductor, SlideSwitch
 
 # ---------------------------------------------------------------------------
 # power.ato -- USB-C in, linear charger with power path, buck-boost to 3V3.
@@ -28,16 +28,34 @@ module Power:
     signal chg_stat
     signal i2c_sda
     signal i2c_scl
+    signal reg_en
 
     # --- USB-C inlet ---------------------------------------------------------
+    # On the TOP EDGE of the case, mouth flush with the board edge, mounted on
+    # the BACK of the board. See docs/top-edge.md for why the back.
+    #
+    # Every contact is tied out by hand because the plug is reversible: the
+    # four VBUS contacts and the four GND contacts are one net each, and D+/D-
+    # appear twice. Miss one and the connector works in one orientation only,
+    # which is the classic way to ship a cable that "sometimes" charges.
     usb = new USBCReceptacle
-    usb.VBUS ~ vbus
-    usb.GND ~ gnd
-    usb.DP ~ usb_dp
-    usb.DM ~ usb_dm
+    usb.VBUS_A4 ~ vbus
+    usb.VBUS_A9 ~ vbus
+    usb.VBUS_B4 ~ vbus
+    usb.VBUS_B9 ~ vbus
+    usb.GND_A1  ~ gnd
+    usb.GND_A12 ~ gnd
+    usb.GND_B1  ~ gnd
+    usb.GND_B12 ~ gnd
+    usb.DP_A6 ~ usb_dp
+    usb.DP_B6 ~ usb_dp
+    usb.DM_A7 ~ usb_dm
+    usb.DM_B7 ~ usb_dm
     usb.CC1 ~ cc1
     usb.CC2 ~ cc2
     usb.SHIELD ~ gnd
+    # SBU1 / SBU2 (A8, B8) are left unconnected. They carry alternate-mode
+    # signals we have no use for, and grounding them breaks audio adapters.
 
     # Two SEPARATE 5.1k pulldowns, one per CC line. A single shared resistor
     # is the classic USB-C mistake: it makes the sink look like a 10k Rd and
@@ -115,7 +133,7 @@ module Power:
     reg = new TPS63900
     reg.VIN ~ sys
     reg.VOUT ~ v3v3
-    reg.EN ~ v3v3
+    reg.EN ~ reg_en
     reg.VSEL ~ gnd          # fixed 3.3 V; tie high only for dynamic scaling
     reg.GND ~ gnd
     reg.PAD ~ gnd
@@ -150,7 +168,15 @@ module Power:
 
     # --- fuel gauge ----------------------------------------------------------
     gauge = new MAX17048
-    gauge.VDD ~ v3v3
+    # VDD on the CELL, not on 3V3. The power slider now cuts the 3.3 V rail,
+    # and a ModelGauge part that loses power loses the model it has learned --
+    # come back to the calculator after a month in a drawer and the charge
+    # reading would be guesswork for the first few cycles. Off the cell it
+    # keeps counting, at about 4 uA in hibernate.
+    # CHECK BEFORE FAB: its SDA/SCL then sit on a 4.2 V part with 3.3 V
+    # pull-ups. The MAX17048 input thresholds are fixed rather than
+    # VDD-referenced, so this should be fine, but read the DC table.
+    gauge.VDD ~ bat
     gauge.CELL ~ bat
     gauge.SDA ~ i2c_sda
     gauge.SCL ~ i2c_scl
@@ -160,8 +186,30 @@ module Power:
 
     c_gauge = new Capacitor
     c_gauge.value = "100n"
-    c_gauge.p1 ~ v3v3
+    c_gauge.p1 ~ bat
     c_gauge.p2 ~ gnd
+
+    # --- power slider --------------------------------------------------------
+    # The slider does NOT carry the load. It sets the buck-boost's enable pin
+    # and nothing else, so it switches microamps: no arcing, no contact
+    # resistance in the supply path, and a 2.8 mm switch is plenty.
+    #
+    # SPDT with both throws driven, rather than one throw and a pull-up. EN
+    # then sits hard at SYS or hard at ground and is never floating, which
+    # matters because a floating enable on a buck-boost is how you get a
+    # regulator that hums at the halfway point of the slider's travel.
+    #
+    # (This also fixes a real bug: EN used to be tied to the regulator's own
+    # 3.3 V output, which is a rail that cannot exist until EN is already
+    # high. As drawn before, it could never have started.)
+    #
+    # Charging is deliberately upstream of this. With the slider off, USB
+    # still charges the cell and the fuel gauge still counts.
+    sw_power = new SlideSwitch
+    sw_power.common ~ reg_en
+    sw_power.a ~ sys
+    sw_power.b ~ gnd
+    sw_power.shield ~ gnd
 
     r_sda = new Resistor
     r_sda.value = "4.7k"

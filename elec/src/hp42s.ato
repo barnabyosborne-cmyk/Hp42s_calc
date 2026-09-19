@@ -1,5 +1,6 @@
-from "parts.ato" import ESP32S3MINI1, EPDConnector, Buzzer, IRLED
+from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
+from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
 
@@ -67,6 +68,22 @@ module HP42S:
     c_en.p1 ~ en
     c_en.p2 ~ gnd
 
+    # Reset button, top edge of the case, side-actuated, on the BACK of the
+    # board. It pulls the module's EN low, which is a hardware reset of the
+    # chip -- it does not go near the firmware, so it works when the firmware
+    # has stopped working, which is the only time anyone will use it.
+    #
+    # Recess it in the case. This is not a key, it is the thing you press
+    # with the corner of a business card when Plus42 has wedged, and a button
+    # you can hit while holding the calculator is a button you will hit.
+    #
+    # The 10k/1uF above debounce it for free: the cap holds EN down for about
+    # 10 ms after release, which is longer than the contact bounce.
+    sw_reset = new TactSwitchSide
+    sw_reset.a ~ en
+    sw_reset.b ~ gnd
+    sw_reset.mp ~ gnd
+
     c_mcu = new Capacitor
     c_mcu.value = "100n"
     c_mcu.p1 ~ v3v3
@@ -108,20 +125,19 @@ module HP42S:
     mcu.IO37 ~ epd_sck
     mcu.IO38 ~ epd_mosi
 
-    epd = new EPDConnector
-    epd.CS   ~ epd_cs
-    epd.DC   ~ epd_dc
-    epd.RES  ~ epd_rst
-    epd.BUSY ~ epd_busy
-    epd.SCL  ~ epd_sck
-    epd.SDA  ~ epd_mosi
-    epd.VCI ~ v3v3
-    epd.VDD ~ v3v3
-    epd.VSS ~ gnd
-    epd.GND ~ gnd
-    # The charge-pump network for this panel is NOT here. Take it from Good
-    # Display's reference schematic for the GDEY0266T90 specifically -- the
-    # cap values differ between panels that share the SSD1680 controller.
+    # Everything the panel needs, including the boost converter that makes
+    # its +22 V and -20 V gate rails. See display.ato -- the short version is
+    # that the controller is bonded to the panel's own glass, so there is no
+    # driver board to buy, but there is a driver circuit to build.
+    display = new DisplayDrive
+    display.v3v3 ~ v3v3
+    display.gnd  ~ gnd
+    display.cs   ~ epd_cs
+    display.dc   ~ epd_dc
+    display.rst  ~ epd_rst
+    display.busy ~ epd_busy
+    display.sck  ~ epd_sck
+    display.mosi ~ epd_mosi
 
     # --- buzzer --------------------------------------------------------------
     ls = new Buzzer

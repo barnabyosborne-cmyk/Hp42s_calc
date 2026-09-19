@@ -1,0 +1,189 @@
+from "parts.ato" import EPDConnector, SchottkyDiode, BoostFET, BoostInductor
+from "parts.ato" import CapBoost, Resistor
+
+# ---------------------------------------------------------------------------
+# display.ato -- the e-paper panel and everything that drives it.
+#
+# The answer to "is there a driver board as well as the panel?" is: there is a
+# driver *circuit*, and this is it. The controller itself (SSD1680) is
+# chip-on-glass, bonded to the panel's own tail, so there is no driver IC to
+# place. What the breakout boards carry, and what has to be on our board
+# instead, is the network below: a small boost converter and ten capacitors.
+#
+# An e-paper pixel is moved by pushing the ink particles with roughly +22 V
+# and -20 V. The SSD1680 makes those rails itself, but it cannot make them
+# out of nothing -- it needs an external inductor, a switch and a charge
+# pump, and it drives them through two pins:
+#
+#   GDR  (pin 2)  gate drive out. The controller switches Q1 with this.
+#   RESE (pin 3)  current sense in. The voltage across R2 tells the
+#                 controller how much current the inductor is drawing, and
+#                 it modulates GDR to hold the peak where it wants it.
+#
+# So the loop is closed inside the panel. No MCU pin goes near it, and there
+# is nothing for the firmware to do beyond the usual SSD1680 power-on
+# sequence. When the controller is in deep sleep it stops driving GDR, R1
+# holds the gate down, and the whole network draws nothing.
+#
+# D3 is the ordinary boost diode and makes the positive rail. D1 and D2 with
+# C3 are a charge pump hanging off the same switching node, and make the
+# negative one: D2 clamps the pump node to ground on the up-swing, and on the
+# down-swing the node goes below ground and pulls charge off VGL through D1.
+# One switch, two rails of opposite sign, which is why the parts count is
+# this low.
+#
+# Every value comes from the GDEY0266T90 specification (24.12.03) page 28.
+# Values differ between panels that share the SSD1680, so these are not
+# interchangeable with a 2.13 inch or 2.9 inch reference circuit.
+#
+# Reference designators in the comments (C2, C3, D1 ...) are Good Display's,
+# to make this file readable side by side with their schematic. atopile
+# assigns its own on the board.
+# ---------------------------------------------------------------------------
+
+module DisplayDrive:
+    # --- interface to the rest of the board ---------------------------------
+    signal v3v3
+    signal gnd
+    signal cs
+    signal dc
+    signal rst
+    signal busy
+    signal sck
+    signal mosi
+
+    # --- internal nodes -----------------------------------------------------
+    signal gdr      # panel's gate drive output -> Q1 gate
+    signal rese     # Q1 source, current sense back into the panel
+    signal sw       # inductor / drain / pump switching node
+    signal pump     # bottom plate of the pump cap
+    signal prevgh   # positive gate rail, about +22 V
+    signal prevgl   # negative gate rail, about -20 V
+
+    epd = new EPDConnector
+
+    # --- logic and supply ---------------------------------------------------
+    epd.CS   ~ cs
+    epd.DC   ~ dc
+    epd.RES  ~ rst
+    epd.BUSY ~ busy
+    epd.SCL  ~ sck
+    epd.SDA  ~ mosi
+
+    # BS low selects 4-wire SPI. Tied hard to ground, not strapped through a
+    # resistor: there is no reason to ever run this panel in 3-wire mode.
+    epd.BS ~ gnd
+
+    epd.VCI   ~ v3v3
+    epd.VDDIO ~ v3v3
+    epd.VSS   ~ gnd
+
+    # Pins 1, 4, 6, 7 and 19 are left unconnected on purpose. 6 and 7 are the
+    # touch-panel I2C on the touch variant of this glass; ours has no touch.
+    # 19 is VPP, the OTP programming supply, used at the factory only.
+
+    # --- the ten capacitors -------------------------------------------------
+    # C6 on VCI. The panel's own supply decoupling, right at the connector.
+    c_vci = new CapBoost
+    c_vci.value = "1u 25V"
+    c_vci.p1 ~ v3v3
+    c_vci.p2 ~ gnd
+
+    # C7 on VDD. This is the controller's internal 1.8 V regulator output, so
+    # it is a cap to ground and nothing else -- never drive this pin.
+    c_vdd = new CapBoost
+    c_vdd.value = "1u 25V"
+    c_vdd.p1 ~ epd.VDD
+    c_vdd.p2 ~ gnd
+
+    # C9 / C2 on VSH1 / VSH2, the positive source rails.
+    c_vsh1 = new CapBoost
+    c_vsh1.value = "1u 25V"
+    c_vsh1.p1 ~ epd.VSH1
+    c_vsh1.p2 ~ gnd
+
+    c_vsh2 = new CapBoost
+    c_vsh2.value = "1u 25V"
+    c_vsh2.p1 ~ epd.VSH2
+    c_vsh2.p2 ~ gnd
+
+    # C10 on VSL, the negative source rail.
+    c_vsl = new CapBoost
+    c_vsl.value = "1u 25V"
+    c_vsl.p1 ~ epd.VSL
+    c_vsl.p2 ~ gnd
+
+    # C12 on VCOM, the common electrode.
+    c_vcom = new CapBoost
+    c_vcom.value = "1u 25V"
+    c_vcom.p1 ~ epd.VCOM
+    c_vcom.p2 ~ gnd
+
+    # --- the booster --------------------------------------------------------
+    # C4, the input reservoir. The inductor draws 500 mA peaks out of a 3.3 V
+    # rail that is otherwise supplying a sleeping MCU, so this one carries the
+    # switching current and wants to sit hard against L1.
+    c_in = new CapBoost
+    c_in.value = "4u7 25V"
+    c_in.p1 ~ v3v3
+    c_in.p2 ~ gnd
+
+    l_boost = new BoostInductor
+    l_boost.p1 ~ v3v3
+    l_boost.p2 ~ sw
+
+    q_boost = new BoostFET
+    q_boost.drain  ~ sw
+    q_boost.gate   ~ gdr
+    q_boost.source ~ rese
+
+    # R1: holds the gate down whenever the panel is asleep and GDR is
+    # floating. Without it the FET can sit half on and cook the inductor.
+    r_gate = new Resistor
+    r_gate.value = "1M"
+    r_gate.p1 ~ gdr
+    r_gate.p2 ~ gnd
+
+    # R2: the current sense. 2.2 ohm, and it is in the switching path, so it
+    # is a real 1% part and not a 5% one -- the panel sets its peak current
+    # from the voltage across it.
+    r_sense = new Resistor
+    r_sense.value = "2R2 1%"
+    r_sense.p1 ~ rese
+    r_sense.p2 ~ gnd
+
+    epd.GDR  ~ gdr
+    epd.RESE ~ rese
+
+    # D3 + C5: the positive rail.
+    d_pos = new SchottkyDiode
+    d_pos.anode   ~ sw
+    d_pos.cathode ~ prevgh
+
+    c_vgh = new CapBoost
+    c_vgh.value = "1u 25V"
+    c_vgh.p1 ~ prevgh
+    c_vgh.p2 ~ gnd
+
+    epd.VGH ~ prevgh
+
+    # C3 + D2 + D1 + C11: the negative rail.
+    c_pump = new CapBoost
+    c_pump.value = "4u7 25V"
+    c_pump.p1 ~ sw
+    c_pump.p2 ~ pump
+
+    d_clamp = new SchottkyDiode
+    d_clamp.anode   ~ pump
+    d_clamp.cathode ~ gnd
+
+    d_neg = new SchottkyDiode
+    d_neg.anode   ~ prevgl
+    d_neg.cathode ~ pump
+
+    c_vgl = new CapBoost
+    c_vgl.value = "1u 25V"
+    c_vgl.p1 ~ prevgl
+    c_vgl.p2 ~ gnd
+
+    epd.VGL ~ prevgl

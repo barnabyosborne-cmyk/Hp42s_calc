@@ -51,20 +51,25 @@ component Inductor:
     signal p2 ~ pin 2
 
 component Diode:
+    # SOD-323. KiCad numbers diode pads 1 = cathode, 2 = anode (pad 1 is the
+    # marked end). Numbers, not names, because this footprint is real and its
+    # pads are called 1 and 2 -- a pin called "K" would match no pad at all.
     footprint = "Diode_SMD:D_SOD-323"
     designator_prefix = "D"
     value = "?"
-    signal anode ~ pin A
-    signal cathode ~ pin K
+    signal cathode ~ pin 1
+    signal anode ~ pin 2
 
 component NFET:
-    # 2N7002 small-signal N-channel, SOT-23
+    # 2N7002 small-signal N-channel, SOT-23. Numbered for the same reason as
+    # the diode: SOT-23 pads are 1, 2, 3. The 2N7002 pinout is the SOT-23
+    # standard, 1 = gate, 2 = source, 3 = drain.
     footprint = "Package_TO_SOT_SMD:SOT-23"
     designator_prefix = "Q"
     value = "2N7002"
-    signal gate ~ pin G
-    signal drain ~ pin D
-    signal source ~ pin S
+    signal gate ~ pin 1
+    signal source ~ pin 2
+    signal drain ~ pin 3
 
 component TestPad:
     footprint = "TestPoint:TestPoint_Pad_D1.5mm"
@@ -145,20 +150,38 @@ component MAX17048:
     signal GND  ~ pin GND
 
 component USBCReceptacle:
-    # 16-pin USB-C 2.0 receptacle. Both VBUS pins, both GND pins and both
-    # D+/D- pairs are tied, which is what makes the plug reversible.
-    # A specific 16P part, not a generic land pattern -- KiCad has no generic
-    # one. Swap it for whichever receptacle you can actually buy.
+    # 16-pin USB-C 2.0 receptacle, HCTL HC-TYPE-C-16P-01A.
+    #
+    # Pin NAMES here are the USB-C contact names, because that is what the
+    # footprint's pads are actually called -- A1, A4, B5 and so on, straight
+    # off the connector standard. This is the rare case where the datasheet
+    # names and the KiCad pad names are the same thing.
+    #
+    # The two rows are what make the plug reversible: rotate the plug and A
+    # swaps with B. So VBUS is four pads, GND is four pads, and D+/D- are two
+    # each and get tied together for USB 2.0. CC1 and CC2 must NOT be tied --
+    # they are how the sink tells the source which way round the plug went in.
+    # SBU1/SBU2 are for alternate modes and stay unconnected.
     footprint = "Connector_USB:USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A"
     designator_prefix = "J"
-    value = "USB-C 2.0"
-    signal VBUS ~ pin VBUS
-    signal GND  ~ pin GND
-    signal CC1  ~ pin CC1
-    signal CC2  ~ pin CC2
-    signal DP   ~ pin DP
-    signal DM   ~ pin DM
-    signal SHIELD ~ pin SHIELD
+    value = "USB-C 2.0 16P"
+    signal GND_A1  ~ pin A1
+    signal VBUS_A4 ~ pin A4
+    signal CC1     ~ pin A5
+    signal DP_A6   ~ pin A6
+    signal DM_A7   ~ pin A7
+    signal SBU1    ~ pin A8
+    signal VBUS_A9 ~ pin A9
+    signal GND_A12 ~ pin A12
+    signal GND_B1  ~ pin B1
+    signal VBUS_B4 ~ pin B4
+    signal CC2     ~ pin B5
+    signal DP_B6   ~ pin B6
+    signal DM_B7   ~ pin B7
+    signal SBU2    ~ pin B8
+    signal VBUS_B9 ~ pin B9
+    signal GND_B12 ~ pin B12
+    signal SHIELD  ~ pin SH
 
 component TPD4E05U06:
     # 4-channel ESD array for the USB data and CC lines.
@@ -178,6 +201,95 @@ component Battery:
     value = "LiPo 1650 mAh"
     signal p ~ pin 1
     signal n ~ pin 2
+
+
+# --- e-paper booster -------------------------------------------------------
+# These four parts exist only to serve the panel. Values and part numbers are
+# Good Display's own, from the GDEY0266T90 specification (24.12.03), page 28,
+# not from a generic SSD1680 application note. See docs/epaper-drive.md.
+
+component SchottkyDiode:
+    # MBR0530: 30 V, 500 mA, Vf <= 430 mV. Three of them in the charge pump.
+    # Pad 1 is the cathode.
+    footprint = "Diode_SMD:D_SOD-123"
+    designator_prefix = "D"
+    value = "MBR0530"
+    signal cathode ~ pin 1
+    signal anode ~ pin 2
+
+component BoostFET:
+    # Si1308EDL: 30 V, Vgs(th) <= 1.5 V, Rds(on) <= 400 mOhm, in SC-75A.
+    # The low gate threshold is the point -- the panel drives this gate from
+    # its own 3.3 V logic, so a 2N7002 (Vgs(th) up to 2.5 V) will not do.
+    # CONFIRM BEFORE FAB: SC-75A is a 1.6 x 1.6 mm three-lead package and
+    # KiCad's SOT-416 is the matching land pattern, but check the pad table
+    # in Vishay's drawing. Pin order below is the SOT-23-style standard.
+    footprint = "Package_TO_SOT_SMD:SOT-416"
+    designator_prefix = "Q"
+    value = "Si1308EDL"
+    signal gate ~ pin 1
+    signal source ~ pin 2
+    signal drain ~ pin 3
+
+component BoostInductor:
+    # 47 uH, 500 mA saturation, NR3015 body (3.0 x 3.0 x 1.5 mm).
+    # This is the tallest part on the board after the module and the cell.
+    footprint = "Inductor_SMD:L_APV_ANR3015"
+    designator_prefix = "L"
+    value = "47u 500mA"
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+
+component CapBoost:
+    # 0603, X5R/X7R, 25 V rating. The rating is not optional: VGH sits near
+    # +22 V and VGL near -20 V, and a 16 V part there dies.
+    footprint = "Capacitor_SMD:C_0603_1608Metric"
+    designator_prefix = "C"
+    value = "?"
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+
+
+# --- top-edge controls -----------------------------------------------------
+# Both of these are SIDE-actuated: the knob and the plunger come out of the
+# end of the body, in the plane of the board, so they poke through the top
+# edge of the case rather than through its front or back. That is the whole
+# reason for these two particular parts -- an ordinary top-actuated slide
+# switch or tact switch cannot reach a case edge at all.
+# Both mount on the BACK of the board. See docs/top-edge.md.
+
+component SlideSwitch:
+    # Shouhan MSK-12C02, SPDT, side-actuated, 6.7 x 2.8 mm body with the knob
+    # 1.45 mm proud of one end. LCSC C431540. Pin 2 is the common terminal.
+    #
+    # CHECK BEFORE ORDERING: KiCad places the three pads at x = -2.25, +0.75,
+    # +2.25, which is an uneven 3.0 / 1.5 mm spacing and looks wrong for a
+    # 1.5 mm-pitch part. The vendor drawing is behind a host this session
+    # cannot reach, so it has not been confirmed. The netlist below is right
+    # either way; it is the land pattern that wants a second look.
+    #
+    # The larger C&K JS102011SAQN is the nicer switch and has a clean 2.5 mm
+    # pitch, but its courtyard is 8.75 mm deep and does not fit the 6 mm of
+    # board above the panel. It becomes an option if the top bezel grows.
+    footprint = "Button_Switch_SMD:SW_SPDT_Shouhan_MSK12C02"
+    designator_prefix = "SW"
+    value = "MSK-12C02 SPDT"
+    signal a      ~ pin 1
+    signal common ~ pin 2
+    signal b      ~ pin 3
+    signal shield ~ pin SH
+
+component TactSwitchSide:
+    # Alps SKRTLAE010, side-actuated SMD tact, 4.5 x 2.56 mm, plunger out the
+    # end. Pads 1 and 2 are the contacts; MP are the mechanical anchors and
+    # are not electrically part of the switch, so they go to ground for
+    # strength and nothing else.
+    footprint = "Button_Switch_SMD:SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010"
+    designator_prefix = "SW"
+    value = "SKRTLAE010"
+    signal a  ~ pin 1
+    signal b  ~ pin 2
+    signal mp ~ pin MP
 
 # --- MCU, display, sound ---------------------------------------------------
 
@@ -231,24 +343,41 @@ component EPDConnector:
     # slot to this connector on the BACK, so its height stays out of the
     # front stack-up.
     #
-    # The charge-pump pins are named here but their network is NOT in this
-    # file: copy it from Good Display's reference schematic for this exact
-    # panel, not from a generic SSD1680 example. The cap values differ.
-    # Hirose FH12 is bottom-contact horizontal, which suits the folded tail.
-    # Again a specific part; check it against the panel's tail thickness.
+    # Pin NUMBERS here, from the panel specification (24.12.03) page 28.
+    # This is the one part in the file where the numbering is certain, so it
+    # is written down: the tail is a plain 24-way 0.5 mm flex and pad 1 of
+    # the connector really is panel pin 1.
+    #
+    # Check the tail direction before ordering. FH12 is bottom-contact; if
+    # the tail folds the other way you want a top-contact part instead, and
+    # that is a different footprint with the same 24 pads.
     footprint = "Connector_FFC-FPC:Hirose_FH12-24S-0.5SH_1x24-1MP_P0.50mm_Horizontal"
     designator_prefix = "J"
     value = "GDEY0266T90 FPC"
-    signal BUSY ~ pin BUSY
-    signal RES  ~ pin RES
-    signal DC   ~ pin DC
-    signal CS   ~ pin CS
-    signal SCL  ~ pin SCL
-    signal SDA  ~ pin SDA
-    signal VCI  ~ pin VCI
-    signal VDD  ~ pin VDD
-    signal VSS  ~ pin VSS
-    signal GND  ~ pin GND
+    signal NC1   ~ pin 1
+    signal GDR   ~ pin 2
+    signal RESE  ~ pin 3
+    signal NC4   ~ pin 4
+    signal VSH2  ~ pin 5
+    signal TSCL  ~ pin 6
+    signal TSDA  ~ pin 7
+    signal BS    ~ pin 8
+    signal BUSY  ~ pin 9
+    signal RES   ~ pin 10
+    signal DC    ~ pin 11
+    signal CS    ~ pin 12
+    signal SCL   ~ pin 13
+    signal SDA   ~ pin 14
+    signal VDDIO ~ pin 15
+    signal VCI   ~ pin 16
+    signal VSS   ~ pin 17
+    signal VDD   ~ pin 18
+    signal VPP   ~ pin 19
+    signal VSH1  ~ pin 20
+    signal VGH   ~ pin 21
+    signal VSL   ~ pin 22
+    signal VGL   ~ pin 23
+    signal VCOM  ~ pin 24
 
 component Buzzer:
     footprint = "Buzzer_Beeper:Buzzer_Murata_PKLCS1212E"
