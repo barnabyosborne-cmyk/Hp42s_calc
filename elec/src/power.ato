@@ -252,22 +252,46 @@ module Power:
     # and nothing else, so it switches microamps: no arcing, no contact
     # resistance in the supply path, and a 2.8 mm switch is plenty.
     #
-    # SPDT with both throws driven, rather than one throw and a pull-up. EN
-    # then sits hard at SYS or hard at ground and is never floating, which
-    # matters because a floating enable on a buck-boost is how you get a
-    # regulator that hums at the halfway point of the slider's travel.
+    # (This fixes a real bug: EN used to be tied to the regulator's own 3.3 V
+    # output, which is a rail that cannot exist until EN is already high. As
+    # drawn before, it could never have started.)
     #
-    # (This also fixes a real bug: EN used to be tied to the regulator's own
-    # 3.3 V output, which is a rail that cannot exist until EN is already
-    # high. As drawn before, it could never have started.)
+    # ONE THROW IS DELIBERATELY UNCONNECTED, and the pull-down does the other
+    # half. The earlier version drove both throws, EN to SYS one way and EN to
+    # ground the other, which is better on paper -- EN is then hard-driven and
+    # never floating. The problem is which leg is the common one.
+    #
+    # The Shouhan drawing numbers the three legs 1, 2, 3 at 3.0 mm and 1.5 mm
+    # spacing and draws a contact diagram that does not say, in any way I can
+    # read with confidence, which of them is the wiper. Get that wrong with
+    # both throws driven and one slider position shorts SYS to ground through
+    # the switch, which on a lithium cell is not a bug you debug twice.
+    #
+    # Wired this way it does not matter. Whichever leg is the wiper, one
+    # position connects EN to SYS and the other connects it to an unused leg,
+    # where the pull-down holds it at ground. The cost is r_reg_en's standing
+    # current, SYS over 1M, about 4 uA while the calculator is switched on.
+    # Buzz the switch out with a meter when the parts arrive: if the wiper is
+    # the middle leg as expected, tie sw_power.b to ground, delete r_reg_en
+    # and get those 4 uA back.
+    #
+    # 1M rather than 10M because the TPS63900's EN must sit below 0.4 V to
+    # count as low (datasheet section 6.5) and it must never float -- the
+    # pin description says so in as many words. 100 nA of input leakage into
+    # 1M is 0.1 V; into 10M it would be 1 V, which is not low.
     #
     # Charging is deliberately upstream of this. With the slider off, USB
     # still charges the cell and the fuel gauge still counts.
     sw_power = new SlideSwitch
     sw_power.common ~ reg_en
     sw_power.a ~ sys
-    sw_power.b ~ gnd
     sw_power.shield ~ gnd
+    # sw_power.b is intentionally left unconnected -- see above.
+
+    r_reg_en = new Resistor
+    r_reg_en.value = "1M"
+    r_reg_en.p1 ~ reg_en
+    r_reg_en.p2 ~ gnd
 
     r_sda = new Resistor
     r_sda.value = "4.7k"

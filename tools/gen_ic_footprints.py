@@ -147,6 +147,46 @@ def side_led(name, descr, tags, pad_w, pad_h, span, body_w, back, front,
     return "\n".join(out) + "\n"
 
 
+def bicolor_ra(name, descr, tags):
+    """Dialight 599 bi-colour 1208 right angle. Three pads, lens facing -y.
+    Hard-coded rather than parameterised: there is one of these and the pad
+    arrangement is not a family pattern."""
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        '\t(fp_text reference "REF**" (at 0 2.60) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 3.80) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        # body in plan: 3.0 x 1.0, centred on the two end pads
+        '\t(fp_rect (start -1.500 -0.500) (end 1.500 0.500) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        # lens: 2.0 mm wide, poking 1.07 mm out of the front face
+        '\t(fp_arc (start 1.000 -0.500) (mid 0 -1.570) (end -1.000 -0.500) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        '\t(fp_line (start 0 -2.170) (end 0 0.500) '
+        '(stroke (width 0.05) (type dot)) (layer "F.Fab"))',
+        '\t(fp_rect (start -2.250 -1.820) (end 2.250 1.400) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))',
+        # cathode marks: a bar outboard of pin 3, which is the red die
+        '\t(fp_line (start -2.150 -0.750) (end -2.150 0.750) '
+        '(stroke (width 0.15) (type solid)) (layer "F.SilkS"))',
+        '\t(pad "3" smd roundrect (at -1.500 0) (size 1.000 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "2" smd roundrect (at 1.500 0) (size 1.000 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "1" smd roundrect (at 0 0.815) (size 0.900 0.650) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        ')',
+    ]
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -170,6 +210,15 @@ def main():
             tags="LED IR 940nm side-view sidelooker VSMB2943SLX01",
             pad_w=0.9, pad_h=1.2, span=4.2, body_w=2.2,
             back=1.19, front=0.43, dome=0.95, lens_d=1.8,
+        ),
+        "Dialight_599_BiColor_1208_RA": bicolor_ra(
+            name="Dialight_599_BiColor_1208_RA",
+            descr="Dialight 599 series MicroLED, bi-colour 1208 right angle, "
+                  "3.0x2.0x1.0 mm. Pads per the recommended layout on page 1 of the "
+                  "Dialight datasheet. Lens faces -y; it spans roughly 1.0 to 2.0 mm "
+                  "above the board face the part is soldered to. Pad 2 = common "
+                  "anode, pad 3 = LED die 1, pad 1 = LED die 2.",
+            tags="LED bicolor side-view right-angle Dialight 599 1208",
         ),
     }
     for name, text in fps.items():

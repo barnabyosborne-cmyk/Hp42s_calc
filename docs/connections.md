@@ -82,6 +82,7 @@ panel interface has to move.
 | 12 | `KEY_ROW4` | |
 | 13 | `KEY_ROW5` | |
 | 14 | `KEY_ROW6` | |
+| 16 | `LED_RED` | Status LED red die. Driven LOW to light — common anode |
 | 17 | `I2C_SDA` | 4.7 kΩ pull-up to `+3V3` |
 | 18 | `I2C_SCL` | 4.7 kΩ pull-up to `+3V3` |
 | 19 | `USB_DM` | Fixed by silicon |
@@ -93,6 +94,7 @@ panel interface has to move.
 | 36 | `EPD_BUSY` | Input. Also the light-sleep wake source during a refresh |
 | 37 | `EPD_SCK` | |
 | 38 | `EPD_MOSI` | |
+| 39 | `LED_GREEN` | Status LED green die. Driven LOW. One of the four JTAG pins |
 | 43 | `UART0_TX` | Test pad only |
 | 44 | `UART0_RX` | Test pad only |
 | 47 | `IR_LED` | Optional HP-82240 printing → 2N7002 gate |
@@ -100,7 +102,7 @@ panel interface has to move.
 
 Deliberately unused: `GPIO0`, `3`, `45`, `46` are strapping pins — `GPIO0` goes
 to a BOOT test pad only. `GPIO26–32` are the module's internal flash.
-`GPIO39–42` are left free as JTAG.
+`GPIO40–42` are left free as JTAG.
 
 ---
 
@@ -172,8 +174,10 @@ stack-up.
 |---|---|
 | Buzzer | `+3V3` → transducer → 2N7002 drain; gate from `BUZZER` via 1 kΩ; flyback diode across the transducer |
 | IR LED | `+3V3` → LED → 22 Ω → 2N7002 drain; gate from `IR_LED` via 1 kΩ |
+| Status LED | `+3V3` → common anode; each die → 1 kΩ → its GPIO. Red and green together read as amber |
+| Power slider | Wiper → `REG_EN`, one throw → `SYS`, **other throw deliberately unconnected**; 1 MΩ from `REG_EN` to `GND` holds it off |
 | Test pads | `BAT`, `SYS`, `+3V3`, `GND`, `UART0_TX`, `UART0_RX`, `EN`, `GPIO0` (BOOT) |
-| `EN` | 10 kΩ to `+3V3`, 1 µF to `GND` |
+| `EN` | 10 kΩ to `+3V3`, 1 µF to `GND`. This is the MCU's reset, not the regulator's enable |
 
 ---
 

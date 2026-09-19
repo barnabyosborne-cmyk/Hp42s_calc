@@ -1,4 +1,4 @@
-from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide, RGBLedSide
+from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide, StatusLED
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
@@ -20,7 +20,7 @@ from "keypad.ato" import Keypad
 #
 # Deliberately unused: IO0/IO3/IO45/IO46 are strapping pins (IO0 goes to a
 # BOOT test pad and nothing else), IO26-IO32 are the module's internal flash,
-# IO39-IO42 are left free for JTAG.
+# IO40-IO42 are left free for JTAG.
 # ---------------------------------------------------------------------------
 
 module HP42S:
@@ -40,9 +40,8 @@ module HP42S:
     signal uart0_tx
     signal uart0_rx
     signal boot
-    signal led_r
-    signal led_g
-    signal led_b
+    signal led_red
+    signal led_green
     signal en
 
     power = new Power
@@ -219,41 +218,42 @@ module HP42S:
     r_ir_gate.p2 ~ q_ir.gate
 
     # --- status LED ----------------------------------------------------------
-    # Top edge, side-emitting, next to the two buttons. Driven HIGH to light,
-    # with the common pin on ground, so every channel is dark whenever the
-    # pins are high-impedance -- at reset, during boot, and in deep sleep.
-    # That matters more than it sounds: an always-on indicator would be tens
-    # of milliamps against a 25 uA sleep budget and would turn fifteen months
-    # into about a week.
+    # Top edge, side-emitting, next to the two buttons. Dialight 599-0Q70-247F:
+    # two dice, red and yellow-green, sharing a COMMON ANODE. So a channel is
+    # driven LOW to light, which is the opposite of what this block used to do.
     #
-    # IO39 and IO40 are two of the four JTAG pins. Taking them means giving
-    # up hardware JTAG, which this board had already lost in practice: the
-    # USB pins go to the OTG peripheral for mass storage, and debugging runs
-    # over the UART0 test pads. IO16 is simply spare.
+    # Red, green and both-together-as-amber is three states out of two pins,
+    # which covers booting, nominal and error without a third die. See
+    # parts.ato for why there is no blue one worth having on a 3.3 V rail.
     #
-    # 1k per channel is about 2 mA, which is plenty behind a case window and
-    # keeps the total under 6 mA with all three lit.
-    mcu.IO16 ~ led_r
-    mcu.IO39 ~ led_g
-    mcu.IO40 ~ led_b
+    # Dark whenever the pins are high impedance, which is still true here: at
+    # reset the pin is high impedance, so no current flows and the die is off.
+    # An always-on indicator would be milliamps against a 25 uA sleep budget
+    # and would turn fifteen months into about a week.
+    #
+    # IO39 is one of the four JTAG pins. Taking it means giving up hardware
+    # JTAG, which this board had already lost in practice: the USB pins go to
+    # the OTG peripheral for mass storage, and debugging runs over the UART0
+    # test pads. IO16 is simply spare. IO40 goes back to the free list -- the
+    # third channel is gone with the third die.
+    #
+    # 1k on a 2.0 V die off 3.3 V is about 1.3 mA, which is plenty behind a
+    # diffused case window.
+    mcu.IO16 ~ led_red
+    mcu.IO39 ~ led_green
 
-    led_rgb = new RGBLedSide
-    led_rgb.p1 ~ gnd        # common cathode -- CONFIRM against the part
+    led_status = new StatusLED
+    led_status.anode ~ v3v3
 
-    r_led_r = new Resistor
-    r_led_r.value = "1k"
-    r_led_r.p1 ~ led_r
-    r_led_r.p2 ~ led_rgb.p2
+    r_led_red = new Resistor
+    r_led_red.value = "1k"
+    r_led_red.p1 ~ led_red
+    r_led_red.p2 ~ led_status.red
 
-    r_led_g = new Resistor
-    r_led_g.value = "1k"
-    r_led_g.p1 ~ led_g
-    r_led_g.p2 ~ led_rgb.p3
-
-    r_led_b = new Resistor
-    r_led_b.value = "1k"
-    r_led_b.p1 ~ led_b
-    r_led_b.p2 ~ led_rgb.p4
+    r_led_green = new Resistor
+    r_led_green.value = "1k"
+    r_led_green.p1 ~ led_green
+    r_led_green.p2 ~ led_status.ygreen
 
     # --- test pads -----------------------------------------------------------
     tp_bat = new TestPad

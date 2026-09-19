@@ -7,14 +7,35 @@ and a centre pad the dome's underside contacts when it snaps. Both must be
 free of solder mask across the whole dome area, and the area must be flat --
 no vias, no silkscreen, no components inside the dome circle.
 
-CAUTION ON THE NUMBERS
-----------------------
-Snaptron publishes a pad drawing per dome series. Only one hard figure was
-available when this was written: the F08400 (8.5 mm dome) has a stated dome
-cavity of 7.75 mm. The ring dimensions below are derived from that and scaled
-for the 10 mm dome. Before you send a board to fab, pull the real pad drawing
-from snaptron.com for the dome you are actually buying and correct RING_ID /
-RING_OD / CENTRE_DIA here, then re-run this script.
+WHERE THE NUMBERS COME FROM
+---------------------------
+Snaptron's catalogue pages for the two domes, 2026-09-19:
+
+                    F08210      F10260
+    A  dome dia      8.5        10.0     tip to tip across opposite legs
+    B  leg width     1.70        2.29
+    C  height        0.48        0.56    unpressed, above the board
+    D                7.06        8.31
+    E                3.30        4.19
+    X  dome cavity   7.75        9.14
+    force            210 gf      260 gf  both +/- 30 gf, 5M cycles
+
+These are DOME dimensions, not a pad drawing -- Snaptron publish the pad
+recommendation separately and snaptron.com is not reachable from here. So the
+ring is derived from A, which is the one figure that decides it: the four legs
+land on a circle of diameter A, so the ring has to cover that circle with
+enough margin for placement tolerance, and it can be as wide inwards as we
+like because nothing else touches it until the centre pad.
+
+    ring OD = A + 0.5    0.25 mm of margin outside the leg tips
+    ring ID = A - 2.0    a 1.25 mm wide annulus for a 1.7-2.3 mm wide leg
+
+A continuous ring rather than four leg pads, deliberately: it does not care
+how the dome is rotated, which matters when there are 38 of them.
+
+Still worth confirming if you can get it: Snaptron's own pad drawing for the
+F series, which would also settle the centre pad diameter. That one is still
+the old guess at roughly a third of the dome.
 
 Two rules from Snaptron that the geometry already respects:
   - the keycap actuator must be <= 25% of dome diameter, centred. That is a
@@ -35,17 +56,17 @@ import pathlib
 
 # --- dome definitions -------------------------------------------------------
 # dome_dia   nominal dome diameter, mm (the catalogue number)
-# ring_id    inner diameter of the outer contact ring, mm  <-- CONFIRM
-# ring_od    outer diameter of the outer contact ring, mm  <-- CONFIRM
-# centre_dia diameter of the centre contact pad, mm        <-- CONFIRM
+# ring_id    inner diameter of the outer contact ring, mm  (from A, see above)
+# ring_od    outer diameter of the outer contact ring, mm  (from A, see above)
+# centre_dia diameter of the centre contact pad, mm        <-- still a guess
 DOMES = {
     "Snaptron_F10260_Dome": dict(
-        dome_dia=10.0, ring_id=9.10, ring_od=10.40, centre_dia=3.50,
-        note="10 mm, 260 gf, 0.56 mm travel, 5M cycles -- numeric and operator keys",
+        dome_dia=10.0, ring_id=8.00, ring_od=10.50, centre_dia=3.50,
+        note="10 mm, 260 gf, 0.56 mm high, 5M cycles -- numeric and operator keys",
     ),
     "Snaptron_F08210_Dome": dict(
-        dome_dia=8.5, ring_id=7.75, ring_od=8.90, centre_dia=3.00,
-        note="8.5 mm, 210 gf, 0.48 mm travel, 5M cycles -- function rows and ENTER",
+        dome_dia=8.5, ring_id=6.50, ring_od=9.00, centre_dia=3.00,
+        note="8.5 mm, 210 gf, 0.48 mm high, 5M cycles -- function rows and ENTER",
     ),
 }
 
@@ -68,7 +89,7 @@ def footprint(name, dome_dia, ring_id, ring_od, centre_dia, note):
     a('  (version 20221018)')
     a('  (generator "hp42s-gen-dome")')
     a('  (layer "F.Cu")')
-    a(f'  (descr "Snaptron metal dome site -- {note}. Ring ID {ring_id} mm, OD {ring_od} mm, centre pad {centre_dia} mm. CONFIRM against Snaptron pad drawing before fab.")')
+    a(f'  (descr "Snaptron metal dome site -- {note}. Ring ID {ring_id} mm, OD {ring_od} mm, centre pad {centre_dia} mm. Ring from the catalogue dome diameter; centre pad still a guess.")')
     a('  (tags "snaptron dome tactile keypad")')
     a('  (attr smd exclude_from_pos_files)')
     a(f'  (fp_text reference "SW**" (at 0 {-label_y:.3f}) (layer "F.SilkS")')

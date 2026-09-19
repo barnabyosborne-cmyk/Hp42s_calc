@@ -48,20 +48,32 @@ above the display. Panel choice does not change: the 2.66" is limited by the
 
 ## Clearances that follow
 
-| | F08210 (8.5 mm, OD 8.90) | F10260 (10 mm, OD 10.40) |
+| | F08210 (8.5 mm, OD 9.00) | F10260 (10 mm, OD 10.50) |
 |---|---|---|
-| Vertical, 12.0 mm pitch | 3.10 mm | **1.60 mm** |
-| Horizontal, 12.5 mm pitch | 3.60 mm | — |
-| Horizontal, 15.0 mm pitch | — | 4.60 mm |
-| Courtyard gap, vertical | 2.10 mm | **0.60 mm** |
-| Solder mask web, vertical | 2.30 mm | **0.80 mm** |
+| Vertical, 12.0 mm pitch | 3.00 mm | **1.50 mm** |
+| Horizontal, 12.5 mm pitch | 3.50 mm | — |
+| Horizontal, 15.0 mm pitch | — | 4.50 mm |
+| Courtyard gap, vertical | 2.00 mm | **0.50 mm** |
+| Solder mask web, vertical | 2.20 mm | **0.70 mm** |
+
+Those ODs come from Snaptron's catalogue pages (2026-09-19), which give the
+dome diameter tip to tip across opposite legs: 8.5 mm and 10.0 mm. The ring
+covers that circle with 0.25 mm of margin, so OD is 0.5 mm larger. The
+numbers above are 0.1 mm tighter than the earlier guessed ones and still
+clear.
+
+Two other figures from the same pages. The domes stand **0.48 mm** (F08210)
+and **0.56 mm** (F10260) above the board unpressed, which is the clearance a
+keycap plunger has to respect. The pages do not state travel; treat it as
+less than the height until we have the pad drawing. Force is 210 gf and
+260 gf, both plus or minus 30.
 
 The numeric block is the tight one, and it is tight in the **row** direction.
 Nothing routes between those domes on the front layer: column nets go on an
 inner layer and come up into each ring with a via outside the courtyard.
 
 The outermost column is close to the board edge too — `SW1` and friends sit at
-board X 6.75, so an F08210's mask opening stops 1.90 mm short of the edge.
+board X 6.75, so an F08210's mask opening stops 1.85 mm short of the edge.
 Fine for fab, but there is no room for a via ring on that side.
 
 ## Every key

@@ -136,7 +136,7 @@ EDGE_PARTS = {
     "SW_SPDT_Shouhan_MSK12C02": (11.0, 2.30, "power slider"),
     "Vishay_VSMB2943SLX01_SideView": (22.0, 1.60, "IR emitter"),
     "USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A": (36.0, 3.67, "USB-C"),
-    "LED_Kingbright_APFA3010_3x1.5mm_Horizontal": (48.0, 0.90, "status LED"),
+    "Dialight_599_BiColor_1208_RA": (48.0, 1.80, "status LED"),
 }
 
 # The two tact switches, by the net each one pulls down: BOOT sits inboard of
@@ -148,12 +148,13 @@ TACT_ORDER = [(66.0, 1.50, "reset"), (57.0, 1.50, "boot")]
 
 # Both LEDs are the edge parts that are NOT rotated 180. Their lens faces are
 # the -y end of the body, so at 0 degrees they already look at the top edge;
-# turning them round would aim them into the middle of the board. The IR dome
-# tip lands 0.22 mm inside the board edge (its origin is the pad centreline,
-# 1.38 mm behind the tip) and the RGB lens 0.20 mm.
+# turning them round would aim them into the middle of the board. Both origins
+# are the pad centreline rather than the lens, so both y values are the lens
+# depth plus that offset: the IR dome tip lands 0.22 mm inside the board edge
+# and the status LED's lens 0.23 mm.
 NO_FLIP = {
     "Vishay_VSMB2943SLX01_SideView",
-    "LED_Kingbright_APFA3010_3x1.5mm_Horizontal",
+    "Dialight_599_BiColor_1208_RA",
 }
 
 

@@ -8,7 +8,7 @@ the **back** of the board:
 | power slider | Shouhan MSK-12C02 | daily use |
 | IR emitter | Vishay VSMB2943SLX01, 940 nm side-looking | the original 42S's IR window is on this edge |
 | USB-C | HCTL HC-TYPE-C-16P-01A | charging and file transfer |
-| status LED | RGB side-view, Kingbright APFA3010 outline | boot, error, nominal |
+| status LED | Dialight 599-0Q70-247F, red/green side-view | boot, error, nominal |
 | BOOT | Alps SKRTLAE010 | recovery |
 | RESET | Alps SKRTLAE010 | recovery |
 
@@ -22,7 +22,7 @@ Six millimetres is not enough. Measured from KiCad's own courtyards:
 
 | part | reaches into the board |
 |------|------------------------|
-| RGB status LED | 2.00 mm |
+| status LED | 3.20 mm |
 | IR emitter | 3.04 mm |
 | Alps SKRTLAE010 buttons | 3.55 mm |
 | Shouhan MSK-12C02 slider | 5.15 mm |
@@ -147,22 +147,36 @@ never, and the two should not feel alike.
 
 ## The status LED
 
-Side-emitting RGB, driven HIGH to light with its common pin on ground. That
-polarity is not arbitrary: three GPIOs pulled up through LEDs would sit on the
-module during strapping, and some of the pins that would be convenient to use
-are exactly the sort that decide flash voltage at reset. Driven high, every
-channel is dark whenever the pins are high-impedance -- at reset, through
-boot, and in deep sleep.
+Dialight 599-0Q70-247F: two dice, red and yellow-green, sharing a **common
+anode**, so a channel is driven LOW to light.
 
-That last one matters more than it sounds. An indicator left on is tens of
-milliamps against a 25 uA sleep budget, which turns fifteen months into about
-a week. Blink it during boot and on error; leave it dark in normal use.
+It is bi-colour, not RGB, and that is the right answer rather than a
+concession. Red and green together read as amber, so two dice give three
+states, which is all the indicator was ever asked for. A true RGB part would
+need a blue die, every blue die is InGaN, and InGaN wants up to 3.9 V forward
+against this board's 3.3 V rail. The 599's two AlGaInP dice run at 2.0 to
+2.4 V with room to spare. Barnaby's first pick, the -0Q40-, is yellow plus
+yellow-green, which no one can tell apart through a diffused window; the
+-0Q70- is the same part with a red die instead of the yellow.
 
-It costs three GPIOs: IO16, which was spare, and IO39 and IO40, which are two
-of the four JTAG pins. That gives up hardware JTAG, which this board had
-already lost in practice -- the USB pins go to the OTG peripheral, and
-debugging runs over the UART0 test pads. 1k per channel is about 2 mA, plenty
-behind a case window.
+Common anode does leave a weak pull-up on the two driving pins while they are
+high impedance. That was a real objection when the plan was three channels on
+an unverified part, and it is not one now: IO16 and IO39 are not strapping
+pins -- only IO0, IO3, IO45 and IO46 are -- and the current through an unlit
+LED is leakage rather than a divider. Dark at reset, through boot, and in
+deep sleep, which is what matters: an indicator left on is milliamps against
+a 25 uA sleep budget, and turns fifteen months into about a week. Blink it
+during boot and on error, and leave it dark in normal use.
+
+It costs two GPIOs rather than three. IO16 was spare; IO39 is one of the four
+JTAG pins, which this board had already given up in practice -- the USB pins
+go to the OTG peripheral, and debugging runs over the UART0 test pads. IO40
+goes back to the free list. 1k on a 2.0 V die off 3.3 V is about 1.3 mA,
+plenty behind a case window.
+
+The lens sits roughly 1.0 to 2.0 mm above the face of the board it is
+soldered to, which is the back, so it wants a diffused window rather than the
+clear one the IR needs.
 
 ## Placement
 
@@ -173,12 +187,12 @@ behind a case window.
 | power slider | 11.0 | 2.30 | knob to y = -0.80 |
 | IR emitter | 22.0 | 1.60 | dome tip 0.22 mm inside the edge |
 | USB-C | 36.0 | 3.67 | mouth flush at y = 0 |
-| status LED | 48.0 | 0.90 | lens 0.20 mm inside the edge |
+| status LED | 48.0 | 1.80 | lens 0.23 mm inside the edge |
 | BOOT | 57.0 | 1.50 | plunger to y = -0.54 |
 | RESET | 66.0 | 1.50 | plunger to y = -0.54 |
 
 Courtyard to courtyard along the edge: 4.20 mm slider to IR, 6.33 mm IR to
-USB-C, 4.43 mm USB-C to the RGB, 3.92 mm RGB to BOOT, and 3.34 mm BOOT to
+USB-C, 4.43 mm USB-C to the status LED, 3.92 mm status LED to BOOT, and 3.34 mm BOOT to
 RESET, which is the tightest. There is 6.6 mm of board left of the slider and
 7.2 mm right of RESET.
 
@@ -187,7 +201,7 @@ edge, each leaving about 0.8 mm proud for the case wall to capture. **The two
 LEDs are not rotated** -- their lenses are already the -y end of the body, and
 turning them round would aim them into the middle of the board. Both sit just
 inside the edge rather than proud of it, so the case needs a window rather
-than a slot: clear for the IR, diffused for the RGB.
+than a slot: clear for the IR, diffused for the status LED.
 
 ## The IR emitter
 
