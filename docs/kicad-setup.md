@@ -31,10 +31,11 @@ That `${KIPRJMOD}` path assumes the project sits at `elec/layout/default/`.
 File → Import → Netlist, point it at `build/default.net`.
 
 **Expect no errors.** Every footprint resolves — KiCad's standard libraries
-for all but three, and this repo's `hp42s` library for the two dome sites and
-the TPS63900's land pattern, which KiCad does not carry. That one is generated
-from TI's own drawing by `tools/gen_ic_footprints.py`; re-run it if you ever
-delete `elec/footprints/hp42s.pretty/`.
+for all but four, and this repo's `hp42s` library for the two dome sites, the
+TPS63900's land pattern and the side-looking IR emitter's, neither of which
+KiCad carries. Those two are generated from the vendors' own drawings by
+`tools/gen_ic_footprints.py`; re-run it if you ever delete
+`elec/footprints/hp42s.pretty/`.
 
 ## 3. Place the keypad and the top-edge parts
 

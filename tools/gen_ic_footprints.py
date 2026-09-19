@@ -20,6 +20,20 @@ TPS63900, DSK0010A -- WSON-10, TI drawing 4218903/C, "EXAMPLE BOARD LAYOUT":
 
 Pad 11 is the thermal pad, which is KiCad's convention and matches the
 netlist. TI's drawing calls it pin 11 too.
+
+VSMB2943SLX01, side-looking IR emitter -- Vishay document 83479 rev 1.2,
+drawing 6.544-5410.02-4, "Solder pad proposal acc. IPC 7351":
+
+    2 x 0.9 x 1.2   pads
+    4.2             outer edge to outer edge
+    2.2 x 1.6       body, in plan
+    0.95            the dome sticking out past the body front (2.55 overall)
+    1.8             lens diameter
+
+The offsets between the pads and the body were scaled off that drawing, which
+dimensions both but not the gap between them: the body sits 0.43 mm forward of
+the pad centreline and 1.19 mm behind it. Front view: cathode is the left lead
+LOOKING INTO THE LENS, which puts it on -x once the lens faces -y.
 """
 
 import os
@@ -85,6 +99,54 @@ def wson(name, descr, tags, pins, pitch, pad_l, pad_w, span, body, ep_w, ep_h):
     return "\n".join(out) + "\n"
 
 
+def side_led(name, descr, tags, pad_w, pad_h, span, body_w, back, front,
+             dome, lens_d):
+    """A two-lead side-looking LED in plan, lens facing -y so that at zero
+    degrees it looks at the top edge of the board. Origin is the centre of the
+    two pads, which is what the vendor drawing calls the centre of the pick and
+    place area. back/front are the body edges either side of that centreline,
+    dome is how far the lens sticks out past the front one."""
+    x = (span - pad_w) / 2.0
+    cx = x + pad_w / 2.0 + 0.25
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        f'\t(fp_text reference "REF**" (at 0 {back + 1.3:.2f}) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 {back + 2.5:.2f}) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        # body in plan
+        f'\t(fp_rect (start {-body_w/2:.3f} {-front:.3f}) (end {body_w/2:.3f} {back:.3f}) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        # the lens, drawn as the half circle that pokes out of the front face
+        f'\t(fp_arc (start {lens_d/2:.3f} {-front:.3f}) '
+        f'(mid 0 {-(front + dome):.3f}) (end {-lens_d/2:.3f} {-front:.3f}) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        # optical axis, so the board outline can be lined up against it
+        f'\t(fp_line (start 0 {-(front + dome) - 0.6:.3f}) (end 0 {back:.3f}) '
+        '(stroke (width 0.05) (type dot)) (layer "F.Fab"))',
+        # courtyard
+        f'\t(fp_rect (start {-cx:.3f} {-(front + dome) - 0.25:.3f}) '
+        f'(end {cx:.3f} {back + 0.25:.3f}) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))',
+        # cathode bar on silk, outboard of pad 1
+        f'\t(fp_line (start {-cx + 0.1:.3f} {-pad_h/2:.3f}) '
+        f'(end {-cx + 0.1:.3f} {pad_h/2:.3f}) '
+        '(stroke (width 0.15) (type solid)) (layer "F.SilkS"))',
+        f'\t(pad "1" smd roundrect (at {-x:.3f} 0) (size {pad_w:.3f} {pad_h:.3f}) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        f'\t(pad "2" smd roundrect (at {x:.3f} 0) (size {pad_w:.3f} {pad_h:.3f}) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        ')',
+    ]
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -97,6 +159,17 @@ def main():
             tags="WSON DFN TPS63900 DSK0010A",
             pins=10, pitch=0.5, pad_l=0.6, pad_w=0.25, span=2.3,
             body=2.5, ep_w=1.2, ep_h=2.0,
+        ),
+        "Vishay_VSMB2943SLX01_SideView": side_led(
+            name="Vishay_VSMB2943SLX01_SideView",
+            descr="Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, "
+                  "2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in "
+                  "Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits "
+                  "1.2 mm above the board face the part is soldered to. "
+                  "Pad 1 = cathode.",
+            tags="LED IR 940nm side-view sidelooker VSMB2943SLX01",
+            pad_w=0.9, pad_h=1.2, span=4.2, body_w=2.2,
+            back=1.19, front=0.43, dome=0.95, lens_d=1.8,
         ),
     }
     for name, text in fps.items():

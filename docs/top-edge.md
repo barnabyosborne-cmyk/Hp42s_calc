@@ -6,7 +6,7 @@ the **back** of the board:
 | | part | why it is here |
 |---|---|---|
 | power slider | Shouhan MSK-12C02 | daily use |
-| IR emitter | 940 nm side-view, 1.6 x 0.8 mm | the original 42S's IR window is on this edge |
+| IR emitter | Vishay VSMB2943SLX01, 940 nm side-looking | the original 42S's IR window is on this edge |
 | USB-C | HCTL HC-TYPE-C-16P-01A | charging and file transfer |
 | status LED | RGB side-view, Kingbright APFA3010 outline | boot, error, nominal |
 | BOOT | Alps SKRTLAE010 | recovery |
@@ -23,7 +23,7 @@ Six millimetres is not enough. Measured from KiCad's own courtyards:
 | part | reaches into the board |
 |------|------------------------|
 | RGB status LED | 2.00 mm |
-| IR emitter | 2.10 mm |
+| IR emitter | 3.04 mm |
 | Alps SKRTLAE010 buttons | 3.55 mm |
 | Shouhan MSK-12C02 slider | 5.15 mm |
 | USB-C receptacle | 8.57 mm |
@@ -171,14 +171,16 @@ behind a case window.
 | part | x | y | reaches |
 |------|---|---|---------|
 | power slider | 11.0 | 2.30 | knob to y = -0.80 |
-| IR emitter | 22.0 | 1.20 | lens 0.30 mm inside the edge |
+| IR emitter | 22.0 | 1.60 | dome tip 0.22 mm inside the edge |
 | USB-C | 36.0 | 3.67 | mouth flush at y = 0 |
 | status LED | 48.0 | 0.90 | lens 0.20 mm inside the edge |
 | BOOT | 57.0 | 1.50 | plunger to y = -0.54 |
 | RESET | 66.0 | 1.50 | plunger to y = -0.54 |
 
-The tightest gap between any two courtyards is 2.4 mm, between BOOT and RESET.
-There is 6.6 mm of board left of the slider and 7.2 mm right of RESET.
+Courtyard to courtyard along the edge: 4.20 mm slider to IR, 6.33 mm IR to
+USB-C, 4.43 mm USB-C to the RGB, 3.92 mm RGB to BOOT, and 3.34 mm BOOT to
+RESET, which is the tightest. There is 6.6 mm of board left of the slider and
+7.2 mm right of RESET.
 
 The four mechanical parts are rotated 180 degrees so their actuators face the
 edge, each leaving about 0.8 mm proud for the case wall to capture. **The two
@@ -186,6 +188,24 @@ LEDs are not rotated** -- their lenses are already the -y end of the body, and
 turning them round would aim them into the middle of the board. Both sit just
 inside the edge rather than proud of it, so the case needs a window rather
 than a slot: clear for the IR, diffused for the RGB.
+
+## The IR emitter
+
+Vishay VSMB2943SLX01, confirmed side-looking from document 83479 rev 1.2:
+2.3 x 2.55 x 2.3 mm, 940 nm, 20 mW/sr, half angle +/- 25 degrees, 1.35 V
+typical at 100 mA, 15 ns rise time. It is a far bigger part than the 1.6 x
+0.6 mm pattern that was standing in for it -- two 0.9 x 1.2 mm pads 4.2 mm
+across the outsides -- so it has its own footprint, generated from Vishay's
+IPC 7351 solder pad proposal by `tools/gen_ic_footprints.py`.
+
+Two numbers for the case:
+
+- The **optical axis sits 1.2 mm above the face of the board the part is
+  soldered to**. It is on the back, so the beam runs 1.2 mm behind the back
+  copper, not on the board centreline.
+- The dome tip stops 0.22 mm short of the board edge, and the lens is 1.8 mm
+  across, so a 2.5 mm window centred on x = 22.0 clears the beam without
+  vignetting the +/- 25 degrees.
 
 One thing to watch: this USB-C receptacle anchors with through-hole shield
 legs, so it leaves solder fillets on the front of the board, under the panel.
