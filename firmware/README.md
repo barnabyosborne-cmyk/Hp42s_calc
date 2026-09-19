@@ -18,6 +18,11 @@ About 22 functions the platform has to supply. The ones that carry real work:
 - `shell_blitter` — the whole display. **Must not assume a fixed size.**
   Plus42 resizes the display at runtime (`ROW±`, `COL±`, `SETDS`, `WIDTH`,
   `HEIGHT` in the DISP menu), 2–99 rows and 22–999 columns. Cells are 6 × 8 px.
+  It also scales **anisotropically**: 2× across, 3× down, so one logical pixel
+  becomes a 2 × 3 block of panel pixels. That is not something to tidy up later
+  — it is what makes the characters the size of a real 42S's, because the
+  original's pixels were 0.42 × 0.65 mm and ours are square. Two constants
+  stand between 24 × 6 and 24 × 9. See `../docs/character-size.md`.
 - `shell_annunciators` — the status strip.
 - `shell_request_timeout3`, `shell_delay`, `shell_milliseconds` — timing.
 - `shell_read_saved_state` / `shell_write_saved_state` — state to flash.

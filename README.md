@@ -39,9 +39,11 @@ place or route. Layout stays in KiCad.
   storage device. The `-N8` specifically: it has no PSRAM, and octal PSRAM
   would eat GPIO33–37, where the panel interface lives.
 - **Display** — Good Display GDEY0266T90, 2.66", 296 × 152 px in a 71.82 ×
-  36.30 mm outline. Plus42 character cells are 6 × 8 px, so at 2× scale this
-  gives **24 columns × 9 rows** against Plus42's 22 × 8 default. The obvious
-  2.9" panel is 79.0 mm wide and will not fit an 80 mm shell.
+  36.30 mm outline. Plus42 character cells are 6 × 8 px, rendered **2× across
+  and 3× down**, giving **24 columns × 6 rows** at very close to the original
+  42S's character size. The obvious 2.9" panel is 79.0 mm wide and will not
+  fit an 80 mm shell. See `docs/character-size.md` for why the scaling is not
+  square.
 - **Power** — BQ25185 charger with power path → TPS63900 buck-boost to 3.3 V →
   MAX17048 fuel gauge. The buck-boost is mandatory: the panel's VCI cannot
   take 4.2 V.
