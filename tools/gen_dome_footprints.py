@@ -37,6 +37,11 @@ That is Snaptron's design, not an error.
 Two rules from Snaptron that the geometry respects:
   - solder mask keep-out starts at the OUTSIDE edge of the ring and includes
     everything inside it. The whole site is bare copper and bare laminate.
+  - four-leg domes must be rotated so that no leg sits over the slot. With
+    legs 90 degrees apart, putting them on the diagonals -- 45 degrees to the
+    slot -- is the furthest they can be from it. A Peel-N-Place array fixes
+    the rotation for you; loose domes do not, so check the first board with a
+    meter before trusting 38 of them.
   - the cavity needs an air path or the click goes mushy. A Peel-N-Place
     array vents through the polyester layer, so VENT stays False. Set it True
     only if you are venting through the board, and accept that it is a dust
@@ -66,6 +71,22 @@ DOMES = {
         note="8.5 mm, 210 gf, 0.48 mm high, 5M cycles -- function rows and ENTER",
     ),
 }
+
+# Metal domes come in two kinds and this pad suits one of them. A FOUR LEG
+# dome (Snaptron F series, what this board is drawn for) touches the ring only
+# at its four legs, so the slot and the escape tab sit under thin air. A ROUND
+# dome has a continuous rim, and that rim crosses the slot -- where it would
+# land straight on the escape tab and short the switch on permanently.
+#
+# Set ROUND_DOME_SAFE True to cover the tab with solder mask where the rim
+# crosses it. That is the standard trick for round domes, and it is harmless
+# for four-leg ones: the patch sits in the gap between the centre pad and the
+# ring, under the curve of the dome, where nothing touches anyway. It costs a
+# 30 um step in a place the dome clears by more than ten times that.
+#
+# Left False so that what this generates is Snaptron's own drawing. Flip it if
+# the domes you can actually buy turn out to be round.
+ROUND_DOME_SAFE = False
 
 VENT = False        # True only if venting through the board rather than the array
 VENT_DRILL = 0.60   # mm, NPTH
@@ -157,6 +178,15 @@ def footprint(name, dome_dia, p1, n1, t1, w1, s, note):
     # laminate from the outside edge of the ring inwards.
     a(f'  (pad "" smd circle (at 0 0) (size {2*mask_r:.3f} {2*mask_r:.3f})')
     a('    (layers "F.Mask"))')
+
+    if ROUND_DOME_SAFE:
+        # a mask patch over the tab, from the centre pad's edge out past the
+        # ring, so a continuous rim crosses insulation rather than copper
+        patch_w = w1 + 0.4
+        x0, x1 = p1 / 2.0 - 0.1, n1 * SEC2250 + 0.1
+        a(f'  (fp_poly (pts (xy {x0:.3f} {-patch_w/2:.3f}) (xy {x1:.3f} {-patch_w/2:.3f}) '
+          f'(xy {x1:.3f} {patch_w/2:.3f}) (xy {x0:.3f} {patch_w/2:.3f})) '
+          '(stroke (width 0) (type solid)) (fill yes) (layer "F.Mask"))')
 
     if VENT:
         # between the centre pad and the ring, on the -x side, away from the tab
