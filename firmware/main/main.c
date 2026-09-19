@@ -50,8 +50,14 @@ static void draw_test_pattern(int last_key)
     }
 }
 
+void plus42_start(void);
+void bid_selftest(void);
+
 void app_main(void)
 {
+    bid_selftest();
+    plus42_start();
+
     // Read this before anything re-drives the matrix: it is latched by the
     // wake and the rows have to stay as sleep left them to decode it.
     int woke_on = keypad_wake_key();

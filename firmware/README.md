@@ -1,10 +1,12 @@
 # Firmware — porting Plus42
 
-The **board layer is written and building**: pin map, SSD1680 panel driver,
-6 x 7 keypad scan with deep-sleep wake, and a bring-up app that draws a test
-pattern and echoes keys. The **Plus42 core is not here yet** — codeberg.org is
-blocked by this session's network policy and there is no GitHub mirror, so the
-source has to come from Barnaby.
+The **board layer and the Plus42 core both build for the ESP32-S3.** Plus42
+1.3.15 (Thomas Okken, GPLv2) is vendored in `components/plus42core/`, its
+decimal arithmetic comes from Intel's BID library in `components/libbid/`, and
+`main/shell.cc` is the platform layer that joins them to the board. What is
+**not** done yet is the interesting half of the shell: the display blitter is
+written but unverified, keys are not yet fed to the core, and nothing saves
+state.
 
 ## What is here
 
@@ -13,32 +15,58 @@ source has to come from Barnaby.
 | `main/board.h` | Every pin number, in one place. The only file that changes for a different board. |
 | `main/epd.c` | SSD1680 driver for the GDEY0266T90: init, full update, partial update, deep sleep. Landscape 296 x 152. |
 | `main/keypad.c` | 6 x 7 diodeless scan, debounce, and `ext1` wake on any column going low. |
-| `main/main.c` | Bring-up app. Draws a frame, a corner block and a 37-bar chart, then echoes key presses with partial updates and deep-sleeps after 10 s idle. |
+| `main/shell.cc` | The 22 shell functions Plus42 asks the platform for. Real: display, milliseconds, random seed, log. Stubbed: beeper, printer, clock, power-down. |
+| `main/main.c` | Bring-up app. Draws a test pattern, starts the core, echoes key presses, deep-sleeps after 10 s idle. |
+| `components/plus42core/` | Plus42's portable core, unmodified, plus a CMakeLists. |
+| `components/libbid/` | Intel's decimal library. Sources are laid out by `vendor/setup.sh`, not committed. |
 
 ## Building
 
 ```
+cd firmware
+./vendor/setup.sh
 . $IDF_PATH/export.sh
 idf.py set-target esp32s3
 idf.py build
 idf.py -p /dev/ttyACM0 flash monitor
 ```
 
-Built clean against ESP-IDF v5.5 on 2026-09-19: 245 KB, 77 % of the app
-partition free.
+Built against ESP-IDF v5.5 on 2026-09-19.
 
-For running any of this on a Seeed XIAO ESP32-S3 instead of the real board,
-see `docs/breadboard.md` — the pin map in `board.h` does **not** transfer,
-because the XIAO's octal PSRAM eats GPIO33-37.
+## What it costs
 
-Plus42 is Thomas Okken's extension of Free42: algebraic expressions, units,
-directories, TVM, function plotting. Same GPLv2, same author, same repo
-shape — a portable `common/` core plus a thin per-platform shell. Porting
-means writing a new shell, not touching the core.
+Measured, at `-Os`, with the whole core linked in:
 
-Source: <https://codeberg.org/thomasokken/plus42desktop>. The GTK shell is the
-closest reference for a bare-metal port; the iOS and Android shells carry
-platform baggage that does not help.
+| | Flash | RAM |
+|---|---|---|
+| Intel decimal library | 2.20 MB (2.06 MB of it lookup tables) | 34 KB |
+| Plus42 core | 414 KB | 6.7 KB |
+| Board layer | 3 KB | 11 KB |
+| **Whole image** | **2.85 MB** | **113 KB of 334 KB** |
+
+So the `-N8` module's 8 MB of flash is comfortable but not generous: the app
+gets a 4 MB partition (`partitions.csv`), leaving 3 MB of FAT for programs and
+state. 221 KB of RAM is left for Plus42's heap, which is where user programs,
+variables and the stack live.
+
+**The decimal tables are the whole story on flash.** Free42 and Plus42 also
+build in a "binary" flavour that uses the hardware double instead, which would
+drop about 2 MB. It would also stop the calculator rounding the way a real 42S
+rounds, so it is not on the table unless flash becomes the binding constraint.
+
+## Three things that had to be worked out
+
+1. **Exceptions.** The core throws in three places (`core_equations.cc`,
+   `core_display.cc`, `core_commands9.cc`), so `CONFIG_COMPILER_CXX_EXCEPTIONS`
+   has to be on. That costs 39 KB of unwind tables.
+2. **`fexcept_t`.** Intel's header defines it as `unsigned short` unless a
+   `fenv.h` guard macro is already set, while newlib's is `unsigned long`; the
+   two collide. Both components are compiled with `-include fenv.h` so
+   newlib's definition wins everywhere.
+3. **`shell_always_on()` and `shell_alpha_keyboard_enabled()`** look like
+   shell functions but are not: the core defines the first itself off Android
+   and iOS, and `shell.h` macro-defines the second. Supplying either is a
+   link error.
 
 ## The shell API
 

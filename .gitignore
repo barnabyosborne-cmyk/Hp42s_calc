@@ -26,3 +26,7 @@ Thumbs.db
 firmware/sdkconfig
 firmware/sdkconfig.old
 firmware/dependencies.lock
+
+# Intel decimal library, laid out by firmware/vendor/setup.sh
+firmware/components/libbid/src/
+firmware/components/libbid/float128/
