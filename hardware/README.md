@@ -5,11 +5,15 @@ Barnaby's own CAD. Nothing generated here.
 Constraints the electronics impose:
 
 - Case **148 × 80 × 15 mm**, board about **144 × 76 mm**, 4 layer.
-- Face budget that makes 148 mm close: 8.0 top bezel + 36.3 display outline +
-  6.0 gap + 84.0 keyboard (7 rows × 12.0 mm) + 13.7 chin. The chin is the only
-  free number — protect the row pitch over it. Below about 8 mm of chin a
-  taller shell becomes the honest answer.
-- Key pitch **11.8 mm across × 12.0 mm down**.
+- Face budget, from Barnaby's measurements of a real 42S rather than a
+  reconstruction: the keyboard area is **70 × 78 mm**, its datum 5 mm in from
+  the left and 9 mm up from the bottom. That leaves **61 mm** above it for the
+  bezel and display, and a **9 mm chin** below.
+- Key pitch: rows **12.0 mm** throughout; columns **12.5 mm** on rows 1–3 and
+  **15.0 mm** on the numeric block of rows 4–7, with the left column staying
+  on the 8.75 mm centre. Full table in `docs/keypad-geometry.md`.
+- Keycaps 6.0 mm tall: 7.5 mm wide on rows 1–3 and in the left column,
+  10 mm wide on the numeric block, and ENTER 20 mm wide.
 - Keycap actuator must be **≤ 25 % of dome diameter**, centred. That is a
   Snaptron rule and it is why the centre pad in the footprint is small.
 - Battery bay behind the keyboard: one clean **50 × 60 mm** rectangle, 5 mm

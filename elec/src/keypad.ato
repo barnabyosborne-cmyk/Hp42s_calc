@@ -17,9 +17,15 @@ from "parts.ato" import DomeKey10, DomeKey85
 # shorts a column to a row and pulls that column down. No scanner IC, no
 # external pull-ups, no standing current.
 #
-# Dome choice: rows 0-2 (the function rows and ENTER) use the 8.5 mm F08210
-# at 210 gf; rows 3-6 (digits and operators) use the 10 mm F10260 at 260 gf.
-# See docs/connections.md for why 10 mm domes are tight on an 11.8 mm pitch.
+# Dome choice follows the keycap, from Barnaby's measurements of a real 42S:
+# the 10 mm F10260 goes under the 10 mm numeric caps, the 8.5 mm F08210 under
+# every 7.5 mm cap. That means the whole of rows 0-2, and also the left column
+# of rows 3-6 -- UP, DOWN, SHIFT and EXIT are narrow keys sitting beside the
+# numeric block, not part of it.
+#
+# The row pitch is 12.0 mm and the F10260's ring OD is 10.4, so the numeric
+# domes clear each other vertically by 1.6 mm and their courtyards by 0.6 mm.
+# Nothing routes between them on the front. See docs/keypad-geometry.md.
 # ---------------------------------------------------------------------------
 
 module Keypad:
@@ -133,7 +139,7 @@ module Keypad:
     k17.centre ~ row2
 
     # --- ROW 3: up  7  8  9  div --------------------------------------------
-    k18 = new DomeKey10
+    k18 = new DomeKey85
     k18.designator = "SW18"
     k18.ring ~ col0
     k18.centre ~ row3
@@ -159,7 +165,7 @@ module Keypad:
     k22.centre ~ row3
 
     # --- ROW 4: down  4  5  6  mul ------------------------------------------
-    k23 = new DomeKey10
+    k23 = new DomeKey85
     k23.designator = "SW23"
     k23.ring ~ col0
     k23.centre ~ row4
@@ -185,7 +191,7 @@ module Keypad:
     k27.centre ~ row4
 
     # --- ROW 5: SHIFT  1  2  3  minus ---------------------------------------
-    k28 = new DomeKey10
+    k28 = new DomeKey85
     k28.designator = "SW28"
     k28.ring ~ col0
     k28.centre ~ row5
@@ -211,7 +217,7 @@ module Keypad:
     k32.centre ~ row5
 
     # --- ROW 6: EXIT/ON  0  .  R/S  plus ------------------------------------
-    k33 = new DomeKey10
+    k33 = new DomeKey85
     k33.designator = "SW33"
     k33.ring ~ col0
     k33.centre ~ row6

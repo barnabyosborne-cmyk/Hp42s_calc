@@ -179,11 +179,14 @@ stack-up.
 
 ## 6. Layout notes that follow from this
 
-- **A 10 mm dome on 11.8 mm pitch leaves 1.4 mm between adjacent dome ODs.**
-  That is not enough to route a column between them on the front. Put the
-  column nets on an inner layer or the back and come up into each ring with a
-  via placed outside the dome courtyard. If routing turns painful, dropping to
-  `F08210` domes throughout gives 2.9 mm of gap and a slightly lighter action.
+- **The row pitch is what squeezes, not the columns.** A 10 mm dome on the
+  12.0 mm row pitch leaves 1.6 mm between adjacent ODs and 0.6 mm between
+  courtyards. That is not enough to route a column between them on the front.
+  Put the column nets on an inner layer and come up into each ring with a via
+  placed outside the dome courtyard. If routing turns painful, dropping to
+  `F08210` domes throughout gives 3.1 mm vertically and a lighter action.
+  Horizontally there is room either way: 12.5 mm pitch on rows 1-3 and 15.0 mm
+  across the numeric block. See `docs/keypad-geometry.md`.
 - Nothing inside a dome circle: no vias, no silkscreen, no test points. The
   array has to sit on a flat surface.
 - Keep the charger, regulator, fuel gauge and FPC connector in the strip behind

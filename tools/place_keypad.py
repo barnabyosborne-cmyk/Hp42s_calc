@@ -5,76 +5,87 @@ Place the 37 dome sites on the keypad grid.
 Run this from KiCad's scripting console (Tools > Scripting Console) with the
 board open, AFTER importing build/default.net so the footprints exist:
 
-    exec(open('/path/to/Hp42s_calc/tools/place_keypad.py').read())
+    exec(open('tools/place_keypad.py').read())
 
 It moves SW1..SW38 onto the key grid and, if Edge.Cuts is empty, draws the
 board outline. It touches nothing else -- run it again after a re-import and
 it just puts the keys back.
 
-UNTESTED. There is no KiCad in the environment this was written in, so the
-geometry has been checked by arithmetic and the API calls have not been run.
-If it throws, paste the error back.
+UNTESTED IN KICAD. The geometry is checked by arithmetic; the pcbnew API
+calls have not been run. If it throws, paste the error back.
 
 WHERE THE NUMBERS COME FROM
 ---------------------------
-Case 148 x 80 mm, board 144 x 76 mm, so the board is inset 2 mm all round.
+Barnaby measured a real HP-42S on 19 September 2026. These are his figures,
+not a reconstruction, which is why the grid is not uniform:
 
-The face budget that makes 148 mm work, measured down the case:
+  case                80 x 148 mm
+  keyboard area       70 x 78 mm, datum 5 mm in from the left, 9 mm up from
+                      the bottom, so it spans case X 5..75, Y 9..87
+  row pitch           12.0 mm, seven rows
+  keycaps             6.0 mm tall throughout
 
-     8.0  top bezel
-    36.3  display outline (GDEY0266T90)
-     6.0  gap
-    84.0  keyboard, 7 rows at 12.0 mm
-    13.7  chin
-   -----
-   148.0
+Two different column grids, which is the part a uniform pitch gets wrong:
 
-The chin is the only free number in that column. If something has to give,
-take it from the chin and protect the row pitch -- 12.0 mm down and 11.8 mm
-across is what makes the keyboard feel like a 42S rather than a toy.
+  rows 1-3   6 columns at 12.5 mm pitch, keycaps 7.5 mm wide
+             centres 8.75, 21.25, 33.75, 46.25, 58.75, 71.25
+  rows 4-7   the left column stays at 8.75 with a 7.5 mm cap (UP, DOWN,
+             SHIFT, EXIT), then four numeric columns at 15.0 mm pitch with
+             10 mm caps, centres 25, 40, 55, 70
 
-Columns: 6 x 11.8 mm = 70.8 mm across a 76 mm board, so 2.6 mm each side.
+ENTER is a 20 x 6 mm cap centred at case X 15 on row 3, spanning the first
+two column positions. It gets two domes, at 8.75 and 21.25, wired in
+parallel -- see docs/connections.md.
+
+COORDINATES
+-----------
+Barnaby measures X from the left edge of the case and Y UP from the bottom.
+KiCad measures Y down from the board origin, and the board is inset 2 mm
+from the case all round. So:
+
+    x_board = x_case - 2
+    y_board = 146 - y_case
+
+which puts the keyboard at board Y 59..137 and leaves 59 mm above it for the
+bezel and the display, and a 7 mm chin below.
 """
 
 import pcbnew
 
-# --- grid ------------------------------------------------------------------
-# Board coordinates, origin at the top left corner of the board outline.
-BOARD_W = 76.0
-BOARD_H = 144.0
+# --- case and board --------------------------------------------------------
+CASE_W, CASE_H = 80.0, 148.0
+INSET = 2.0
+BOARD_W, BOARD_H = CASE_W - 2 * INSET, CASE_H - 2 * INSET   # 76 x 144
 
-COL_PITCH = 11.8
-ROW_PITCH = 12.0
+# --- measured key grid, in case coordinates (Y up from the bottom) ---------
+ROW_Y = [84.0, 72.0, 60.0, 48.0, 36.0, 24.0, 12.0]          # rows 1..7
+COL_TOP = [8.75, 21.25, 33.75, 46.25, 58.75, 71.25]         # rows 1-3
+COL_PAD = [25.0, 40.0, 55.0, 70.0]                          # rows 4-7, numeric
+COL_LEFT = 8.75                                             # rows 4-7, left column
 
-COL_X = [8.5 + i * COL_PITCH for i in range(6)]      # 8.5 .. 67.5
-ROW_Y = [54.3 + i * ROW_PITCH for i in range(7)]     # 54.3 .. 126.3
+# --- ref -> case (x, y) ----------------------------------------------------
+# Designators are the calculator core's own key numbers, so SW19 is the 7 key.
+# SW38 is ENTER's second dome.
+KEYS = {}
+for i, ref in enumerate(["SW1", "SW2", "SW3", "SW4", "SW5", "SW6"]):
+    KEYS[ref] = (COL_TOP[i], ROW_Y[0])
+for i, ref in enumerate(["SW7", "SW8", "SW9", "SW10", "SW11", "SW12"]):
+    KEYS[ref] = (COL_TOP[i], ROW_Y[1])
+for i, ref in enumerate(["SW13", "SW38", "SW14", "SW15", "SW16", "SW17"]):
+    KEYS[ref] = (COL_TOP[i], ROW_Y[2])
+for row, refs in enumerate([
+    ["SW18", "SW19", "SW20", "SW21", "SW22"],
+    ["SW23", "SW24", "SW25", "SW26", "SW27"],
+    ["SW28", "SW29", "SW30", "SW31", "SW32"],
+    ["SW33", "SW34", "SW35", "SW36", "SW37"],
+], start=3):
+    KEYS[refs[0]] = (COL_LEFT, ROW_Y[row])
+    for i, ref in enumerate(refs[1:]):
+        KEYS[ref] = (COL_PAD[i], ROW_Y[row])
 
-# --- which key goes where --------------------------------------------------
-# ref -> (col, row). Key numbers are the calculator core's own, so SW19 is the
-# 7 key. SW38 is ENTER's second dome: ENTER is a double-width key spanning
-# columns 0 and 1 on row 2, with two domes under one keycap.
-KEYS = {
-    "SW1":  (0, 0), "SW2":  (1, 0), "SW3":  (2, 0),
-    "SW4":  (3, 0), "SW5":  (4, 0), "SW6":  (5, 0),
 
-    "SW7":  (0, 1), "SW8":  (1, 1), "SW9":  (2, 1),
-    "SW10": (3, 1), "SW11": (4, 1), "SW12": (5, 1),
-
-    "SW13": (0, 2), "SW38": (1, 2), "SW14": (2, 2),
-    "SW15": (3, 2), "SW16": (4, 2), "SW17": (5, 2),
-
-    "SW18": (0, 3), "SW19": (1, 3), "SW20": (2, 3),
-    "SW21": (3, 3), "SW22": (4, 3),
-
-    "SW23": (0, 4), "SW24": (1, 4), "SW25": (2, 4),
-    "SW26": (3, 4), "SW27": (4, 4),
-
-    "SW28": (0, 5), "SW29": (1, 5), "SW30": (2, 5),
-    "SW31": (3, 5), "SW32": (4, 5),
-
-    "SW33": (0, 6), "SW34": (1, 6), "SW35": (2, 6),
-    "SW36": (3, 6), "SW37": (4, 6),
-}
+def to_board(x_case, y_case):
+    return x_case - INSET, (CASE_H - y_case) - INSET
 
 
 def mm(v):
@@ -85,12 +96,13 @@ def place():
     board = pcbnew.GetBoard()
 
     placed, missing = 0, []
-    for ref, (col, row) in sorted(KEYS.items()):
+    for ref, (xc, yc) in sorted(KEYS.items()):
         fp = board.FindFootprintByReference(ref)
         if fp is None:
             missing.append(ref)
             continue
-        fp.SetPosition(pcbnew.VECTOR2I(mm(COL_X[col]), mm(ROW_Y[row])))
+        x, y = to_board(xc, yc)
+        fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
         fp.SetOrientationDegrees(0)
         placed += 1
 

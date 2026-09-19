@@ -16,6 +16,8 @@ Case dimensions follow the original HP-42S as closely as the parts allow:
 | `elec/layout/` | The KiCad project. Placement and routing live here. |
 | `tools/gen_dome_footprints.py` | Parametric generator for the Snaptron dome sites. |
 | `docs/connections.md` | The connection table in prose, with the reasoning. |
+| `docs/keypad-geometry.md` | The measured key grid, and the clearances that follow. |
+| `docs/kicad-setup.md` | Getting the netlist into KiCad without a wall of errors. |
 | `firmware/` | The Plus42 port. Not started. |
 | `hardware/` | Case and keycap files. Barnaby's own CAD. |
 
@@ -45,7 +47,9 @@ place or route. Layout stays in KiCad.
   take 4.2 V.
 - **Keypad** — 37 keys, 6 columns × 7 rows, no diodes. Columns sit on
   RTC-capable GPIOs and wake the chip from deep sleep via `ext1`, so there is
-  no scanner IC and no standing current.
+  no scanner IC and no standing current. The physical grid is measured off a
+  real 42S and is not uniform: 12.5 mm columns on the function rows, 15 mm
+  across the numeric block.
 - **Battery life** — roughly **15 months** on the 1650 mAh cell that fits, at
   2 h/day and 1500 keystrokes. About 33 hours of continuous execution.
 
