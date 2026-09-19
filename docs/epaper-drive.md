@@ -99,9 +99,23 @@ Their spare-parts table, which is the actual purchasing spec:
     C1-C12   0603/0805, X5R/X7R, >= 25 V
     R1, R2   0603/0805, 1%, >= 0.05 W
     D1-D3    MBR0530: >= 30 V reverse, >= 500 mA, Vf <= 430 mV
-    Q1       Si1308EDL: BVdss >= 30 V, Vgs(th) <= 1.5 V, Rds(on) <= 400 mOhm
-    L1       NR3015 class, 500 mA max
+    Q1       Si1304BDL / NX3008NBK: BVdss >= 30 V, Vgs(th) 0.9 V typ,
+             Rds(on) <= 2.1 Ohm at Vgs = 2.5 V
+    L1       Sumida CDRH2D18 or LDNP-470NC, 47 uH, Io = 500 mA max
     P1       24 pins, 0.5 mm pitch
+
+**The MBR0530 is discontinued**, so D1-D3 are `1N5819HW`: 40 V, 1 A, same
+SOD-123 outline, stocked everywhere. The 430 mV forward limit is Solomon's
+number at their 500 mA sizing current; this pump draws tens of milliamps,
+where a 1N5819HW sits well under it. The one thing to keep an eye on is
+reverse leakage, because a charge pump holds its rail rather than being fed
+one, and Schottky leakage is what drains VGH between refreshes. Nexperia's
+PMEG family is the better class of part if a SOD-123 one can be sourced.
+
+**Q1 is the Si1308EDL**, not either part Solomon name, and it beats the spec
+they set: 30 V, Rds(on) 0.185 Ohm max at Vgs = 2.5 V against their 2.1 Ohm
+limit (Vishay document 63399 rev C). Its package is **SOT-323 / SC-70**, not
+the SC-75A this repo had it as.
 
 Q1's low gate threshold is the reason it is not the 2N7002 used elsewhere on
 this board: the panel drives that gate from its own 3.3 V logic, and a 2N7002

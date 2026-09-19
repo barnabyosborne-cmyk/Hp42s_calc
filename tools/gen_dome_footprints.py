@@ -2,48 +2,47 @@
 """
 Generate KiCad footprints for Snaptron F-series metal dome switch sites.
 
-A dome site is two pads: an outer annular ring the dome's four legs rest on,
-and a centre pad the dome's underside contacts when it snaps. Both must be
-free of solder mask across the whole dome area, and the area must be flat --
-no vias, no silkscreen, no components inside the dome circle.
+A dome site is two pads. The outer one is an octagonal ring the dome's four
+legs rest on. The centre one is a circle the dome's underside touches when it
+snaps, with a tab that escapes through a slot in the ring so the net can be
+routed on the front layer without a via inside the dome cavity.
 
-WHERE THE NUMBERS COME FROM
----------------------------
-Snaptron's catalogue pages for the two domes, 2026-09-19:
+NUMBERS, AND WHERE THEY COME FROM
+---------------------------------
+Snaptron's own PCB pad layout drawing and its metric dimension table, sent by
+Barnaby 2026-09-19. This replaced a set of guesses. Their letters:
 
-                    F08210      F10260
-    A  dome dia      8.5        10.0     tip to tip across opposite legs
-    B  leg width     1.70        2.29
-    C  height        0.48        0.56    unpressed, above the board
-    D                7.06        8.31
-    E                3.30        4.19
-    X  dome cavity   7.75        9.14
-    force            210 gf      260 gf  both +/- 30 gf, 5M cycles
+    P1   centre pad diameter
+    N1   centre of the site to the OUTER flat of the ring   (half width)
+    T1   centre of the site to the INNER flat of the ring   (half width)
+    W1   width of the tab that escapes through the slot
+    S    clearance either side of that tab, 0.508 mm minimum
+    F1   via in the centre pad, optional on a double sided board
+    F2   via in the ring, for a single sided board
 
-These are DOME dimensions, not a pad drawing -- Snaptron publish the pad
-recommendation separately and snaptron.com is not reachable from here. So the
-ring is derived from A, which is the one figure that decides it: the four legs
-land on a circle of diameter A, so the ring has to cover that circle with
-enough margin for placement tolerance, and it can be as wide inwards as we
-like because nothing else touches it until the centre pad.
+                     P1      N1      T1      W1      S       F1/F2
+    8.5 mm dome      3.48    4.19    2.77    1.55    0.92    0.89
+    10 mm dome       4.08    4.67    3.15    1.55    1.10    0.89
 
-    ring OD = A + 0.5    0.25 mm of margin outside the leg tips
-    ring ID = A - 2.0    a 1.25 mm wide annulus for a 1.7-2.3 mm wide leg
+N1 and T1 really are half widths: the table's 4 mm row gives N1 2.10, and a
+ring 2.10 mm across would not reach the legs of a 4 mm dome. Every row of the
+table is consistent with N1 being about 0.47 of the dome diameter, and the
+slot height W1/2 + S comes out just inside the octagon's flat in both of our
+sizes, which is the arithmetic working.
 
-A continuous ring rather than four leg pads, deliberately: it does not care
-how the dome is rotated, which matters when there are 38 of them.
+Note the ring is NARROWER than the dome: 8.38 mm across the flats for an
+8.5 mm dome. The legs overhang it slightly and contact just inside the tip.
+That is Snaptron's design, not an error.
 
-Still worth confirming if you can get it: Snaptron's own pad drawing for the
-F series, which would also settle the centre pad diameter. That one is still
-the old guess at roughly a third of the dome.
-
-Two rules from Snaptron that the geometry already respects:
-  - the keycap actuator must be <= 25% of dome diameter, centred. That is a
-    keycap constraint, not a footprint one, but it is why CENTRE_DIA is small.
-  - the cavity needs an air path or the click goes mushy. If you use a
-    Peel-N-Place dome array, Snaptron vents through the polyester layer and
-    you want VENT = False. Set it True only if you are venting through the
-    board, and accept that it is a dust path into the dome cavity.
+Two rules from Snaptron that the geometry respects:
+  - solder mask keep-out starts at the OUTSIDE edge of the ring and includes
+    everything inside it. The whole site is bare copper and bare laminate.
+  - the cavity needs an air path or the click goes mushy. A Peel-N-Place
+    array vents through the polyester layer, so VENT stays False. Set it True
+    only if you are venting through the board, and accept that it is a dust
+    path into the cavity.
+  - Snaptron's drawing is captioned "one of many possible layouts" and puts
+    the final design on us. What we take from it is the dimensions.
 
 Output is KiCad 6-era footprint syntax, which every later version reads and
 upgrades on load -- deliberately conservative so it opens in KiCad 10.
@@ -51,37 +50,72 @@ upgrades on load -- deliberately conservative so it opens in KiCad 10.
 Usage:  python3 gen_dome_footprints.py [outdir]
 """
 
+import math
 import sys
 import pathlib
 
-# --- dome definitions -------------------------------------------------------
-# dome_dia   nominal dome diameter, mm (the catalogue number)
-# ring_id    inner diameter of the outer contact ring, mm  (from A, see above)
-# ring_od    outer diameter of the outer contact ring, mm  (from A, see above)
-# centre_dia diameter of the centre contact pad, mm        <-- still a guess
+# dome_dia  nominal dome diameter, mm (the catalogue number)
+# p1/n1/t1/w1/s  Snaptron's pad table, above
 DOMES = {
     "Snaptron_F10260_Dome": dict(
-        dome_dia=10.0, ring_id=8.00, ring_od=10.50, centre_dia=3.50,
+        dome_dia=10.0, p1=4.08, n1=4.67, t1=3.15, w1=1.55, s=1.10,
         note="10 mm, 260 gf, 0.56 mm high, 5M cycles -- numeric and operator keys",
     ),
     "Snaptron_F08210_Dome": dict(
-        dome_dia=8.5, ring_id=6.50, ring_od=9.00, centre_dia=3.00,
+        dome_dia=8.5, p1=3.48, n1=4.19, t1=2.77, w1=1.55, s=0.92,
         note="8.5 mm, 210 gf, 0.48 mm high, 5M cycles -- function rows and ENTER",
     ),
 }
 
 VENT = False        # True only if venting through the board rather than the array
 VENT_DRILL = 0.60   # mm, NPTH
-MASK_MARGIN = 0.40  # mm of mask clearance beyond the ring OD
-CRTYD_MARGIN = 0.50 # mm of courtyard beyond the ring OD
+TAB_OVERHANG = 0.40 # mm the centre tab runs past the ring, for the trace to meet
+MASK_MARGIN = 0.25  # mm of mask clearance beyond the ring's corners
+CRTYD_MARGIN = 0.25 # mm of courtyard beyond the ring's corners
+ANCHOR = 0.30       # mm, the custom pads' anchor circles
+
+TAN2250 = math.tan(math.radians(22.5))
+SEC2250 = 1.0 / math.cos(math.radians(22.5))
 
 
-def footprint(name, dome_dia, ring_id, ring_od, centre_dia, note):
-    mean_r = (ring_id + ring_od) / 4.0    # midway between ID/2 and OD/2
-    width = (ring_od - ring_id) / 2.0     # stroke width that fills ID..OD
-    mask_r = ring_od / 2.0 + MASK_MARGIN
-    crtyd_r = ring_od / 2.0 + CRTYD_MARGIN
+def octagon(half_width):
+    """Regular octagon, flat to flat = 2 * half_width, as (flat half length,
+    half width). The chamfers are the 45 degree ones on Snaptron's drawing."""
+    return half_width * TAN2250, half_width
+
+
+def c_ring(n1, t1, w1, s):
+    """The ring as ONE polygon. It is a C rather than an annulus -- the slot
+    on the +x side makes it simply connected -- so it traces as a single loop:
+    out around the outside, in at the slot, back around the inside.
+
+    Returns a list of (x, y) with -y as up."""
+    f, R = octagon(n1)          # outer flat half length, outer half width
+    fi, r = octagon(t1)         # inner
+    h = w1 / 2.0 + s            # half height of the slot
+
+    if h >= f:
+        raise ValueError(f"slot {2*h:.2f} does not fit the {2*f:.2f} outer flat")
+
+    # where the inner boundary meets the slot: on the flat if the slot is
+    # narrow enough, otherwise up on the chamfer, whose line is x + y = r + fi
+    xi = r if h <= fi else (r + fi) - h
+
+    return [
+        (R, -h), (R, -f), (f, -R), (-f, -R), (-R, -f),      # outside, going
+        (-R, f), (-f, R), (f, R), (R, h),                   # right-top-left-bottom
+        (xi, h), (fi, r), (-fi, r), (-r, fi), (-r, -fi),    # inside, coming back
+        (-fi, -r), (fi, -r), (xi, -h),
+    ]
+
+
+def footprint(name, dome_dia, p1, n1, t1, w1, s, note):
+    pts = c_ring(n1, t1, w1, s)
+    corner = n1 * SEC2250                 # centre to an octagon corner
+    mask_r = corner + MASK_MARGIN
+    crtyd_r = corner + CRTYD_MARGIN
     label_y = crtyd_r + 1.2
+    ring_mid = (n1 + t1) / 2.0            # where pad 1's anchor sits
 
     L = []
     a = L.append
@@ -89,7 +123,9 @@ def footprint(name, dome_dia, ring_id, ring_od, centre_dia, note):
     a('  (version 20221018)')
     a('  (generator "hp42s-gen-dome")')
     a('  (layer "F.Cu")')
-    a(f'  (descr "Snaptron metal dome site -- {note}. Ring ID {ring_id} mm, OD {ring_od} mm, centre pad {centre_dia} mm. Ring from the catalogue dome diameter; centre pad still a guess.")')
+    a(f'  (descr "Snaptron metal dome site -- {note}. Ring {2*n1:.2f} mm across '
+      f'the flats, centre pad {p1:.2f} mm, tab {w1:.2f} mm out of the +x side. '
+      f'From Snaptron pad table P1 {p1} N1 {n1} T1 {t1} W1 {w1} S {s}.")')
     a('  (tags "snaptron dome tactile keypad")')
     a('  (attr smd exclude_from_pos_files)')
     a(f'  (fp_text reference "SW**" (at 0 {-label_y:.3f}) (layer "F.SilkS")')
@@ -97,30 +133,38 @@ def footprint(name, dome_dia, ring_id, ring_od, centre_dia, note):
     a(f'  (fp_text value "{name}" (at 0 {label_y:.3f}) (layer "F.Fab")')
     a('    (effects (font (size 0.8 0.8) (thickness 0.12))))')
 
-    # Outer ring: a custom pad whose anchor sits ON the ring so no copper lands
-    # in the middle, plus a circle primitive stroked to the annulus width.
-    a(f'  (pad "1" smd custom (at 0 {-mean_r:.4f}) (size {width:.4f} {width:.4f})')
+    # Pad 1, the ring. Anchored on the ring itself, at the top, so the anchor
+    # circle never lands in the middle of the site where the centre pad is.
+    a(f'  (pad "1" smd custom (at 0 {-ring_mid:.4f}) (size {ANCHOR} {ANCHOR})')
     a('    (layers "F.Cu" "F.Mask")')
     a('    (options (clearance outline) (anchor circle))')
     a('    (primitives')
-    a(f'      (gr_circle (center 0 {mean_r:.4f}) (end {mean_r:.4f} {mean_r:.4f}) (width {width:.4f}) (fill no))')
+    poly = " ".join(f"(xy {x:.4f} {y + ring_mid:.4f})" for x, y in pts)
+    a(f'      (gr_poly (pts {poly}) (width 0) (fill yes))')
     a('    ))')
 
-    # Centre pad
-    a(f'  (pad "2" smd circle (at 0 0) (size {centre_dia:.3f} {centre_dia:.3f})')
-    a('    (layers "F.Cu" "F.Mask"))')
+    # Pad 2, the centre, plus the tab that escapes through the slot.
+    tab_x = n1 * SEC2250 + TAB_OVERHANG
+    a(f'  (pad "2" smd custom (at 0 0) (size {p1:.3f} {p1:.3f})')
+    a('    (layers "F.Cu" "F.Mask")')
+    a('    (options (clearance outline) (anchor circle))')
+    a('    (primitives')
+    a(f'      (gr_poly (pts (xy 0 {-w1/2:.4f}) (xy {tab_x:.4f} {-w1/2:.4f}) '
+      f'(xy {tab_x:.4f} {w1/2:.4f}) (xy 0 {w1/2:.4f})) (width 0) (fill yes))')
+    a('    ))')
 
-    # Mask aperture over the whole dome area -- no numbered pad, mask layer only
+    # Mask keep-out over the whole site: Snaptron want bare copper and bare
+    # laminate from the outside edge of the ring inwards.
     a(f'  (pad "" smd circle (at 0 0) (size {2*mask_r:.3f} {2*mask_r:.3f})')
     a('    (layers "F.Mask"))')
 
     if VENT:
-        vent_r = (centre_dia / 2.0 + ring_id / 2.0) / 2.0
-        a(f'  (pad "" np_thru_hole circle (at {vent_r:.3f} 0) (size {VENT_DRILL} {VENT_DRILL})')
+        # between the centre pad and the ring, on the -x side, away from the tab
+        vent_x = -(p1 / 2.0 + t1) / 2.0
+        a(f'  (pad "" np_thru_hole circle (at {vent_x:.3f} 0) (size {VENT_DRILL} {VENT_DRILL})')
         a(f'    (drill {VENT_DRILL}) (layers "F&B.Cu" "*.Mask"))')
 
-    # Courtyard and fab outline. Nothing on silkscreen inside the dome circle --
-    # the array has to sit on a flat surface.
+    # Courtyard, and the dome itself on F.Fab so the clearances are visible.
     a(f'  (fp_circle (center 0 0) (end {crtyd_r:.3f} 0) (layer "F.CrtYd") (width 0.05) (fill none))')
     a(f'  (fp_circle (center 0 0) (end {dome_dia/2:.3f} 0) (layer "F.Fab") (width 0.1) (fill none))')
     a(')')
@@ -133,7 +177,9 @@ def main():
     for name, spec in DOMES.items():
         path = outdir / f"{name}.kicad_mod"
         path.write_text(footprint(name, **spec))
-        print(f"wrote {path}")
+        n1, dome = spec["n1"], spec["dome_dia"]
+        print(f"wrote {path}  ring {2*n1:.2f} mm flats, "
+              f"{2*n1*SEC2250:.2f} mm corners, dome {dome} mm")
     print(f"\nAdd {outdir} to KiCad as a footprint library:")
     print("  Preferences > Manage Footprint Libraries > Add, type KiCad, point at the .pretty folder")
 

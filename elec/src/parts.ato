@@ -44,9 +44,15 @@ component Capacitor:
     signal p2 ~ pin 2
 
 component Inductor:
-    footprint = "Inductor_SMD:L_1008_2520Metric"
+    # The buck-boost's 2.2 uH. Coilcraft XFL4020-222ME, from TI's own
+    # recommended list (TPS63900 table 8-2): 3.5 A saturation, 21 mOhm,
+    # 4 x 4 x 2 mm. The other four on TI's list are smaller and four to five
+    # times the DC resistance; this board has room on the back and would
+    # rather have the efficiency, because battery life is the headline
+    # number. KiCad's L_Coilcraft_XxL4020 is the land pattern for it.
+    footprint = "Inductor_SMD:L_Coilcraft_XxL4020"
     designator_prefix = "L"
-    value = "?"
+    value = "2u2 XFL4020-222ME"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
@@ -246,22 +252,45 @@ component Battery:
 # not from a generic SSD1680 application note. See docs/epaper-drive.md.
 
 component SchottkyDiode:
-    # MBR0530: 30 V, 500 mA, Vf <= 430 mV. Three of them in the charge pump.
+    # Three of these in the panel's charge pump. Solomon Systech's own
+    # component list for the SSD1680 (table 13-1) names the MBR0530 and then
+    # states what actually matters, which is what a replacement has to meet:
+    #
+    #   reverse DC voltage  >= 30 V
+    #   Io                  >= 500 mA
+    #   forward voltage     <= 430 mV
+    #
+    # The MBR0530 is discontinued. 1N5819HW is the easy substitute: 40 V,
+    # 1 A, same SOD-123 outline, stocked everywhere. Its 430 mV limit is met
+    # comfortably at the current this pump actually draws, which is tens of
+    # mA rather than the 500 mA the table sizes for.
+    #
+    # If you would rather have lower reverse leakage -- worth having, since
+    # this is a charge pump holding a rail rather than a supply, and Schottky
+    # leakage is what drains it between refreshes -- Nexperia's PMEG family
+    # is the better class of part. Send me the datasheet for whichever PMEG
+    # your supplier stocks in SOD-123 and I will check it and swap it in.
+    #
     # Pad 1 is the cathode.
     footprint = "Diode_SMD:D_SOD-123"
     designator_prefix = "D"
-    value = "MBR0530"
+    value = "1N5819HW"
     signal cathode ~ pin 1
     signal anode ~ pin 2
 
 component BoostFET:
-    # Si1308EDL: 30 V, Vgs(th) <= 1.5 V, Rds(on) <= 400 mOhm, in SC-75A.
-    # The low gate threshold is the point -- the panel drives this gate from
-    # its own 3.3 V logic, so a 2N7002 (Vgs(th) up to 2.5 V) will not do.
-    # CONFIRM BEFORE FAB: SC-75A is a 1.6 x 1.6 mm three-lead package and
-    # KiCad's SOT-416 is the matching land pattern, but check the pad table
-    # in Vishay's drawing. Pin order below is the SOT-23-style standard.
-    footprint = "Package_TO_SOT_SMD:SOT-416"
+    # Si1308EDL, confirmed from Vishay document 63399 rev C. 30 V, Rds(on)
+    # 0.185 Ohm max at Vgs = 2.5 V, and the package is SOT-323 / SC-70
+    # three lead -- NOT the SC-75A / SOT-416 this was drawn as, which is a
+    # smaller body and the wrong land pattern.
+    #
+    # Solomon Systech ask for BVdss >= 30 V and Rds(on) <= 2.1 Ohm at
+    # Vgs = 2.5 V for this position. The Si1308EDL is inside both by a
+    # wide margin. The low gate threshold is the point -- the panel drives
+    # this gate from its own 3.3 V logic, so a 2N7002 will not do.
+    #
+    # Pin order from the datasheet's top view: 1 gate, 2 source, 3 drain.
+    footprint = "Package_TO_SOT_SMD:SOT-323_SC-70"
     designator_prefix = "Q"
     value = "Si1308EDL"
     signal gate ~ pin 1
@@ -269,11 +298,16 @@ component BoostFET:
     signal drain ~ pin 3
 
 component BoostInductor:
-    # 47 uH, 500 mA saturation, NR3015 body (3.0 x 3.0 x 1.5 mm).
-    # This is the tallest part on the board after the module and the cell.
+    # 47 uH for the panel's boost. Solomon Systech name the Sumida CDRH2D18
+    # or the LDNP-470NC, both 47 uH at Io = 500 mA max (SSD1680 table 13-1).
+    #
+    # FOOTPRINT IS A STAND-IN. The CDRH2D18 is a 3.2 x 3.2 x 2.0 mm body and
+    # this pattern is 3.0 x 3.0 x 1.5. Close, not the same. Replace it once
+    # we have the drawing for whichever of the two is actually buyable, the
+    # same way the IR emitter and the status LED were done.
     footprint = "Inductor_SMD:L_APV_ANR3015"
     designator_prefix = "L"
-    value = "47u 500mA"
+    value = "47u 500mA Sumida CDRH2D18"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 

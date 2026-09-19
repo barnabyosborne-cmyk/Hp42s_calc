@@ -48,33 +48,46 @@ above the display. Panel choice does not change: the 2.66" is limited by the
 
 ## Clearances that follow
 
-| | F08210 (8.5 mm, OD 9.00) | F10260 (10 mm, OD 10.50) |
+Snaptron's own pad drawing and dimension table arrived 2026-09-19, so these
+are measured rather than derived. The ring is an octagon **narrower than the
+dome**: 8.38 mm across the flats under an 8.5 mm dome, 9.34 mm under a 10 mm
+one. The legs overhang it slightly and make contact just inside their tips,
+which is Snaptron's design.
+
+| | F08210 (8.5 mm dome) | F10260 (10 mm dome) |
 |---|---|---|
-| Vertical, 12.0 mm pitch | 3.00 mm | **1.50 mm** |
-| Horizontal, 12.5 mm pitch | 3.50 mm | — |
-| Horizontal, 15.0 mm pitch | — | 4.50 mm |
-| Courtyard gap, vertical | 2.00 mm | **0.50 mm** |
-| Solder mask web, vertical | 2.20 mm | **0.70 mm** |
+| Ring, across the flats | 8.38 mm | 9.34 mm |
+| Ring, across the corners | 9.07 mm | 10.11 mm |
+| Centre pad | 3.48 mm | 4.08 mm |
+| Vertical, 12.0 mm pitch | 3.62 mm | **2.66 mm** |
+| Horizontal, 12.5 mm pitch | 4.12 mm | — |
+| Horizontal, 15.0 mm pitch | — | 5.66 mm |
+| Mask web / courtyard, vertical | 2.43 mm | **1.39 mm** |
 
-Those ODs come from Snaptron's catalogue pages (2026-09-19), which give the
-dome diameter tip to tip across opposite legs: 8.5 mm and 10.0 mm. The ring
-covers that circle with 0.25 mm of margin, so OD is 0.5 mm larger. The
-numbers above are 0.1 mm tighter than the earlier guessed ones and still
-clear.
+Everything got roomier than the guessed geometry it replaces — the numeric
+block went from 1.50 mm between neighbouring domes to 2.66 mm.
 
-Two other figures from the same pages. The domes stand **0.48 mm** (F08210)
-and **0.56 mm** (F10260) above the board unpressed, which is the clearance a
-keycap plunger has to respect. The pages do not state travel; treat it as
-less than the height until we have the pad drawing. Force is 210 gf and
-260 gf, both plus or minus 30.
+**The centre pad now escapes on the front layer.** Snaptron's ring is a C
+rather than a closed annulus: there is a slot in one side, and the centre pad
+carries a 1.55 mm tab out through it with 0.92 to 1.10 mm of clearance either
+side. Our footprints put that slot on the +x side, so every centre net leaves
+sideways, where the pitch is 12.5 or 15 mm and there is 3 mm or more of room.
+That removes the via-inside-the-dome-cavity the earlier plan needed, which
+was its weakest part: a via under a dome has to be filled and planarised or
+the dome sits on a bump.
 
-The numeric block is the tight one, and it is tight in the **row** direction.
-Nothing routes between those domes on the front layer: column nets go on an
-inner layer and come up into each ring with a via outside the courtyard.
+The ring itself is a large pad and can be met from any direction, so the row
+nets are the easy half of the problem.
 
-The outermost column is close to the board edge too — `SW1` and friends sit at
-board X 6.75, so an F08210's mask opening stops 1.85 mm short of the edge.
-Fine for fab, but there is no room for a via ring on that side.
+The outermost column is close to the board edge — `SW1` and friends sit at
+board X 6.75, so an F08210's mask opening stops 1.97 mm short of it. Fine for
+fab, and the escape tab points inboard.
+
+Snaptron also suggest a 0.89 mm via inside the site, F1 in the centre pad or
+F2 in the ring, which doubles as the cavity's air vent. We do not need either
+for routing. `tools/gen_dome_footprints.py` has a `VENT` flag for the day the
+domes arrive loose rather than in a Peel-N-Place array, which vents through
+its own polyester layer.
 
 ## Every key
 

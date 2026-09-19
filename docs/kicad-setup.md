@@ -80,16 +80,9 @@ than merely unmapped, and any one of them would have cost a board:
 
 ## Things to check before fab
 
-**`Q1` package.** The panel's boost FET is a Si1308EDL in SC-75A, and
-`Package_TO_SOT_SMD:SOT-416` is the matching land pattern. Check it against
-Vishay's drawing — SC-75 and SOT-416 are the same 1.6 × 1.6 mm outline under
-two naming schemes, but confirm rather than trust that sentence.
-
-**The slide switch pads.** KiCad places the MSK-12C02's three pads at
-x = −2.25, +0.75, +2.25 — an uneven 3.0 / 1.5 mm spacing that looks wrong for a
-1.5 mm-pitch part. The vendor drawing is behind a host this session cannot
-reach, so it has not been confirmed. The netlist is right either way; it is the
-land pattern that wants a second look.
+**`L2`, the panel's 47 µH.** Still on a 3.0 × 3.0 × 1.5 mm stand-in pattern.
+The part Solomon Systech name is a Sumida CDRH2D18, which is 3.2 × 3.2 × 2.0.
+Replace the footprint when the drawing turns up.
 
 **The fuel gauge's I²C.** `U4` now runs off the cell rather than the 3.3 V
 rail, so its SDA/SCL sit on a 4.2 V part with 3.3 V pull-ups. Its input
