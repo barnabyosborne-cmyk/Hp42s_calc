@@ -123,10 +123,36 @@ def mm(v):
 # but check it when you dry-fit rather than after you glue.
 # ---------------------------------------------------------------------------
 
+# Six parts share the 76 mm top edge, left to right: the power slider you use
+# every day, the IR window, USB-C roughly centred, the status LED, then the
+# two recovery buttons together in the right-hand corner. Widths are the
+# footprints' own courtyards, and the tightest gap between any two of them is
+# 2.4 mm.
+#
+# There are TWO Alps tact switches now, RESET and BOOT, and they share a
+# footprint -- so those two are placed by reference designator after the
+# others, not by footprint name like the rest.
 EDGE_PARTS = {
-    "SW_SPDT_Shouhan_MSK12C02": (14.0, 2.30, "power slider"),
-    "USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A": (38.0, 3.67, "USB-C"),
-    "SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010": (62.0, 1.50, "reset"),
+    "SW_SPDT_Shouhan_MSK12C02": (11.0, 2.30, "power slider"),
+    "LED_Kingbright_APA1606_1.6x0.6mm_Horizontal": (22.0, 1.20, "IR emitter"),
+    "USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A": (36.0, 3.67, "USB-C"),
+    "LED_Kingbright_APFA3010_3x1.5mm_Horizontal": (48.0, 0.90, "status LED"),
+}
+
+# The two tact switches, by the net each one pulls down: BOOT sits inboard of
+# RESET so the finger that reaches the corner finds RESET first.
+# hp42s.ato declares sw_reset before sw_boot, and atopile hands out
+# designators in declaration order, so the LOWER reference number is RESET.
+TACT_FOOTPRINT = "SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010"
+TACT_ORDER = [(66.0, 1.50, "reset"), (57.0, 1.50, "boot")]
+
+# Both LEDs are the edge parts that are NOT rotated 180. Their lens faces are
+# the -y end of the body, so at 0 degrees they already look at the top edge;
+# turning them round would aim them into the middle of the board. The IR lens
+# ends up 0.30 mm inside the board edge and the RGB one 0.20 mm.
+NO_FLIP = {
+    "LED_Kingbright_APA1606_1.6x0.6mm_Horizontal",
+    "LED_Kingbright_APFA3010_3x1.5mm_Horizontal",
 }
 
 
@@ -141,11 +167,27 @@ def place_edge(board):
         if fp.GetLayer() != pcbnew.B_Cu:
             fp.SetLayerAndFlip(pcbnew.B_Cu)
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
+        fp.SetOrientationDegrees(0 if name in NO_FLIP else 180)
+        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
+        found += 1
+    # The two tact switches share a footprint, so they go by reference order
+    # rather than by name: lowest number is RESET, see TACT_ORDER above.
+    tacts = sorted(
+        (fp for fp in board.GetFootprints()
+         if str(fp.GetFPID().GetLibItemName()) == TACT_FOOTPRINT),
+        key=lambda fp: int("".join(c for c in fp.GetReference() if c.isdigit()) or 0),
+    )
+    for fp, (x, y, label) in zip(tacts, TACT_ORDER):
+        if fp.GetLayer() != pcbnew.B_Cu:
+            fp.SetLayerAndFlip(pcbnew.B_Cu)
+        fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
         fp.SetOrientationDegrees(180)
         print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
         found += 1
-    if found != len(EDGE_PARTS):
-        print(f"top edge: placed {found} of {len(EDGE_PARTS)} -- check the netlist import")
+
+    expected = len(EDGE_PARTS) + len(TACT_ORDER)
+    if found != expected:
+        print(f"top edge: placed {found} of {expected} -- check the netlist import")
     return found
 
 

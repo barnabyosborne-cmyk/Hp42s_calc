@@ -26,6 +26,7 @@ module Power:
     signal cc1
     signal cc2
     signal chg_stat
+    signal chg_stat2
     signal i2c_sda
     signal i2c_scl
     signal reg_en
@@ -92,27 +93,55 @@ module Power:
     chg.GND ~ gnd
     chg.PAD ~ gnd
     chg.CE_N ~ gnd          # charging always enabled
-    chg.CHG_N ~ chg_stat
+    chg.STAT1 ~ chg_stat
+    chg.STAT2 ~ chg_stat2
 
-    # ISET sets fast-charge current. Size for 0.5 C of the cell actually
-    # fitted -- 825 mA for the 1650 mAh cell -- from the datasheet's K_ISET,
-    # which has to be read before this value is real.
+    # ILIM/VSET is one pin doing two jobs. 18k sets the battery regulation
+    # voltage to 4.2 V AND the input current limit to 500 mA -- TI's own
+    # worked example, datasheet section 7.2.2.1. 500 mA is what any USB port
+    # gives without negotiation, and nothing here reads the CC lines to ask
+    # for more.
+    r_ilim_vset = new Resistor
+    r_ilim_vset.value = "18k 1%"
+    r_ilim_vset.p1 ~ chg.ILIM_VSET
+    r_ilim_vset.p2 ~ gnd
+
+    # ISET sets fast charge current: ICHG = K_ISET / R_ISET, K_ISET = 300 AOhm.
+    # 750 ohm gives 400 mA, deliberately BELOW the 500 mA input limit. If the
+    # two were equal the input DPM loop would sit on its threshold and
+    # regulate continuously the moment the calculator drew anything. 400 mA
+    # is about 0.24 C on the 1650 mAh cell, so roughly four and a half hours
+    # from flat, which is fine for something that charges overnight.
     r_iset = new Resistor
-    r_iset.value = "TBD -- size for 0.5C from BQ25185 K_ISET"
+    r_iset.value = "750R 1%"
     r_iset.p1 ~ chg.ISET
     r_iset.p2 ~ gnd
 
-    # ILIM strapped for a 500 mA input limit, which is what a bare USB port
-    # will give without negotiation.
-    r_ilim = new Resistor
-    r_ilim.value = "TBD -- 500 mA input limit"
-    r_ilim.p1 ~ chg.ILIM
-    r_ilim.p2 ~ gnd
+    # TS/MR. This one is not optional and was missing: with the pin floating
+    # the internal clamp holds it at VTS_CLAMP, the charger reads a
+    # temperature fault and refuses to charge. The datasheet's instruction
+    # for an unused TS is exactly this, 10k to ground (section 6.3.9.1).
+    #
+    # The better answer for a LiPo sealed inside a resin case is a real
+    # 10k B3435 NTC taped to the cell in place of this resistor -- same two
+    # pads, no layout change. Worth doing on the final board.
+    r_ts = new Resistor
+    r_ts.value = "10k"
+    r_ts.p1 ~ chg.TS_MR
+    r_ts.p2 ~ gnd
 
-    r_chg_pu = new Resistor
-    r_chg_pu.value = "100k"
-    r_chg_pu.p1 ~ chg_stat
-    r_chg_pu.p2 ~ v3v3
+    # Both status pins are open-drain and need pulling up to be read.
+    # STAT1/STAT2 together give four states: charging, done, recoverable
+    # fault, latched fault.
+    r_stat1_pu = new Resistor
+    r_stat1_pu.value = "100k"
+    r_stat1_pu.p1 ~ chg_stat
+    r_stat1_pu.p2 ~ v3v3
+
+    r_stat2_pu = new Resistor
+    r_stat2_pu.value = "100k"
+    r_stat2_pu.p1 ~ chg_stat2
+    r_stat2_pu.p2 ~ v3v3
 
     cell = new Battery
     cell.p ~ bat
@@ -135,26 +164,47 @@ module Power:
     reg.VIN ~ sys
     reg.VOUT ~ v3v3
     reg.EN ~ reg_en
-    reg.VSEL ~ gnd          # fixed 3.3 V; tie high only for dynamic scaling
     reg.GND ~ gnd
     reg.PAD ~ gnd
 
-    # The one fast node on the board. Keep this loop under a few mm-squared
-    # and away from the panel's SPI.
+    # SEL low selects VO(1), which CFG3 sets. Tied hard to ground rather
+    # than strapped: VO(2) is 3.6 V below, and 3.6 V on the panel's VCI is
+    # at its absolute maximum. There is no version of this design where we
+    # want SEL high, so do not leave it reachable.
+    reg.SEL ~ gnd
+
+    # The one fast node on the board besides the panel's booster. Keep this
+    # loop under a few mm-squared and away from the panel's SPI.
     l_sw = new Inductor
     l_sw.value = "2.2u"
-    l_sw.p1 ~ reg.L1
-    l_sw.p2 ~ reg.L2
+    l_sw.p1 ~ reg.LX1
+    l_sw.p2 ~ reg.LX2
 
-    r_fb_top = new Resistor
-    r_fb_top.value = "TBD -- divider for 3.3 V"
-    r_fb_top.p1 ~ v3v3
-    r_fb_top.p2 ~ reg.FB
+    # Output voltage is set by resistors, not a feedback divider -- this
+    # part has no FB pin. All three CFG pins must be terminated; the
+    # datasheet says none may be left open.
+    #
+    # CFG3 = 16.2k -> VO(1) = 3.3 V, which is what SEL low selects.
+    # Datasheet table 7-3, and 1% is a requirement there, not a preference.
+    r_cfg3 = new Resistor
+    r_cfg3.value = "16.2k 1%"
+    r_cfg3.p1 ~ reg.CFG3
+    r_cfg3.p2 ~ gnd
 
-    r_fb_bot = new Resistor
-    r_fb_bot.value = "TBD -- divider for 3.3 V"
-    r_fb_bot.p1 ~ reg.FB
-    r_fb_bot.p2 ~ gnd
+    # CFG1 and CFG2 set VO(2) and the input current limit. We never select
+    # VO(2), but the pins still have to be defined, so: 1.15k puts VO(2) at
+    # its lowest setting and 8.25k sets the input current limit to
+    # unlimited, which is the setting that cannot surprise us whichever
+    # configuration the part reads. Datasheet table 7-2.
+    r_cfg1 = new Resistor
+    r_cfg1.value = "1.15k 1%"
+    r_cfg1.p1 ~ reg.CFG1
+    r_cfg1.p2 ~ gnd
+
+    r_cfg2 = new Resistor
+    r_cfg2.value = "8.25k 1%"
+    r_cfg2.p1 ~ reg.CFG2
+    r_cfg2.p2 ~ gnd
 
     c_out = new Capacitor
     c_out.value = "22u"
@@ -178,10 +228,17 @@ module Power:
     # pull-ups. The MAX17048 input thresholds are fixed rather than
     # VDD-referenced, so this should be fine, but read the DC table.
     gauge.VDD ~ bat
-    gauge.CELL ~ bat
     gauge.SDA ~ i2c_sda
     gauge.SCL ~ i2c_scl
     gauge.GND ~ gnd
+    gauge.CTG ~ gnd         # datasheet: "connect to ground"
+    gauge.QSTRT ~ gnd       # datasheet: "connect to GND if not used"
+    gauge.PAD ~ gnd
+    # CELL is left unconnected on purpose. On the MAX17048 it is not
+    # internally connected at all -- VDD is the sense input. It is the
+    # 2-cell MAX17049 that uses CELL, and wiring this board as if it were
+    # one would read a battery that is not there.
+    #
     # ALRT_N is left unconnected. Bring it to a spare GPIO only if you want
     # low-battery interrupts rather than polling.
 

@@ -1,4 +1,4 @@
-from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide
+from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide, RGBLedSide
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
@@ -40,6 +40,9 @@ module HP42S:
     signal uart0_tx
     signal uart0_rx
     signal boot
+    signal led_r
+    signal led_g
+    signal led_b
     signal en
 
     power = new Power
@@ -107,6 +110,27 @@ module HP42S:
     sw_reset.b ~ gnd
     sw_reset.mp ~ gnd
 
+    # BOOT, beside it on the top edge. This is the recovery path and there is
+    # no other one.
+    #
+    # A dev board gets away without a BOOT button because its USB-UART bridge
+    # wiggles EN and IO0 from the host, and this board has no bridge -- the
+    # S3 drives USB itself. The moment the firmware claims the USB OTG
+    # peripheral for mass storage, the USB-Serial/JTAG path that esptool
+    # could otherwise reset through is no longer on those pins. And if the
+    # firmware is broken enough not to enumerate at all, nothing on the host
+    # can reach the chip.
+    #
+    # So: hold BOOT, tap RESET, release BOOT, and the ROM bootloader comes up
+    # no matter what is in flash. Without this button that sequence needs the
+    # case open and a wire on TP8.
+    #
+    # Recess it deeper than RESET. It is pressed roughly never.
+    sw_boot = new TactSwitchSide
+    sw_boot.a ~ boot
+    sw_boot.b ~ gnd
+    sw_boot.mp ~ gnd
+
     c_mcu = new Capacitor
     c_mcu.value = "100n"
     c_mcu.p1 ~ v3v3
@@ -120,6 +144,7 @@ module HP42S:
     mcu.IO17 ~ power.i2c_sda
     mcu.IO18 ~ power.i2c_scl
     mcu.IO48 ~ power.chg_stat
+    mcu.IO15 ~ power.chg_stat2
 
     # --- keypad: columns on RTC pins, rows on ordinary GPIO -------------------
     mcu.IO1 ~ keypad.col0
@@ -192,6 +217,43 @@ module HP42S:
     mcu.IO47 ~ ir_led
     r_ir_gate.p1 ~ ir_led
     r_ir_gate.p2 ~ q_ir.gate
+
+    # --- status LED ----------------------------------------------------------
+    # Top edge, side-emitting, next to the two buttons. Driven HIGH to light,
+    # with the common pin on ground, so every channel is dark whenever the
+    # pins are high-impedance -- at reset, during boot, and in deep sleep.
+    # That matters more than it sounds: an always-on indicator would be tens
+    # of milliamps against a 25 uA sleep budget and would turn fifteen months
+    # into about a week.
+    #
+    # IO39 and IO40 are two of the four JTAG pins. Taking them means giving
+    # up hardware JTAG, which this board had already lost in practice: the
+    # USB pins go to the OTG peripheral for mass storage, and debugging runs
+    # over the UART0 test pads. IO16 is simply spare.
+    #
+    # 1k per channel is about 2 mA, which is plenty behind a case window and
+    # keeps the total under 6 mA with all three lit.
+    mcu.IO16 ~ led_r
+    mcu.IO39 ~ led_g
+    mcu.IO40 ~ led_b
+
+    led_rgb = new RGBLedSide
+    led_rgb.p1 ~ gnd        # common cathode -- CONFIRM against the part
+
+    r_led_r = new Resistor
+    r_led_r.value = "1k"
+    r_led_r.p1 ~ led_r
+    r_led_r.p2 ~ led_rgb.p2
+
+    r_led_g = new Resistor
+    r_led_g.value = "1k"
+    r_led_g.p1 ~ led_g
+    r_led_g.p2 ~ led_rgb.p3
+
+    r_led_b = new Resistor
+    r_led_b.value = "1k"
+    r_led_b.p1 ~ led_b
+    r_led_b.p2 ~ led_rgb.p4
 
     # --- test pads -----------------------------------------------------------
     tp_bat = new TestPad

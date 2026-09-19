@@ -99,55 +99,85 @@ component DomeKey85:
 # --- power -----------------------------------------------------------------
 
 component BQ25185:
-    # Single-cell linear charger with power path. 4 uA quiescent.
-    # DSQ is TI's own package code for this part, so this is the right land
-    # pattern rather than a lookalike. A _ThermalVias variant exists if the
-    # charger runs warm.
+    # Single-cell linear charger with power path, DLH 10-pin WSON.
+    # Pin numbers and names from the datasheet Barnaby supplied
+    # (SLUSF65B, table 4-1). Two corrections came out of that reading:
+    # there is no "CHG" pin -- status is TWO open-drain pins, STAT1 and
+    # STAT2, which between them encode four states -- and ILIM and VSET are
+    # one pin, programmed by a single resistor.
+    #
+    # Footprint: TI's DLH0010A land pattern (drawing 4226298/A) is 0.4 mm
+    # pitch with a 1.5 x 0.9 mm thermal pad, which is exactly what KiCad's
+    # DSQ0010A footprint provides. Same outline under two TI package codes.
     footprint = "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
     designator_prefix = "U"
     value = "BQ25185"
-    signal IN   ~ pin IN
-    signal SYS  ~ pin SYS
-    signal BAT  ~ pin BAT
-    signal ISET ~ pin ISET
-    signal ILIM ~ pin ILIM
-    signal CE_N ~ pin CE
-    signal CHG_N ~ pin CHG
-    signal GND  ~ pin GND
-    signal PAD  ~ pin PAD
+    signal SYS       ~ pin 1
+    signal BAT       ~ pin 2
+    signal STAT2     ~ pin 3
+    signal CE_N      ~ pin 4
+    signal GND       ~ pin 5
+    signal TS_MR     ~ pin 6
+    signal ILIM_VSET ~ pin 7
+    signal ISET      ~ pin 8
+    signal STAT1     ~ pin 9
+    signal IN        ~ pin 10
+    signal PAD       ~ pin 11
 
 component TPS63900:
-    # Buck-boost to 3.3 V. 75 nA quiescent. Mandatory: the panel's VCI
+    # Buck-boost to 3.3 V, 75 nA quiescent. Mandatory: the panel's VCI
     # cannot take a 4.2 V cell directly.
-    # TODO: no footprint yet. KiCad has no VQFN-12 in 2.5 x 3 mm -- its only
-    # VQFN-12 is 4 x 4. Pull TI's own land pattern for the TPS63900 and drop
-    # it in elec/footprints/hp42s.pretty under this name.
-    footprint = "hp42s:TPS63900_VQFN-12_2.5x3mm"
+    #
+    # There is NO feedback divider on this part -- I had invented one. The
+    # output voltage is set by resistors on CFG1/CFG2/CFG3 and chosen
+    # between by SEL, and all three CFG pins must not be left open.
+    #
+    # Package is DSK0010A, a 2.5 x 2.5 mm WSON-10, not the VQFN-12 this
+    # entry used to claim. The footprint is generated from TI's own land
+    # pattern by tools/gen_ic_footprints.py.
+    footprint = "hp42s:TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm"
     designator_prefix = "U"
-    value = "TPS63900"
-    signal VIN  ~ pin VIN
-    signal VOUT ~ pin VOUT
-    signal L1   ~ pin L1
-    signal L2   ~ pin L2
-    signal VSEL ~ pin VSEL
-    signal FB   ~ pin FB
-    signal EN   ~ pin EN
-    signal GND  ~ pin GND
-    signal PAD  ~ pin PAD
+    value = "TPS63900DSK"
+    signal EN   ~ pin 1
+    signal SEL  ~ pin 2
+    signal CFG1 ~ pin 3
+    signal CFG2 ~ pin 4
+    signal CFG3 ~ pin 5
+    signal VOUT ~ pin 6
+    signal LX2  ~ pin 7
+    signal GND  ~ pin 8
+    signal LX1  ~ pin 9
+    signal VIN  ~ pin 10
+    signal PAD  ~ pin 11
 
 component MAX17048:
-    # ModelGauge fuel gauge, I2C, no sense resistor.
-    # TODO: no footprint yet. Package_BGA has Maxim's WLP-9 and WLP-12 but no
-    # WLP-8. Take the land pattern from the MAX17048 datasheet.
-    footprint = "hp42s:MAX17048_WLP-8_1.2x0.9mm"
+    # ModelGauge fuel gauge, I2C, no sense resistor. TDFN-8, 2 x 2 mm.
+    #
+    # The WLP is a 1.2 x 0.9 mm eight-bump wafer-level part and there is no
+    # reflowing that by hand. TDFN is the same die in a package you can
+    # actually place, and Maxim sells both.
+    #
+    # CHECK BEFORE FAB: the datasheet points at Maxim land pattern 90-0065
+    # rather than drawing it, and that document is not in the PDF. KiCad's
+    # generic TDFN-8 2 x 2 mm is almost certainly right -- the package code
+    # T822 says 8 pins, 2 x 2 mm -- but the exposed pad size is the part
+    # that varies between vendors and it has not been confirmed.
+    #
+    # On the MAX17048 specifically, VDD is the sense input and goes to the
+    # cell; CELL is not internally connected at all. It is the MAX17049,
+    # the 2-cell part, that uses CELL. Easy to wire the wrong one.
+    footprint = "Package_DFN_QFN:TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm"
     designator_prefix = "U"
-    value = "MAX17048"
-    signal VDD  ~ pin VDD
-    signal CELL ~ pin CELL
-    signal SDA  ~ pin SDA
-    signal SCL  ~ pin SCL
-    signal ALRT_N ~ pin ALRT
-    signal GND  ~ pin GND
+    value = "MAX17048G+T10"
+    signal CTG   ~ pin 1
+    signal CELL  ~ pin 2
+    signal VDD   ~ pin 3
+    signal GND   ~ pin 4
+    signal ALRT_N ~ pin 5
+    signal QSTRT ~ pin 6
+    signal SCL   ~ pin 7
+    signal SDA   ~ pin 8
+    signal PAD   ~ pin 9
 
 component USBCReceptacle:
     # 16-pin USB-C 2.0 receptacle, HCTL HC-TYPE-C-16P-01A.
@@ -334,6 +364,8 @@ component ESP32S3MINI1:
     signal IO12 ~ pin 16
     signal IO13 ~ pin 17
     signal IO14 ~ pin 18
+    signal IO15 ~ pin 19
+    signal IO16 ~ pin 20
     signal IO17 ~ pin 21
     signal IO18 ~ pin 22
     signal IO21 ~ pin 25
@@ -343,6 +375,8 @@ component ESP32S3MINI1:
     signal IO36 ~ pin 32
     signal IO37 ~ pin 33
     signal IO38 ~ pin 34
+    signal IO39 ~ pin 35
+    signal IO40 ~ pin 36
     signal IO47 ~ pin 27
     signal IO48 ~ pin 30
     signal USB_DM ~ pin 23
@@ -419,6 +453,30 @@ component EPDConnector:
     signal VGL   ~ pin 23
     signal VCOM  ~ pin 24
 
+component RGBLedSide:
+    # Side-emitting RGB status indicator, on the top edge next to the two
+    # recovery buttons. Kingbright APFA3010 land pattern, 3.0 x 1.5 mm,
+    # lens looking out of one long side.
+    #
+    # COMMON CATHODE, and that is a requirement rather than a preference:
+    # the three channels are driven HIGH to light, so nothing here can pull
+    # a pin up at reset. A common-anode part on these pads would put a weak
+    # pull-up on three GPIOs during strapping, which is how you get a module
+    # that boots into the wrong flash voltage.
+    #
+    # CHECK BEFORE ORDERING: this is the one thing in the file I could not
+    # verify. KiCad's footprint carries no pin names and Kingbright's site
+    # returns 403 from here, so which pad is the common and which order the
+    # three dice run in is unconfirmed, and it varies between manufacturers
+    # of this outline. One table to read before you place the order.
+    footprint = "LED_SMD:LED_Kingbright_APFA3010_3x1.5mm_Horizontal"
+    designator_prefix = "D"
+    value = "RGB side-view, common cathode"
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2
+    signal p3 ~ pin 3
+    signal p4 ~ pin 4
+
 component Buzzer:
     footprint = "Buzzer_Beeper:Buzzer_Murata_PKLCS1212E"
     designator_prefix = "LS"
@@ -428,9 +486,26 @@ component Buzzer:
 
 component IRLED:
     # HP-82240 infrared printing, 940 nm.
+    # SIDE-EMITTING, so the beam leaves through the top edge of the case the
+    # way the original 42S's does. A top-emitting 0805 would fire straight up
+    # into the back shell, which is what this was before.
+    #
+    # The land pattern is KiCad's right-angled 1.6 x 1.2 mm part. What goes on
+    # it is a 940 nm side-view emitter in that body -- and I have NOT been
+    # able to confirm that the VSMB2943GX01 in the BOM is side-emitting. I put
+    # that number there from memory and Vishay's site is not reachable from
+    # here. Check the package drawing before ordering, or pick any 940 nm
+    # right-angle emitter in a 1.6 x 0.8 mm body; nothing else in the circuit
+    # cares which one.
+    #
+    # The alternative, if range disappoints: a through-hole 3 mm IR LED lying
+    # on its side with the leads bent, aimed at the top edge. Far more output
+    # and a tighter beam, at the cost of one hand-fitted part and about 6 mm
+    # of board depth. The HP-82240B is not fussy about either.
+    #
     # KiCad numbers LED pads the same way as diodes: 1 = cathode, 2 = anode.
-    footprint = "LED_SMD:LED_0805_2012Metric"
+    footprint = "LED_SMD:LED_Kingbright_APA1606_1.6x0.6mm_Horizontal"
     designator_prefix = "D"
-    value = "IR 940 nm"
+    value = "IR 940 nm side-view"
     signal cathode ~ pin 1
     signal anode ~ pin 2

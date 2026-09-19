@@ -1,7 +1,16 @@
-# The top edge: USB-C, power slider, reset
+# The top edge
 
-All three sit on the 80 x 15 mm top face of the case, and all three are on the
-**back** of the board.
+Six things come out of the 80 x 15 mm top face of the case, and all six are on
+the **back** of the board:
+
+| | part | why it is here |
+|---|---|---|
+| power slider | Shouhan MSK-12C02 | daily use |
+| IR emitter | 940 nm side-view, 1.6 x 0.8 mm | the original 42S's IR window is on this edge |
+| USB-C | HCTL HC-TYPE-C-16P-01A | charging and file transfer |
+| status LED | RGB side-view, Kingbright APFA3010 outline | boot, error, nominal |
+| BOOT | Alps SKRTLAE010 | recovery |
+| RESET | Alps SKRTLAE010 | recovery |
 
 ## Why the back
 
@@ -13,7 +22,9 @@ Six millimetres is not enough. Measured from KiCad's own courtyards:
 
 | part | reaches into the board |
 |------|------------------------|
-| Alps SKRTLAE010 reset button | 3.55 mm |
+| RGB status LED | 2.00 mm |
+| IR emitter | 2.10 mm |
+| Alps SKRTLAE010 buttons | 3.55 mm |
 | Shouhan MSK-12C02 slider | 5.15 mm |
 | USB-C receptacle | 8.57 mm |
 
@@ -117,21 +128,64 @@ Recess it in the case. This is not a key. A reset button you can press while
 holding the calculator is a reset button you will press while holding the
 calculator.
 
+## Why a BOOT button as well as RESET
+
+Because it is the only recovery path, and without it the recovery path is a
+screwdriver.
+
+A dev board gets away without a BOOT button because its USB-UART bridge
+wiggles EN and IO0 from the host, which is how esptool puts the chip into
+download mode on its own. This board has no bridge -- the S3 drives USB
+itself. The moment the firmware claims the USB OTG peripheral for mass
+storage, the USB-Serial/JTAG path that esptool could otherwise reset through
+is no longer on those pins. And if the firmware is broken enough not to
+enumerate at all, nothing on the host can reach the chip by any route.
+
+Hold BOOT, tap RESET, release BOOT, and the ROM bootloader comes up regardless
+of what is in flash. Recess BOOT deeper than RESET; it is pressed roughly
+never, and the two should not feel alike.
+
+## The status LED
+
+Side-emitting RGB, driven HIGH to light with its common pin on ground. That
+polarity is not arbitrary: three GPIOs pulled up through LEDs would sit on the
+module during strapping, and some of the pins that would be convenient to use
+are exactly the sort that decide flash voltage at reset. Driven high, every
+channel is dark whenever the pins are high-impedance -- at reset, through
+boot, and in deep sleep.
+
+That last one matters more than it sounds. An indicator left on is tens of
+milliamps against a 25 uA sleep budget, which turns fifteen months into about
+a week. Blink it during boot and on error; leave it dark in normal use.
+
+It costs three GPIOs: IO16, which was spare, and IO39 and IO40, which are two
+of the four JTAG pins. That gives up hardware JTAG, which this board had
+already lost in practice -- the USB pins go to the OTG peripheral, and
+debugging runs over the UART0 test pads. 1k per channel is about 2 mA, plenty
+behind a case window.
+
 ## Placement
 
-`tools/place_keypad.py` now places all three, by footprint rather than by
-reference designator, since atopile renumbers SW39/SW40 whenever a part is
-added. Y is depth from the board's top edge.
+`tools/place_keypad.py` places all six. Y is depth from the board's top edge.
 
-| part | x | y | actuator reaches |
-|------|---|---|------------------|
-| slider | 14.0 | 2.30 | y = -0.80 |
-| USB-C | 38.0 | 3.67 | y = 0.00 (mouth flush) |
-| reset | 62.0 | 1.50 | y = -0.54 |
+| part | x | y | reaches |
+|------|---|---|---------|
+| power slider | 11.0 | 2.30 | knob to y = -0.80 |
+| IR emitter | 22.0 | 1.20 | lens 0.30 mm inside the edge |
+| USB-C | 36.0 | 3.67 | mouth flush at y = 0 |
+| status LED | 48.0 | 0.90 | lens 0.20 mm inside the edge |
+| BOOT | 57.0 | 1.50 | plunger to y = -0.54 |
+| RESET | 66.0 | 1.50 | plunger to y = -0.54 |
 
-Each is rotated 180 degrees so the actuator faces the edge, and each leaves
-about 0.8 mm of actuator standing proud of the board for the case wall to
-capture.
+The tightest gap between any two courtyards is 2.4 mm, between BOOT and RESET.
+There is 6.6 mm of board left of the slider and 7.2 mm right of RESET.
+
+The four mechanical parts are rotated 180 degrees so their actuators face the
+edge, each leaving about 0.8 mm proud for the case wall to capture. **The two
+LEDs are not rotated** -- their lenses are already the -y end of the body, and
+turning them round would aim them into the middle of the board. Both sit just
+inside the edge rather than proud of it, so the case needs a window rather
+than a slot: clear for the IR, diffused for the RGB.
 
 One thing to watch: this USB-C receptacle anchors with through-hole shield
 legs, so it leaves solder fillets on the front of the board, under the panel.
