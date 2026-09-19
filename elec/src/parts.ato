@@ -185,14 +185,21 @@ component USBCReceptacle:
 
 component TPD4E05U06:
     # 4-channel ESD array for the USB data and CC lines.
-    footprint = "Package_TO_SOT_SMD:SOT-23-6"
+    #
+    # USON-10, NOT SOT-23-6 -- I had this wrong. The TPD4E05U06DQA that KiCad
+    # carries a symbol for is a 2.5 x 1.0 mm USON-10, and the pin names below
+    # are that symbol's (D1+/D1-/D2+/D2-), which read oddly here only because
+    # the part is sold for USB 3.0 pairs. They are four independent clamps.
+    footprint = "Package_SON:USON-10_2.5x1.0mm_P0.5mm"
     designator_prefix = "U"
-    value = "TPD4E05U06"
-    signal ch1 ~ pin CH1
-    signal ch2 ~ pin CH2
-    signal ch3 ~ pin CH3
-    signal ch4 ~ pin CH4
-    signal GND ~ pin GND
+    value = "TPD4E05U06DQA"
+    signal ch1 ~ pin 1      # D1+
+    signal ch2 ~ pin 2      # D1-
+    signal ch3 ~ pin 4      # D2+
+    signal ch4 ~ pin 5      # D2-
+    signal GND1 ~ pin 3
+    signal GND2 ~ pin 8
+    # Pins 6, 7, 9, 10 are no-connects on this part.
 
 component Battery:
     # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh. Two-pad JST or soldered tabs.
@@ -297,45 +304,78 @@ component ESP32S3MINI1:
     # ESP32-S3-MINI-1-N8: 8 MB flash, NO PSRAM.
     # The no-PSRAM part matters. Octal PSRAM would take IO33-IO37, which is
     # exactly where the panel interface lives below.
-    # SUBSTITUTE, CONFIRM BEFORE FAB. KiCad ships no ESP32-S3-MINI-1 footprint.
-    # The S2-MINI-1 is the same MINI-1 module package and should drop straight
-    # in, but "should" is doing work in that sentence -- check the pad table in
-    # the S3-MINI-1 datasheet against this footprint before you order boards.
+    #
+    # PIN NUMBERS, and they are not guessed: they come from KiCad's own
+    # ESP32-S3-MINI-1 symbol (RF_Module.kicad_symdir/ESP32-S3-MINI-1.kicad_sym).
+    # That symbol also settles the footprint question -- KiCad's S3-MINI-1
+    # symbol points at the S2-MINI-1 land pattern itself, because the MINI-1
+    # module package is shared across the family. So this is what KiCad does,
+    # not a substitution of mine.
+    #
+    # Note pins 23 and 24: the symbol calls them USB_D- and USB_D+ rather than
+    # IO19 and IO20. Same pins, and the USB names are the honest ones here
+    # since that is all we use them for.
     footprint = "RF_Module:ESP32-S2-MINI-1"
     designator_prefix = "U"
     value = "ESP32-S3-MINI-1-N8"
-    signal V3P3 ~ pin "3V3"
-    signal GND  ~ pin GND
-    signal EN   ~ pin EN
-    signal IO0  ~ pin IO0
-    signal IO1  ~ pin IO1
-    signal IO2  ~ pin IO2
-    signal IO4  ~ pin IO4
-    signal IO5  ~ pin IO5
-    signal IO6  ~ pin IO6
-    signal IO7  ~ pin IO7
-    signal IO8  ~ pin IO8
-    signal IO9  ~ pin IO9
-    signal IO10 ~ pin IO10
-    signal IO11 ~ pin IO11
-    signal IO12 ~ pin IO12
-    signal IO13 ~ pin IO13
-    signal IO14 ~ pin IO14
-    signal IO17 ~ pin IO17
-    signal IO18 ~ pin IO18
-    signal IO19 ~ pin IO19
-    signal IO20 ~ pin IO20
-    signal IO21 ~ pin IO21
-    signal IO33 ~ pin IO33
-    signal IO34 ~ pin IO34
-    signal IO35 ~ pin IO35
-    signal IO36 ~ pin IO36
-    signal IO37 ~ pin IO37
-    signal IO38 ~ pin IO38
-    signal IO43 ~ pin TXD0
-    signal IO44 ~ pin RXD0
-    signal IO47 ~ pin IO47
-    signal IO48 ~ pin IO48
+    signal V3P3 ~ pin 3
+    signal EN   ~ pin 45
+    signal IO0  ~ pin 4
+    signal IO1  ~ pin 5
+    signal IO2  ~ pin 6
+    signal IO4  ~ pin 8
+    signal IO5  ~ pin 9
+    signal IO6  ~ pin 10
+    signal IO7  ~ pin 11
+    signal IO8  ~ pin 12
+    signal IO9  ~ pin 13
+    signal IO10 ~ pin 14
+    signal IO11 ~ pin 15
+    signal IO12 ~ pin 16
+    signal IO13 ~ pin 17
+    signal IO14 ~ pin 18
+    signal IO17 ~ pin 21
+    signal IO18 ~ pin 22
+    signal IO21 ~ pin 25
+    signal IO33 ~ pin 28
+    signal IO34 ~ pin 29
+    signal IO35 ~ pin 31
+    signal IO36 ~ pin 32
+    signal IO37 ~ pin 33
+    signal IO38 ~ pin 34
+    signal IO47 ~ pin 27
+    signal IO48 ~ pin 30
+    signal USB_DM ~ pin 23
+    signal USB_DP ~ pin 24
+    signal IO43 ~ pin 39
+    signal IO44 ~ pin 40
+
+    # 24 ground pads. Every one is tied in hp42s.ato; leaving the belly pads
+    # floating on a module with a PCB antenna is not an option.
+    signal GND1  ~ pin 1
+    signal GND2  ~ pin 2
+    signal GND42 ~ pin 42
+    signal GND43 ~ pin 43
+    signal GND46 ~ pin 46
+    signal GND47 ~ pin 47
+    signal GND48 ~ pin 48
+    signal GND49 ~ pin 49
+    signal GND50 ~ pin 50
+    signal GND51 ~ pin 51
+    signal GND52 ~ pin 52
+    signal GND53 ~ pin 53
+    signal GND54 ~ pin 54
+    signal GND55 ~ pin 55
+    signal GND56 ~ pin 56
+    signal GND57 ~ pin 57
+    signal GND58 ~ pin 58
+    signal GND59 ~ pin 59
+    signal GND60 ~ pin 60
+    signal GND61 ~ pin 61
+    signal GND62 ~ pin 62
+    signal GND63 ~ pin 63
+    signal GND64 ~ pin 64
+    signal GND65 ~ pin 65
 
 component EPDConnector:
     # 24-pin 0.5 mm FPC, bottom contact, for the Good Display GDEY0266T90.
@@ -388,8 +428,9 @@ component Buzzer:
 
 component IRLED:
     # HP-82240 infrared printing, 940 nm.
+    # KiCad numbers LED pads the same way as diodes: 1 = cathode, 2 = anode.
     footprint = "LED_SMD:LED_0805_2012Metric"
     designator_prefix = "D"
     value = "IR 940 nm"
-    signal anode ~ pin A
-    signal cathode ~ pin K
+    signal cathode ~ pin 1
+    signal anode ~ pin 2

@@ -49,7 +49,30 @@ module HP42S:
     keypad = new Keypad
 
     mcu = new ESP32S3MINI1
-    mcu.GND ~ gnd
+    mcu.GND1 ~ gnd
+    mcu.GND2 ~ gnd
+    mcu.GND42 ~ gnd
+    mcu.GND43 ~ gnd
+    mcu.GND46 ~ gnd
+    mcu.GND47 ~ gnd
+    mcu.GND48 ~ gnd
+    mcu.GND49 ~ gnd
+    mcu.GND50 ~ gnd
+    mcu.GND51 ~ gnd
+    mcu.GND52 ~ gnd
+    mcu.GND53 ~ gnd
+    mcu.GND54 ~ gnd
+    mcu.GND55 ~ gnd
+    mcu.GND56 ~ gnd
+    mcu.GND57 ~ gnd
+    mcu.GND58 ~ gnd
+    mcu.GND59 ~ gnd
+    mcu.GND60 ~ gnd
+    mcu.GND61 ~ gnd
+    mcu.GND62 ~ gnd
+    mcu.GND63 ~ gnd
+    mcu.GND64 ~ gnd
+    mcu.GND65 ~ gnd
     mcu.V3P3 ~ v3v3
 
     # --- reset / enable ------------------------------------------------------
@@ -90,8 +113,8 @@ module HP42S:
     c_mcu.p2 ~ gnd
 
     # --- USB -----------------------------------------------------------------
-    mcu.IO19 ~ power.usb_dm
-    mcu.IO20 ~ power.usb_dp
+    mcu.USB_DM ~ power.usb_dm
+    mcu.USB_DP ~ power.usb_dp
 
     # --- I2C and charge status ----------------------------------------------
     mcu.IO17 ~ power.i2c_sda

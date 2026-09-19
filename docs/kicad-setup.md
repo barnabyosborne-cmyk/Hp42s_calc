@@ -50,53 +50,41 @@ Tools → Scripting Console:
 exec(open('tools/place_keypad.py').read())
 ```
 
+See `docs/pcb-process.md` for the whole route from here to boards in your hand.
+
 That puts the 38 dome sites on the measured grid, flips USB-C, the power
 slider and the reset button onto the back at the top edge, and draws the
 76 × 144 outline if Edge.Cuts is empty. See `docs/top-edge.md`.
 
-## Before you route: five parts have no pin numbers yet
+## Before you route: three parts have no pin numbers yet
 
 This is the thing to know before you start pulling ratsnest lines.
 
-KiCad matches a netlist pin to a footprint pad **by name**. Most of this
-board's parts declare their pins by the name the datasheet uses — `pin IN`,
-`pin IO33` — which is deliberate, because inventing pin numbers from memory is
-how you buy a board that does not work. The cost is that a pin called `IO33`
-matches no pad on a footprint whose pads are called `1` to `65`. Those nets
-import silently unconnected.
+KiCad matches a netlist pin to a footprint pad **by name**. Declaring a pin as
+`IO33` against a footprint whose pads are called `1` to `65` matches nothing,
+and the net imports silently unconnected — no error, just missing ratsnest.
 
-Right now these are **correct and fully connected**:
+Everything on the board is now numbered correctly **except three parts**:
 
-| | |
+| | what is missing |
 |---|---|
-| all 38 dome sites | pads 1 and 2 |
-| every resistor, capacitor, inductor | pads 1 and 2 |
-| diodes, FETs | SOT-23 / SOD-123 numbering |
-| the e-paper FPC connector `J2` | all 24 pins, from the panel spec |
-| USB-C `J1` | A1…B12 and SH, the USB-C contact names, which are what this footprint calls its pads |
-| both top-edge switches | pads 1/2/3, MP, SH |
+| `U2` BQ25185 | pin numbers — needs TI's datasheet |
+| `U3` TPS63900 | footprint *and* pin numbers — needs TI's land pattern |
+| `U4` MAX17048 | footprint *and* pin numbers — needs Analog's land pattern |
 
-These are **not**, and will show as unconnected:
+So the ratsnest after import is the MCU, the panel, its booster, USB, the
+keypad, the top-edge parts and every passive — real and routable — plus those
+three floating free. Route everything else first; they sit in the power
+corner and do not constrain the rest.
 
-| | |
-|---|---|
-| `U5` ESP32-S3-MINI-1 | needs the module's 1…65 pin table |
-| `U2` BQ25185 | needs the WSON-10 numbering |
-| `U3` TPS63900 | no footprint at all yet |
-| `U4` MAX17048 | no footprint at all yet |
-| `U1` TPD4E05U06 | needs the SOT-23-6 numbering |
-
-So the ratsnest you see after import is the keypad, the panel, the panel's
-booster, USB and the passives — real and routable — plus five parts floating
-free. Do not start routing around `U5` until its numbering lands.
+The ESP32's numbering came from KiCad's own `ESP32-S3-MINI-1` symbol rather
+than from anyone's memory, and that symbol settles the footprint question too:
+it points at `RF_Module:ESP32-S2-MINI-1` itself, because the MINI-1 package is
+shared across the family. Two other things that check fixed on the way: the
+ESD array is a USON-10, not the SOT-23-6 it had been given, and the IR LED's
+pads are numbered like a diode's rather than named A and K.
 
 ## Things to check before fab
-
-**`U5` footprint.** It uses `RF_Module:ESP32-S2-MINI-1`, because KiCad ships no
-ESP32-S3-MINI-1 footprint. The MINI-1 module package is shared across the
-family and it should be identical, but check the pad table in the S3-MINI-1
-datasheet against it before you order boards. A module that does not fit its
-land pattern is an expensive way to learn this.
 
 **`Q1` package.** The panel's boost FET is a Si1308EDL in SC-75A, and
 `Package_TO_SOT_SMD:SOT-416` is the matching land pattern. Check it against

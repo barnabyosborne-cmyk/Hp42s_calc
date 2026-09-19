@@ -75,7 +75,8 @@ module Power:
     esd.ch2 ~ usb_dm
     esd.ch3 ~ cc1
     esd.ch4 ~ cc2
-    esd.GND ~ gnd
+    esd.GND1 ~ gnd
+    esd.GND2 ~ gnd
 
     c_vbus = new Capacitor
     c_vbus.value = "1u"
