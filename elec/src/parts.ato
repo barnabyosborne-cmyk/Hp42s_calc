@@ -190,21 +190,25 @@ component MAX17048:
     signal PAD   ~ pin 9
 
 component USBCReceptacle:
-    # 16-pin USB-C 2.0 receptacle, HCTL HC-TYPE-C-16P-01A.
+    # 16-pin USB-C 2.0 receptacle, Same Sky (formerly CUI) UJ20-C-H-G-SMT-1A-
+    # P16-TR. This was an HCTL HC-TYPE-C-16P-01A until the Same Sky drawing
+    # arrived; the two are NOT interchangeable on one land pattern. See
+    # tools/gen_ic_footprints.py for what differs and docs/top-edge.md for the
+    # case numbers.
     #
     # Pin NAMES here are the USB-C contact names, because that is what the
     # footprint's pads are actually called -- A1, A4, B5 and so on, straight
     # off the connector standard. This is the rare case where the datasheet
-    # names and the KiCad pad names are the same thing.
+    # names and the footprint's pad names are the same thing.
     #
     # The two rows are what make the plug reversible: rotate the plug and A
     # swaps with B. So VBUS is four pads, GND is four pads, and D+/D- are two
     # each and get tied together for USB 2.0. CC1 and CC2 must NOT be tied --
     # they are how the sink tells the source which way round the plug went in.
     # SBU1/SBU2 are for alternate modes and stay unconnected.
-    footprint = "Connector_USB:USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A"
+    footprint = "hp42s:SameSky_UJ20-C-H-G-SMT-1A-P16_USB-C"
     designator_prefix = "J"
-    value = "USB-C 2.0 16P"
+    value = "UJ20-C-H-G-SMT-1A-P16-TR"
     signal GND_A1  ~ pin A1
     signal VBUS_A4 ~ pin A4
     signal CC1     ~ pin A5
@@ -226,11 +230,18 @@ component USBCReceptacle:
 component TPD4E05U06:
     # 4-channel ESD array for the USB data and CC lines.
     #
-    # USON-10, NOT SOT-23-6 -- I had this wrong. The TPD4E05U06DQA that KiCad
-    # carries a symbol for is a 2.5 x 1.0 mm USON-10, and the pin names below
-    # are that symbol's (D1+/D1-/D2+/D2-), which read oddly here only because
-    # the part is sold for USB 3.0 pairs. They are four independent clamps.
-    footprint = "Package_SON:USON-10_2.5x1.0mm_P0.5mm"
+    # USON-10, NOT SOT-23-6 -- I had this wrong. The TPD4E05U06DQA is a
+    # 2.5 x 1.0 mm USON-10. The pin names below read oddly here only because
+    # the part is sold for USB 3.0 pairs; they are four independent clamps.
+    #
+    # Pin numbers confirmed against TI table 4-2 in SLVSBO7O (rev. August
+    # 2024): D1+ 1, D1- 2, GND 3, D2+ 4, D2- 5, GND 8, and 6/7/9/10 are the
+    # no-connects TI puts there for straight-through routing.
+    #
+    # The land is TI's own rather than KiCad's generic USON-10, because TI
+    # draws pins 3 and 8 -- the grounds -- wider than the other eight. On an
+    # ESD part the ground return is the whole point of the part working.
+    footprint = "hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm"
     designator_prefix = "U"
     value = "TPD4E05U06DQA"
     signal ch1 ~ pin 1      # D1+
@@ -359,6 +370,21 @@ component TactSwitchSide:
     # end. Pads 1 and 2 are the contacts; MP are the mechanical anchors and
     # are not electrically part of the switch, so they go to ground for
     # strength and nothing else.
+    #
+    # From the Alps specification KRT-701, July 2017. Note that it is the
+    # text specification only -- it refers every dimension to an assembly
+    # drawing that is not in it, so the footprint below is still KiCad's and
+    # not checked against Alps. What the specification does give:
+    #
+    #   1.6 +/- 0.5 N operating force -- stiff, about ten times a keypad dome
+    #   0.2 +0.2/-0.1 mm travel
+    #   10 ms bounce new, 20 ms after 100,000 operations
+    #   12 V DC 50 mA maximum, 100,000 cycle life
+    #   reflow only: Alps will not have it hand soldered, flux wicks inside
+    #   no through holes under or beside it, for the same reason
+    #
+    # The 20 ms sets the debounce in firmware. The 1.6 N is why these two are
+    # recessed buttons on the top edge and not keys.
     footprint = "Button_Switch_SMD:SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010"
     designator_prefix = "SW"
     value = "SKRTLAE010"
@@ -373,12 +399,19 @@ component ESP32S3MINI1:
     # The no-PSRAM part matters. Octal PSRAM would take IO33-IO37, which is
     # exactly where the panel interface lives below.
     #
-    # PIN NUMBERS, and they are not guessed: they come from KiCad's own
-    # ESP32-S3-MINI-1 symbol (RF_Module.kicad_symdir/ESP32-S3-MINI-1.kicad_sym).
-    # That symbol also settles the footprint question -- KiCad's S3-MINI-1
-    # symbol points at the S2-MINI-1 land pattern itself, because the MINI-1
-    # module package is shared across the family. So this is what KiCad does,
-    # not a substitution of mine.
+    # PIN NUMBERS: checked one by one against table 3-1 of the Espressif
+    # ESP32-S3-MINI-1 & MINI-1U datasheet v1.7, not just KiCad's symbol. All
+    # 41 signals below match, including the 24 grounds (1, 2, 42, 43, 46-65).
+    #
+    # The footprint is KiCad's ESP32-S2-MINI-1 because the MINI-1 land is
+    # shared across the family, and that is now checked too: Espressif figure
+    # 11-1 asks for 60 pads of 0.4 x 0.8 mm plus 4 of 0.8 x 0.8, 0.85 mm
+    # pitch, rows 14.0 mm apart, and KiCad's file is exactly that.
+    #
+    # ANTENNA: the module has a keepout zone at the pin 46-60 end, and the
+    # footprint carries it as a real KiCad keepout. That end must hang over
+    # the board edge with no copper, no ground pour and no parts beside it.
+    # Placement has to start from this, not finish with it.
     #
     # Note pins 23 and 24: the symbol calls them USB_D- and USB_D+ rather than
     # IO19 and IO20. Same pins, and the USB names are the honest ones here
@@ -529,9 +562,26 @@ component StatusLED:
     signal red   ~ pin 3
 
 component Buzzer:
+    # Murata PKLCS1212E4001-R1, 12 x 12 x 3.0 mm, 4 kHz.
+    #
+    # This is a PIEZOELECTRIC sounder, not a magnetic transducer: a ~10 nF
+    # capacitor with a disc on it, not a coil. It was wired as a coil here
+    # until the Murata specification (JGB40-1584B) arrived, which is why the
+    # drive circuit in hp42s.ato changed with it.
+    #
+    # 75 dB minimum at 10 cm on +/-1.5 Vo-p of 4 kHz square wave, so a 3.3 V
+    # GPIO swing gets the rated level and a little over. Maximum input is
+    # +/-12.5 Vo-p, and Murata says never to leave DC across it.
+    #
+    # Land pattern is Murata's own: two 1.2 x 4.0 mm pads, inner edges 10.0
+    # apart, outer edges 12.4. KiCad's Buzzer_Murata_PKLCS1212E is exactly
+    # that, checked pad by pad, so it stays.
+    #
+    # Not sealed. It cannot be washed, so it goes on last if the board is
+    # cleaned after assembly.
     footprint = "Buzzer_Beeper:Buzzer_Murata_PKLCS1212E"
     designator_prefix = "LS"
-    value = "magnetic transducer"
+    value = "PKLCS1212E4001-R1 piezo"
     signal p ~ pin 1
     signal n ~ pin 2
 

@@ -7,7 +7,7 @@ the **back** of the board:
 |---|---|---|
 | power slider | Shouhan MSK-12C02 | daily use |
 | IR emitter | Vishay VSMB2943SLX01, 940 nm side-looking | the original 42S's IR window is on this edge |
-| USB-C | HCTL HC-TYPE-C-16P-01A | charging and file transfer |
+| USB-C | Same Sky UJ20-C-H-G-SMT-1A-P16-TR | charging and file transfer |
 | status LED | Dialight 599-0Q70-247F, red/green side-view | boot, error, nominal |
 | BOOT | Alps SKRTLAE010 | recovery |
 | RESET | Alps SKRTLAE010 | recovery |
@@ -26,7 +26,7 @@ Six millimetres is not enough. Measured from KiCad's own courtyards:
 | IR emitter | 3.04 mm |
 | Alps SKRTLAE010 buttons | 3.55 mm |
 | Shouhan MSK-12C02 slider | 5.15 mm |
-| USB-C receptacle | 8.57 mm |
+| USB-C receptacle | 8.83 mm |
 
 On the back, none of that matters: the panel is glued to the front and does not
 care what is underneath it. The actuators come out of the *edge* of the board,
@@ -49,8 +49,16 @@ the plane of the board.
 
 - **Slider: Shouhan MSK-12C02**, SPDT, 6.7 x 2.8 mm body, knob 1.45 mm proud of
   one end. LCSC C431540.
-- **Reset: Alps SKRTLAE010**, 4.5 x 2.56 mm, plunger out the end.
-- **USB-C: HCTL HC-TYPE-C-16P-01A**, mouth flush with the board edge.
+- **Reset and BOOT: Alps SKRTLAE010**, 4.5 x 2.56 mm, plunger out the end.
+  1.6 +/- 0.5 N to operate and 0.2 mm of travel, so it is a deliberate press
+  with a fingernail or a pen, not something a pocket does by accident. 100,000
+  cycles, which for these two is forever.
+- **USB-C: Same Sky UJ20-C-H-G-SMT-1A-P16-TR**, mouth flush with the board
+  edge. Shell outside 8.64 x 2.56 mm, body 8.94 wide x 7.80 deep x 3.20 tall,
+  with four through-hole shell legs. Same Sky's drawing marks the product edge
+  itself -- 2.60 mm in front of the rear shell slots -- which is what the
+  footprint's origin is set from, so the case cut-out line is drawn on the
+  board rather than guessed.
 
 The nicer slide switch is the C&K JS102011SAQN — better detent, clean 2.5 mm
 pad pitch, a proper datasheet. Its courtyard is 8.75 mm deep, so it only
@@ -122,7 +130,12 @@ chip and does not go near the firmware, which is the only reason to have it —
 you press it when the firmware has stopped working.
 
 The existing 10k and 1 uF on EN debounce it for free: the cap holds EN down for
-about 10 ms after release, longer than the contact bounce.
+about 10 ms after release, and Alps specifies the contact bounce at 10 ms when
+new and 20 ms at end of life. Those are the same order, so the RC does not
+swallow the bounce outright -- what it does is turn a bounce train into one
+slow ramp, because the cap cannot recharge through 10k faster than the contacts
+are chattering. The chip sees one release. BOOT is the one that needs the
+software debounce: 20 ms or more, from the same Alps number.
 
 Recess it in the case. This is not a key. A reset button you can press while
 holding the calculator is a reset button you will press while holding the

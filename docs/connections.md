@@ -87,22 +87,31 @@ panel interface has to move.
 | 18 | `I2C_SCL` | 4.7 kΩ pull-up to `+3V3` |
 | 19 | `USB_DM` | Fixed by silicon |
 | 20 | `USB_DP` | Fixed by silicon |
-| 21 | `BUZZER` | LEDC PWM → 2N7002 gate |
+| 21 | `BUZZER` | LEDC PWM → 1 kΩ → piezo sounder. Drives the element directly |
 | 33 | `EPD_CS` | |
 | 34 | `EPD_DC` | |
 | 35 | `EPD_RST` | |
 | 36 | `EPD_BUSY` | Input. Also the light-sleep wake source during a refresh |
 | 37 | `EPD_SCK` | |
 | 38 | `EPD_MOSI` | |
-| 39 | `LED_GREEN` | Status LED green die. Driven LOW. One of the four JTAG pins |
+| 39 | `LED_GREEN` | Status LED green die. Driven LOW. MTCK, so taking it gives up pad JTAG |
 | 43 | `UART0_TX` | Test pad only |
 | 44 | `UART0_RX` | Test pad only |
 | 47 | `IR_LED` | Optional HP-82240 printing → 2N7002 gate |
 | 48 | `CHG_STAT` | From `BQ25185./CHG` |
 
-Deliberately unused: `GPIO0`, `3`, `45`, `46` are strapping pins — `GPIO0` goes
-to a BOOT test pad only. `GPIO26–32` are the module's internal flash.
-`GPIO40–42` are left free as JTAG.
+Deliberately unused: `GPIO0`, `3`, `45`, `46` are the four strapping pins, and
+their reset defaults (Espressif table 4-1: `GPIO0` weak pull-up, `GPIO3`
+floating, `GPIO45` and `GPIO46` weak pull-down) are already what this board
+wants, so `GPIO3`, `45` and `46` carry nothing at all. `GPIO0` carries the BOOT
+button and its test pad.
+
+Chip pins 26–32 are the module's internal flash. Only `GPIO26` comes out of the
+module, and it is free on the `-N8` — it is the PSRAM pin on an `-N4R2`.
+
+Free: `GPIO26`, `40`, `41`, `42`. `GPIO40` is earmarked for driving the sounder
+in antiphase if 75 dB turns out to be too quiet. Hardware JTAG is already gone,
+because `GPIO39` is the status LED's green die.
 
 ---
 
@@ -172,7 +181,7 @@ stack-up.
 
 | Part | Connection |
 |---|---|
-| Buzzer | `+3V3` → transducer → 2N7002 drain; gate from `BUZZER` via 1 kΩ; flyback diode across the transducer |
+| Buzzer | `BUZZER` → 1 kΩ → piezo sounder → `GND`. Murata figure A. It is a ~10 nF capacitor, not a coil, so there is no FET and no flyback diode |
 | IR LED | `+3V3` → LED → 22 Ω → 2N7002 drain; gate from `IR_LED` via 1 kΩ |
 | Status LED | `+3V3` → common anode; each die → 1 kΩ → its GPIO. Red and green together read as amber |
 | Power slider | Wiper → `REG_EN`, one throw → `SYS`, **other throw deliberately unconnected**; 1 MΩ from `REG_EN` to `GND` holds it off |

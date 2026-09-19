@@ -18,9 +18,20 @@ from "keypad.ato" import Keypad
 #   - IO33-IO38 are free ONLY on the -N8 module, which has no PSRAM. On an
 #     -N4R2 the octal PSRAM takes them and the panel interface has to move.
 #
-# Deliberately unused: IO0/IO3/IO45/IO46 are strapping pins (IO0 goes to a
-# BOOT test pad and nothing else), IO26-IO32 are the module's internal flash,
-# IO40-IO42 are left free for JTAG.
+# Strapping pins, per Espressif table 4-1: IO0 (weak pull-up), IO3 (floating),
+# IO45 (weak pull-down) and IO46 (weak pull-down). Those defaults are already
+# the configuration this board wants -- SPI boot, VDD_SPI at 3.3 V, ROM
+# messages on, JTAG over USB -- so IO3, IO45 and IO46 get nothing on them at
+# all. IO0 carries the BOOT button and its test pad and nothing else; pulling
+# it down with IO46 left at its default 0 is exactly Espressif's joint
+# download boot.
+#
+# Chip pins 26-32 are the internal SPI flash. Of those, only IO26 comes out of
+# the module, and it is free on the -N8 -- it is the PSRAM pin on an -N4R2.
+#
+# Still free: IO26, IO40, IO41, IO42. IO40 is earmarked for driving the
+# sounder in antiphase if it needs to be louder. Hardware JTAG on IO39-IO42
+# is already gone, see the status LED below.
 # ---------------------------------------------------------------------------
 
 module HP42S:
@@ -40,6 +51,7 @@ module HP42S:
     signal uart0_tx
     signal uart0_rx
     signal boot
+    signal sounder
     signal led_red
     signal led_green
     signal en
@@ -187,20 +199,27 @@ module HP42S:
     display.mosi ~ epd_mosi
 
     # --- buzzer --------------------------------------------------------------
+    # Murata's own drive, figure A of the PKLCS1212E specification: the IC
+    # output, a series resistor of 1k to 2k, then the sounder to ground. That
+    # is the whole circuit.
+    #
+    # It used to be a FET low-side switch with a flyback diode, which is how
+    # you drive a magnetic buzzer and not how you drive a piezo one. A piezo
+    # element is a capacitor: with a FET pulling one end down and nothing
+    # pulling it back up, it charges once, clicks, and then sits there. It
+    # needs to be driven both ways, which one GPIO on LEDC does directly.
+    #
+    # 3.3 Vp-p gets Murata's rated 75 dB at 10 cm. If that turns out too
+    # quiet, driving ls.p from a second GPIO in antiphase doubles the swing
+    # for about 6 dB more -- IO40 is free and that is the only change needed.
     ls = new Buzzer
-    ls.p ~ v3v3
-    q_buz = new NFET
-    q_buz.drain ~ ls.n
-    q_buz.source ~ gnd
+    ls.p ~ gnd
     r_buz = new Resistor
     r_buz.value = "1k"
     mcu.IO21 ~ buzzer
     r_buz.p1 ~ buzzer
-    r_buz.p2 ~ q_buz.gate
-    d_buz = new Diode
-    d_buz.value = "flyback"
-    d_buz.anode ~ ls.n
-    d_buz.cathode ~ v3v3
+    r_buz.p2 ~ sounder
+    sounder ~ ls.n
 
     # --- IR printing (HP-82240) ----------------------------------------------
     ir = new IRLED

@@ -106,10 +106,13 @@ def mm(v):
 # enough in that the actuator clears the board by a little under a millimetre
 # and pokes into the case wall.
 #
-#   part            x     y     actuator reaches   courtyard reaches
-#   slide switch   14.0   2.30   y = -0.80          y = 5.15
-#   USB-C          38.0   3.67   y =  0.00          y = 8.57
-#   reset button   62.0   1.50   y = -0.54          y = 3.55
+#   part            x     y      actuator reaches   courtyard reaches
+#   slide switch   11.0   2.30    y = -0.80          y = 5.15
+#   USB-C          36.0   3.675   y =  0.00          y = 8.83
+#   reset button   66.0   1.50    y = -0.54          y = 3.55
+#
+# The USB-C y is the Same Sky drawing's own "PRODUCT EDGE" line, 2.60 mm
+# behind the rear shell slots, so the mouth lands exactly on the board edge.
 #
 # X positions are in the board's own coordinates, which pcbnew keeps
 # front-referenced even for parts on the back, so there is no mirroring to do
@@ -135,7 +138,7 @@ def mm(v):
 EDGE_PARTS = {
     "SW_SPDT_Shouhan_MSK12C02": (11.0, 2.30, "power slider"),
     "Vishay_VSMB2943SLX01_SideView": (22.0, 1.60, "IR emitter"),
-    "USB_C_Receptacle_HCTL_HC-TYPE-C-16P-01A": (36.0, 3.67, "USB-C"),
+    "SameSky_UJ20-C-H-G-SMT-1A-P16_USB-C": (36.0, 3.675, "USB-C"),
     "Dialight_599_BiColor_1208_RA": (48.0, 1.80, "status LED"),
 }
 

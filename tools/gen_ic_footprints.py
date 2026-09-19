@@ -187,6 +187,172 @@ def bicolor_ra(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def uson_dqa(name, descr, tags):
+    """TI DQA0010A, USON-10 2.5 x 1.0 mm. Not the same land as KiCad's generic
+    USON-10_2.5x1.0mm_P0.5mm: TI makes the two ground terminals (pins 3 and 8)
+    wider than the signal terminals, and puts every pad 0.033 mm further out.
+    Hard-coded for the same reason bicolor_ra is -- two pads differ from the
+    other eight, so there is no family pattern to parameterise.
+
+    TI drawing 4220328/A, "EXAMPLE BOARD LAYOUT":
+
+        4X (0.5)      pad pitch, five a side
+        (0.835)       centre to centre across the two rows
+        10X (0.565)   pad length, outward
+        8X (0.2)      pad width, the eight signal pads
+        2X (0.4)      pad width, pins 3 and 8, the grounds
+        0.07 min      solder mask relief, non-solder-mask-defined
+    """
+    pitch, span, pad_l = 0.5, 0.835, 0.565
+    body_w, body_h = 2.5, 1.0
+    x = span / 2.0
+    wide = {"3", "8"}
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        '\t(fp_text reference "REF**" (at 0 -1.60) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 1.60) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_rect (start {-body_w/2:.3f} {-body_h/2:.3f}) '
+        f'(end {body_w/2:.3f} {body_h/2:.3f}) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+    ]
+    # courtyard: 0.25 around the pads, which reach further out than the body
+    cx = x + pad_l / 2.0 + 0.25
+    cy = body_h / 2.0 + 0.25
+    out.append(f'\t(fp_rect (start {-body_w/2 - 0.25:.3f} {-cy:.3f}) '
+               f'(end {body_w/2 + 0.25:.3f} {cy:.3f}) '
+               '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    # pin 1 dot, outboard of pin 1
+    out.append(f'\t(fp_circle (center {-body_w/2 - 0.35:.3f} {-2*pitch:.3f}) '
+               f'(end {-body_w/2 - 0.20:.3f} {-2*pitch:.3f}) '
+               '(stroke (width 0.15) (type solid)) (fill solid) (layer "F.SilkS"))')
+    for i in range(10):
+        n = str(i + 1)
+        # 1-5 down the left column, 6-10 back up the right
+        if i < 5:
+            px, py = -x, (i - 2) * pitch
+        else:
+            px, py = x, (7 - i) * pitch
+        w = 0.4 if n in wide else 0.2
+        out.append(f'\t(pad "{n}" smd roundrect (at {px:.4f} {py:.3f} 270) '
+                   f'(size {w:.3f} {pad_l:.3f}) '
+                   '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
+def usb_c_16p(name, descr, tags):
+    """Same Sky (CUI) UJ20-C-H-G-SMT-1A-P16-TR, 16-pin USB 2.0 Type-C
+    receptacle, horizontal, from the "Recommended PCB Layout" on page 3 of the
+    Same Sky drawing dated 11/03/2025.
+
+    Everything here is dimensioned on that drawing:
+
+        6.40 / 4.80 / 3.50   centre spans of the pad pairs, outermost in
+        0.50                 pitch of the eight inner pads
+        0.60*4 / 0.30*8      pad widths: four wide lands, eight narrow
+        1.80                 pad length, measured back from the front slot line
+        5.78, 0.65 dia       the two locating holes
+        8.64                 shell slot centres, across
+        4.18                 shell slot centres, front to back
+        3.68                 locating hole to rear slot centre
+        2.10 / 1.70          front slot: copper, then the slot itself
+        1.80 / 1.40          rear slot: copper, then the slot itself
+        1.00 / 0.60          both slots, across
+        2.60                 rear slot centre back to the product edge
+
+    The origin is the middle of the connector, on the locating-hole line, so
+    that the product edge -- the case cut-out line -- sits at y = +3.675.
+
+    This is NOT the HCTL HC-TYPE-C-16P-01A land KiCad ships, which this design
+    used before. The pad x positions, both locating holes and both slot pitches
+    are identical between them, but Same Sky's pads are 1.80 long rather than
+    1.30, and its rear slot is 1.40 long rather than 1.20. A UJ20 dropped onto
+    the HCTL pattern would not seat: its rear shell legs are 0.2 mm too long
+    for the slot.
+    """
+    pad_l = 1.80
+    hole_y = -2.605          # locating holes define y = 0 reference below
+    front_slot_y = -3.105
+    rear_slot_y = 1.075
+    pad_near = front_slot_y  # pads run back from the front slot line
+    pad_y = pad_near - pad_l / 2.0
+    edge_y = rear_slot_y + 2.60
+    slot_x = 4.32
+    body_w, body_d = 8.94, 7.80
+
+    lands = [
+        (-3.20, 0.60, ["A1", "B12"]),
+        (-2.40, 0.60, ["A4", "B9"]),
+        (-1.75, 0.30, ["B8"]),
+        (-1.25, 0.30, ["A5"]),
+        (-0.75, 0.30, ["B7"]),
+        (-0.25, 0.30, ["A6"]),
+        (0.25, 0.30, ["A7"]),
+        (0.75, 0.30, ["B6"]),
+        (1.25, 0.30, ["A8"]),
+        (1.75, 0.30, ["B5"]),
+        (2.40, 0.60, ["B4", "A9"]),
+        (3.20, 0.60, ["B1", "A12"]),
+    ]
+
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        f'\t(fp_text reference "REF**" (at 0 {pad_y - 1.60:.3f}) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 {edge_y + 1.20:.3f}) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        # body in plan, 8.94 x 7.80, mouth on the product edge
+        f'\t(fp_rect (start {-body_w/2:.3f} {edge_y - body_d:.3f}) '
+        f'(end {body_w/2:.3f} {edge_y:.3f}) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        # the product edge itself, so the case cut-out has something to sit on
+        f'\t(fp_line (start {-body_w/2 - 1.5:.3f} {edge_y:.3f}) '
+        f'(end {body_w/2 + 1.5:.3f} {edge_y:.3f}) '
+        '(stroke (width 0.1) (type dash)) (layer "Dwgs.User"))',
+    ]
+    crt_x = slot_x + 0.50 + 0.25
+    out.append(f'\t(fp_rect (start {-crt_x:.3f} {pad_y - pad_l/2 - 0.25:.3f}) '
+               f'(end {crt_x:.3f} {edge_y + 0.25:.3f}) '
+               '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    # silk: two short marks beside the pad row, clear of every pad and slot
+    for sx in (-1, 1):
+        out.append(f'\t(fp_line (start {sx * 3.75:.3f} {pad_y - pad_l/2:.3f}) '
+                   f'(end {sx * 3.75:.3f} {pad_y + pad_l/2:.3f}) '
+                   '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))')
+    for px, w, names in lands:
+        for n in names:
+            out.append(f'\t(pad "{n}" smd roundrect (at {px:.3f} {pad_y:.3f}) '
+                       f'(size {w:.3f} {pad_l:.3f}) '
+                       '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))')
+    for hx in (-2.89, 2.89):
+        out.append(f'\t(pad "" np_thru_hole circle (at {hx:.3f} {hole_y:.3f}) '
+                   '(size 0.650 0.650) (drill 0.650) (layers "F&B.Cu" "*.Mask"))')
+    # shell legs: plated slots, front pair long, rear pair short
+    for sx in (-slot_x, slot_x):
+        out.append(f'\t(pad "SH" thru_hole oval (at {sx:.3f} {front_slot_y:.3f}) '
+                   '(size 1.000 2.100) (drill oval 0.600 1.700) '
+                   '(layers "*.Cu" "*.Mask"))')
+        out.append(f'\t(pad "SH" thru_hole oval (at {sx:.3f} {rear_slot_y:.3f}) '
+                   '(size 1.000 1.800) (drill oval 0.600 1.400) '
+                   '(layers "*.Cu" "*.Mask"))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -219,6 +385,21 @@ def main():
                   "above the board face the part is soldered to. Pad 2 = common "
                   "anode, pad 3 = LED die 1, pad 1 = LED die 2.",
             tags="LED bicolor side-view right-angle Dialight 599 1208",
+        ),
+        "TI_DQA0010A_USON-10_2.5x1mm_P0.5mm": uson_dqa(
+            name="TI_DQA0010A_USON-10_2.5x1mm_P0.5mm",
+            descr="TI DQA0010A, USON-10 2.5x1.0mm, 0.5mm pitch. From TI drawing "
+                  "4220328/A example board layout. Pins 3 and 8, the grounds, get "
+                  "the wider 0.4mm pads TI draws for them. Used by TPD4E05U06.",
+            tags="USON DFN TPD4E05U06 DQA0010A ESD",
+        ),
+        "SameSky_UJ20-C-H-G-SMT-1A-P16_USB-C": usb_c_16p(
+            name="SameSky_UJ20-C-H-G-SMT-1A-P16_USB-C",
+            descr="Same Sky (CUI) UJ20-C-H-G-SMT-1A-P16-TR, 16-pin USB 2.0 Type-C "
+                  "receptacle, horizontal SMT with through-hole shell legs. From the "
+                  "recommended PCB layout in the Same Sky drawing of 11/03/2025. "
+                  "Origin on the locating-hole line; the product edge is at y=+3.675.",
+            tags="USB-C Type-C receptacle UJ20 SameSky CUI 16P",
         ),
     }
     for name, text in fps.items():
