@@ -49,23 +49,43 @@ above the display. Panel choice does not change: the 2.66" is limited by the
 ## Clearances that follow
 
 Snaptron's own pad drawing and dimension table arrived 2026-09-19, so these
-are measured rather than derived. The ring is an octagon **narrower than the
-dome**: 8.38 mm across the flats under an 8.5 mm dome, 9.34 mm under a 10 mm
-one. The legs overhang it slightly and make contact just inside their tips,
-which is Snaptron's design.
+are measured rather than derived. The ring is an octagon a little wider than
+the circle the dome's four legs stand on, with the legs contacting just inside
+their tips.
 
-| | F08210 (8.5 mm dome) | F10260 (10 mm dome) |
+**The pad takes either supplier's dome.** Snaptron sell direct and by quote;
+Keystone's equivalents are stocked by the usual distributors:
+
+| | tip to tip | leg circle | force | height |
+|---|---|---|---|---|
+| Snaptron F08210 | 8.50 mm | — | 210 gf | 0.48 mm |
+| Keystone 5134TR | 8.40 mm | 8.00 mm | 280 g | 0.50 mm |
+| Snaptron F10260 | 10.00 mm | — | 260 gf | 0.56 mm |
+| Keystone 5154TR | 10.00 mm | 9.50 mm | 280 g | 0.55 mm |
+
+Keystone's 9.50 mm leg circle lands just outside the ring Snaptron's table
+asks for, which is the sort of half-on-the-pad contact that makes a key feel
+intermittent, so the ring's outer flat now goes to whichever is larger: the
+Snaptron figure, or the leg circle plus 0.25 mm. Both sites grew a little and
+both are still clear.
+
+| | 8.5 mm site | 10 mm site |
 |---|---|---|
-| Ring, across the flats | 8.38 mm | 9.34 mm |
-| Ring, across the corners | 9.07 mm | 10.11 mm |
+| Ring, across the flats | 8.50 mm | 10.00 mm |
+| Ring, across the corners | 9.20 mm | 10.82 mm |
 | Centre pad | 3.48 mm | 4.08 mm |
-| Vertical, 12.0 mm pitch | 3.62 mm | **2.66 mm** |
-| Horizontal, 12.5 mm pitch | 4.12 mm | — |
-| Horizontal, 15.0 mm pitch | — | 5.66 mm |
-| Mask web / courtyard, vertical | 2.43 mm | **1.39 mm** |
+| Vertical, 12.0 mm pitch | 3.50 mm | **2.00 mm** |
+| Horizontal, 12.5 mm pitch | 4.00 mm | — |
+| Horizontal, 15.0 mm pitch | — | 5.00 mm |
+| Mask web / courtyard, vertical | 3.00 mm | **1.50 mm** |
 
-Everything got roomier than the guessed geometry it replaces — the numeric
-block went from 1.50 mm between neighbouring domes to 2.66 mm.
+Mask and courtyard are octagons following the ring rather than circles round
+it. A circle wastes 0.8 mm on every flat, and the flats are exactly where the
+neighbouring dome is: on the 12.0 mm row pitch that is the difference between
+1.5 mm of mask web and 0.7 mm.
+
+Still roomier than the guessed geometry this replaced, which had the numeric
+block at 1.50 mm between neighbouring domes.
 
 **The centre pad now escapes on the front layer.** Snaptron's ring is a C
 rather than a closed annulus: there is a slot in one side, and the centre pad
@@ -80,7 +100,7 @@ The ring itself is a large pad and can be met from any direction, so the row
 nets are the easy half of the problem.
 
 The outermost column is close to the board edge — `SW1` and friends sit at
-board X 6.75, so an F08210's mask opening stops 1.97 mm short of it. Fine for
+board X 6.75, so the 8.5 mm site's mask opening stops 2.25 mm short of it. Fine for
 fab, and the escape tab points inboard.
 
 Snaptron also suggest a 0.89 mm via inside the site, F1 in the centre pad or

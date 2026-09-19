@@ -86,19 +86,23 @@ component TestPad:
 # --- keypad ----------------------------------------------------------------
 
 component DomeKey10:
-    # Snaptron F10260: 10 mm, 260 gf. Digits and operators.
+    # 10 mm four-leg metal dome, digits and operators. Snaptron F10260
+    # (260 gf) or Keystone 5154TR (280 g); the pad takes either, which is
+    # why it is no longer named after one of them. Keystone is the one the
+    # usual distributors stock.
     # Pad 1 is the outer ring, pad 2 the centre -- see tools/gen_dome_footprints.py.
-    footprint = "hp42s:Snaptron_F10260_Dome"
+    footprint = "hp42s:Dome_4Leg_10mm"
     designator_prefix = "SW"
-    value = "F10260"
+    value = "10mm dome, F10260 or 5154TR"
     signal ring ~ pin 1
     signal centre ~ pin 2
 
 component DomeKey85:
-    # Snaptron F08210: 8.5 mm, 210 gf. Function rows and ENTER.
-    footprint = "hp42s:Snaptron_F08210_Dome"
+    # 8.5 mm four-leg metal dome, function rows and ENTER. Snaptron F08210
+    # (210 gf) or Keystone 5134TR (8.4 mm, 280 g).
+    footprint = "hp42s:Dome_4Leg_8.5mm"
     designator_prefix = "SW"
-    value = "F08210"
+    value = "8.5mm dome, F08210 or 5134TR"
     signal ring ~ pin 1
     signal centre ~ pin 2
 

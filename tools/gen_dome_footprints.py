@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate KiCad footprints for Snaptron F-series metal dome switch sites.
+Generate KiCad footprints for the 8.5 mm and 10 mm metal dome switch sites.
 
 A dome site is two pads. The outer one is an octagonal ring the dome's four
 legs rest on. The centre one is a circle the dome's underside touches when it
@@ -61,16 +61,46 @@ import pathlib
 
 # dome_dia  nominal dome diameter, mm (the catalogue number)
 # p1/n1/t1/w1/s  Snaptron's pad table, above
+# foot_dia  the largest LEG CIRCLE any dome we might buy rests on, mm. The
+#           ring is widened if Snaptron's N1 would not cover it -- see below.
 DOMES = {
-    "Snaptron_F10260_Dome": dict(
+    "Dome_4Leg_10mm": dict(
         dome_dia=10.0, p1=4.08, n1=4.67, t1=3.15, w1=1.55, s=1.10,
-        note="10 mm, 260 gf, 0.56 mm high, 5M cycles -- numeric and operator keys",
+        foot_dia=9.50,
+        note="10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. "
+             "Snaptron F10260 or Keystone 5154TR",
     ),
-    "Snaptron_F08210_Dome": dict(
+    "Dome_4Leg_8.5mm": dict(
         dome_dia=8.5, p1=3.48, n1=4.19, t1=2.77, w1=1.55, s=0.92,
-        note="8.5 mm, 210 gf, 0.48 mm high, 5M cycles -- function rows and ENTER",
+        foot_dia=8.00,
+        note="8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. "
+             "Snaptron F08210 or Keystone 5134TR",
     ),
 }
+
+# TWO SUPPLIERS, ONE PAD
+#
+# Snaptron sell direct and by quote. Keystone's equivalents are stocked by the
+# usual distributors, and their drawings (5134TR and 5154TR, both rev A) give
+# a "mounting diameter" -- the circle the four legs stand on:
+#
+#                   tip to tip   mounting dia   force    height
+#   Snaptron F08210    8.50          --         210 gf   0.48
+#   Keystone 5134TR    8.40         8.00        280 g    0.50
+#   Snaptron F10260   10.00          --         260 gf   0.56
+#   Keystone 5154TR   10.00         9.50        280 g    0.55
+#
+# Keystone's 9.50 mm circle lands 0.08 mm OUTSIDE the ring Snaptron's N1 asks
+# for, which is the sort of half-on-the-pad contact that makes a key feel
+# intermittent. So the ring's outer flat goes to whichever is larger, N1 or
+# the leg circle plus 0.25 mm. That widens the 10 mm site from 9.34 to 10.00
+# across the flats and the 8.5 mm site from 8.38 to 8.50, both still clear of
+# their neighbours on a 12.0 mm row pitch.
+#
+# Note Keystone publish their own pattern -- four round pads on the leg circle
+# plus a centre one -- and we are NOT using it. Four discrete pads need the
+# dome rotated to line up with them. A ring does not care, which is worth
+# having when 38 of them go down by hand.
 
 # Metal domes come in two kinds and this pad suits one of them. A FOUR LEG
 # dome (Snaptron F series, what this board is drawn for) touches the ring only
@@ -105,6 +135,13 @@ def octagon(half_width):
     return half_width * TAN2250, half_width
 
 
+def octagon_outline(half_width):
+    """The eight corners of a regular octagon, flats on the axes."""
+    f, R = octagon(half_width)
+    return [(R, -f), (f, -R), (-f, -R), (-R, -f),
+            (-R, f), (-f, R), (f, R), (R, f)]
+
+
 def c_ring(n1, t1, w1, s):
     """The ring as ONE polygon. It is a C rather than an annulus -- the slot
     on the +x side makes it simply connected -- so it traces as a single loop:
@@ -130,12 +167,17 @@ def c_ring(n1, t1, w1, s):
     ]
 
 
-def footprint(name, dome_dia, p1, n1, t1, w1, s, note):
+def footprint(name, dome_dia, p1, n1, t1, w1, s, foot_dia, note):
+    n1 = max(n1, foot_dia / 2.0 + 0.25)     # cover the widest leg circle
     pts = c_ring(n1, t1, w1, s)
     corner = n1 * SEC2250                 # centre to an octagon corner
-    mask_r = corner + MASK_MARGIN
-    crtyd_r = corner + CRTYD_MARGIN
-    label_y = crtyd_r + 1.2
+    # Mask and courtyard follow the ring's shape rather than its circumcircle.
+    # A circle round an octagon wastes 0.8 mm on every flat, and the flats are
+    # where the neighbouring dome is: on a 12.0 mm row pitch that is the
+    # difference between 1.5 mm of mask web and 0.7 mm.
+    mask_pts = [(x, y) for x, y in octagon_outline(n1 + MASK_MARGIN)]
+    crtyd_pts = [(x, y) for x, y in octagon_outline(n1 + CRTYD_MARGIN)]
+    label_y = (n1 + CRTYD_MARGIN) * SEC2250 + 1.2
     ring_mid = (n1 + t1) / 2.0            # where pad 1's anchor sits
 
     L = []
@@ -176,8 +218,13 @@ def footprint(name, dome_dia, p1, n1, t1, w1, s, note):
 
     # Mask keep-out over the whole site: Snaptron want bare copper and bare
     # laminate from the outside edge of the ring inwards.
-    a(f'  (pad "" smd circle (at 0 0) (size {2*mask_r:.3f} {2*mask_r:.3f})')
-    a('    (layers "F.Mask"))')
+    a('  (pad "" smd custom (at 0 0) (size 0.2 0.2)')
+    a('    (layers "F.Mask")')
+    a('    (options (clearance outline) (anchor circle))')
+    a('    (primitives')
+    a('      (gr_poly (pts ' + " ".join(f"(xy {x:.4f} {y:.4f})" for x, y in mask_pts)
+      + ') (width 0) (fill yes))')
+    a('    ))')
 
     if ROUND_DOME_SAFE:
         # a mask patch over the tab, from the centre pad's edge out past the
@@ -195,7 +242,8 @@ def footprint(name, dome_dia, p1, n1, t1, w1, s, note):
         a(f'    (drill {VENT_DRILL}) (layers "F&B.Cu" "*.Mask"))')
 
     # Courtyard, and the dome itself on F.Fab so the clearances are visible.
-    a(f'  (fp_circle (center 0 0) (end {crtyd_r:.3f} 0) (layer "F.CrtYd") (width 0.05) (fill none))')
+    a('  (fp_poly (pts ' + " ".join(f"(xy {x:.4f} {y:.4f})" for x, y in crtyd_pts)
+      + ') (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
     a(f'  (fp_circle (center 0 0) (end {dome_dia/2:.3f} 0) (layer "F.Fab") (width 0.1) (fill none))')
     a(')')
     return "\n".join(L) + "\n"
@@ -207,9 +255,10 @@ def main():
     for name, spec in DOMES.items():
         path = outdir / f"{name}.kicad_mod"
         path.write_text(footprint(name, **spec))
-        n1, dome = spec["n1"], spec["dome_dia"]
+        n1 = max(spec["n1"], spec["foot_dia"] / 2.0 + 0.25)
         print(f"wrote {path}  ring {2*n1:.2f} mm flats, "
-              f"{2*n1*SEC2250:.2f} mm corners, dome {dome} mm")
+              f"{2*n1*SEC2250:.2f} mm corners, dome {spec['dome_dia']} mm, "
+              f"leg circle {spec['foot_dia']} mm")
     print(f"\nAdd {outdir} to KiCad as a footprint library:")
     print("  Preferences > Manage Footprint Libraries > Add, type KiCad, point at the .pretty folder")
 
