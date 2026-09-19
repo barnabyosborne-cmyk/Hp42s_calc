@@ -142,6 +142,18 @@ module HP42S:
     sw_boot.b ~ gnd
     sw_boot.mp ~ gnd
 
+    # Espressif's own peripheral schematic, figure 9-1, puts 22 uF AND 100 nF
+    # on the module's 3V3 pin. Only the 100 nF was here, and the 22 uF is the
+    # one that matters: a Bluetooth LE transmit burst is 189 mA at 0 dBm off a
+    # rail rated 400 mA, and it arrives in microseconds. The regulator's own
+    # 22 uF is at the other end of the board and behind whatever inductance
+    # the 3V3 trace has. This one goes hard against pin 3.
+    c_mcu_bulk = new Capacitor
+    c_mcu_bulk.value = "22u"
+    c_mcu_bulk.footprint = "Capacitor_SMD:C_0805_2012Metric"
+    c_mcu_bulk.p1 ~ v3v3
+    c_mcu_bulk.p2 ~ gnd
+
     c_mcu = new Capacitor
     c_mcu.value = "100n"
     c_mcu.p1 ~ v3v3

@@ -209,3 +209,44 @@ stack-up.
   cleared beneath it, ≥15 mm from the cell.
 - The `TPS63900` switch node and its inductor loop is the only fast node on the
   board. Keep it under a few mm² and away from the panel's SPI.
+
+---
+
+## 7. What the 3.3 V rail can supply
+
+The TPS63900 is rated **above 400 mA at 3.3 V out for any input above 2.0 V**,
+so 400 mA is the number to design to across the whole cell discharge. Against
+that, from Espressif's own tables 6-4 and 6-5:
+
+| load | peak |
+|---|---|
+| MCU active, 160 MHz, both cores | 66–81 mA |
+| Bluetooth LE TX @ 0 dBm | 189 mA |
+| Bluetooth LE TX @ 9 dBm | 204 mA |
+| Bluetooth LE TX @ 20 dBm | 340 mA |
+| Wi-Fi TX, 802.11b @ 20.5 dBm | 355 mA |
+| Wi-Fi/BLE RX | 93–97 mA |
+| IR emitter, while pulsing | ~82 mA |
+| Panel booster, average during a refresh | tens of mA |
+
+Two firmware constraints fall straight out of that:
+
+- **Bluetooth LE TX power stays at 0 dBm.** 189 + 81 = 270 mA, comfortable. The
+  IDF default is 0 dBm, so this means not raising it. At 20 dBm the peak is 421
+  mA and the rail is past its rating.
+- **Do not transmit on Wi-Fi.** 355 + 81 = 436 mA, over the rating before the
+  panel is even considered. Wi-Fi RX at 95 mA is fine, so scanning or receiving
+  is not the problem; a full-power 802.11b burst is. If Wi-Fi is ever wanted
+  for OTA, cap `tx_power` and test it with a scope on the rail.
+
+Neither is a hardware change. Both are the kind of thing that works on the
+bench and browns out on the tenth unit, so they belong written down.
+
+The 22 µF beside the module's pin 3 is what rides these bursts — it is
+Espressif's own figure 9-1 value, and the regulator's own 22 µF is too far away
+to do the job.
+
+Deep sleep, for contrast, is about 25 µA all in: 8 µA for the chip with RTC
+memory up, 4 µA for the charger, 4 µA for the fuel gauge in hibernate, 4 µA
+down the slider's 1 MΩ pull-down, and the rest in leakage. That is the number
+the fifteen-month figure comes from.

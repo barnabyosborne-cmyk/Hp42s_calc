@@ -219,14 +219,37 @@ module Power:
 
     # --- fuel gauge ----------------------------------------------------------
     gauge = new MAX17048
-    # VDD on the CELL, not on 3V3. The power slider now cuts the 3.3 V rail,
-    # and a ModelGauge part that loses power loses the model it has learned --
-    # come back to the calculator after a month in a drawer and the charge
-    # reading would be guesswork for the first few cycles. Off the cell it
-    # keeps counting, at about 4 uA in hibernate.
-    # CHECK BEFORE FAB: its SDA/SCL then sit on a 4.2 V part with 3.3 V
-    # pull-ups. The MAX17048 input thresholds are fixed rather than
-    # VDD-referenced, so this should be fine, but read the DC table.
+    # VDD on the CELL, not on 3V3, and that is not a choice: this part has no
+    # separate sense input. It measures the voltage on its own VDD pin, which
+    # is why CELL below is left unconnected. Put VDD on the regulated rail and
+    # it would faithfully report 3.3 V forever.
+    #
+    # The 4.2 V / 3.3 V crossing that creates is fine, and the DC table says
+    # so rather than me hoping: VIH is 1.4 V and VIL 0.5 V, both fixed numbers
+    # and not referenced to VDD, and SCL/SDA/ALRT are rated -0.3 V to +5.5 V
+    # independently of VDD. So 3.3 V pull-ups drive a 4.2 V part correctly and
+    # nothing is stressed. That closes the open question that used to be here.
+    #
+    # WHAT DOES HAPPEN, and it is worth knowing: the pull-ups are on the
+    # SWITCHED 3.3 V rail, so with the power slider off the bus sits at ground.
+    # Datasheet note 6 -- SCL and SDA both below VIL for 2.5 s puts the part
+    # into shutdown. So the gauge does NOT keep counting through a long off
+    # period, whatever powers it. It restarts when the slider goes back on and
+    # the bus rises.
+    #
+    # That is acceptable, and arguably right. ModelGauge is voltage-based with
+    # no coulomb counting, so a restart re-reads the cell's open-circuit
+    # voltage -- and a calculator that has been switched off is a cell that has
+    # been resting, which is exactly when that reading is accurate. The case it
+    # gets wrong is flicking the slider off and on mid-use, where the state of
+    # charge will be out by a few percent until the cell settles. Shutdown also
+    # takes the gauge's 4 uA off the drawer budget.
+    #
+    # If that is ever not good enough, the fix is a two-FET bidirectional
+    # level shifter on SDA and SCL with the high side pulled up to BAT: with
+    # the 3.3 V rail down the gates sit at 0 V, the FETs are off, the body
+    # diodes are reverse-biased, and the gauge's side of the bus stays high.
+    # Three extra parts. Not worth it unless the battery reading misbehaves.
     gauge.VDD ~ bat
     gauge.SDA ~ i2c_sda
     gauge.SCL ~ i2c_scl
