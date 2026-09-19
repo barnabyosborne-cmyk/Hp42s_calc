@@ -353,6 +353,104 @@ def usb_c_16p(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def side_push(name, descr, tags):
+    """Alps SKRTLAE010, 4.5 x 3.4 mm side-push tact with guide bosses, from the
+    "PC board mounting hole and land dimensions" panel on page 250 of the Alps
+    TACT Switch catalogue. Every number below was read off the vector geometry
+    in that drawing rather than off the dimension text, and then checked
+    against the dimensions:
+
+        5.00 / 4.25 / 3.20 / 2.40 / 2.00 / 1.30 / 1.20 / 0.90 / 0.75 / 0.60
+        1.80 / 1.50 / 3.30           the two rows and their separation
+        2 x dia 0.90                 guide boss holes, on the row centreline
+
+    Origin is the guide-boss centreline, midway between the two holes, which is
+    the same origin KiCad uses -- the pads here are identical to KiCad's
+    SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010 to the micron, and the
+    courtyard is deliberately kept the same so nothing moves on the top edge.
+
+    What KiCad leaves out, and the only reason this footprint exists, is the
+    2.0 x 1.2 mm rectangle Alps marks "Prohibitted area of copper tracks",
+    between the two mounting pads. A ground pour would fill it without saying
+    anything. Here it is a real keepout.
+
+    Terminals 1 and 3 are commoned inside the switch -- Alps' own circuit
+    diagram -- so both outer pads are pad 1 and the middle one is pad 2, which
+    is why one press closes 1 to 2. MP is the ground terminal.
+    """
+    # keepout, from the hatched rectangle: x -1.0 to +1.0, y +0.30 to +1.50
+    ko = (-1.0, 0.30, 1.0, 1.50)
+    layers = ' '.join(f'"In{i}.Cu"' for i in range(1, 31))
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        '\t(fp_text reference "REF**" (at 0 -2.85) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 3.10) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        # body 4.5 x 2.56, plunger 2.0 wide standing 0.84 proud of it
+        '\t(fp_rect (start -2.250 -1.350) (end 2.250 1.210) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        '\t(fp_line (start -1.000 1.210) (end -1.000 2.040) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        '\t(fp_line (start -1.000 2.040) (end 1.000 2.040) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        '\t(fp_line (start 1.000 2.040) (end 1.000 1.210) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        # silk: the two shoulders beside the terminal row, and the push face
+        '\t(fp_line (start -2.400 -1.500) (end -2.400 -0.500) '
+        '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+        '\t(fp_line (start -2.400 -1.500) (end -1.800 -1.500) '
+        '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+        '\t(fp_line (start 2.400 -1.500) (end 2.400 -0.500) '
+        '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+        '\t(fp_line (start 1.800 -1.500) (end 2.400 -1.500) '
+        '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+        '\t(fp_line (start -1.000 1.300) (end 1.000 1.300) '
+        '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))',
+        # courtyard: KiCad's, unchanged, so place_keypad.py keeps its numbers
+        '\t(fp_rect (start -2.830 -2.050) (end 2.830 2.300) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))',
+        # terminals: 1 and 3 are one net inside the switch, so both are pad 1
+        '\t(pad "1" smd roundrect (at -1.225 -0.900) (size 0.750 1.800) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))',
+        '\t(pad "2" smd roundrect (at 0 -0.900) (size 0.600 1.800) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))',
+        '\t(pad "1" smd roundrect (at 1.225 -0.900) (size 0.750 1.800) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))',
+        '\t(pad "MP" smd roundrect (at -1.850 1.050) (size 1.300 0.900) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))',
+        '\t(pad "MP" smd roundrect (at 1.850 1.050) (size 1.300 0.900) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.25))',
+        '\t(pad "" np_thru_hole circle (at -2.125 0) (size 0.900 0.900) '
+        '(drill 0.900) (layers "F&B.Cu" "*.Mask"))',
+        '\t(pad "" np_thru_hole circle (at 2.125 0) (size 0.900 0.900) '
+        '(drill 0.900) (layers "F&B.Cu" "*.Mask"))',
+        '\t(zone',
+        f'\t\t(layers "F.Cu" "B.Cu" {layers})',
+        '\t\t(name "Alps prohibited copper")',
+        '\t\t(hatch full 0.508)',
+        '\t\t(connect_pads (clearance 0))',
+        '\t\t(min_thickness 0.254)',
+        '\t\t(keepout (tracks not_allowed) (vias not_allowed) (pads allowed)'
+        ' (copperpour not_allowed) (footprints allowed))',
+        '\t\t(placement (enabled no) (sheetname ""))',
+        '\t\t(fill (thermal_gap 0.508) (thermal_bridge_width 0.508)'
+        ' (island_removal_mode 0))',
+        '\t\t(polygon (pts '
+        f'(xy {ko[2]:.3f} {ko[1]:.3f}) (xy {ko[0]:.3f} {ko[1]:.3f}) '
+        f'(xy {ko[0]:.3f} {ko[3]:.3f}) (xy {ko[2]:.3f} {ko[3]:.3f})))',
+        '\t)',
+        ')',
+    ]
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -400,6 +498,15 @@ def main():
                   "recommended PCB layout in the Same Sky drawing of 11/03/2025. "
                   "Origin on the locating-hole line; the product edge is at y=+3.675.",
             tags="USB-C Type-C receptacle UJ20 SameSky CUI 16P",
+        ),
+        "Alps_SKRTLAE010_SidePush": side_push(
+            name="Alps_SKRTLAE010_SidePush",
+            descr="Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide "
+                  "bosses. Land, both dia 0.9 boss holes and the prohibited copper "
+                  "area from the Alps TACT Switch catalogue page 250. Terminals 1 and "
+                  "3 are commoned inside the switch, so both are pad 1. MP is the "
+                  "ground terminal. Plunger faces +y and stands 0.84 mm proud.",
+            tags="tact switch side-push Alps SKRT SKRTLAE010",
         ),
     }
     for name, text in fps.items():

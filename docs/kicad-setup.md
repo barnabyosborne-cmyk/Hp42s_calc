@@ -31,9 +31,9 @@ That `${KIPRJMOD}` path assumes the project sits at `elec/layout/default/`.
 File → Import → Netlist, point it at `build/default.net`.
 
 **Expect no errors.** Every footprint resolves — KiCad's standard libraries
-for all but seven, and this repo's `hp42s` library for the two dome sites, the
+for all but eight, and this repo's `hp42s` library for the two dome sites, the
 TPS63900's land pattern, the side-looking IR emitter's, the status LED's, the
-ESD array's and the USB-C receptacle's,
+ESD array's, the USB-C receptacle's and the two recovery buttons',
 none of which KiCad carries. All of them are generated from the vendors' own
 drawings, by `tools/gen_dome_footprints.py` and `tools/gen_ic_footprints.py`;
 re-run both if you ever delete `elec/footprints/hp42s.pretty/`.

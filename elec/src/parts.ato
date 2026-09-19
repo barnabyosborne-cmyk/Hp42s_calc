@@ -366,26 +366,41 @@ component SlideSwitch:
     signal shield ~ pin SH
 
 component TactSwitchSide:
-    # Alps SKRTLAE010, side-actuated SMD tact, 4.5 x 2.56 mm, plunger out the
-    # end. Pads 1 and 2 are the contacts; MP are the mechanical anchors and
-    # are not electrically part of the switch, so they go to ground for
-    # strength and nothing else.
+    # Alps SKRTLAE010, side-actuated SMD tact. Body 4.5 x 2.56 mm with the
+    # plunger 0.84 mm proud of it, so 4.5 x 3.4 overall, 3.3 tall.
     #
-    # From the Alps specification KRT-701, July 2017. Note that it is the
-    # text specification only -- it refers every dimension to an assembly
-    # drawing that is not in it, so the footprint below is still KiCad's and
-    # not checked against Alps. What the specification does give:
+    # Checked against the Alps catalogue land pattern, page 250. KiCad's
+    # SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010 reproduces it to the
+    # micron -- all seven pads compared -- but leaves out the 2.0 x 1.2 mm
+    # rectangle Alps marks "Prohibitted area of copper tracks" between the two
+    # mounting pads. A ground pour would fill that silently, so the footprint
+    # here is ours with the keepout in it. Pads are KiCad's, unchanged.
     #
-    #   1.6 +/- 0.5 N operating force -- stiff, about ten times a keypad dome
+    # The part is the -LAE010, the variant WITH guide bosses, so the board
+    # needs the two 0.9 mm non-plated holes as well as the pads. The
+    # SKRTLBE010 is the same switch without them if the holes ever become a
+    # problem.
+    #
+    # Alps' own circuit diagram commons terminals 1 and 3 inside the switch
+    # and puts the contact between that pair and terminal 2. So pad 1 is both
+    # outer terminals and pad 2 is the middle one -- a is one side of the
+    # contact, b the other. MP is the ground terminal and carries no signal,
+    # so it goes to ground for strength.
+    #
+    # From the catalogue and the KRT-701 specification:
+    #
+    #   1.6 N operating force -- stiff, about ten times a keypad dome
     #   0.2 +0.2/-0.1 mm travel
     #   10 ms bounce new, 20 ms after 100,000 operations
-    #   12 V DC 50 mA maximum, 100,000 cycle life
-    #   reflow only: Alps will not have it hand soldered, flux wicks inside
-    #   no through holes under or beside it, for the same reason
+    #   50 mA 12 V DC maximum, 10 uA 1 V DC minimum, 100,000 cycle life
+    #   500 mOhm initial contact resistance
+    #   reflow only: the SKRT series is absent from Alps' hand-soldering
+    #   table, and flux wicks in from the top face
+    #   3,000 per reel, minimum order 3,000
     #
     # The 20 ms sets the debounce in firmware. The 1.6 N is why these two are
     # recessed buttons on the top edge and not keys.
-    footprint = "Button_Switch_SMD:SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010"
+    footprint = "hp42s:Alps_SKRTLAE010_SidePush"
     designator_prefix = "SW"
     value = "SKRTLAE010"
     signal a  ~ pin 1

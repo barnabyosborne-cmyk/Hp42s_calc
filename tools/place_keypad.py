@@ -146,7 +146,7 @@ EDGE_PARTS = {
 # RESET so the finger that reaches the corner finds RESET first.
 # hp42s.ato declares sw_reset before sw_boot, and atopile hands out
 # designators in declaration order, so the LOWER reference number is RESET.
-TACT_FOOTPRINT = "SW_Push_1P1T-MP_NO_Horizontal_Alps_SKRTLAE010"
+TACT_FOOTPRINT = "Alps_SKRTLAE010_SidePush"
 TACT_ORDER = [(66.0, 1.50, "reset"), (57.0, 1.50, "boot")]
 
 # Both LEDs are the edge parts that are NOT rotated 180. Their lens faces are

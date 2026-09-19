@@ -9,8 +9,8 @@ the **back** of the board:
 | IR emitter | Vishay VSMB2943SLX01, 940 nm side-looking | the original 42S's IR window is on this edge |
 | USB-C | Same Sky UJ20-C-H-G-SMT-1A-P16-TR | charging and file transfer |
 | status LED | Dialight 599-0Q70-247F, red/green side-view | boot, error, nominal |
-| BOOT | Alps SKRTLAE010 | recovery |
-| RESET | Alps SKRTLAE010 | recovery |
+| BOOT | Alps SKRTLAE010, side push with guide bosses | recovery |
+| RESET | Alps SKRTLAE010, side push with guide bosses | recovery |
 
 ## Why the back
 
@@ -49,10 +49,17 @@ the plane of the board.
 
 - **Slider: Shouhan MSK-12C02**, SPDT, 6.7 x 2.8 mm body, knob 1.45 mm proud of
   one end. LCSC C431540.
-- **Reset and BOOT: Alps SKRTLAE010**, 4.5 x 2.56 mm, plunger out the end.
-  1.6 +/- 0.5 N to operate and 0.2 mm of travel, so it is a deliberate press
-  with a fingernail or a pen, not something a pocket does by accident. 100,000
-  cycles, which for these two is forever.
+- **Reset and BOOT: Alps SKRTLAE010**, body 4.5 x 2.56 mm with the plunger
+  0.84 mm proud of it, 4.5 x 3.4 overall and 3.3 tall. 1.6 N to operate and
+  0.2 mm of travel, so it is a deliberate press with a fingernail or a pen,
+  not something a pocket does by accident. 100,000 cycles, which for these two
+  is forever.
+
+  It is the `-LAE010`, the variant **with guide bosses**, so each one needs two
+  0.9 mm non-plated holes in the board as well as its five pads, and a 2.0 x
+  1.2 mm patch between the mounting pads that Alps marks as prohibited for
+  copper. All three are in the footprint. The `-LBE010` is the same switch with
+  no bosses and no holes if that ever becomes awkward.
 - **USB-C: Same Sky UJ20-C-H-G-SMT-1A-P16-TR**, mouth flush with the board
   edge. Shell outside 8.64 x 2.56 mm, body 8.94 wide x 7.80 deep x 3.20 tall,
   with four through-hole shell legs. Same Sky's drawing marks the product edge
