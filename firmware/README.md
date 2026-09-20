@@ -4,9 +4,11 @@ The **board layer and the Plus42 core both build for the ESP32-S3.** Plus42
 1.3.15 (Thomas Okken, GPLv2) is vendored in `components/plus42core/`, its
 decimal arithmetic comes from Intel's BID library in `components/libbid/`, and
 `main/shell.cc` is the platform layer that joins them to the board. What is
-**not** done yet is the interesting half of the shell: the display blitter is
-written but unverified, keys are not yet fed to the core, and nothing saves
-state.
+**not** done yet is the rest of the shell: keys are not yet fed to the core,
+the annunciator strip is a stub, and nothing saves state. The display blitter
+is written -- it scales 2x across and 3x down into the 275-pixel strip the
+case aperture leaves visible, giving 23 columns by 6 rows -- but it has never
+driven real glass.
 
 ## What is here
 
@@ -15,7 +17,7 @@ state.
 | `main/board.h` | Every pin number, in one place. The only file that changes for a different board. |
 | `main/epd.c` | SSD1680 driver for the GDEY0266T90: init, full update, partial update, deep sleep. Landscape 296 x 152. |
 | `main/keypad.c` | 6 x 7 diodeless scan, debounce, and `ext1` wake on any column going low. |
-| `main/shell.cc` | The 22 shell functions Plus42 asks the platform for. Real: display, milliseconds, random seed, log. Stubbed: beeper, printer, clock, power-down. |
+| `main/shell.cc` | The 22 shell functions Plus42 asks the platform for. Real: the display blitter, with 2x/3x scaling into the visible window, milliseconds, random seed, log. Stubbed: beeper, printer, clock, power-down. |
 | `main/main.c` | Bring-up app. Draws a test pattern, starts the core, echoes key presses, deep-sleeps after 10 s idle. |
 | `components/plus42core/` | Plus42's portable core, unmodified, plus a CMakeLists. |
 | `components/libbid/` | Intel's decimal library. Sources are laid out by `vendor/setup.sh`, not committed. |

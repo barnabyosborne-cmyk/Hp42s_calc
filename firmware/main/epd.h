@@ -16,6 +16,32 @@
 #define EPD_W 296   // what the calculator sees, across
 #define EPD_H 152   // and down
 
+// ---------------------------------------------------------------------------
+// THE VISIBLE WINDOW
+// ---------------------------------------------------------------------------
+// Not all 296 columns can be seen. The active area sits 1.52 mm right of the
+// case's centreline -- see docs/display-mounting.md, it is forced by the
+// panel's own 8.93 mm border on the tail side -- and Barnaby's aperture is
+// centred on the case, so the aperture masks the sides of the panel
+// unequally.
+//
+// The widest centred aperture that stays inside the active area is 57.04 mm.
+// At 56.00 mm it runs case X 12.00..68.00, which is active-area pixels
+// 2.56..278.42, leaving 0.52 mm of active area behind the case on the left
+// and 3.57 mm on the right. Round both inwards to whole pixels:
+#define EPD_VIEW_X 3     // first column the user can see
+#define EPD_VIEW_W 275   // how many. 21 columns are behind the case.
+#define EPD_VIEW_Y 0     // vertically nothing is masked: the active area is
+#define EPD_VIEW_H 152   // centred on its own glass across the short axis.
+
+// Which sets the text geometry. Plus42 paints (cols * 6 - 1) x (rows * 8)
+// logical pixels, and we replicate each one 2 across by 3 down -- see
+// docs/character-size.md for why the scaling is not square.
+#define EPD_SCALE_X 2
+#define EPD_SCALE_Y 3
+#define EPD_COLS 23      // (23 * 6 - 1) * 2 = 274 px, inside the 275 we have.
+#define EPD_ROWS 6       // 6 * 8 * 3 = 144 px, leaving 8 for annunciators.
+
 // The panel's own geometry, which is the framebuffer's shape.
 #define EPD_SRC_BYTES (EPD_H / 8)          // 19 bytes of source per gate line
 #define EPD_GATES     EPD_W                // 296 gate lines

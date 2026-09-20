@@ -226,6 +226,13 @@ NOTCH_H = 16.0                      # over this much height, centred on the tail
 TAIL_W = 12.50                      # the flex, centred on the 36.30 mm edge
 FOLD_R = 1.05                       # (0.5 glass + 1.6 board) / 2
 
+# Barnaby's aperture is centred on the CASE, not on the active area, because
+# the look of it matters more than the last character column. The widest
+# centred aperture that stays inside the active area is 57.04 mm; 56.00 leaves
+# a millimetre of margin, all of which is needed on the left. What it hides is
+# masked in firmware -- see EPD_VIEW_X in firmware/main/epd.h.
+APERTURE_W = 56.00
+
 # The FPC connector goes on the BACK with its opening facing the notched edge.
 # The tail is 14.30 mm: no front leg to speak of, 3.30 mm eaten by the fold,
 # so 11.00 mm of back leg reaching board X 10.50. The connector's pad row has
@@ -268,8 +275,11 @@ def place_panel(board):
     # Reference geometry on Cmts.User: the glass, the active area, and the
     # flex's width. None of it is manufactured; it is there so that placing
     # anything else on the front is obviously wrong or obviously fine.
+    ap_x0 = BOARD_W / 2 - APERTURE_W / 2
     for (x0, y0, x1, y1), label in ((glass, "glass 71.82 x 36.30"),
                                     (aa, "active area 60.088 x 30.704"),
+                                    ((ap_x0, aa[1], ap_x0 + APERTURE_W, aa[3]),
+                                     f"case aperture {APERTURE_W} mm, centred"),
                                     ((glass[0] - 14.30, tail_y - TAIL_W / 2,
                                       glass[0], tail_y + TAIL_W / 2), "tail, unfolded")):
         r = pcbnew.PCB_SHAPE(board)
@@ -284,6 +294,8 @@ def place_panel(board):
 
     print(f"  image centre X {(aa[0] + aa[2]) / 2:.2f} against a board centre "
           f"of {BOARD_W / 2:.2f} -- {(aa[0] + aa[2]) / 2 - BOARD_W / 2:.2f} mm right, as designed")
+    print(f"  aperture hides {ap_x0 - aa[0]:.2f} mm of active area on the left "
+          f"and {aa[2] - (ap_x0 + APERTURE_W):.2f} mm on the right")
 
 
 def place():

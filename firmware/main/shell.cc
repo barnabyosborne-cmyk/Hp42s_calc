@@ -20,14 +20,27 @@ extern "C" {
 
 const char *shell_platform() { return "1.3.15 ESP32-S3"; }
 
+// The core hands us a 1-bit bitmap in its own logical pixels and a dirty
+// rectangle within it. Each logical pixel becomes an EPD_SCALE_X by
+// EPD_SCALE_Y block inside the visible window. Anything that falls outside
+// the window is dropped rather than clipped to its edge: a half-drawn glyph
+// at the boundary would be worse than no glyph, and with EPD_COLS chosen to
+// fit there should never be one.
 void shell_blitter(const char *bits, int bytesperline, int x, int y,
                    int width, int height) {
-    for (int r = 0; r < height; r++)
+    for (int r = 0; r < height; r++) {
+        int py = EPD_VIEW_Y + (y + r) * EPD_SCALE_Y;
+        if (py < EPD_VIEW_Y || py + EPD_SCALE_Y > EPD_VIEW_Y + EPD_VIEW_H)
+            continue;
         for (int c = 0; c < width; c++) {
             int sx = x + c, sy = y + r;
-            int bit = (bits[sy * bytesperline + (sx >> 3)] >> (sx & 7)) & 1;
-            epd_pixel(sx, sy, bit);
+            int px = EPD_VIEW_X + sx * EPD_SCALE_X;
+            if (px < EPD_VIEW_X || px + EPD_SCALE_X > EPD_VIEW_X + EPD_VIEW_W)
+                continue;
+            bool ink = (bits[sy * bytesperline + (sx >> 3)] >> (sx & 7)) & 1;
+            epd_fill_rect(px, py, EPD_SCALE_X, EPD_SCALE_Y, ink);
         }
+    }
 }
 
 void shell_beeper(int tone)                 { (void) tone; }
@@ -57,8 +70,16 @@ void shell_message(const char *message)     { printf("plus42: %s\n", message); }
 void shell_log(const char *message)         { printf("plus42: %s\n", message); }
 
 extern "C" void plus42_start(void) {
-    int rows = 0, cols = 0;
+    // The columns behind the case never get painted again, so white them out
+    // once here rather than leaving whatever the last boot left there.
+    epd_clear(true);
+
+    int rows = EPD_ROWS, cols = EPD_COLS;
     core_init(&rows, &cols, 0, NULL);
-    printf("plus42 core up, display %d x %d\n", rows, cols);
-    core_repaint_display(rows, cols, 3);
+    printf("plus42 core up, asked for %d x %d\n", EPD_COLS, EPD_ROWS);
+
+    // core_init reports the size in the saved state, which on a first boot is
+    // Plus42's own default rather than ours. Ask for the size the window can
+    // actually show; the core resizes and repaints through shell_blitter.
+    core_repaint_display(EPD_ROWS, EPD_COLS, 0);
 }

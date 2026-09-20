@@ -23,7 +23,7 @@ Plus42 draws characters in 6 × 8 pixel cells, of which 5 × 7 is ink.
 | 2× across, 2× down | 2.44 × 3.23 mm | 97% wide, **62% tall** | 9 |
 | **2× across, 3× down** | **2.44 × 4.85 mm** | **97% wide, 93% tall** | **6** |
 | 2× across, 4× down | 2.44 × 6.46 mm | 97% wide, 124% tall | 4 |
-| 3× across, 3× down | 3.65 × 4.85 mm | — | doesn't fit: 24 columns needs 429 px |
+| 3× across, 3× down | 3.65 × 4.85 mm | — | doesn't fit: 23 columns needs 411 px |
 
 **2 across by 3 down is the answer.** It lands within 3% of the original on
 width and 7% on height, and the aspect ratio comes out at 1:1.99 against the
@@ -69,8 +69,39 @@ increments vertically rather than 2. The original did exactly the same thing,
 for exactly the same reason — its pixels were 1:1.55 tall. It will look *more*
 like a 42S, not less.
 
+## 23 columns, not 24
+
+The arithmetic above gives 24 columns across the full 296-pixel panel. The
+case takes one of them back.
+
+Barnaby settled on 20 September 2026 that **the aperture in the case is
+centred**, for the look of the thing, while the panel's active area sits
+1.52 mm right of the case centreline for reasons it cannot help — see
+`docs/display-mounting.md`. A centred aperture therefore masks the panel
+unequally, and the widest one that stays inside the active area is 57.04 mm
+against the active area's own 60.088 mm.
+
+At the 56.00 mm aperture the firmware assumes, the visible strip is panel
+columns 3 to 277: **275 pixels**, with 3 hidden on the left and 18 on the
+right. What fits:
+
+| | logical px | on the panel | fits in 275? |
+|---|---|---|---|
+| 22 columns | 131 | 262 | yes, 13 to spare |
+| **23 columns** | **137** | **274** | **yes, 1 to spare** |
+| 24 columns | 143 | 286 | no, 11 over |
+
+So 23. The original HP-42S showed 22, so this is still one better than the
+machine it copies, and Plus42's own floor is 22.
+
+**Vertically nothing is lost.** The active area is centred on its own glass
+across the short axis, so a centred aperture masks nothing, and all 152 rows
+stay: 144 for six rows of text and 8 for the annunciator strip.
+
 ## Set it at first boot
 
-`SETDS 24 6`, then leave `ROW±` and `COL±` available in the DISP menu. The
-blitter must treat 24 × 6 as a default, not a constant: Plus42 genuinely
-resizes at runtime and will hand the shell a different bitmap if asked.
+`SETDS 23 6`, then leave `ROW±` and `COL±` available in the DISP menu. The
+blitter must treat 23 × 6 as a default, not a constant: Plus42 genuinely
+resizes at runtime and will hand the shell a different bitmap if asked. The
+window clipping in `shell_blitter` is what keeps a larger request from
+painting into the masked columns.

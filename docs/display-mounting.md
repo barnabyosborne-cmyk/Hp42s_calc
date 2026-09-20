@@ -119,18 +119,38 @@ an HP-42S, which is the point of the project — the 148 × 80 × 15 mm case is 
 decision made deliberately on 18 September and this is not a good enough
 reason to reopen it. 1.5 mm is a real asymmetry but it is 1.5 mm.
 
-**The cheaper fix is in the case, not the case width.** The original 42S has a
-generous recessed surround around its display rather than a window cut
-straight into the front face. Draw that surround centred on the case and put
-the aperture 1.5 mm right of centre inside it, and the eye compares the
-aperture to the surround, not to the case edges. The offset stops being
-something you can see without a ruler, and it costs nothing.
+**Barnaby's decision, 2026-09-20: the case stays 80 mm, and the aperture is
+centred.** The image is masked in software to suit — see "The visible window"
+below.
 
-If that does not satisfy, the honest last resort is to stop using the whole
-active area: crop it to a centred window and the display is perfectly
-symmetric at the price of about 1.25 character columns, taking the 24-column
-layout to 23. Plus42's own floor is 22, so that is legal. It is a functional
-loss for a cosmetic gain and I would not take it.
+## The visible window
+
+A centred aperture masks the panel unequally, because the active area is not
+centred behind it. The widest centred aperture that stays inside the active
+area is **57.04 mm**, against the active area's own 60.088 mm.
+
+The firmware assumes **56.00 mm**, which runs case X 12.00 → 68.00 and leaves
+0.52 mm of active area behind the case on the left and 3.57 mm on the right.
+That is deliberately a millimetre inside the 57.04 limit: the left-hand margin
+is the thin one, and if the aperture drifts left you start looking at the
+panel's border rather than its ink.
+
+In panel pixels that is columns **3 to 277** — 275 of 296, with 3 hidden on
+the left and 18 on the right. `firmware/main/epd.h` carries it as
+`EPD_VIEW_X` and `EPD_VIEW_W`, and `shell_blitter` drops anything that falls
+outside rather than clipping it, so a glyph is either whole or absent.
+
+**The cost is one character column**: 23 instead of 24, because 24 needs
+286 pixels and we have 275. The original HP-42S showed 22, and Plus42's floor
+is 22, so 23 is comfortable. Working in `docs/character-size.md`.
+
+**Vertically nothing is lost.** The active area *is* centred on its own glass
+across the short axis, 2.798 mm either side, so a centred aperture masks
+nothing and all 152 rows survive.
+
+If the aperture ends up a different width, the two constants in `epd.h` are
+where it lives, and the column count follows from
+`(cols × 6 − 1) × 2 ≤ EPD_VIEW_W`.
 
 ### The notch
 
