@@ -41,9 +41,10 @@ eats 3.3 mm of tail. That leaves:
 ```
 
 Eleven millimetres of back leg, of which the last 4 mm sits inside the
-connector. **So the FPC connector goes on the back with its contacts starting
-within about 5 mm of the notched edge, and its far end no more than 11 mm in.**
-That is a firm constraint, not a preference: there is no slack to move it.
+connector. **So the FPC connector goes on the back with its pad row about 7 mm in from
+the notched edge**, which is where the last 3 mm of flex lands. That is a firm
+constraint, not a preference: there is no slack to move it. The connector body
+can extend as far right as it likes.
 
 A 1.05 mm radius on a 0.3 mm FPC is tight — about 3.5× thickness. It is
 normal practice for this class of part, but it is a fold you make **once**, on
@@ -91,15 +92,45 @@ the panel further right still.
 
 | case wall | panel left edge | board notch | image off centre |
 |---|---|---|---|
-| 1.2 mm | 2.55 mm from the case face | 0.55 mm | 1.52 mm |
+| **1.2 mm** | **2.55 mm from the case face** | **0.55 mm** | **1.52 mm** |
 | 1.5 mm | 2.85 | 0.85 | 1.82 mm |
 | 2.0 mm | 3.35 | 1.35 | 2.32 mm |
 | 2.5 mm | 3.85 | 1.85 | 2.82 mm |
 
-**The wall thickness on that one side is the whole lever.** Everything else in
-the sum is fixed by the panel and the board. If 2 mm is the default wall,
-thinning it to 1.2 mm over the 16 mm the fold occupies buys back 0.8 mm of
-centring, and a local 1.2 mm wall in resin is fine over that span.
+**Barnaby's decision, 2026-09-20: the wall is 1.2 mm**, so the top row is the
+one that is built. The wall thickness on that one side is the whole lever —
+everything else in the sum is fixed by the panel and the board.
+
+### Widening the case does not earn its keep
+
+Barnaby offered to grow the case to 81 or 82 mm. It does help, at exactly
+0.5 mm of centring per millimetre of case, because half the extra width lands
+on each side while the left-hand stack stays put:
+
+| case | image off centre | left bezel | right bezel |
+|---|---|---|---|
+| 80 mm | 1.52 mm | 11.48 | 8.43 |
+| 81 mm | 1.02 mm | 11.48 | 9.43 |
+| 82 mm | 0.52 mm | 11.48 | 10.43 |
+| 83 mm | 0.02 mm | 11.48 | 11.43 |
+
+So 83 mm would put the image dead centre. It would also stop the thing being
+an HP-42S, which is the point of the project — the 148 × 80 × 15 mm case is a
+decision made deliberately on 18 September and this is not a good enough
+reason to reopen it. 1.5 mm is a real asymmetry but it is 1.5 mm.
+
+**The cheaper fix is in the case, not the case width.** The original 42S has a
+generous recessed surround around its display rather than a window cut
+straight into the front face. Draw that surround centred on the case and put
+the aperture 1.5 mm right of centre inside it, and the eye compares the
+aperture to the surround, not to the case edges. The offset stops being
+something you can see without a ruler, and it costs nothing.
+
+If that does not satisfy, the honest last resort is to stop using the whole
+active area: crop it to a centred window and the display is perfectly
+symmetric at the price of about 1.25 character columns, taking the 24-column
+layout to 23. Plus42's own floor is 22, so that is legal. It is a functional
+loss for a cosmetic gain and I would not take it.
 
 ### The notch
 
@@ -112,19 +143,30 @@ Barnaby proposed, and this is the number for it.
 The panel's left edge then sits flush with the notched board edge, the fold
 wraps that edge, and the apex lands 0.3 mm clear of the case wall.
 
-### Placement, for a 1.5 mm wall
+### Placement, as built
 
-In board coordinates, board X measured from its nominal left edge:
+Board coordinates, X from the board's nominal left edge, Y down from its top.
+`tools/place_keypad.py` now carries all of this and will draw it.
 
 | | |
 |---|---|
-| Notch | X 0 → 0.85, about 16 mm tall, centred on the panel |
-| Glass | X 0.85 → 72.67 |
-| Active area | X 9.78 → 69.87 |
-| Image centre | X 39.82 against a board centre of 38.00 |
+| Notch | X 0 → 0.55, Y 16.15 → 32.15 (16 mm, centred on the tail) |
+| Glass | X 0.55 → 72.37, Y 6.00 → 42.30 |
+| Active area | X 9.48 → 69.57, Y 8.80 → 39.50 |
+| Image centre | X 39.52 against a board centre of 38.00 |
+| Tail, unfolded | X −13.75 → 0.55, Y 17.90 → 30.40 |
+| Fold apex | X −0.50, which is 0.30 mm clear of the case wall |
+| Back leg ends | X 10.50 |
+| FPC connector | origin X 9.00, Y 24.15, on the back, mouth facing the left edge |
 
-Re-run the table above if the wall lands anywhere other than 1.5 mm; the panel
-moves with it.
+The connector is a Hirose FH12-24S-0.5SH, whose pad row sits 1.85 mm from its
+origin — so the pads land at X 7.15, inside the last 3 mm of flex. Move the
+connector 2 mm right and the flex pulls out of the contacts. The connector
+*body* may run further right than X 10.50; nothing constrains that. What is
+constrained is where its pads are.
+
+There is still 3.63 mm of board to the right of the glass, so nothing on that
+side is tight.
 
 ### Which side the tail is on is a free choice
 

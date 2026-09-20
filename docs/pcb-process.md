@@ -86,9 +86,11 @@ still in a heap, and placing it is the first real judgement call of the job.
 
 Place in this order, because each constrains the next:
 
-1. **The panel's FPC connector**, back side, under the top of the display
-   area. Its position is set by where the tail exits the glass and how far it
-   reaches — measure the actual panel before committing.
+1. **The panel's FPC connector** — already placed by `tools/place_keypad.py`,
+   back side, origin at board X 9.00, Y 24.15, mouth facing the notched left
+   edge. Do not move it: the 14.30 mm tail has no slack. See
+   `docs/display-mounting.md`. Measure the real panel's tail before you commit
+   the board, because the drawing gives it to ±0.3 mm.
 2. **The module**, back side, in the electronics bay behind the display. The
    antenna end must overhang the board outline with all copper cleared beneath
    it, and sit as far from the USB-C shield and the cell as you can manage.
