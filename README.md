@@ -19,6 +19,7 @@ Case dimensions follow the original HP-42S as closely as the parts allow:
 | `docs/connections.md` | The connection table in prose, with the reasoning. |
 | `docs/keypad-geometry.md` | The measured key grid, and the clearances that follow. |
 | `docs/display-mounting.md` | The panel's tail and off-centre image, and where the cell can go. |
+| `docs/front-face.md` | The etched metal plate, the window, and an edge-lit frontlight. |
 | `docs/kicad-setup.md` | Getting the netlist into KiCad without a wall of errors. |
 | `docs/breadboard.md` | What a XIAO ESP32-S3 and a spare Waveshare panel can and cannot prove. |
 | `firmware/` | The Plus42 port. Not started. |
