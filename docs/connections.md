@@ -171,9 +171,11 @@ The charge-pump network is the part people get wrong. Copy it from Good
 Display's own reference schematic for this panel rather than from a generic
 SSD1680 example; the cap values differ between panels.
 
-Panel mounts on the **front** of the board with the FPC folding through a slot
-to a **back-side** connector, so the connector's height stays out of the front
-stack-up.
+Panel mounts on the **front** of the board. Its 14.30 mm tail folds around the
+board's **left edge** to a back-side connector whose contacts start about 4 mm
+in — there is no slack in that number, and a slot through the board is not an
+option. See `docs/display-mounting.md`, which also covers the panel's
+off-centre active area and where the cell can go.
 
 ---
 

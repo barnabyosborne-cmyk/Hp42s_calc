@@ -18,6 +18,7 @@ Case dimensions follow the original HP-42S as closely as the parts allow:
 | `tools/gen_ic_footprints.py` | The same for the regulator, the IR emitter, the status LED, the ESD array, the USB-C receptacle and the recovery buttons. |
 | `docs/connections.md` | The connection table in prose, with the reasoning. |
 | `docs/keypad-geometry.md` | The measured key grid, and the clearances that follow. |
+| `docs/display-mounting.md` | The panel's tail and off-centre image, and where the cell can go. |
 | `docs/kicad-setup.md` | Getting the netlist into KiCad without a wall of errors. |
 | `docs/breadboard.md` | What a XIAO ESP32-S3 and a spare Waveshare panel can and cannot prove. |
 | `firmware/` | The Plus42 port. Not started. |
