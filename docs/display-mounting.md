@@ -35,16 +35,15 @@ eats 3.3 mm of tail. That leaves:
 
 ```
 14.30  tail
--1.03  front leg, glass edge out to the fold
--3.30  the half-turn
-------
- 9.97  back leg
+-3.30  the half-turn (the panel's edge sits flush with the notched
+------  board edge below, so there is no front leg to speak of)
+11.00  back leg
 ```
 
-Ten millimetres of back leg, of which the last 4 mm sits inside the connector.
-**So the FPC connector goes on the back with its contacts starting about 4 mm
-in from the left edge, and its far end no more than 10 mm in.** That is a firm
-constraint, not a preference: there is no slack to move it.
+Eleven millimetres of back leg, of which the last 4 mm sits inside the
+connector. **So the FPC connector goes on the back with its contacts starting
+within about 5 mm of the notched edge, and its far end no more than 11 mm in.**
+That is a firm constraint, not a preference: there is no slack to move it.
 
 A 1.05 mm radius on a 0.3 mm FPC is tight — about 3.5× thickness. It is
 normal practice for this class of part, but it is a fold you make **once**, on
@@ -54,29 +53,78 @@ are free:
 - Route the board edge under the fold with a radius rather than leaving the
   square milled edge, and put a strip of Kapton over it. The failure mode is
   the board edge sawing through the FPC, not the bend itself.
-- Do not let the case clamp the fold. It wants about 1.5 mm of air.
+- Do not let the case clamp the fold. The notch below gives it 0.3 mm of air
+  to the case wall, and it should not get less.
 
 ## The panel is not centred on its own glass
 
 This is the part that catches people. Across the long axis the active area sits
 **8.93 mm from the tail edge and 2.80 mm from the far edge**. (Across the short
-axis it is centred, 2.798 mm each side.) So there are two ways to place the
-panel and they are not the same:
+axis it is centred, 2.798 mm each side.) Centre the glass on the board and the
+image lands 3.1 mm right of centre, which on a 60 mm image inside an 80 mm case
+you would see every time you picked the thing up.
 
-| | Glass centred on the board | Image centred on the case |
-|---|---|---|
-| Glass spans | X 2.09 – 73.91 | X −0.97 – 70.85 |
-| Image centre | X 41.06, i.e. **3.1 mm right of centre** | X 38.0 ✓ |
-| Glass overhangs the board | no | 0.97 mm on the left |
-| The fold | comfortable, 2 mm of air to the case wall | lands hard against the case wall |
+**Barnaby's decision, 2026-09-20: the image is what gets centred.** It cannot
+be centred exactly, and it is worth understanding why, because the number that
+comes out of it is one Barnaby controls in the case model rather than one this
+board can fix.
 
-3.1 mm of offset on a 60 mm image inside an 80 mm case is visible; you would
-see it every time you picked the thing up. **Centre the image**, let the glass
-overhang the board by 1 mm on the left, and put a relief pocket in the case
-wall for the fold. Barnaby is printing the case, so the pocket is free.
+### Why exactly centred is not available
 
-The 1 mm overhang is not a structural problem — the glass is supported by the
-board across the other 70 mm of its width.
+For the image to be centred in an 80 mm case, its left edge has to sit
+**9.956 mm** in from the case's outer face. Working from the outside in, three
+things have to fit in that 9.956 mm and they do not:
+
+```
+  wall thickness             t
++ air for the fold        0.30
++ fold radius             1.05     half of (0.5 glass + 1.6 board)
++ the glass's own border  8.93     tail side
+= where the image can start   t + 10.28
+```
+
+So the image ends up **(t + 0.32) mm right of centre** — near enough, off by
+the thickness of the case wall. There is no arrangement that beats it. Putting
+the tail on the right just mirrors the problem, and routing through a slot in
+the board is worse, because a slot needs board outboard of it and that pushes
+the panel further right still.
+
+| case wall | panel left edge | board notch | image off centre |
+|---|---|---|---|
+| 1.2 mm | 2.55 mm from the case face | 0.55 mm | 1.52 mm |
+| 1.5 mm | 2.85 | 0.85 | 1.82 mm |
+| 2.0 mm | 3.35 | 1.35 | 2.32 mm |
+| 2.5 mm | 3.85 | 1.85 | 2.82 mm |
+
+**The wall thickness on that one side is the whole lever.** Everything else in
+the sum is fixed by the panel and the board. If 2 mm is the default wall,
+thinning it to 1.2 mm over the 16 mm the fold occupies buys back 0.8 mm of
+centring, and a local 1.2 mm wall in resin is fine over that span.
+
+### The notch
+
+The board is inset 2 mm from the case face all round, so with any wall of
+1.35 mm or more **the board reaches the wall and there is nowhere for the fold
+to go**. It needs a local notch in the board's left edge, `wall − 0.65` mm
+deep, over about 16 mm of height centred on the panel. That is the cutout
+Barnaby proposed, and this is the number for it.
+
+The panel's left edge then sits flush with the notched board edge, the fold
+wraps that edge, and the apex lands 0.3 mm clear of the case wall.
+
+### Placement, for a 1.5 mm wall
+
+In board coordinates, board X measured from its nominal left edge:
+
+| | |
+|---|---|
+| Notch | X 0 → 0.85, about 16 mm tall, centred on the panel |
+| Glass | X 0.85 → 72.67 |
+| Active area | X 9.78 → 69.87 |
+| Image centre | X 39.82 against a board centre of 38.00 |
+
+Re-run the table above if the wall lands anywhere other than 1.5 mm; the panel
+moves with it.
 
 ### Which side the tail is on is a free choice
 
