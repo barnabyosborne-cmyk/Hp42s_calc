@@ -187,6 +187,55 @@ def bicolor_ra(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def single_ra(name, descr, tags):
+    """Dialight 599 single-colour 1208 right angle. Same land pattern as the
+    bi-colour above -- two 1.0 x 1.5 end pads 2.0 apart and a 0.9 x 0.65 pad
+    between them -- but NOT the same pin numbering, which is the whole reason
+    this is a second footprint rather than a reuse.
+
+    From the top view on page 1 of the Dialight 599 RA Single-Color 1208
+    datasheet (Aug 2026): pin 2 is the left-hand terminal, pin 1 the
+    right-hand one, pin 3 the centre one. The LED schematic on the same page
+    draws the die from pin 2 to pin 1 with the bar at pin 1, and the cathode
+    mark on the package is at that end, so pin 1 is the CATHODE and pin 3 is
+    mechanical only.
+
+    On the bi-colour part the left pad is 3 and the right is 2. Fit one part
+    to the other's footprint and it is backwards."""
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        '\t(fp_text reference "REF**" (at 0 2.60) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 3.80) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        '\t(fp_rect (start -1.500 -0.500) (end 1.500 0.500) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        '\t(fp_arc (start 1.000 -0.500) (mid 0 -1.570) (end -1.000 -0.500) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        '\t(fp_line (start 0 -2.170) (end 0 0.500) '
+        '(stroke (width 0.05) (type dot)) (layer "F.Fab"))',
+        '\t(fp_rect (start -2.250 -1.820) (end 2.250 1.400) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))',
+        # cathode bar outboard of pin 1, which is the RIGHT pad here
+        '\t(fp_line (start 2.150 -0.750) (end 2.150 0.750) '
+        '(stroke (width 0.15) (type solid)) (layer "F.SilkS"))',
+        '\t(pad "2" smd roundrect (at -1.500 0) (size 1.000 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "1" smd roundrect (at 1.500 0) (size 1.000 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "3" smd roundrect (at 0 0.815) (size 0.900 0.650) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        ')',
+    ]
+    return "\n".join(out) + "\n"
+
+
 def uson_dqa(name, descr, tags):
     """TI DQA0010A, USON-10 2.5 x 1.0 mm. Not the same land as KiCad's generic
     USON-10_2.5x1.0mm_P0.5mm: TI makes the two ground terminals (pins 3 and 8)
@@ -483,6 +532,14 @@ def main():
                   "above the board face the part is soldered to. Pad 2 = common "
                   "anode, pad 3 = LED die 1, pad 1 = LED die 2.",
             tags="LED bicolor side-view right-angle Dialight 599 1208",
+        ),
+        "Dialight_599_White_1208_RA": single_ra(
+            name="Dialight_599_White_1208_RA",
+            descr="Dialight 599 series MicroLED, single-colour 1208 right angle, "
+                  "3.0x2.0x1.0 mm. Same land as the bi-colour part, DIFFERENT pin "
+                  "numbering: pad 2 = anode, pad 1 = cathode, pad 3 = mechanical, no "
+                  "connect. Lens faces -y. Used by the frontlight's 599-2Q01-147F.",
+            tags="LED white side-view right-angle Dialight 599 1208 frontlight",
         ),
         "TI_DQA0010A_USON-10_2.5x1mm_P0.5mm": uson_dqa(
             name="TI_DQA0010A_USON-10_2.5x1mm_P0.5mm",

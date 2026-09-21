@@ -239,10 +239,45 @@ connector and the panel's converter at X 7–20 as the board allows, and it only
 runs when the user has asked for light, which is not while the panel is being
 refreshed in the dark.
 
-Parts: four LEDs, the TPS61165, a 22 µH inductor, a 30 V Schottky, an input
-cap, a 25 V output cap and the current-set resistor. Ten instead of seven, and
-one GPIO for PWM — `GPIO26`, `41` and `42` are free, and `GPIO40` is spoken for
-as the sounder's antiphase pin.
+### As drawn
+
+This is now in the schematic, in `elec/src/frontlight.ato`, and wired into the
+top level on **`IO41`**. `IO26` and `IO42` stay free and `IO40` stays spoken
+for as the sounder's antiphase pin.
+
+Eight parts on the main board:
+
+| | | |
+|---|---|---|
+| U | TPS61165DBVR | SOT-23-6 |
+| L | 22 µH, NR3015T220M | 3.0 × 3.0 × 1.5 mm |
+| D | 1N5819HW | the same Schottky as the panel's charge pump, so no new BOM line |
+| C | 4.7 µF | input, 0603 |
+| C | 1 µF 25 V | output — it sees 13.8 V, and a 16 V part there dies |
+| C | 220 nF | COMP |
+| R | 10 Ω | current set: 0.2 V ÷ 20 mA, the LED's rated maximum |
+| R | 1 MΩ | holds CTRL down |
+
+plus two solder pads, `FL+` and `FL−`, and the four LEDs on the sliver. Twelve
+active parts rather than the seven the parallel scheme would have taken.
+
+The 1 MΩ is not optional. CTRL low is shutdown, and the driving GPIO is high
+impedance at reset and through boot, so without it the frontlight's state
+during boot is whatever leakage decides. 4.7 MΩ would cost a fifth as much
+standing current but leaves CTRL at nearly half a volt, too near the threshold
+to trust.
+
+Two soldered wires to the sliver rather than a connector: a connector inside a
+case that is never opened is a part that can work loose, and it would have to
+be under 1 mm tall to fit beside the guide.
+
+**What it costs when it is off.** `SYS` is upstream of the power slider, so the
+driver is live whenever there is a cell in the case: the TPS61165's shutdown
+current plus 4.2 µA through the 1 MΩ comes to about **5 µA**. Against a board
+that otherwise sits at 10 µA switched off, that turns six years in a drawer
+into about four. It is a real cost and it is the reason the whole block is
+fitted per unit: a calculator built without a light guide has none of these
+parts on it and none of the 5 µA.
 
 ### Bonding
 
@@ -261,8 +296,8 @@ speck under it is permanent.
    a ground bond pad.
 2. **No separate window** — if the frontlight happens the guide is the window,
    and if it does not, the panel's own hard coat is enough.
-3. **The frontlight as an option.** Ten parts and one GPIO is cheap enough that
-   leaving room for it costs nothing, and the light guide is the part that
-   might not come out well — which is a question of laser time, not of board
-   respins. Say the word and I will add the footprints; they can be fitted or
-   not on a per-unit basis.
+3. **The frontlight as an option — now drawn.** Twelve parts and one GPIO is
+   cheap enough that leaving room for it costs nothing, and the light guide is
+   the part that might not come out well, which is a question of laser time
+   rather than of board respins. The circuit is in `elec/src/frontlight.ato`;
+   a unit built without a guide simply does not have any of it fitted.

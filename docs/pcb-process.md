@@ -20,9 +20,10 @@ does not route; it is the schematic, written as text.
 | `U2` BQ25185 | pin numbers | TI's datasheet, which this session cannot fetch |
 | `U3` TPS63900 | footprint *and* pin numbers | TI's land pattern |
 | `U4` MAX17048 | footprint *and* pin numbers | Analog's land pattern |
+| `U6` TPS61165 | pin numbers to confirm | TI's package drawing — ti.com is blocked from this session, and the numbers in `parts.ato` came out of a text extraction of the pin-functions table, not off the drawing |
 
-If you can download those three datasheets and drop them in the thread the way
-you did the panel spec, all three close in one go. Everything else on the
+If you can download those four datasheets and drop them in the thread the way
+you did the panel spec, all four close in one go. Everything else on the
 board — the MCU, the panel, its booster, USB, the keypad, the top-edge parts,
 every passive — is complete and routable now.
 

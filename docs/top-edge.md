@@ -33,12 +33,25 @@ care what is underneath it. The actuators come out of the *edge* of the board,
 so which side they are soldered to only shifts them 1.6 mm in Z, and you are
 printing the case anyway.
 
-The alternative is to grow the top bezel to about 14 mm and put all three on
+The alternative is to grow the top bezel to about 14 mm and put all six on
 the front above the panel. There is room — the keyboard came in at 78 mm rather
 than the 84 mm originally budgeted, so 12 mm are spare, and the gap between
-panel and first key row would still be 10.7 mm. It is the cleaner board. It
-also drops the display 6 mm lower than the real 42S, which is a bigger change
-to the face than it sounds.
+panel and first key row would still be 10.7 mm rather than the 16.7 it is now.
+It is the cleaner board. It also drops the display 6 mm lower than the real
+42S, which is a bigger change to the face than it sounds.
+
+**2026-09-21: the cell went to the back, and that changed this question.** The
+battery bay at the top of the back is about 49 mm tall, and it is 49 rather
+than 58 because the USB-C receptacle reaches 8.83 mm into the board from the
+top edge. A 1600 mAh cell wants 50 mm. So as things stand the cell misses by a
+millimetre and has to either spill past the keyboard line or go thicker and
+narrower. Move the six parts to the front and that 8.83 mm comes back, the bay
+becomes about 57 mm, and the cell simply fits.
+
+So the trade is now: **8 mm** keeps the display where the original 42S has it
+and makes the battery awkward; **14 mm** makes the board and the battery both
+straightforward and moves the display 6 mm down the face. It is an aesthetic
+call against two mechanical conveniences, which is Barnaby's to make.
 
 ## Side actuation is the whole trick
 

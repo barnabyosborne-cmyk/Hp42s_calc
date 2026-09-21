@@ -197,8 +197,18 @@ border moves to the right and the image offset flips with it.
 
 ## Where this leaves the cell
 
-Barnaby wants the 1600 mAh cell on the back at the top. The layout as drawn
-puts it behind the keyboard. Both work; they cost different things.
+**Settled 2026-09-21: the cell goes on the back**, at the top, which is where
+Barnaby asked for it on 2026-09-20. The layout as drawn had it behind the
+keyboard. What that costs is below, and the short version is that the top of
+the back is currently the electronics bay, so the electronics move.
+
+There is one live interaction with the top-bezel question in
+`docs/top-edge.md`. The bay at the top of the back is about 49 mm tall because
+the USB-C receptacle reaches 8.83 mm into the board from the top edge, and a
+1600 mAh cell wants 50. If the bezel grows to about 14 mm and the six top-edge
+parts move to the *front* above the panel, that 8.83 mm comes back and the bay
+becomes roughly 57 mm, which the cell fits with room to spare. So the bezel
+decision is now also a battery decision.
 
 **The ribbon can never reach the cell.** At 14.30 mm it is spent before it
 clears the connector. So "short ribbon stopping before the battery" is not a

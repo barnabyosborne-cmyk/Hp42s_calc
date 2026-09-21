@@ -1,0 +1,166 @@
+from "parts.ato" import TPS61165, FrontlightInductor, SchottkyDiode
+from "parts.ato" import FrontlightLED, Resistor, Capacitor, CapBoost, TestPad
+
+# ---------------------------------------------------------------------------
+# frontlight.ato -- the optional edge-lit reading light.
+#
+# E-paper is reflective, so it cannot have a backlight. What it can have is
+# what every Kindle has: a light guide lying ON TOP of the panel, injected
+# from one edge, with an extraction pattern on its upper face that throws the
+# light down onto the ink. The guide is 1.0 mm cast acrylic and doubles as the
+# display window. See docs/front-face.md for the optics and the laser work.
+#
+# Nothing here is fitted on a unit without a guide. That is the reason it is
+# allowed to cost about 5 uA standing (below), against a board that otherwise
+# sits at 10 uA switched off.
+#
+# TWO MODULES, ON TWO DIFFERENT BOARDS.
+#
+#   Frontlight       the driver. On the main board, in the strip between the
+#                    panel and the keyboard.
+#   FrontlightStrip  the four LEDs. NOT instantiated by hp42s.ato, because
+#                    they do not go on the main board at all.
+#
+# Why the LEDs are somewhere else: the guide sits on the panel, so its edge
+# runs from 1.1 to 2.1 mm above the board's top copper, optical centre 1.6.
+# A 1208 part soldered flat to the board emits at 0.5 mm. That is 1.1 mm of
+# miss, which is most of the light. A 1.0 mm FR4 sliver lying on the main
+# board puts the LED centres at 1.5 mm, which is 0.1 mm out and invisible.
+# So the main board ends at two solder pads and two short wires go to it.
+#
+# Why a boost rather than four resistors off SYS. The white 599 is 3.4 V
+# typical forward, 3.7 V worst case, and SYS is the cell at 3.0 to 4.2 V.
+# There is no headroom to ballast with at a half-empty cell, and none at all
+# at a low one. Series on a boost fixes that, and as a side effect makes the
+# four currents identical and the brightness independent of charge state, so
+# there is nothing for the firmware to compensate.
+#
+# Why it can sit next to the panel's own converter. This is a second fast
+# switching node on a board that works hard to keep the first one away from
+# the panel's SPI. Two things contain it: it goes at the right-hand end of
+# the strip, as far from the FPC connector and the panel's booster as the
+# board allows, and it only runs when the user has asked for light, which is
+# not while the panel is being refreshed in the dark.
+# ---------------------------------------------------------------------------
+
+module Frontlight:
+    # --- interface ----------------------------------------------------------
+    signal sys      # the cell, 3.0 to 4.2 V, upstream of the power slider
+    signal gnd
+    signal pwm      # from a GPIO. Low or high impedance = off.
+
+    # --- internal nodes -----------------------------------------------------
+    signal sw       # inductor / SW / diode anode
+    signal vled     # boost output, about 13.8 V, to the LED string's anode
+    signal fb       # string cathode back into FB and the sense resistor
+    signal comp
+
+    u = new TPS61165
+    u.VIN ~ sys
+    u.GND ~ gnd
+    u.SW  ~ sw
+    u.FB  ~ fb
+    u.COMP ~ comp
+    u.CTRL ~ pwm
+
+    # --- the boost ----------------------------------------------------------
+    l_fl = new FrontlightInductor
+    l_fl.p1 ~ sys
+    l_fl.p2 ~ sw
+
+    # 1N5819HW again, the same part as the panel's charge pump, so the BOM
+    # does not grow a line. 40 V and 1 A against 13.8 V and about 100 mA.
+    d_fl = new SchottkyDiode
+    d_fl.anode ~ sw
+    d_fl.cathode ~ vled
+
+    # Output cap sees the full 13.8 V, so it is the 25 V 0603 part the panel
+    # rails already use. A 16 V part here is a part that dies.
+    c_out = new CapBoost
+    c_out.value = "1u 25V"
+    c_out.p1 ~ vled
+    c_out.p2 ~ gnd
+
+    c_in = new Capacitor
+    c_in.value = "4u7"
+    c_in.footprint = "Capacitor_SMD:C_0603_1608Metric"
+    c_in.p1 ~ sys
+    c_in.p2 ~ gnd
+
+    c_comp = new Capacitor
+    c_comp.value = "220n"
+    c_comp.p1 ~ comp
+    c_comp.p2 ~ gnd
+
+    # --- current set --------------------------------------------------------
+    # 200 mV reference, so R = 0.2 / I. 10 Ohm is 20 mA, which is the LED's
+    # rated maximum and the brightest the light will ever go. Everything
+    # below that is PWM duty on CTRL, which is how the part is meant to be
+    # dimmed. At 20 mA the string is 13.8 V and pulls about 88 mA off the
+    # cell -- roughly 18 hours from 1600 mAh. A 5 mA reading level is about
+    # 20 mA off the cell and 80 hours.
+    r_set = new Resistor
+    r_set.value = "10"
+    r_set.p1 ~ fb
+    r_set.p2 ~ gnd
+
+    # --- keeping it off ------------------------------------------------------
+    # CTRL low is shutdown. The driving GPIO is high impedance at reset and
+    # through boot, so without this the frontlight's state during boot is
+    # whatever leakage decides. 1 M against the part's input leakage holds
+    # CTRL under 0.1 V, and costs 4.2 uA at a full cell; 4.7 M would be a
+    # tenth of that but leaves CTRL at nearly half a volt, which is too close
+    # to the threshold to trust.
+    r_ctrl = new Resistor
+    r_ctrl.value = "1M"
+    r_ctrl.p1 ~ pwm
+    r_ctrl.p2 ~ gnd
+
+    # --- out to the LED sliver ----------------------------------------------
+    # Two soldered wires, not a connector: a connector inside a resin case
+    # that is never opened is a part that can work loose, and it would have
+    # to be shorter than 1 mm to fit under the guide.
+    pad_a = new TestPad
+    pad_a.value = "FL+"
+    pad_a.p ~ vled
+
+    pad_k = new TestPad
+    pad_k.value = "FL-"
+    pad_k.p ~ fb
+
+
+module FrontlightStrip:
+    # The 1.0 mm FR4 sliver. Its own little board, about 60 x 4 mm, lying on
+    # the main board in the strip between the panel and the keyboard, with
+    # the four LEDs looking up the short axis of the display.
+    #
+    # NOT instantiated by hp42s.ato. It is here so the string, its polarity
+    # and its footprint are captured in one place with the driver that feeds
+    # it, and so this file is what gets built when the sliver is laid out.
+    #
+    # Spacing: four on a 15 mm pitch across the 60 mm injection edge, at 7.5,
+    # 22.5, 37.5 and 52.5 mm. Two things cover the ends and the near-edge hot
+    # spots for free -- the active area starts 2.798 mm in from the glass
+    # edge on this axis, so there is a mixing zone of dead glass before the
+    # first visible pixel, and the 56.00 mm aperture hides about 2 mm at each
+    # end of the 60.088 mm active area.
+    signal anode    # to FL+ on the main board
+    signal cathode  # to FL-
+
+    signal n1
+    signal n2
+    signal n3
+
+    d1 = new FrontlightLED
+    d2 = new FrontlightLED
+    d3 = new FrontlightLED
+    d4 = new FrontlightLED
+
+    d1.anode ~ anode
+    d1.cathode ~ n1
+    d2.anode ~ n1
+    d2.cathode ~ n2
+    d3.anode ~ n2
+    d3.cathode ~ n3
+    d4.anode ~ n3
+    d4.cathode ~ cathode

@@ -463,6 +463,7 @@ component ESP32S3MINI1:
     signal IO38 ~ pin 34
     signal IO39 ~ pin 35
     signal IO40 ~ pin 36
+    signal IO41 ~ pin 37   # frontlight PWM
     signal IO47 ~ pin 27
     signal IO48 ~ pin 30
     signal USB_DM ~ pin 23
@@ -631,3 +632,82 @@ component IRLED:
     value = "VSMB2943SLX01 940nm side-view"
     signal cathode ~ pin 1
     signal anode ~ pin 2
+
+# --- frontlight ------------------------------------------------------------
+# Optional. Neither of these is fitted on a unit without a light guide, which
+# is why their standing current is allowed to be non-zero. See
+# docs/front-face.md.
+
+component FrontlightLED:
+    # Dialight 599-2Q01-147F. White InGaN behind a yellow diffused lens,
+    # 1208 right angle, 3.0 x 2.0 x 1.0 mm, 90/200/320 mcd at 20 mA, 130
+    # degree viewing angle, Vf 2.9/3.4/3.7 V.
+    #
+    # The forward voltage is the number that shaped the whole circuit. At
+    # 3.4 V typical there is no headroom left on a half-empty cell, so these
+    # cannot be ballasted off SYS the way the status LED is off 3V3 -- hence
+    # the boost. See docs/front-face.md.
+    #
+    # 130 degrees sounds far too wide for edge injection and is not: light
+    # entering acrylic from air is refracted into a cone of +/- 42 degrees
+    # however wide it arrives, and all of that totally-internally-reflects.
+    # Wide mixes faster and shortens the hot-spot zone at the injection edge.
+    #
+    # SAME PACKAGE AS THE STATUS LED, DIFFERENT PIN NUMBERS. On the
+    # bi-colour part the left pad is 3 and the right is 2; on this one the
+    # left pad is 2 and the right is 1, and pad 3 is a mechanical anchor with
+    # nothing bonded to it. That is why it has its own footprint. Pin 1 is
+    # the cathode, from the LED schematic and cathode mark on page 1 of the
+    # 599 RA Single-Color 1208 datasheet.
+    #
+    # These do not go on the main board. They sit on a 1.0 mm FR4 sliver that
+    # lies on it, because the light guide's edge is 1.1 mm higher than a part
+    # soldered flat would emit.
+    footprint = "hp42s:Dialight_599_White_1208_RA"
+    designator_prefix = "D"
+    value = "599-2Q01-147F white"
+    signal cathode ~ pin 1
+    signal anode ~ pin 2
+    signal nc ~ pin 3
+
+component TPS61165:
+    # Single-string white LED driver, SOT-23-6 (DBV). 3 to 18 V in, up to
+    # 38 V out, 1.2 MHz, 200 mV feedback reference at 2 percent, PWM or
+    # EasyScale dimming on CTRL, open-LED protection.
+    #
+    # Four LEDs in series want about 13.6 V out of a 3.0 to 4.2 V cell, which
+    # is what forces a boost. Series also collapses four ballast resistors
+    # into one current-set resistor and holds the current constant all the
+    # way down the discharge, so nothing in firmware has to compensate.
+    #
+    # Open-LED protection earns its keep here more than usual: the LEDs are
+    # on a separate sliver at the end of two soldered wires.
+    #
+    # PIN NUMBERS TO RE-CHECK BEFORE FAB. These are from the pin functions
+    # table on page 3 of the datasheet, read through a text extraction rather
+    # than off the package drawing. They are in docs/kicad-setup.md's list.
+    # KiCad's SOT-23-6 pads are called 1..6, so these are numbers, not names.
+    footprint = "Package_TO_SOT_SMD:SOT-23-6"
+    designator_prefix = "U"
+    value = "TPS61165DBVR"
+    signal VIN  ~ pin 1
+    signal CTRL ~ pin 2
+    signal SW   ~ pin 3
+    signal GND  ~ pin 4
+    signal COMP ~ pin 5
+    signal FB   ~ pin 6
+
+component FrontlightInductor:
+    # 22 uH, 3.0 x 3.0 x 1.5 mm shielded, e.g. Taiyo Yuden NR3015T220M:
+    # 0.53 A saturation, about 0.45 Ohm DCR. L_APV_ANR3015 is the 3015 land
+    # pattern and fits it -- unlike the panel's 47 uH, where the same
+    # footprint is a stand-in for a larger body.
+    #
+    # At 20 mA of LED current the converter runs in discontinuous mode
+    # (ripple is of the same order as the mean inductor current), which is
+    # normal and efficient at this load rather than a problem.
+    footprint = "Inductor_SMD:L_APV_ANR3015"
+    designator_prefix = "L"
+    value = "22u NR3015T220M"
+    signal p1 ~ pin 1
+    signal p2 ~ pin 2

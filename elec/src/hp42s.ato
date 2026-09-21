@@ -3,6 +3,7 @@ from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
+from "frontlight.ato" import Frontlight
 
 # ---------------------------------------------------------------------------
 # hp42s.ato -- top level.
@@ -29,9 +30,11 @@ from "keypad.ato" import Keypad
 # Chip pins 26-32 are the internal SPI flash. Of those, only IO26 comes out of
 # the module, and it is free on the -N8 -- it is the PSRAM pin on an -N4R2.
 #
-# Still free: IO26, IO40, IO41, IO42. IO40 is earmarked for driving the
-# sounder in antiphase if it needs to be louder. Hardware JTAG on IO39-IO42
-# is already gone, see the status LED below.
+# Still free: IO26, IO40, IO42. IO40 is earmarked for driving the sounder
+# in antiphase if it needs to be louder. IO41 has gone to the frontlight's
+# PWM -- it is only wired on units that have a light guide, but the net is
+# always in the netlist. Hardware JTAG on IO39-IO42 is already gone, see
+# the status LED below.
 # ---------------------------------------------------------------------------
 
 module HP42S:
@@ -55,6 +58,7 @@ module HP42S:
     signal led_red
     signal led_green
     signal en
+    signal frontlight_pwm
 
     power = new Power
     power.gnd ~ gnd
@@ -285,6 +289,26 @@ module HP42S:
     r_led_green.value = "1k"
     r_led_green.p1 ~ led_green
     r_led_green.p2 ~ led_status.ygreen
+
+    # --- frontlight ----------------------------------------------------------
+    # Optional, and not fitted on a unit without a light guide. IO41 was one
+    # of the four pins still free; IO26 and IO42 remain, and IO40 stays
+    # earmarked for driving the sounder in antiphase.
+    #
+    # This runs off SYS rather than 3V3, because four white LEDs in series
+    # want about 13.6 V and the part is 3.4 V typical forward -- there is no
+    # headroom to ballast them off a rail at all. See frontlight.ato.
+    #
+    # SYS is upstream of the power slider, so the driver is live whenever
+    # there is a cell in the case. Its shutdown current plus the 1 M holding
+    # CTRL down is about 5 uA. That is real against a 10 uA switched-off
+    # board, and it is the price of the feature on the units that have it.
+    mcu.IO41 ~ frontlight_pwm
+
+    frontlight = new Frontlight
+    frontlight.sys ~ power.sys
+    frontlight.gnd ~ gnd
+    frontlight.pwm ~ frontlight_pwm
 
     # --- test pads -----------------------------------------------------------
     tp_bat = new TestPad
