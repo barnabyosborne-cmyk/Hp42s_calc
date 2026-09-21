@@ -77,6 +77,21 @@ component NFET:
     signal source ~ pin 2
     signal drain ~ pin 3
 
+component ChassisPad:
+    # Bond pad for the etched steel faceplate, on the front near the USB-C
+    # shield's ground stitch rather than near the module. A metal plate the
+    # user touches is an ESD entry path straight onto the board, and this is
+    # where the charge is meant to go instead of through the MCU. See
+    # docs/front-face.md.
+    #
+    # 3 x 3 mm because what lands on it is a spring finger or a screw boss,
+    # not a probe. Contact resistance does not matter; area and a reliable
+    # touch do.
+    footprint = "TestPoint:TestPoint_Pad_3.0x3.0mm"
+    designator_prefix = "TP"
+    value = "faceplate ground bond"
+    signal p ~ pin 1
+
 component TestPad:
     footprint = "TestPoint:TestPoint_Pad_D1.5mm"
     designator_prefix = "TP"
@@ -342,7 +357,8 @@ component CapBoost:
 # edge of the case rather than through its front or back. That is the whole
 # reason for these two particular parts -- an ordinary top-actuated slide
 # switch or tact switch cannot reach a case edge at all.
-# Both mount on the BACK of the board. See docs/top-edge.md.
+# Both mount on the FRONT of the board, above the panel -- they moved there
+# with the 14 mm bezel on 21 September 2026. See docs/top-edge.md.
 
 component SlideSwitch:
     # Shouhan MSK-12C02, SPDT, side-actuated, 6.7 x 2.8 mm body with the knob
@@ -355,8 +371,11 @@ component SlideSwitch:
     # either way; it is the land pattern that wants a second look.
     #
     # The larger C&K JS102011SAQN is the nicer switch and has a clean 2.5 mm
-    # pitch, but its courtyard is 8.75 mm deep and does not fit the 6 mm of
-    # board above the panel. It becomes an option if the top bezel grows.
+    # pitch. Its courtyard is 8.75 mm deep, which did not fit the 6 mm of
+    # board above the panel on the old 8 mm bezel. THE BEZEL IS NOW 14 mm AND
+    # THERE ARE 12 mm, so it fits and it is the better part: a real detent on
+    # the switch you touch every day, and a land pattern that is not in
+    # question the way this one is. Decide it before layout, not after.
     footprint = "Button_Switch_SMD:SW_SPDT_Shouhan_MSK12C02"
     designator_prefix = "SW"
     value = "MSK-12C02 SPDT"

@@ -7,25 +7,22 @@ You are at the end of step 1.
 
 ---
 
-## 1. The wiring — atopile · DONE, with four holes
+## 1. The wiring — atopile · DONE
 
 `elec/src/*.ato` describes what connects to what. `ato build` compiles it to
 `build/default.net`, a KiCad netlist, plus a BOM. atopile does not place and
 does not route; it is the schematic, written as text.
 
-**Four parts are still incomplete**, and they are mine to finish:
+**Everything is drawn and the netlist is complete.** Every footprint resolves
+and every pin in the netlist lands on a real pad, checked mechanically against
+the `.kicad_mod` files rather than by eye.
 
-| | what is missing | blocked on |
-|---|---|---|
-| `U2` BQ25185 | pin numbers | TI's datasheet, which this session cannot fetch |
-| `U3` TPS63900 | footprint *and* pin numbers | TI's land pattern |
-| `U4` MAX17048 | footprint *and* pin numbers | Analog's land pattern |
-| `U6` TPS61165 | pin numbers to confirm | TI's package drawing — ti.com is blocked from this session, and the numbers in `parts.ato` came out of a text extraction of the pin-functions table, not off the drawing |
-
-If you can download those four datasheets and drop them in the thread the way
-you did the panel spec, all four close in one go. Everything else on the
-board — the MCU, the panel, its booster, USB, the keypad, the top-edge parts,
-every passive — is complete and routable now.
+What is still open is in **`docs/before-layout.md`**, sorted by whether it
+stops you starting. The two that do not block layout but do block ordering are
+`U3` TPS63900 and `U6` TPS61165: their footprints are right, but the assignment
+of function to pin number has not been read off a package drawing, and
+`ti.com` is blocked from this session. Drop those two PDFs in the thread the
+way you did the panel spec and they close in one go.
 
 **Done looks like:** `ato build` ends in `Build complete!` and
 `grep -c '"lib:' build/default.net` prints `0`.

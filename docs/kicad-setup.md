@@ -84,11 +84,9 @@ than merely unmapped, and any one of them would have cost a board:
 
 ## Things to check before fab
 
-**`L2`, the panel's 47 µH.** Still on a 3.0 × 3.0 × 1.5 mm stand-in pattern.
-The part Solomon Systech name is a Sumida CDRH2D18, which is 3.2 × 3.2 × 2.0.
-Replace the footprint when the drawing turns up.
-
-**The fuel gauge's I²C.** `U4` now runs off the cell rather than the 3.3 V
-rail, so its SDA/SCL sit on a 4.2 V part with 3.3 V pull-ups. Its input
-thresholds are fixed rather than VDD-referenced, so this should be fine — read
-the DC table and confirm.
+The full list lives in **`docs/before-layout.md`**, sorted by whether it stops
+you starting layout or only stops you ordering boards. The two that change a
+footprint's shape, and so want deciding first, are the slide switch (KiCad's
+Shouhan land pattern is doubtful, and the nicer C&K part fits now the bezel is
+14 mm) and `L2`, the panel's 47 µH, which is still on a stand-in pattern inside
+a switching loop.

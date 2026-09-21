@@ -1,5 +1,5 @@
 from "parts.ato" import ESP32S3MINI1, Buzzer, IRLED, TactSwitchSide, StatusLED
-from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad
+from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad, ChassisPad
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
@@ -309,6 +309,17 @@ module HP42S:
     frontlight.sys ~ power.sys
     frontlight.gnd ~ gnd
     frontlight.pwm ~ frontlight_pwm
+
+    # --- faceplate ground bond -----------------------------------------------
+    # The etched steel plate over the keyboard and display is an ESD entry
+    # path the moment a finger touches it. This gives the charge somewhere to
+    # go that is not through the MCU. Put it on the FRONT near the USB-C
+    # shield's ground stitch, not near the module. See docs/front-face.md.
+    #
+    # It is one pad and a spring finger. If the plate is never fitted, it is
+    # a 3 x 3 mm patch of grounded copper and costs nothing.
+    plate_gnd = new ChassisPad
+    plate_gnd.p ~ gnd
 
     # --- test pads -----------------------------------------------------------
     tp_bat = new TestPad
