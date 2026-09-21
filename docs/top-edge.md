@@ -1,7 +1,7 @@
 # The top edge
 
 Six things come out of the 80 x 15 mm top face of the case, and all six are on
-the **back** of the board:
+the **front** of the board, above the panel:
 
 | | part | why it is here |
 |---|---|---|
@@ -12,13 +12,17 @@ the **back** of the board:
 | BOOT | Alps SKRTLAE010, side push with guide bosses | recovery |
 | RESET | Alps SKRTLAE010, side push with guide bosses | recovery |
 
-## Why the back
+## Why the front, and why that used to be impossible
 
-The board is 76 x 144 mm inside a 148 x 80 mm case. Above the panel there are
-only 6 mm of board, because the front face budget spends 8 mm on the top bezel
-and the 2 mm case inset eats a quarter of that.
+**They were on the back until 21 September 2026.** What moved them was the
+bezel: Barnaby chose a 14 mm top bezel over the 8 mm the design had been
+carrying.
 
-Six millimetres is not enough. Measured from KiCad's own courtyards:
+The board is 76 x 144 mm inside a 148 x 80 mm case, and the 2 mm inset eats
+2 mm of whatever the front face spends on the bezel. So an 8 mm bezel leaves
+6 mm of board above the panel, and 14 mm leaves 12.
+
+Six millimetres was not enough. Measured from KiCad's own courtyards:
 
 | part | reaches into the board |
 |------|------------------------|
@@ -28,30 +32,40 @@ Six millimetres is not enough. Measured from KiCad's own courtyards:
 | Shouhan MSK-12C02 slider | 5.15 mm |
 | USB-C receptacle | 8.83 mm |
 
-On the back, none of that matters: the panel is glued to the front and does not
-care what is underneath it. The actuators come out of the *edge* of the board,
-so which side they are soldered to only shifts them 1.6 mm in Z, and you are
-printing the case anyway.
+Twelve is. The USB-C receptacle is the part that decided it either way, and at
+8.83 mm it now clears with 3.17 mm to spare.
 
-The alternative is to grow the top bezel to about 14 mm and put all six on
-the front above the panel. There is room — the keyboard came in at 78 mm rather
-than the 84 mm originally budgeted, so 12 mm are spare, and the gap between
-panel and first key row would still be 10.7 mm rather than the 16.7 it is now.
-It is the cleaner board. It also drops the display 6 mm lower than the real
-42S, which is a bigger change to the face than it sounds.
+### What the move buys
 
-**2026-09-21: the cell went to the back, and that changed this question.** The
-battery bay at the top of the back is about 49 mm tall, and it is 49 rather
-than 58 because the USB-C receptacle reaches 8.83 mm into the board from the
-top edge. A 1600 mAh cell wants 50 mm. So as things stand the cell misses by a
-millimetre and has to either spill past the keyboard line or go thicker and
-narrower. Move the six parts to the front and that 8.83 mm comes back, the bay
-becomes about 57 mm, and the cell simply fits.
+- **The cell fits.** The battery bay at the top of the back was about 49 mm
+  tall, and it was 49 rather than 57 because the USB-C reached 8.83 mm into
+  the board. A 1600 mAh cell wants 50, so it missed by a millimetre and had to
+  either spill past the keyboard line or go thicker and narrower. It now has
+  about 54 mm (see the caveat below) and simply fits.
+- **Nothing is flipped.** Every one of the six was previously placed with a
+  layer flip composed with a 180 degree rotation, and the orientation of a
+  flipped side-actuated part is the kind of thing you get wrong once and find
+  out about at assembly. On the front the 180 degrees is the whole story.
+- **The back is clean.** The top of the back is now the battery bay and
+  nothing else.
 
-So the trade is now: **8 mm** keeps the display where the original 42S has it
-and makes the battery awkward; **14 mm** makes the board and the battery both
-straightforward and moves the display 6 mm down the face. It is an aesthetic
-call against two mechanical conveniences, which is Barnaby's to make.
+### What it costs
+
+The display drops 6 mm down the face from where the real 42S has it, and the
+gap between the panel and the top key row closes from 16.7 mm to 10.7. That is
+the whole cost, and it is an aesthetic one. Barnaby accepted it.
+
+### The one thing that swapped sides with them
+
+This USB-C receptacle anchors with **through-hole shield legs**, so its solder
+fillets used to be on the front, under the panel, where the panel's foam tape
+swallowed them. They are now on the **back**, which is the battery bay.
+
+Keep the cell clear of board Y 0 to 5 in that region — which is where the 54 mm
+above comes from rather than 57 — or find a receptacle with SMD-only shell
+tabs, which removes the question entirely. A pouch cell resting on four solder
+fillets is not a risk worth taking: the case is soft aluminium laminate and it
+grows over its life.
 
 ## Side actuation is the whole trick
 
@@ -81,8 +95,11 @@ the plane of the board.
   board rather than guessed.
 
 The nicer slide switch is the C&K JS102011SAQN — better detent, clean 2.5 mm
-pad pitch, a proper datasheet. Its courtyard is 8.75 mm deep, so it only
-becomes an option if the bezel grows.
+pad pitch, a proper datasheet. Its courtyard is 8.75 mm deep, which needed a
+bigger bezel to be an option. **The bezel is now 14 mm, so it is an option**:
+8.75 mm fits inside 12 with room, and it is worth taking if you can buy one,
+because the detent is the difference between a switch that feels like a
+calculator and one that feels like a toy.
 
 ## What the slider actually switches
 
@@ -208,12 +225,13 @@ goes back to the free list. 1k on a 2.0 V die off 3.3 V is about 1.3 mA,
 plenty behind a case window.
 
 The lens sits roughly 1.0 to 2.0 mm above the face of the board it is
-soldered to, which is the back, so it wants a diffused window rather than the
-clear one the IR needs.
+soldered to, which is now the front, so it wants a diffused window rather than
+the clear one the IR needs.
 
 ## Placement
 
-`tools/place_keypad.py` places all six. Y is depth from the board's top edge.
+`tools/place_keypad.py` places all six, on the front. Y is depth from the
+board's top edge.
 
 | part | x | y | reaches |
 |------|---|---|---------|
@@ -230,8 +248,9 @@ RESET, which is the tightest. There is 6.6 mm of board left of the slider and
 7.2 mm right of RESET.
 
 The four mechanical parts are rotated 180 degrees so their actuators face the
-edge, each leaving about 0.8 mm proud for the case wall to capture. **The two
-LEDs are not rotated** -- their lenses are already the -y end of the body, and
+edge, each leaving about 0.8 mm proud for the case wall to capture. With
+everything on the front there is no layer flip on top of that rotation, so
+what the viewer shows is what gets built. **The two LEDs are not rotated** -- their lenses are already the -y end of the body, and
 turning them round would aim them into the middle of the board. Both sit just
 inside the edge rather than proud of it, so the case needs a window rather
 than a slot: clear for the IR, diffused for the status LED.
@@ -248,14 +267,15 @@ IPC 7351 solder pad proposal by `tools/gen_ic_footprints.py`.
 Two numbers for the case:
 
 - The **optical axis sits 1.2 mm above the face of the board the part is
-  soldered to**. It is on the back, so the beam runs 1.2 mm behind the back
-  copper, not on the board centreline.
+  soldered to**. It is on the front, so the beam runs 1.2 mm in front of the
+  front copper, not on the board centreline. (It was on the back until the
+  bezel changed, so if you have already cut an IR window, it moves.)
 - The dome tip stops 0.22 mm short of the board edge, and the lens is 1.8 mm
   across, so a 2.5 mm window centred on x = 22.0 clears the beam without
   vignetting the +/- 25 degrees.
 
 One thing to watch: this USB-C receptacle anchors with through-hole shield
-legs, so it leaves solder fillets on the front of the board, under the panel.
-The panel's foam tape will swallow a 0.1 mm fillet, but check it on a dry fit
-rather than after gluing. A receptacle with SMD-only shell tabs avoids the
-question entirely if you find one you can buy.
+legs. With the receptacle on the front those fillets are on the back, in the
+battery bay — see the caveat at the top of this file. A receptacle with
+SMD-only shell tabs avoids the question entirely if you find one you can buy,
+and it is worth looking now rather than later.

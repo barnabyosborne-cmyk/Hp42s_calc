@@ -168,16 +168,21 @@ wraps that edge, and the apex lands 0.3 mm clear of the case wall.
 Board coordinates, X from the board's nominal left edge, Y down from its top.
 `tools/place_keypad.py` now carries all of this and will draw it.
 
+**Every Y moved 6 mm down on 21 September 2026**, when Barnaby chose a 14 mm
+top bezel over the 8 mm this had been drawn at. Nothing in X changed, and
+nothing about the fold or the centring changed — the panel simply sits lower
+on the board. See `docs/top-edge.md`.
+
 | | |
 |---|---|
-| Notch | X 0 → 0.55, Y 16.15 → 32.15 (16 mm, centred on the tail) |
-| Glass | X 0.55 → 72.37, Y 6.00 → 42.30 |
-| Active area | X 9.48 → 69.57, Y 8.80 → 39.50 |
+| Notch | X 0 → 0.55, Y 22.15 → 38.15 (16 mm, centred on the tail) |
+| Glass | X 0.55 → 72.37, Y 12.00 → 48.30 |
+| Active area | X 9.48 → 69.57, Y 14.80 → 45.50 |
 | Image centre | X 39.52 against a board centre of 38.00 |
-| Tail, unfolded | X −13.75 → 0.55, Y 17.90 → 30.40 |
+| Tail, unfolded | X −13.75 → 0.55, Y 23.90 → 36.40 |
 | Fold apex | X −0.50, which is 0.30 mm clear of the case wall |
 | Back leg ends | X 10.50 |
-| FPC connector | origin X 9.00, Y 24.15, on the back, mouth facing the left edge |
+| FPC connector | origin X 9.00, Y 30.15, on the back, mouth facing the left edge |
 
 The connector is a Hirose FH12-24S-0.5SH, whose pad row sits 1.85 mm from its
 origin — so the pads land at X 7.15, inside the last 3 mm of flex. Move the
@@ -202,13 +207,14 @@ Barnaby asked for it on 2026-09-20. The layout as drawn had it behind the
 keyboard. What that costs is below, and the short version is that the top of
 the back is currently the electronics bay, so the electronics move.
 
-There is one live interaction with the top-bezel question in
-`docs/top-edge.md`. The bay at the top of the back is about 49 mm tall because
-the USB-C receptacle reaches 8.83 mm into the board from the top edge, and a
-1600 mAh cell wants 50. If the bezel grows to about 14 mm and the six top-edge
-parts move to the *front* above the panel, that 8.83 mm comes back and the bay
-becomes roughly 57 mm, which the cell fits with room to spare. So the bezel
-decision is now also a battery decision.
+**Settled the same day: the bezel went to 14 mm and the six top-edge parts
+moved to the front**, which is what makes the cell fit. The bay used to be
+about 49 mm tall because the USB-C receptacle reached 8.83 mm into the board
+from the top edge, against a 1600 mAh cell that wants 50. With the receptacle
+on the front the bay is about 54 mm — 54 rather than 57 because the
+receptacle's through-hole shield legs now leave their fillets on the back, and
+the cell has to stay clear of board Y 0 to 5 in that region. See
+`docs/top-edge.md`.
 
 **The ribbon can never reach the cell.** At 14.30 mm it is spent before it
 clears the connector. So "short ribbon stopping before the battery" is not a
@@ -220,10 +226,16 @@ short in a LiPo is a fire. Nothing goes under the cell.
 
 ### What actually fits up there
 
-The top of the back is bounded by the USB-C receptacle, which reaches 8.83 mm
-into the board, and by the keyboard, which starts at board Y 59. That leaves a
-bay **about 49 mm tall**, full width apart from the FPC connector in the
-left 10 mm.
+**As the board now stands**, the top of the back is bounded by the USB-C
+receptacle's through-hole shield fillets, which land in about board Y 0 to 5,
+and by the keyboard, which starts at board Y 59. That leaves a bay **about
+54 mm tall**, full width apart from the FPC connector in the left 10 mm. A
+50 × 60 × 5 mm cell fits, and the three ways out below are no longer needed —
+they are kept because they are the fallbacks if the cell you can actually buy
+is a different shape.
+
+What follows was written when the six top-edge parts were on the back and the
+bay was 49 mm:
 
 A 1600 mAh cell at 5 mm thick is about 50 × 60 mm — a 505060. Turned on its
 side it is 60 wide × 50 tall, and 50 does not fit in 49. It misses by a

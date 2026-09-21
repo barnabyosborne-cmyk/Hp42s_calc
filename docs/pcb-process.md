@@ -82,33 +82,53 @@ exec(open('../../../tools/place_keypad.py').read())
 elsewhere.)
 
 That draws the 76 × 144 mm outline and places the 38 dome sites on the
-measured grid plus the three top-edge parts on the back. Everything else is
-still in a heap, and placing it is the first real judgement call of the job.
+measured grid plus the six top-edge parts, which now go on the **front**.
+Everything else is still in a heap, and placing it is the first real judgement
+call of the job.
+
+Two things settled on 21 September 2026 changed the shape of this step. The
+**cell goes at the top of the back**, which evicts the electronics bay to
+behind the keyboard; and the **top bezel is 14 mm**, which moved the six
+top-edge parts to the front and the whole panel 6 mm down the board. See
+`docs/top-edge.md` and `docs/display-mounting.md`.
 
 Place in this order, because each constrains the next:
 
 1. **The panel's FPC connector** — already placed by `tools/place_keypad.py`,
-   back side, origin at board X 9.00, Y 24.15, mouth facing the notched left
+   back side, origin at board X 9.00, Y 30.15, mouth facing the notched left
    edge. Do not move it: the 14.30 mm tail has no slack. See
    `docs/display-mounting.md`. Measure the real panel's tail before you commit
    the board, because the drawing gives it to ±0.3 mm.
-2. **The module**, back side, in the electronics bay behind the display. The
-   antenna end must overhang the board outline with all copper cleared beneath
-   it, and sit as far from the USB-C shield and the cell as you can manage.
-   Diagonally opposite the USB connector is the answer.
+2. **The module**, back side, behind the keyboard — the top of the back is the
+   cell's now. The antenna end must overhang the board outline with all copper
+   cleared beneath it, and sit as far from the USB-C shield and the cell as you
+   can manage. The board's bottom edge does that as well as the top did, and it
+   is diagonally opposite the USB connector, which is what you want.
 3. **The panel's booster** — L1, Q1, C3, D1–D3 — as one tight cluster next to
    the FPC connector. This is a switching loop; every millimetre of it is
-   inductance you do not want.
-4. **The buck-boost** and its inductor, likewise tight, and away from (3).
+   inductance you do not want. It and the FPC connector are the only two
+   things still pinned to the top left of the back, because the tail length
+   gives them no choice; the cell has to come down past them.
+4. **The buck-boost** and its inductor, likewise tight, and away from (3),
+   behind the keyboard.
 5. **The charger**, near USB-C, with the cell connection running away from
-   the signal side.
+   the signal side. USB-C is on the front now, so this is the one part that
+   gained from the move: the charge current no longer runs the length of the
+   board to reach a cell at the top.
 6. **The fuel gauge**, anywhere convenient on the cell net.
-7. **Decoupling capacitors**, each hard against the pin it serves. Do this
+7. **The frontlight driver**, if the unit is getting one — U6 and its
+   inductor, diode and caps — on the front, at the right-hand end of the strip
+   between the panel and the keyboard (board Y 48.3 to 59.0), as far from the
+   FPC connector and the panel's booster at X 7–20 as the board allows. It is
+   a second switching node and it wants to be nowhere near the panel's SPI.
+8. **Decoupling capacitors**, each hard against the pin it serves. Do this
    last and do it deliberately; a 100 nF placed 10 mm from its pin is
    decoration.
 
 **Done looks like:** nothing overlaps, the ratsnest has no lines crossing the
-whole board, and the battery bay behind the keyboard is clear.
+whole board, and the battery bay at the top of the back is clear from about
+board Y 5 to Y 59. Y 5 rather than Y 0 because the USB-C receptacle's
+through-hole shield legs leave their fillets there now.
 
 ---
 

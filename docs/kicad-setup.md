@@ -48,9 +48,12 @@ exec(open('tools/place_keypad.py').read())
 
 See `docs/pcb-process.md` for the whole route from here to boards in your hand.
 
-That puts the 38 dome sites on the measured grid, flips USB-C, the power
-slider and the reset button onto the back at the top edge, and draws the
-76 × 144 outline if Edge.Cuts is empty. See `docs/top-edge.md`.
+That puts the 38 dome sites on the measured grid, places the six top-edge
+parts on the **front** at the top edge, places the panel's FPC connector on
+the back, and draws the 76 × 144 outline with its notch if Edge.Cuts is empty.
+See `docs/top-edge.md`. Nothing is flipped any more: the top-edge parts moved
+to the front with the 14 mm bezel, so the 180° rotations in the script are the
+whole of the orientation story.
 
 ## Pin numbers: all of them are real now
 

@@ -96,15 +96,27 @@ def mm(v):
 # ---------------------------------------------------------------------------
 # TOP-EDGE CONTROLS
 #
-# USB-C, the power slider and the reset button all live on the top edge of the
-# case, on the BACK of the board, and all three are found by footprint rather
-# than by reference designator: atopile assigns SW39/SW40 automatically and
-# those numbers move whenever a part is added.
+# The six top-edge parts live on the FRONT of the board, above the panel.
+# They are found by footprint rather than by reference designator: atopile
+# assigns SW39/SW40 automatically and those numbers move whenever a part is
+# added.
 #
-# Y here is depth into the board from its top edge. Each part is rotated 180
-# degrees so its mouth, knob or plunger faces the edge, and each sits far
-# enough in that the actuator clears the board by a little under a millimetre
-# and pokes into the case wall.
+# THEY USED TO BE ON THE BACK. Barnaby chose the 14 mm top bezel on
+# 21 September 2026, which leaves 12 mm of board above the panel -- enough for
+# the USB-C receptacle's 8.83 mm, which was the part that forced the back in
+# the first place. See docs/top-edge.md.
+#
+# Two things get simpler by moving them. Nothing is flipped any more, so the
+# 180 degree rotations below are the whole of the orientation story rather
+# than a rotation composed with a mirror. And the battery bay on the back is
+# no longer cut short by the USB-C: it goes from about 49 mm to about 54,
+# which is what lets a 1600 mAh cell fit without spilling past the keyboard
+# line.
+#
+# Y here is depth into the board from its top edge. Each part except the two
+# LEDs is rotated 180 degrees so its mouth, knob or plunger faces the edge,
+# and each sits far enough in that the actuator clears the board by a little
+# under a millimetre and pokes into the case wall.
 #
 #   part            x     y      actuator reaches   courtyard reaches
 #   slide switch   11.0   2.30    y = -0.80          y = 5.15
@@ -114,16 +126,11 @@ def mm(v):
 # The USB-C y is the Same Sky drawing's own "PRODUCT EDGE" line, 2.60 mm
 # behind the rear shell slots, so the mouth lands exactly on the board edge.
 #
-# X positions are in the board's own coordinates, which pcbnew keeps
-# front-referenced even for parts on the back, so there is no mirroring to do
-# by hand -- SetLayerAndFlip handles it.
-#
-# All three reach further into the board than the 6 mm of bezel above the
-# panel, which is exactly why they are on the back. The panel is on the front
-# and does not care what is underneath it. The one thing to look at: this
-# USB-C receptacle anchors with through-hole shield legs, so it leaves solder
-# fillets on the FRONT, under the panel. The panel's foam tape swallows that,
-# but check it when you dry-fit rather than after you glue.
+# The one thing to look at has swapped sides with them. This USB-C receptacle
+# anchors with through-hole shield legs, so its solder fillets are now on the
+# BACK, which is the battery bay. Keep the cell clear of board Y 0..5 in that
+# region, or find a receptacle with SMD-only shell tabs. A pouch cell resting
+# on four solder fillets is not a risk worth taking.
 # ---------------------------------------------------------------------------
 
 # Six parts share the 76 mm top edge, left to right: the power slider you use
@@ -162,18 +169,18 @@ NO_FLIP = {
 
 
 def place_edge(board):
-    """Put USB-C and the two switches on the top edge, on the back."""
+    """Put the six top-edge parts on the top edge, on the front."""
     found = 0
     for fp in board.GetFootprints():
         name = str(fp.GetFPID().GetLibItemName())
         if name not in EDGE_PARTS:
             continue
         x, y, label = EDGE_PARTS[name]
-        if fp.GetLayer() != pcbnew.B_Cu:
-            fp.SetLayerAndFlip(pcbnew.B_Cu)
+        if fp.GetLayer() != pcbnew.F_Cu:
+            fp.SetLayerAndFlip(pcbnew.F_Cu)
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
         fp.SetOrientationDegrees(0 if name in NO_FLIP else 180)
-        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
+        print(f"  {fp.GetReference():5s} {label:13s} -> front, ({x}, {y})")
         found += 1
     # The two tact switches share a footprint, so they go by reference order
     # rather than by name: lowest number is RESET, see TACT_ORDER above.
@@ -183,11 +190,11 @@ def place_edge(board):
         key=lambda fp: int("".join(c for c in fp.GetReference() if c.isdigit()) or 0),
     )
     for fp, (x, y, label) in zip(tacts, TACT_ORDER):
-        if fp.GetLayer() != pcbnew.B_Cu:
-            fp.SetLayerAndFlip(pcbnew.B_Cu)
+        if fp.GetLayer() != pcbnew.F_Cu:
+            fp.SetLayerAndFlip(pcbnew.F_Cu)
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
         fp.SetOrientationDegrees(180)
-        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
+        print(f"  {fp.GetReference():5s} {label:13s} -> front, ({x}, {y})")
         found += 1
 
     expected = len(EDGE_PARTS) + len(TACT_ORDER)
@@ -217,8 +224,11 @@ AA_INSET_TAIL = 8.93                # glass border, tail side (the long axis)
 AA_INSET_SHORT = 2.798              # glass border, both short-axis sides
 
 PANEL_X = 0.55                      # board X of the glass's left (tail) edge
-PANEL_Y = 6.00                      # board Y of its top edge: 8 mm of front
-                                    # bezel less the 2 mm case inset
+PANEL_Y = 12.00                     # board Y of its top edge: 14 mm of front
+                                    # bezel less the 2 mm case inset. Was 6.00
+                                    # on the 8 mm bezel; Barnaby chose 14 on
+                                    # 21 September 2026, so everything below
+                                    # moved 6 mm down the board with it.
 
 NOTCH_D = 0.55                      # how far the left edge is pulled back
 NOTCH_H = 16.0                      # over this much height, centred on the tail

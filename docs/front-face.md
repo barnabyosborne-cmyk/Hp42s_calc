@@ -47,6 +47,14 @@ Three things follow that are not obvious:
   path straight onto the board. One bond, near the USB-C shield's ground
   stitch rather than near the module, gives the charge somewhere to go that is
   not through the MCU. A pad and a spring finger or a screw boss is enough.
+- **It now has live parts underneath it at the top.** The six top-edge parts
+  moved to the front of the board with the 14 mm bezel, and the tallest of
+  them — the Alps buttons at 3.3 mm and the USB-C shell at 3.2 — stand in a
+  bay that is about 5 mm deep, so there is roughly 1.7 mm between them and a
+  plate lying against the case's inner face. That is enough, but it is not a
+  lot, and it is a short rather than a scratch if the plate ever sags onto the
+  USB-C shell. Either relieve the plate over that strip or make sure the case
+  supports it there.
 - **The plate must not reach the antenna.** The module sits at the bottom edge
   with its antenna overhanging the board outline, so it is in the bottom few
   millimetres of the case. Steel directly over it will detune it badly. **Stop
@@ -157,10 +165,12 @@ then at 1.0 mm, the LED centres at 1.5 mm, and the guide's centre is at 1.6 —
 connect it. That keeps the height problem in mechanical parts, where it is
 cheap to iterate, and out of the main board, where it is not.
 
-The strip of free board between the panel and the keyboard, board Y 42.3 to
-59.0, is 16.7 mm deep and full width. That is where the sliver and its pads go,
+The strip of free board between the panel and the keyboard, board Y 48.3 to
+59.0, is 10.7 mm deep and full width. That is where the sliver and its pads go,
 injecting into the guide's bottom edge and lighting upwards across the 30.7 mm
-short axis of the active area.
+short axis of the active area. It was 16.7 mm until the bezel went to 14 mm on
+21 September 2026; 10.7 is still ample for a 4 mm sliver and the driver beside
+it.
 
 Two pieces of luck along that edge:
 
