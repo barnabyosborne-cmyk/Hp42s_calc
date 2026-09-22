@@ -1,59 +1,14 @@
 # Getting the board into KiCad
 
-## 1. Tell KiCad where this repo's own footprints live
+**Start at `docs/layout-walkthrough.md` instead.** That file is the step-by-step
+procedure — make the project, add the library, set the stackup, import the
+netlist, run the placement script, place, route, check — and it supersedes the
+three steps this file used to carry. `docs/pcb-process.md` is the map around it,
+from netlist to boards in your hand.
 
-The netlist references two libraries: KiCad's standard ones, which you already
-have, and `hp42s`, which is this repo. Without the second, import fails on
-every dome site.
-
-Preferences → Manage Footprint Libraries → Global (or Project) → Add, then:
-
-| Field | Value |
-|---|---|
-| Nickname | `hp42s` |
-| Library Path | the full path to `elec/footprints/hp42s.pretty` |
-| Library Format | KiCad |
-
-If you would rather do it per project, the same thing in `fp-lib-table` next
-to your `.kicad_pcb`:
-
-```
-(fp_lib_table
-  (version 7)
-  (lib (name "hp42s")(type "KiCad")(uri "${KIPRJMOD}/../../footprints/hp42s.pretty")(options "")(descr "HP-42S dome sites"))
-)
-```
-
-That `${KIPRJMOD}` path assumes the project sits at `elec/layout/default/`.
-
-## 2. Import the netlist
-
-File → Import → Netlist, point it at `build/default.net`.
-
-**Expect no errors.** Every footprint resolves — KiCad's standard libraries
-for all but eight, and this repo's `hp42s` library for the two dome sites, the
-TPS63900's land pattern, the side-looking IR emitter's, the status LED's, the
-ESD array's, the USB-C receptacle's and the two recovery buttons',
-none of which KiCad carries. All of them are generated from the vendors' own
-drawings, by `tools/gen_dome_footprints.py` and `tools/gen_ic_footprints.py`;
-re-run both if you ever delete `elec/footprints/hp42s.pretty/`.
-
-## 3. Place the keypad and the top-edge parts
-
-Tools → Scripting Console:
-
-```python
-exec(open('tools/place_keypad.py').read())
-```
-
-See `docs/pcb-process.md` for the whole route from here to boards in your hand.
-
-That puts the 38 dome sites on the measured grid, places the six top-edge
-parts on the **front** at the top edge, places the panel's FPC connector on
-the back, and draws the 76 × 144 outline with its notch if Edge.Cuts is empty.
-See `docs/top-edge.md`. Nothing is flipped any more: the top-edge parts moved
-to the front with the 14 mm bezel, so the 180° rotations in the script are the
-whole of the orientation story.
+What is left here is the part that is not a procedure: why the pin numbers on
+this board are the way they are, and what reading the datasheets properly
+turned up.
 
 ## Pin numbers: all of them are real now
 

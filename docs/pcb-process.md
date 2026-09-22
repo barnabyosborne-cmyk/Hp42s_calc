@@ -28,156 +28,43 @@ number on the board is now confirmed against a datasheet table.
 
 ---
 
-## 2. Make the KiCad project
+## 2 to 7. The layout itself
 
-KiCad needs a project to import into. It does not exist yet.
+**These six steps have their own document: `docs/layout-walkthrough.md`.** It
+is the click-by-click version, written for a first layout, and it is where you
+should be reading rather than here. Every menu path and keyboard shortcut in it
+was checked against KiCad 10's own source.
 
-1. KiCad → File → New Project, save it as `elec/layout/default/default.kicad_pro`
-   inside this repo. Let it create the folder.
-2. Open the PCB editor (the second icon). You will not use the schematic editor
-   at all — atopile is the schematic.
-3. Tell KiCad where this repo's own footprints live. Preferences → Manage
-   Footprint Libraries → Project tab → Add:
+What it covers, and roughly what each costs:
 
-   | Field | Value |
-   |---|---|
-   | Nickname | `hp42s` |
-   | Library Path | `${KIPRJMOD}/../../footprints/hp42s.pretty` |
-   | Format | KiCad |
+| Step | What | How long |
+|---|---|---|
+| 1 | The six KiCad keys and the layers panel | 5 minutes |
+| 2 | Make the project at `elec/layout/default/` | 5 minutes |
+| 3 | Add the `hp42s` footprint library | 5 minutes |
+| 4 | Board Setup: 4 layers at 1.0 mm, constraints, net classes | 20 minutes |
+| 5 | Import `build/default.net` — **link by unique ids, not designators** | 10 minutes |
+| 6 | Run `tools/place_keypad.py` for the keypad, outline and panel | 10 minutes |
+| 7 | Place the other ~60 parts, in the order the file gives | an evening |
+| 8 | Pour the ground planes | an hour |
+| 9 | Route, in the order the file gives | two or three evenings |
+| 10 | The dome pads | reading only |
+| 11 | DRC to zero errors and zero unconnected | an hour |
+| 12 | Look at it in the 3D viewer | 10 minutes |
 
-**Done looks like:** the footprint browser lists two entries under `hp42s`,
-the two dome sites.
+Three things in there are specific to this board and are the ones that would
+cost you a board if skipped:
 
----
+- **Import by unique ids, not reference designators.** atopile renumbers
+  downstream parts whenever one is added mid-file — tested 22 September 2026,
+  one inserted resistor moved eleven others — while the unique ids never move.
+  Designator linking would scramble a finished placement.
+- **The module's antenna overhangs the board with no copper under it**, on any
+  layer, and sits as far from the USB connector as the board allows.
+- **`In1.Cu` is a solid ground plane and stays solid.** Every return current on
+  the board uses it.
 
-## 3. Import the netlist
-
-PCB editor → File → Import → Netlist → `build/default.net`.
-
-Leave the defaults except: match by **reference designator**, and tick "update
-footprints". Import it again after every `ato build`; it is not a one-time
-operation and it does not disturb placement or routing you have already done.
-
-All 100 footprints should land in a heap at the origin. Expect errors only for
-`U3` and `U4`, whose footprints do not exist yet.
-
-**Done looks like:** 100 footprints on the board, and the ratsnest shows the
-keypad matrix as a regular grid of lines rather than a tangle.
-
----
-
-## 4. Outline and placement
-
-Run the placement script — PCB editor → Tools → Scripting Console:
-
-```python
-exec(open('../../../tools/place_keypad.py').read())
-```
-
-(the path is relative to the KiCad project folder; adjust if you put it
-elsewhere.)
-
-That draws the 76 × 144 mm outline and places the 38 dome sites on the
-measured grid plus the six top-edge parts, which now go on the **front**.
-Everything else is still in a heap, and placing it is the first real judgement
-call of the job.
-
-Two things settled on 21 September 2026 changed the shape of this step. The
-**cell goes at the top of the back**, which evicts the electronics bay to
-behind the keyboard; and the **top bezel is 14 mm**, which moved the six
-top-edge parts to the front and the whole panel 6 mm down the board. See
-`docs/top-edge.md` and `docs/display-mounting.md`.
-
-Place in this order, because each constrains the next:
-
-1. **The panel's FPC connector** — already placed by `tools/place_keypad.py`,
-   back side, origin at board X 9.00, Y 30.15, mouth facing the notched left
-   edge. Do not move it: the 14.30 mm tail has no slack. See
-   `docs/display-mounting.md`. Measure the real panel's tail before you commit
-   the board, because the drawing gives it to ±0.3 mm.
-2. **The module**, back side, behind the keyboard — the top of the back is the
-   cell's now. The antenna end must overhang the board outline with all copper
-   cleared beneath it, and sit as far from the USB-C shield and the cell as you
-   can manage. The board's bottom edge does that as well as the top did, and it
-   is diagonally opposite the USB connector, which is what you want.
-3. **The panel's booster** — L1, Q1, C3, D1–D3 — as one tight cluster next to
-   the FPC connector. This is a switching loop; every millimetre of it is
-   inductance you do not want. It and the FPC connector are the only two
-   things still pinned to the top left of the back, because the tail length
-   gives them no choice; the cell has to come down past them.
-4. **The buck-boost** and its inductor, likewise tight, and away from (3),
-   behind the keyboard.
-5. **The charger**, near USB-C, with the cell connection running away from
-   the signal side. USB-C is on the front now, so this is the one part that
-   gained from the move: the charge current no longer runs the length of the
-   board to reach a cell at the top.
-6. **The fuel gauge**, anywhere convenient on the cell net.
-7. **The frontlight driver**, if the unit is getting one — U6 and its
-   inductor, diode and caps — on the front, at the right-hand end of the strip
-   between the panel and the keyboard (board Y 48.3 to 59.0), as far from the
-   FPC connector and the panel's booster at X 7–20 as the board allows. It is
-   a second switching node and it wants to be nowhere near the panel's SPI.
-8. **Decoupling capacitors**, each hard against the pin it serves. Do this
-   last and do it deliberately; a 100 nF placed 10 mm from its pin is
-   decoration.
-
-**Done looks like:** nothing overlaps, the ratsnest has no lines crossing the
-whole board, and the battery bay at the top of the back is clear from about
-board Y 5 to Y 59. Y 5 rather than Y 0 because the USB-C receptacle's
-through-hole shield legs leave their fillets there now.
-
----
-
-## 5. Stack-up
-
-File → Board Setup → Physical Stackup: **4 layers, 1.0 mm**.
-
-| Layer | Use |
-|---|---|
-| F.Cu | dome pads, panel, short signal runs |
-| In1.Cu | **solid ground**. Do not cut it up |
-| In2.Cu | 3.3 V pour, plus the keypad column and row nets |
-| B.Cu | everything else, and the second ground pour |
-
-The keypad matrix runs on an inner layer because nothing can route between the
-numeric domes on the front — they clear each other by 1.6 mm and their
-courtyards by 0.6 mm. Each dome ring is reached by a via placed outside its
-courtyard.
-
-Net classes worth setting up now: `default` 0.2 mm track, `power` 0.5 mm,
-`keypad` 0.2 mm. Clearance 0.2 mm throughout, which every cheap fab meets.
-
----
-
-## 6. Route, in this order
-
-1. **The two switching loops first** — the panel booster and the buck-boost.
-   Short, fat, and returning to ground directly beneath themselves. If these
-   end up long you will hear it through the buzzer and see it on the panel.
-2. **Power distribution** — SYS, BAT, 3.3 V.
-3. **The panel's SPI**, kept away from both switch nodes.
-4. **USB D+/D−** as a pair, same length, no stubs, straight from the
-   connector through the ESD array to the module.
-5. **The keypad matrix**, last and on inner layers. It is slow, it is
-   forgiving, and it is most of the copper.
-
-**Done looks like:** DRC clean with zero unrouted nets.
-
----
-
-## 7. The dome pads
-
-This is the part that is specific to this board and gets it wrong quietly.
-
-- Solder mask must be **open over the whole contact area** of every dome pad,
-  ring and centre both.
-- Each dome site needs a **vent** — a via or a channel in the dome array — or
-  trapped air mushes the click.
-- **Plating:** ENIG for rev A is fine. For the final board, specify selective
-  hard gold on the 37 dome sites: 0.38–0.76 µm gold over 1.27–5.0 µm nickel.
-  ENIG typically fails before 200,000 cycles and a flaky `0` key ruins the
-  object. Get a quote before you design around it — it costs more than the
-  rest of the board.
+Come back here when DRC is clean.
 
 ---
 
