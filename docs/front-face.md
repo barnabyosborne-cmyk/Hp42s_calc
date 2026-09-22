@@ -255,27 +255,49 @@ This is now in the schematic, in `elec/src/frontlight.ato`, and wired into the
 top level on **`IO41`**. `IO26` and `IO42` stay free and `IO40` stays spoken
 for as the sounder's antiphase pin.
 
-Eight parts on the main board:
+Nine parts on the main board:
 
 | | | |
 |---|---|---|
 | U | TPS61165DBVR | SOT-23-6 |
-| L | 22 µH, NR3015T220M | 3.0 × 3.0 × 1.5 mm |
+| L | 22 µH, NR3015T220M | 3.0 × 3.0 × 1.5 mm. TI's own optimum, not a guess — §9.1.2 recommends 10–22 µH and says 22 is the efficient end |
 | D | 1N5819HW | the same Schottky as the panel's charge pump, so no new BOM line |
-| C | 4.7 µF | input, 0603 |
-| C | 1 µF 25 V | output — it sees 13.8 V, and a 16 V part there dies |
+| C | 4.7 µF | input, 0603. TI ask 1 µF minimum |
+| C | 1 µF 50 V | output, 0805 — **not 25 V**, see below |
 | C | 220 nF | COMP |
 | R | 10 Ω | current set: 0.2 V ÷ 20 mA, the LED's rated maximum |
+| R | 10 kΩ | in series with CTRL |
 | R | 1 MΩ | holds CTRL down |
 
-plus two solder pads, `FL+` and `FL−`, and the four LEDs on the sliver. Twelve
-active parts rather than the seven the parallel scheme would have taken.
+plus two solder pads, `FL+` and `FL−`, and the four LEDs on the sliver.
+Thirteen active parts rather than the seven the parallel scheme would have
+taken.
 
-The 1 MΩ is not optional. CTRL low is shutdown, and the driving GPIO is high
-impedance at reset and through boot, so without it the frontlight's state
-during boot is whatever leakage decides. 4.7 MΩ would cost a fifth as much
-standing current but leaves CTRL at nearly half a volt, too near the threshold
-to trust.
+**The output capacitor is the one thing here that could have gone bang.** In
+normal running it sees 13.8 V, which a 25 V part covers comfortably — and that
+is what this was until the datasheet arrived. What sets the rating is the
+fault. If the LED string opens, the boost runs the output up until the open-LED
+protection trips, and TI put that threshold at 37 V minimum, 38 typical and
+**39 V maximum**. A 25 V part there fails, and it fails with 39 V behind it.
+50 V in 0805, because a 50 V 0603 would lose most of its capacitance to DC bias
+derating at 13.8 V. The same number is why the Schottky has to be a 40 V part:
+TI's own recommendations for this position, the MBR0540 and ZHCS400, are both
+40 V. That is only 1 V of margin on a fault that LEDs at the end of two
+hand-soldered wires can genuinely produce, so a 60 V PMEG6010CEH in the same
+SOD-123 outline is worth the BOM line if you want it.
+
+**Both CTRL resistors are the datasheet's, not my taste.** The 10 kΩ in series
+is there because CTRL is not only a PWM input — it is also the EasyScale
+one-wire interface, and the part can pull CTRL down itself to acknowledge a
+command. TI recommend a series resistor limiting CTRL current to 500 µA when
+the driver is push-pull, which an ESP32 GPIO is, both for an accidentally
+requested acknowledge and to protect the internal ACKN-MOSFET. 3.3 V over 10 kΩ
+is 330 µA. The 1 MΩ pull-down sits on the IC side of it: CTRL low is shutdown,
+and the driving GPIO is high impedance at reset and through boot, so without it
+the frontlight's state during boot is whatever leakage decides. 4.7 MΩ would
+cost a fifth as much standing current but leaves CTRL at nearly half a volt,
+too near the threshold to trust. The two divide 3.3 V by 1.01, so CTRL still
+sees 3.27 V high.
 
 Two soldered wires to the sliver rather than a connector: a connector inside a
 case that is never opened is a part that can work loose, and it would have to
@@ -306,7 +328,7 @@ speck under it is permanent.
    a ground bond pad.
 2. **No separate window** — if the frontlight happens the guide is the window,
    and if it does not, the panel's own hard coat is enough.
-3. **The frontlight as an option — now drawn.** Twelve parts and one GPIO is
+3. **The frontlight as an option — now drawn.** Thirteen parts and one GPIO is
    cheap enough that leaving room for it costs nothing, and the light guide is
    the part that might not come out well, which is a question of laser time
    rather than of board respins. The circuit is in `elec/src/frontlight.ato`;

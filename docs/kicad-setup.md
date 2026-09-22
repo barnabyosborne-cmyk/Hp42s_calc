@@ -84,9 +84,9 @@ than merely unmapped, and any one of them would have cost a board:
 
 ## Things to check before fab
 
-The full list lives in **`docs/before-layout.md`**, sorted by whether it stops
-you starting layout or only stops you ordering boards. The two that change a
-footprint's shape, and so want deciding first, are the slide switch (KiCad's
-Shouhan land pattern is doubtful, and the nicer C&K part fits now the bezel is
-14 mm) and `L2`, the panel's 47 µH, which is still on a stand-in pattern inside
-a switching loop.
+The full list lives in **`docs/before-layout.md`**. As of 22 September 2026
+every parts question on it is closed: the slide switch is a C&K JS102011SAQN,
+the USB-C receptacle a GCT USB4105-GF-A, `L2` a Bourns SRN4018-470M, and `U4`'s
+exposed pad turned out not to need the drawing. What is left is three things
+only a meter and a real panel can settle, and one DC-table read on the fuel
+gauge's I²C levels.

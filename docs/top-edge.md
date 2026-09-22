@@ -5,9 +5,9 @@ the **front** of the board, above the panel:
 
 | | part | why it is here |
 |---|---|---|
-| power slider | Shouhan MSK-12C02 | daily use |
+| power slider | C&K JS102011SAQN | daily use |
 | IR emitter | Vishay VSMB2943SLX01, 940 nm side-looking | the original 42S's IR window is on this edge |
-| USB-C | Same Sky UJ20-C-H-G-SMT-1A-P16-TR | charging and file transfer |
+| USB-C | GCT USB4105-GF-A | charging and file transfer |
 | status LED | Dialight 599-0Q70-247F, red/green side-view | boot, error, nominal |
 | BOOT | Alps SKRTLAE010, side push with guide bosses | recovery |
 | RESET | Alps SKRTLAE010, side push with guide bosses | recovery |
@@ -29,11 +29,17 @@ Six millimetres was not enough. Measured from KiCad's own courtyards:
 | status LED | 3.20 mm |
 | IR emitter | 3.04 mm |
 | Alps SKRTLAE010 buttons | 3.55 mm |
-| Shouhan MSK-12C02 slider | 5.15 mm |
-| USB-C receptacle | 8.83 mm |
+| C&K JS102011SAQN slider | 7.50 mm |
+| USB-C receptacle | 8.44 mm |
 
 Twelve is. The USB-C receptacle is the part that decided it either way, and at
-8.83 mm it now clears with 3.17 mm to spare.
+8.44 mm it now clears with 3.56 mm to spare.
+
+(Two of those parts changed on 22 September 2026 — the slider from a Shouhan
+MSK-12C02 to the C&K, and the receptacle from a Same Sky UJ20 to the GCT — for
+land-pattern reasons rather than electrical ones. `docs/before-layout.md` has
+the argument. The slider got deeper in the process, 5.15 mm to 7.50, which
+12 mm of board absorbs and 6 would not have.)
 
 ### What the move buys
 
@@ -74,8 +80,11 @@ the board's face. It cannot reach a case edge. Both parts here are
 side-actuated: the knob and the plunger come out of the *end* of the body, in
 the plane of the board.
 
-- **Slider: Shouhan MSK-12C02**, SPDT, 6.7 x 2.8 mm body, knob 1.45 mm proud of
-  one end. LCSC C431540.
+- **Slider: C&K JS102011SAQN**, SPDT ON-ON, 9.0 x 3.6 x 3.5 mm body, 0.3 A at
+  6 V DC, gull-wing SMD with two 0.9 mm locating bosses. Three pads on a clean
+  2.5 mm pitch, and no shield tab -- unlike the Shouhan MSK-12C02 it replaced
+  on 22 September 2026, which cost `power.ato` its `sw_power.shield`
+  connection.
 - **Reset and BOOT: Alps SKRTLAE010**, body 4.5 x 2.56 mm with the plunger
   0.84 mm proud of it, 4.5 x 3.4 overall and 3.3 tall. 1.6 N to operate and
   0.2 mm of travel, so it is a deliberate press with a fingernail or a pen,
@@ -87,19 +96,18 @@ the plane of the board.
   1.2 mm patch between the mounting pads that Alps marks as prohibited for
   copper. All three are in the footprint. The `-LBE010` is the same switch with
   no bosses and no holes if that ever becomes awkward.
-- **USB-C: Same Sky UJ20-C-H-G-SMT-1A-P16-TR**, mouth flush with the board
-  edge. Shell outside 8.64 x 2.56 mm, body 8.94 wide x 7.80 deep x 3.20 tall,
-  with four through-hole shell legs. Same Sky's drawing marks the product edge
-  itself -- 2.60 mm in front of the rear shell slots -- which is what the
-  footprint's origin is set from, so the case cut-out line is drawn on the
-  board rather than guessed.
+- **USB-C: GCT USB4105-GF-A**, mouth flush with the board edge. Shell outside
+  8.64 x 2.56 mm, body 8.94 wide x 7.35 deep, with four through-hole shell legs
+  and two 0.65 mm locating pegs. KiCad's footprint is drawn from GCT's own
+  document and marks the product edge on Dwgs.User at 3.675 mm from the origin,
+  which is what the placement is set from -- the same number the Same Sky part
+  used, so the case cut-out line did not move.
 
-The nicer slide switch is the C&K JS102011SAQN — better detent, clean 2.5 mm
-pad pitch, a proper datasheet. Its courtyard is 8.75 mm deep, which needed a
-bigger bezel to be an option. **The bezel is now 14 mm, so it is an option**:
-8.75 mm fits inside 12 with room, and it is worth taking if you can buy one,
-because the detent is the difference between a switch that feels like a
-calculator and one that feels like a toy.
+**Fitted 22 September 2026.** The C&K was always the nicer switch — better
+detent, clean 2.5 mm pad pitch, a proper datasheet — and its 8.75 mm courtyard
+needed a bigger bezel to be possible. Now that it is in, the Shouhan's doubtful
+land pattern goes with it. The detent is the difference between a switch that
+feels like a calculator and one that feels like a toy.
 
 ## What the slider actually switches
 
@@ -235,17 +243,17 @@ board's top edge.
 
 | part | x | y | reaches |
 |------|---|---|---------|
-| power slider | 11.0 | 2.30 | knob to y = -0.80 |
+| power slider | 11.0 | 3.00 | knob to y = -0.80 |
 | IR emitter | 22.0 | 1.60 | dome tip 0.22 mm inside the edge |
 | USB-C | 36.0 | 3.67 | mouth flush at y = 0 |
 | status LED | 48.0 | 1.80 | lens 0.23 mm inside the edge |
 | BOOT | 57.0 | 1.50 | plunger to y = -0.54 |
 | RESET | 66.0 | 1.50 | plunger to y = -0.54 |
 
-Courtyard to courtyard along the edge: 4.20 mm slider to IR, 6.33 mm IR to
-USB-C, 4.43 mm USB-C to the status LED, 3.92 mm status LED to BOOT, and 3.34 mm BOOT to
-RESET, which is the tightest. There is 6.6 mm of board left of the slider and
-7.2 mm right of RESET.
+Courtyard to courtyard along the edge, with the two new parts: 3.65 mm slider
+to IR, 6.42 mm IR to USB-C, 4.32 mm USB-C to the status LED, 3.92 mm status LED
+to BOOT, and 3.34 mm BOOT to RESET, which is still the tightest. There is
+6.0 mm of board left of the slider and 7.2 mm right of RESET.
 
 The four mechanical parts are rotated 180 degrees so their actuators face the
 edge, each leaving about 0.8 mm proud for the case wall to capture. With

@@ -298,7 +298,13 @@ def uson_dqa(name, descr, tags):
 
 
 def usb_c_16p(name, descr, tags):
-    """Same Sky (CUI) UJ20-C-H-G-SMT-1A-P16-TR, 16-pin USB 2.0 Type-C
+    """NO LONGER USED. The board moved to a GCT USB4105-GF-A on 22 September
+    2026, on KiCad's own land pattern, precisely so that the most
+    mechanically abused part on the board is not on a hand-made footprint.
+    Kept because the two are not interchangeable and this is the record of
+    what the Same Sky part's land actually is, should it ever come back.
+
+    Same Sky (CUI) UJ20-C-H-G-SMT-1A-P16-TR, 16-pin USB 2.0 Type-C
     receptacle, horizontal, from the "Recommended PCB Layout" on page 3 of the
     Same Sky drawing dated 11/03/2025.
 

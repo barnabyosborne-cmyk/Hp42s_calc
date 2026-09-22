@@ -17,12 +17,11 @@ does not route; it is the schematic, written as text.
 and every pin in the netlist lands on a real pad, checked mechanically against
 the `.kicad_mod` files rather than by eye.
 
-What is still open is in **`docs/before-layout.md`**, sorted by whether it
-stops you starting. The two that do not block layout but do block ordering are
-`U3` TPS63900 and `U6` TPS61165: their footprints are right, but the assignment
-of function to pin number has not been read off a package drawing, and
-`ti.com` is blocked from this session. Drop those two PDFs in the thread the
-way you did the panel spec and they close in one go.
+What is still open is in **`docs/before-layout.md`**, and as of 22 September
+2026 it is short: measure the real panel's tail, buzz out which leg of the
+slider is the wiper, check the C&K's knob protrusion and `FPC_ANGLE` in the
+viewer, and read the MAX17048's DC table for its I²C thresholds. Every pin
+number on the board is now confirmed against a datasheet table.
 
 **Done looks like:** `ato build` ends in `Build complete!` and
 `grep -c '"lib:' build/default.net` prints `0`.

@@ -1,5 +1,5 @@
 from "parts.ato" import TPS61165, FrontlightInductor, SchottkyDiode
-from "parts.ato" import FrontlightLED, Resistor, Capacitor, CapBoost, TestPad
+from "parts.ato" import FrontlightLED, Resistor, Capacitor, TestPad
 
 # ---------------------------------------------------------------------------
 # frontlight.ato -- the optional edge-lit reading light.
@@ -54,6 +54,7 @@ module Frontlight:
     signal vled     # boost output, about 13.8 V, to the LED string's anode
     signal fb       # string cathode back into FB and the sense resistor
     signal comp
+    signal ctrl     # the IC side of the CTRL series resistor
 
     u = new TPS61165
     u.VIN ~ sys
@@ -61,7 +62,7 @@ module Frontlight:
     u.SW  ~ sw
     u.FB  ~ fb
     u.COMP ~ comp
-    u.CTRL ~ pwm
+    u.CTRL ~ ctrl
 
     # --- the boost ----------------------------------------------------------
     l_fl = new FrontlightInductor
@@ -69,18 +70,45 @@ module Frontlight:
     l_fl.p2 ~ sw
 
     # 1N5819HW again, the same part as the panel's charge pump, so the BOM
-    # does not grow a line. 40 V and 1 A against 13.8 V and about 100 mA.
+    # does not grow a line. 40 V and 1 A against 13.8 V and about 100 mA in
+    # normal running.
+    #
+    # 40 V IS THE NUMBER THAT MATTERS, and not because of the LED string.
+    # SLVS790E section 9.1.3 says the diode's reverse breakdown must exceed
+    # the OPEN LED protection voltage, which section 7.4 gives as 37 V
+    # minimum, 38 typical, 39 maximum measured on SW. TI's own recommended
+    # parts, the MBR0540 and the ZHCS400, are both 40 V, so this one is in
+    # the right class -- but it is 1 V of margin on a fault the LEDs on a
+    # sliver at the end of two hand-soldered wires can actually produce.
+    # A Nexperia PMEG6010CEH is 60 V in the same SOD-123 outline if you want
+    # the margin and can spare a BOM line.
     d_fl = new SchottkyDiode
     d_fl.anode ~ sw
     d_fl.cathode ~ vled
 
-    # Output cap sees the full 13.8 V, so it is the 25 V 0603 part the panel
-    # rails already use. A 16 V part here is a part that dies.
-    c_out = new CapBoost
-    c_out.value = "1u 25V"
+    # Output cap: 1 uF, 50 V, 0805. NOT the 25 V 0603 part the panel rails
+    # use, which is what this was until the datasheet turned up.
+    #
+    # In normal running it sees 13.8 V. What sets the rating is the fault:
+    # if the LED string opens, the boost runs the output up until the open
+    # LED protection trips, and SLVS790E puts that at up to 39 V on SW. A
+    # 25 V part there dies, and takes the 39 V with it into whatever is
+    # nearest. 50 V in 0805 keeps useful capacitance at 13.8 V after DC bias
+    # derating, which a 50 V 0603 would not.
+    #
+    # TI's recommended operating range for this cap is 1 to 10 uF
+    # (SLVS790E section 7.2), so 1 uF is the bottom of the range and there is
+    # room to go up if the string ever looks ripply.
+    c_out = new Capacitor
+    c_out.value = "1u 50V"
+    c_out.footprint = "Capacitor_SMD:C_0805_2012Metric"
     c_out.p1 ~ vled
     c_out.p2 ~ gnd
 
+    # TI ask for 1 uF minimum on the input (SLVS790E section 7.2). 4.7 uF
+    # because this sits directly on SYS, which the whole calculator shares,
+    # and a 1.2 MHz switcher pulling 90 mA off a cell through a millimetre of
+    # track is a ripple source the panel's SPI does not need.
     c_in = new Capacitor
     c_in.value = "4u7"
     c_in.footprint = "Capacitor_SMD:C_0603_1608Metric"
@@ -93,7 +121,8 @@ module Frontlight:
     c_comp.p2 ~ gnd
 
     # --- current set --------------------------------------------------------
-    # 200 mV reference, so R = 0.2 / I. 10 Ohm is 20 mA, which is the LED's
+    # SLVS790E equation 7: ILED = VFB / RSET, with VFB regulated to 200 mV.
+    # So R = 0.2 / I. 10 Ohm is 20 mA, which is the LED's
     # rated maximum and the brightest the light will ever go. Everything
     # below that is PWM duty on CTRL, which is how the part is meant to be
     # dimmed. At 20 mA the string is 13.8 V and pulls about 88 mA off the
@@ -104,16 +133,34 @@ module Frontlight:
     r_set.p1 ~ fb
     r_set.p2 ~ gnd
 
-    # --- keeping it off ------------------------------------------------------
-    # CTRL low is shutdown. The driving GPIO is high impedance at reset and
-    # through boot, so without this the frontlight's state during boot is
-    # whatever leakage decides. 1 M against the part's input leakage holds
-    # CTRL under 0.1 V, and costs 4.2 uA at a full cell; 4.7 M would be a
-    # tenth of that but leaves CTRL at nearly half a volt, which is too close
-    # to the threshold to trust.
+    # --- driving CTRL, and keeping it off -----------------------------------
+    # Two resistors, and both are in the datasheet rather than my taste.
+    #
+    # The series one: CTRL is not just a PWM input, it is also the EasyScale
+    # one-wire interface, and the part can pull CTRL down itself to
+    # acknowledge a command. SLVS790E says that with a push-pull driver -- an
+    # ESP32 GPIO is exactly that -- a series resistor limiting CTRL current
+    # to 500 uA is recommended, both for an accidentally requested
+    # acknowledge and to protect the internal ACKN-MOSFET. 3.3 V over 10 k is
+    # 330 uA, inside that.
+    #
+    # The pull-down: CTRL low is shutdown, and the driving GPIO is high
+    # impedance at reset and through boot, so without it the frontlight's
+    # state during boot is whatever leakage decides. It goes on the IC side
+    # of the series resistor, so it holds CTRL down rather than the GPIO net.
+    # 1 M against the part's input leakage holds CTRL under 0.1 V and costs
+    # 4.2 uA at a full cell; 4.7 M would be a fifth of that but leaves CTRL
+    # at nearly half a volt, too close to the threshold to trust.
+    #
+    # The two together divide 3.3 V by 1.01, so CTRL still sees 3.27 V high.
+    r_ctrl_series = new Resistor
+    r_ctrl_series.value = "10k"
+    r_ctrl_series.p1 ~ pwm
+    r_ctrl_series.p2 ~ ctrl
+
     r_ctrl = new Resistor
     r_ctrl.value = "1M"
-    r_ctrl.p1 ~ pwm
+    r_ctrl.p1 ~ ctrl
     r_ctrl.p2 ~ gnd
 
     # --- out to the LED sliver ----------------------------------------------

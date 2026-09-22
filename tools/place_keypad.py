@@ -119,12 +119,27 @@ def mm(v):
 # under a millimetre and pokes into the case wall.
 #
 #   part            x     y      actuator reaches   courtyard reaches
-#   slide switch   11.0   2.30    y = -0.80          y = 5.15
-#   USB-C          36.0   3.675   y =  0.00          y = 8.83
+#   slide switch   11.0   3.00    y = -0.80          y = 7.50
+#   USB-C          36.0   3.675   y =  0.00          y = 8.44
 #   reset button   66.0   1.50    y = -0.54          y = 3.55
 #
-# The USB-C y is the Same Sky drawing's own "PRODUCT EDGE" line, 2.60 mm
-# behind the rear shell slots, so the mouth lands exactly on the board edge.
+# TWO PARTS CHANGED ON 22 September 2026 and their numbers with them. The
+# slider is a C&K JS102011SAQN instead of a Shouhan MSK-12C02, and the USB-C
+# is a GCT USB4105-GF-A instead of a Same Sky UJ20. Both swaps were made to
+# get off a land pattern that was hand-made or doubtful and onto one drawn
+# from the vendor's own document; see parts.ato for the reasoning.
+#
+# The slider's y went 2.30 -> 3.00 because the C&K is a deeper part: its
+# courtyard is 10.00 x 8.75 against the Shouhan's 8.90 x 5.95. At y = 3.00
+# the knob still lands 0.80 mm proud of the board edge, which is the same
+# convention as before, and the courtyard reaches 7.50 mm in against the
+# 12 mm available. CHECK THE KNOB PROTRUSION against C&K's drawing when you
+# have it: KiCad's Fab outline puts the actuator tip 3.80 mm from the
+# origin and its courtyard 4.25 mm, and those two cannot both be the knob.
+#
+# The USB-C y did not change. GCT's mouth sits at 3.675 mm from the origin,
+# the same as the Same Sky "PRODUCT EDGE" line did, so it still lands
+# exactly on the board edge.
 #
 # The one thing to look at has swapped sides with them. This USB-C receptacle
 # anchors with through-hole shield legs, so its solder fillets are now on the
@@ -143,9 +158,9 @@ def mm(v):
 # footprint -- so those two are placed by reference designator after the
 # others, not by footprint name like the rest.
 EDGE_PARTS = {
-    "SW_SPDT_Shouhan_MSK12C02": (11.0, 2.30, "power slider"),
+    "SW_SPDT_CK_JS102011SAQN": (11.0, 3.00, "power slider"),
     "Vishay_VSMB2943SLX01_SideView": (22.0, 1.60, "IR emitter"),
-    "SameSky_UJ20-C-H-G-SMT-1A-P16_USB-C": (36.0, 3.675, "USB-C"),
+    "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (36.0, 3.675, "USB-C"),
     "Dialight_599_BiColor_1208_RA": (48.0, 1.80, "status LED"),
 }
 
