@@ -154,7 +154,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "03a70054-96f4-4f86-8509-8f6c9817bae5")
-		(at 56.765 -132.685)
+		(at -486.235 -686.185)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C1"
@@ -271,7 +271,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -280,7 +280,7 @@
 			(uuid "16c618a5-c787-484a-b5d5-e6332716d148")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -304,7 +304,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "0697def4-2d42-4845-9266-390955fcb49e")
-		(at 62.085 -144.675)
+		(at -480.915 -698.175)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP2"
@@ -392,7 +392,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "fb")
@@ -404,7 +404,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "093de39a-53c3-4dd2-ac7f-6acf517ada84")
-		(at 63.295 -96.665)
+		(at -479.705 -650.165)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R20"
@@ -521,7 +521,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -530,7 +530,7 @@
 			(uuid "c8265863-5886-4168-84db-a481e086f406")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -554,7 +554,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "0b9bf111-5c8e-46dd-98cc-846a1217fa55")
-		(at -407.75 -430.5)
+		(at -605.75 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW1"
@@ -630,7 +630,7 @@
 			(uuid "9937d4a8-e3f2-49d2-80a7-ff38bf292020")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -650,7 +650,7 @@
 			(uuid "515dffe3-3d63-405f-9634-3645960eefc1")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -673,7 +673,7 @@
 			(uuid "6d3e5844-f849-40d8-8bbb-f86aff5da978")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -698,7 +698,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "11b4be68-fb1c-4127-b9b1-ce346428152d")
-		(at 7.225 -123.725)
+		(at -535.775 -677.225)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP4"
@@ -786,7 +786,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "bat")
@@ -798,7 +798,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "133d3c6a-2848-457c-83b8-37e30c7d862e")
-		(at -395.25 -406.5)
+		(at -593.25 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW38"
@@ -874,7 +874,7 @@
 			(uuid "df264f33-7c5a-4fd5-9bf7-3df13c3f2cae")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -894,7 +894,7 @@
 			(uuid "da306d44-cfe7-4feb-8d3d-18fc41b88356")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -917,7 +917,7 @@
 			(uuid "b77dce65-1227-4ab9-9fdc-5c0caf012b81")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -942,7 +942,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "13cceb54-a527-4293-93c9-f58d4cbf67e5")
-		(at 56.445 -76.045)
+		(at -486.555 -629.545)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C2"
@@ -1059,7 +1059,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.45 -327)
+			(at -703.45 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1068,7 +1068,7 @@
 			(uuid "575303bd-02ef-4a40-a4ee-28a0ee2b5a87")
 		)
 		(pad "2" smd roundrect
-			(at -158.55 -327)
+			(at -701.55 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1092,7 +1092,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "14e0ed4a-0f4c-4580-8db7-e99eb1fe180c")
-		(at 56.535 -150.225)
+		(at -486.465 -703.725)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP11"
@@ -1180,7 +1180,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "boot")
@@ -1192,7 +1192,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "15338df0-88ee-41ab-a855-912a66f5771e")
-		(at 22.275 -124.505)
+		(at -520.725 -678.005)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R19"
@@ -1309,7 +1309,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1318,7 +1318,7 @@
 			(uuid "488c1868-dc4c-4b34-85a9-de571e96cf90")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1342,7 +1342,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "17f2f39c-3069-42f7-8d5b-b143ce9b1eeb")
-		(at 38.255 -45.555)
+		(at -504.745 -599.055)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R2"
@@ -1459,7 +1459,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1468,7 +1468,7 @@
 			(uuid "7b3c7ebd-f9b2-43f7-8bd8-30ea90bf909d")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1492,7 +1492,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "18986950-66e6-4aca-9348-5c0da9a3955f")
-		(at 39.72 -50.225)
+		(at -503.28 -603.725)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D2"
@@ -1739,7 +1739,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -161.15 -327)
+			(at -704.15 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1748,7 +1748,7 @@
 			(uuid "ffb6eeb6-dd53-4023-892c-726acd01b9f2")
 		)
 		(pad "2" smd roundrect
-			(at -157.85 -327)
+			(at -700.85 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -1772,7 +1772,7 @@
 	(footprint "Inductor_SMD:L_APV_ANR3015"
 		(layer "F.Cu")
 		(uuid "1981070e-4853-4921-bef8-5eeb97f3c103")
-		(at 61.955 -56.055)
+		(at -481.045 -609.555)
 		(descr "Inductor, APV, ANR3015, 3.0x3.0x1.5mm, (http://en.apvind.com/public/upload/20240407/3375c395e460caa8519b4d637d9113ce.pdf)")
 		(tags "wirewound power shielded")
 		(property "Reference" "L3"
@@ -1998,7 +1998,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.65 -327)
+			(at -703.65 -880.5)
 			(size 0.8 2.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2007,7 +2007,7 @@
 			(uuid "00dd78a8-2e9c-47eb-9b2f-83459698b40d")
 		)
 		(pad "2" smd roundrect
-			(at -158.35 -327)
+			(at -701.35 -880.5)
 			(size 0.8 2.7)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2031,7 +2031,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "1ac404af-4c22-40eb-917e-7f402587c866")
-		(at -357.75 -430.5)
+		(at -555.75 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW5"
@@ -2107,7 +2107,7 @@
 			(uuid "c4ce3016-7bdd-4a3c-80b9-7863e47332a7")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -2127,7 +2127,7 @@
 			(uuid "57f94331-9c3a-4428-a29a-2a58864fc276")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -2150,7 +2150,7 @@
 			(uuid "2eda711f-7a77-4dae-bb96-86ead235a1b9")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -2175,7 +2175,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "1dec555a-faa9-4e41-8e79-4d1023c79f9f")
-		(at 7.225 -118.175)
+		(at -535.775 -671.675)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP5"
@@ -2263,7 +2263,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "sys")
@@ -2275,7 +2275,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "22514fb9-ed07-48ba-aa5f-bef64d40d89e")
-		(at 61.375 -68.645)
+		(at -481.625 -622.145)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C8"
@@ -2392,7 +2392,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.45 -327)
+			(at -703.45 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2401,7 +2401,7 @@
 			(uuid "c847e129-526c-491c-8260-8a33dfa90f93")
 		)
 		(pad "2" smd roundrect
-			(at -158.55 -327)
+			(at -701.55 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2425,7 +2425,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "243a86d2-5e1e-4e19-980c-5bb45c4a09ff")
-		(at 7.555 -46.145)
+		(at -535.445 -599.645)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C16"
@@ -2542,7 +2542,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2551,7 +2551,7 @@
 			(uuid "1c6d14d4-0041-4479-bef2-0d859a4f8c8f")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2575,7 +2575,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "285463a8-3626-417a-8522-79e514f34c28")
-		(at -382.75 -430.5)
+		(at -580.75 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW3"
@@ -2651,7 +2651,7 @@
 			(uuid "712c12ef-4ae7-4967-84fa-5cf23c59ac15")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -2671,7 +2671,7 @@
 			(uuid "ba4e08ab-eff3-4870-b014-03b5f2a2b495")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -2694,7 +2694,7 @@
 			(uuid "78f70ea3-4ca7-457d-889b-28911e640772")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -2719,7 +2719,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "2d6a98e2-5843-466f-9a28-aec35ddc7a6e")
-		(at 62.225 -123.925)
+		(at -480.775 -677.425)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R4"
@@ -2836,7 +2836,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2845,7 +2845,7 @@
 			(uuid "22d71201-4519-4d32-814c-db940751f3e8")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2869,7 +2869,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "30d5aad9-72fd-46e3-a5cc-9e4d448ccbbf")
-		(at 42.115 -119.925)
+		(at -500.885 -673.425)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C7"
@@ -2986,7 +2986,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -159.98 -327)
+			(at -702.98 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -2995,7 +2995,7 @@
 			(uuid "284d13bc-f7f0-41db-afa1-9122b6d09b51")
 		)
 		(pad "2" smd roundrect
-			(at -159.02 -327)
+			(at -702.02 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3019,7 +3019,7 @@
 	(footprint "TestPoint:TestPoint_Pad_3.0x3.0mm"
 		(layer "F.Cu")
 		(uuid "319fcb60-f09c-4185-89fd-251ea19b330a")
-		(at 55.005 -49.185)
+		(at -487.995 -602.685)
 		(descr "SMD rectangular pad as test Point, square 3.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP3"
@@ -3165,7 +3165,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3 3)
 			(layers "F.Cu" "F.Mask")
 			(net "gnd")
@@ -3177,7 +3177,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "36ff406e-e179-48c1-88e3-73cd63d92ce7")
-		(at 22.855 -136.065)
+		(at -520.145 -689.565)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R3"
@@ -3294,7 +3294,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3303,7 +3303,7 @@
 			(uuid "eb2a484f-9f89-4081-8ead-039f748fd1ab")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3327,7 +3327,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23-6"
 		(layer "F.Cu")
 		(uuid "39bfd08c-132a-4029-9d0f-84056bdb43e2")
-		(at 55.055 -55.93)
+		(at -487.945 -609.43)
 		(descr "SOT, 6 Pin (JEDEC MO-178 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-178)")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "U6"
@@ -3606,7 +3606,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.6375 -327.95)
+			(at -703.6375 -881.45)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3615,7 +3615,7 @@
 			(uuid "df3070c1-3272-4cd5-891e-da5843530a0e")
 		)
 		(pad "2" smd roundrect
-			(at -160.6375 -327)
+			(at -703.6375 -880.5)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3624,7 +3624,7 @@
 			(uuid "7aebcc55-4c04-46f8-b139-393fa236dd9a")
 		)
 		(pad "3" smd roundrect
-			(at -160.6375 -326.05)
+			(at -703.6375 -879.55)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3633,7 +3633,7 @@
 			(uuid "4681da2c-f5ba-4ac9-946b-af1c8fcaf809")
 		)
 		(pad "4" smd roundrect
-			(at -158.3625 -326.05)
+			(at -701.3625 -879.55)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3642,7 +3642,7 @@
 			(uuid "37c97753-625a-4702-9eb7-56332a796ae1")
 		)
 		(pad "5" smd roundrect
-			(at -158.3625 -327)
+			(at -701.3625 -880.5)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3651,7 +3651,7 @@
 			(uuid "ace7ed47-515d-49de-9af7-faaaff184a1f")
 		)
 		(pad "6" smd roundrect
-			(at -158.3625 -327.95)
+			(at -701.3625 -881.45)
 			(size 1.325 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3675,7 +3675,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "39ff9e26-8e3a-4f28-91d2-62b71b7658f9")
-		(at -7.395 -45.265)
+		(at -550.395 -598.765)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C9"
@@ -3792,7 +3792,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -159.98 -327)
+			(at -702.98 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3801,7 +3801,7 @@
 			(uuid "41d43259-bca6-42d6-b128-92a1ab7765c5")
 		)
 		(pad "2" smd roundrect
-			(at -159.02 -327)
+			(at -702.02 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -3825,7 +3825,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "3b87fd4e-a6b7-4434-9e64-254db3f4a6f9")
-		(at -345.25 -406.5)
+		(at -543.25 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW17"
@@ -3901,7 +3901,7 @@
 			(uuid "140f9fb4-2caf-4065-bf0d-5004c6017880")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -3921,7 +3921,7 @@
 			(uuid "476feff4-e109-44a3-97e6-e940a19019fa")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col5")
@@ -3944,7 +3944,7 @@
 			(uuid "2941b5c3-ef29-464e-a949-231487c9beee")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -3969,7 +3969,7 @@
 	(footprint "Button_Switch_SMD:SW_SPDT_CK_JS102011SAQN"
 		(layer "F.Cu")
 		(uuid "3bf55d5b-e1cb-4448-b96d-88b97a3cfd40")
-		(at -403.5 -489.5 180)
+		(at -601.5 -659.5 180)
 		(descr "Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf")
 		(tags "switch spdt")
 		(property "Reference" "SW39"
@@ -4416,21 +4416,21 @@
 			)
 		)
 		(pad "" np_thru_hole circle
-			(at 666.1 658 180)
+			(at 1209.1 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "46fa2baa-203d-483e-98f4-9bada1622a87")
 		)
 		(pad "" np_thru_hole circle
-			(at 672.9 658 180)
+			(at 1215.9 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "705f9c22-f3e7-4759-8444-7581f6544f0e")
 		)
 		(pad "1" smd roundrect
-			(at 667 655.25 180)
+			(at 1210 1208.75 180)
 			(size 1.25 2.5)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
@@ -4439,7 +4439,7 @@
 			(uuid "2e204a6d-33e4-4526-b266-c4c3087a0732")
 		)
 		(pad "2" smd roundrect
-			(at 669.5 655.25 180)
+			(at 1212.5 1208.75 180)
 			(size 1.25 2.5)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
@@ -4448,7 +4448,7 @@
 			(uuid "3a176f25-9886-4b7a-bdc1-a4a221f23d89")
 		)
 		(pad "3" smd roundrect
-			(at 672 655.25 180)
+			(at 1215 1208.75 180)
 			(size 1.25 2.5)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.2)
@@ -4472,7 +4472,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "3edbaf1d-2e2c-4d7c-bf63-c679569eb18a")
-		(at 47.83 -68.475)
+		(at -495.17 -621.975)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D3"
@@ -4719,7 +4719,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -161.15 -327)
+			(at -704.15 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -4728,7 +4728,7 @@
 			(uuid "4f9ac866-1de8-4f27-8021-5bd7d5ba8ccd")
 		)
 		(pad "2" smd roundrect
-			(at -157.85 -327)
+			(at -700.85 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -4752,7 +4752,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "3fe3179f-868e-4ba6-a345-8d738fb88f25")
-		(at -12.835 -49.505)
+		(at -555.835 -603.005)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C18"
@@ -4869,7 +4869,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -4878,7 +4878,7 @@
 			(uuid "68e91778-ed9a-442f-8c88-f6ef731cb9fc")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -4902,7 +4902,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "431b8b8b-42c8-4612-93f5-a868640c6fb3")
-		(at -361.5 -370.5)
+		(at -559.5 -540.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW31"
@@ -4978,7 +4978,7 @@
 			(uuid "1feb958c-c82d-4f08-92f5-74bedad8f45b")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -4998,7 +4998,7 @@
 			(uuid "1ce5ebe6-f8b1-43b8-83b7-8eceddff000e")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -5021,7 +5021,7 @@
 			(uuid "58f23a67-57fa-419b-a108-e93ab3d99b17")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row5")
@@ -5046,7 +5046,7 @@
 	(footprint "hp42s:TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm"
 		(layer "F.Cu")
 		(uuid "46d18ab5-6f8d-42bf-ad61-09c9aff7dcc6")
-		(at 7.71 -51.425)
+		(at -535.29 -604.925)
 		(descr "TI DSK0010A, WSON-10 2.5x2.5mm, 0.5mm pitch, exposed pad 1.2x2.0mm. From TI drawing 4218903/C example board layout. Used by TPS63900.")
 		(tags "WSON DFN TPS63900 DSK0010A")
 		(property "Reference" "U3"
@@ -5132,7 +5132,7 @@
 			(uuid "aad9ac4b-2ff7-47fc-a1b3-ee2ab6c17f90")
 		)
 		(pad "1" smd roundrect
-			(at -160.35 -328)
+			(at -703.35 -881.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5141,7 +5141,7 @@
 			(uuid "1d153f1b-5a4c-464b-88cf-1df546268c85")
 		)
 		(pad "2" smd roundrect
-			(at -160.35 -327.5)
+			(at -703.35 -881)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5150,7 +5150,7 @@
 			(uuid "7671403f-9daa-40a2-b317-0e6a8d9158ae")
 		)
 		(pad "3" smd roundrect
-			(at -160.35 -327)
+			(at -703.35 -880.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5159,7 +5159,7 @@
 			(uuid "c981d622-2756-4b58-9e64-baad6209357f")
 		)
 		(pad "4" smd roundrect
-			(at -160.35 -326.5)
+			(at -703.35 -880)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5168,7 +5168,7 @@
 			(uuid "dd170c35-2c08-44fc-8998-f5809b943b80")
 		)
 		(pad "5" smd roundrect
-			(at -160.35 -326)
+			(at -703.35 -879.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5177,7 +5177,7 @@
 			(uuid "9f97b693-371b-4002-a73c-eb06a8d7554c")
 		)
 		(pad "6" smd roundrect
-			(at -158.65 -326)
+			(at -701.65 -879.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5186,7 +5186,7 @@
 			(uuid "18ea3190-9611-4cfc-9aea-30e5e6c2f72e")
 		)
 		(pad "7" smd roundrect
-			(at -158.65 -326.5)
+			(at -701.65 -880)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5195,7 +5195,7 @@
 			(uuid "8c34c25f-5eb6-44fe-8aa6-e2732f184bec")
 		)
 		(pad "8" smd roundrect
-			(at -158.65 -327)
+			(at -701.65 -880.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5204,7 +5204,7 @@
 			(uuid "b734e2a3-03bb-4973-b3d0-5e40f3e7b5aa")
 		)
 		(pad "9" smd roundrect
-			(at -158.65 -327.5)
+			(at -701.65 -881)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5213,7 +5213,7 @@
 			(uuid "43a849e9-4b7f-4b30-a42e-4db2c065673a")
 		)
 		(pad "10" smd roundrect
-			(at -158.65 -328)
+			(at -701.65 -881.5)
 			(size 0.6 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5222,7 +5222,7 @@
 			(uuid "abd4cef9-c32b-4829-99b1-648e63050f2a")
 		)
 		(pad "11" smd roundrect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.2 2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -5235,7 +5235,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "49bad93d-b55f-4231-a352-4120a3aa0a6d")
-		(at 22.855 -132.075)
+		(at -520.145 -685.575)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R23"
@@ -5352,7 +5352,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -5361,7 +5361,7 @@
 			(uuid "010c939a-e8c6-4f13-9e4f-586c5aabda8b")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -5385,7 +5385,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "4a0266e6-55be-4c58-a3c7-0f3731255447")
-		(at 54.885 -63.295)
+		(at -488.115 -616.795)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C4"
@@ -5502,7 +5502,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.45 -327)
+			(at -703.45 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -5511,7 +5511,7 @@
 			(uuid "acd9cfb9-548a-473a-bda8-615f97f4d0c3")
 		)
 		(pad "2" smd roundrect
-			(at -158.55 -327)
+			(at -701.55 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -5535,7 +5535,7 @@
 	(footprint "Inductor_SMD:L_Coilcraft_XxL4020"
 		(layer "F.Cu")
 		(uuid "4abec207-b560-4fbf-90cf-5a702722431d")
-		(at 47.695 -55.545)
+		(at -495.305 -609.045)
 		(descr "L_Coilcraft_XxL4020 https://www.coilcraft.com/pdfs/xfl4020.pdf")
 		(tags "L Coilcraft XxL4020")
 		(property "Reference" "L1"
@@ -5702,7 +5702,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -160.685 -327)
+			(at -703.685 -880.5)
 			(size 0.98 3.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "lx1")
@@ -5710,7 +5710,7 @@
 			(uuid "abccb9d5-cae8-427d-b562-488d593bfe9e")
 		)
 		(pad "2" smd rect
-			(at -158.315 -327)
+			(at -701.315 -880.5)
 			(size 0.98 3.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "lx2")
@@ -5733,7 +5733,7 @@
 	(footprint "RF_Module:ESP32-S2-MINI-1"
 		(layer "F.Cu")
 		(uuid "520d547e-8296-4952-ab5d-cbb4b886680d")
-		(at -19.775 -126.725)
+		(at -562.775 -680.225)
 		(descr "2.4 GHz Wi-Fi and Bluetooth combo chip, external antenna, https://www.espressif.com/sites/default/files/documentation/esp32-s3-mini-1_mini-1u_datasheet_en.pdf")
 		(tags "2.4 GHz Wi-Fi Bluetooth external antenna espressif  20*15.4mm")
 		(property "Reference" "U5"
@@ -6158,7 +6158,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -166.5 -330.4)
+			(at -709.5 -883.9)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6166,7 +6166,7 @@
 			(uuid "120d1b42-fe9b-424a-987e-f06a06504f9b")
 		)
 		(pad "2" smd rect
-			(at -166.5 -329.55)
+			(at -709.5 -883.05)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6174,7 +6174,7 @@
 			(uuid "459947f8-a3c0-4e3d-95ae-7e7db6a6e501")
 		)
 		(pad "3" smd rect
-			(at -166.5 -328.7)
+			(at -709.5 -882.2)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "v3v3")
@@ -6182,7 +6182,7 @@
 			(uuid "888ba26b-dffd-4e90-8650-a6f42e6cb21d")
 		)
 		(pad "4" smd rect
-			(at -166.5 -327.85)
+			(at -709.5 -881.35)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "boot")
@@ -6190,7 +6190,7 @@
 			(uuid "6c1354d8-0e5d-4b99-86b7-03691cc4a6ee")
 		)
 		(pad "5" smd rect
-			(at -166.5 -327)
+			(at -709.5 -880.5)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col0")
@@ -6198,7 +6198,7 @@
 			(uuid "7b90738d-d813-42c2-9480-b32da4db8dc0")
 		)
 		(pad "6" smd rect
-			(at -166.5 -326.15)
+			(at -709.5 -879.65)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col1")
@@ -6206,13 +6206,13 @@
 			(uuid "d512dd5f-98a9-4394-8c3e-b2fc67330756")
 		)
 		(pad "7" smd rect
-			(at -166.5 -325.3)
+			(at -709.5 -878.8)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(uuid "39e5a5d3-b663-4bf3-88ee-8b9b4d33a36e")
 		)
 		(pad "8" smd rect
-			(at -166.5 -324.45)
+			(at -709.5 -877.95)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col2")
@@ -6220,7 +6220,7 @@
 			(uuid "3dd6d65e-c341-4f5b-9976-0385beaf2687")
 		)
 		(pad "9" smd rect
-			(at -166.5 -323.6)
+			(at -709.5 -877.1)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col3")
@@ -6228,7 +6228,7 @@
 			(uuid "192c1616-5a90-497c-9509-27ca2dc48ef4")
 		)
 		(pad "10" smd rect
-			(at -166.5 -322.75)
+			(at -709.5 -876.25)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col4")
@@ -6236,7 +6236,7 @@
 			(uuid "ce81b7c7-2e69-4659-adf3-005a083f2e97")
 		)
 		(pad "11" smd rect
-			(at -166.5 -321.9)
+			(at -709.5 -875.4)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "col5")
@@ -6244,7 +6244,7 @@
 			(uuid "6b394b20-b643-436a-a33e-cb661bc653df")
 		)
 		(pad "12" smd rect
-			(at -166.5 -321.05)
+			(at -709.5 -874.55)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row0")
@@ -6252,7 +6252,7 @@
 			(uuid "447de5b4-0143-4a8a-bd52-ce2d93405399")
 		)
 		(pad "13" smd rect
-			(at -166.5 -320.2)
+			(at -709.5 -873.7)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row1")
@@ -6260,7 +6260,7 @@
 			(uuid "87e66ff9-a443-4323-b6d7-b315103bd58c")
 		)
 		(pad "14" smd rect
-			(at -166.5 -319.35)
+			(at -709.5 -872.85)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row2")
@@ -6268,7 +6268,7 @@
 			(uuid "38a5fef1-15b9-4a74-98b8-ee07ebe8fbe9")
 		)
 		(pad "15" smd rect
-			(at -166.5 -318.5)
+			(at -709.5 -872)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row3")
@@ -6276,7 +6276,7 @@
 			(uuid "00dd092e-5641-44e7-a096-1da0ea8fc2cb")
 		)
 		(pad "16" smd rect
-			(at -165.45 -317.45 90)
+			(at -708.45 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row4")
@@ -6284,7 +6284,7 @@
 			(uuid "ca6cd212-d938-4487-8525-27ce3327b7ad")
 		)
 		(pad "17" smd rect
-			(at -164.6 -317.45 90)
+			(at -707.6 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row5")
@@ -6292,7 +6292,7 @@
 			(uuid "aa61e391-0e48-48fc-8efd-af0bcefccf0f")
 		)
 		(pad "18" smd rect
-			(at -163.75 -317.45 90)
+			(at -706.75 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "row6")
@@ -6300,7 +6300,7 @@
 			(uuid "63864126-a84c-4c8a-8a4c-124dec4ac60f")
 		)
 		(pad "19" smd rect
-			(at -162.9 -317.45 90)
+			(at -705.9 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "chg_stat2")
@@ -6308,7 +6308,7 @@
 			(uuid "b1316d76-9e65-4dad-8d40-09de0d23a00d")
 		)
 		(pad "20" smd rect
-			(at -162.05 -317.45 90)
+			(at -705.05 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "led_red")
@@ -6316,7 +6316,7 @@
 			(uuid "2bb28e87-ae91-4d8a-841b-fa8c97a3bfa9")
 		)
 		(pad "21" smd rect
-			(at -161.2 -317.45 90)
+			(at -704.2 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "i2c_sda")
@@ -6324,7 +6324,7 @@
 			(uuid "5b269a87-6d50-4e26-a0a6-3e134431e8d8")
 		)
 		(pad "22" smd rect
-			(at -160.35 -317.45 90)
+			(at -703.35 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "i2c_scl")
@@ -6332,7 +6332,7 @@
 			(uuid "55bded70-06c9-4aca-b48e-a3bf8f1bbc84")
 		)
 		(pad "23" smd rect
-			(at -159.5 -317.45 90)
+			(at -702.5 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "usb_dm")
@@ -6340,7 +6340,7 @@
 			(uuid "c546d03f-08a3-4a7c-b533-e3477af59dce")
 		)
 		(pad "24" smd rect
-			(at -158.65 -317.45 90)
+			(at -701.65 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "usb_dp")
@@ -6348,7 +6348,7 @@
 			(uuid "9b3a87f0-1792-41d3-a0e8-aec4b2a5fece")
 		)
 		(pad "25" smd rect
-			(at -157.8 -317.45 90)
+			(at -700.8 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "buzzer")
@@ -6356,13 +6356,13 @@
 			(uuid "3003ae82-f435-4cfe-9422-d5f0ed7923fd")
 		)
 		(pad "26" smd rect
-			(at -156.95 -317.45 90)
+			(at -699.95 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(uuid "01c6f667-4175-4896-8466-20c10121b426")
 		)
 		(pad "27" smd rect
-			(at -156.1 -317.45 90)
+			(at -699.1 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "ir_led")
@@ -6370,7 +6370,7 @@
 			(uuid "5dc8e603-0538-4bbf-afaa-8a9449e2929d")
 		)
 		(pad "28" smd rect
-			(at -155.25 -317.45 90)
+			(at -698.25 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_cs")
@@ -6378,7 +6378,7 @@
 			(uuid "7a3525c2-9f68-4243-9967-e83d7bd54c42")
 		)
 		(pad "29" smd rect
-			(at -154.4 -317.45 90)
+			(at -697.4 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_dc")
@@ -6386,7 +6386,7 @@
 			(uuid "04dd48f4-c058-4665-ae08-c130493ef889")
 		)
 		(pad "30" smd rect
-			(at -153.55 -317.45 90)
+			(at -696.55 -870.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "chg_stat")
@@ -6394,7 +6394,7 @@
 			(uuid "b6eafffa-dfee-4879-8f46-4b8038b302e5")
 		)
 		(pad "31" smd rect
-			(at -152.5 -318.5)
+			(at -695.5 -872)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_rst")
@@ -6402,7 +6402,7 @@
 			(uuid "e5b57882-593c-442f-b747-0fc664eb7617")
 		)
 		(pad "32" smd rect
-			(at -152.5 -319.35)
+			(at -695.5 -872.85)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_busy")
@@ -6410,7 +6410,7 @@
 			(uuid "c1c4d65b-0454-44cf-9f98-c9ab92564f1b")
 		)
 		(pad "33" smd rect
-			(at -152.5 -320.2)
+			(at -695.5 -873.7)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_sck")
@@ -6418,7 +6418,7 @@
 			(uuid "822c3da9-ad0a-439b-ad51-ad021b9f4d01")
 		)
 		(pad "34" smd rect
-			(at -152.5 -321.05)
+			(at -695.5 -874.55)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "epd_mosi")
@@ -6426,7 +6426,7 @@
 			(uuid "3a9dfcac-9be2-4ae3-9b2e-9831e5fc02e3")
 		)
 		(pad "35" smd rect
-			(at -152.5 -321.9)
+			(at -695.5 -875.4)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "led_green")
@@ -6434,7 +6434,7 @@
 			(uuid "48f7e8e5-fd70-44c9-b2b7-71512308e27e")
 		)
 		(pad "36" smd rect
-			(at -152.5 -322.75)
+			(at -695.5 -876.25)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "io40")
@@ -6442,7 +6442,7 @@
 			(uuid "e0157892-8662-4965-8a53-1486e3eb34cb")
 		)
 		(pad "37" smd rect
-			(at -152.5 -323.6)
+			(at -695.5 -877.1)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "frontlight_pwm")
@@ -6450,13 +6450,13 @@
 			(uuid "c702b7fc-e971-430b-9213-d727e0fbba62")
 		)
 		(pad "38" smd rect
-			(at -152.5 -324.45)
+			(at -695.5 -877.95)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(uuid "df15d056-ab93-4d3a-aaf3-b1b13bb342b4")
 		)
 		(pad "39" smd rect
-			(at -152.5 -325.3)
+			(at -695.5 -878.8)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "uart0_tx")
@@ -6464,7 +6464,7 @@
 			(uuid "3ba3bde3-c867-4101-afcb-9bd2e6d62ca4")
 		)
 		(pad "40" smd rect
-			(at -152.5 -326.15)
+			(at -695.5 -879.65)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "uart0_rx")
@@ -6472,13 +6472,13 @@
 			(uuid "f5452560-22c9-4a44-8616-36b5137bd366")
 		)
 		(pad "41" smd rect
-			(at -152.5 -327)
+			(at -695.5 -880.5)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(uuid "2eec401d-5879-49d2-b624-f19532ff6ebe")
 		)
 		(pad "42" smd rect
-			(at -152.5 -327.85)
+			(at -695.5 -881.35)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6486,7 +6486,7 @@
 			(uuid "ed76303d-83de-469e-bde8-2877ce3d89d0")
 		)
 		(pad "43" smd rect
-			(at -152.5 -328.7)
+			(at -695.5 -882.2)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6494,13 +6494,13 @@
 			(uuid "a7eb56a8-54f2-4e3a-9441-3f300093e4bd")
 		)
 		(pad "44" smd rect
-			(at -152.5 -329.55)
+			(at -695.5 -883.05)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(uuid "98f3d768-461a-4533-941d-0708f696ae7c")
 		)
 		(pad "45" smd rect
-			(at -152.5 -330.4)
+			(at -695.5 -883.9)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "en")
@@ -6508,7 +6508,7 @@
 			(uuid "9b6e51b4-1b52-488a-9164-1b27bb37eb49")
 		)
 		(pad "46" smd rect
-			(at -153.55 -331.45 90)
+			(at -696.55 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6516,7 +6516,7 @@
 			(uuid "5418e7bd-19b8-4ae5-8354-cf75f7664c01")
 		)
 		(pad "47" smd rect
-			(at -154.4 -331.45 90)
+			(at -697.4 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6524,7 +6524,7 @@
 			(uuid "45c52208-1ee7-413c-affe-e6e72c7337a0")
 		)
 		(pad "48" smd rect
-			(at -155.25 -331.45 90)
+			(at -698.25 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6532,7 +6532,7 @@
 			(uuid "521362ce-ee3c-48aa-ba93-54b93269e724")
 		)
 		(pad "49" smd rect
-			(at -156.1 -331.45 90)
+			(at -699.1 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6540,7 +6540,7 @@
 			(uuid "d4b8e5bd-2398-425c-b0a6-727f13362420")
 		)
 		(pad "50" smd rect
-			(at -156.95 -331.45 90)
+			(at -699.95 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6548,7 +6548,7 @@
 			(uuid "a1724882-21ea-452f-9127-8f7f8e2015a2")
 		)
 		(pad "51" smd rect
-			(at -157.8 -331.45 90)
+			(at -700.8 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6556,7 +6556,7 @@
 			(uuid "da83b68e-8d5e-47f7-af7a-0d44f7a0a1b1")
 		)
 		(pad "52" smd rect
-			(at -158.65 -331.45 90)
+			(at -701.65 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6564,7 +6564,7 @@
 			(uuid "692cb213-1ebb-48b6-9415-5039fcc53f36")
 		)
 		(pad "53" smd rect
-			(at -159.5 -331.45 90)
+			(at -702.5 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6572,7 +6572,7 @@
 			(uuid "3f2751b4-caf9-417e-bba5-0732dba25eb9")
 		)
 		(pad "54" smd rect
-			(at -160.35 -331.45 90)
+			(at -703.35 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6580,7 +6580,7 @@
 			(uuid "fe926739-a1f7-4303-adfb-0619c40e1174")
 		)
 		(pad "55" smd rect
-			(at -161.2 -331.45 90)
+			(at -704.2 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6588,7 +6588,7 @@
 			(uuid "e097c588-989a-4ab5-aa98-bb0bb9f8008f")
 		)
 		(pad "56" smd rect
-			(at -162.05 -331.45 90)
+			(at -705.05 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6596,7 +6596,7 @@
 			(uuid "84e7a4ad-54c9-4ce4-aa3d-78540b74456d")
 		)
 		(pad "57" smd rect
-			(at -162.9 -331.45 90)
+			(at -705.9 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6604,7 +6604,7 @@
 			(uuid "9c749640-c745-4014-91a1-efb50c216fb5")
 		)
 		(pad "58" smd rect
-			(at -163.75 -331.45 90)
+			(at -706.75 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6612,7 +6612,7 @@
 			(uuid "7da983e8-85c0-4568-8858-14b128245c3b")
 		)
 		(pad "59" smd rect
-			(at -164.6 -331.45 90)
+			(at -707.6 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6620,7 +6620,7 @@
 			(uuid "5ed8df72-3c58-4b89-95b7-213873800822")
 		)
 		(pad "60" smd rect
-			(at -165.45 -331.45 90)
+			(at -708.45 -884.95 90)
 			(size 0.8 0.4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6628,7 +6628,7 @@
 			(uuid "bc889263-0f29-44e1-8543-c950e56c9118")
 		)
 		(pad "61" smd roundrect
-			(at -161.15 -326.1)
+			(at -704.15 -879.6)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6641,7 +6641,7 @@
 			(uuid "6d943980-bcec-4152-8968-c054a8155d55")
 		)
 		(pad "61" smd rect
-			(at -161.15 -324.45)
+			(at -704.15 -877.95)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6651,7 +6651,7 @@
 			(uuid "91f22c62-3282-4b3e-88ad-e3eeaf6f42b3")
 		)
 		(pad "61" smd rect
-			(at -161.15 -322.8)
+			(at -704.15 -876.3)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6661,7 +6661,7 @@
 			(uuid "d6107fdb-964e-4df1-be0f-78effbfbd8e2")
 		)
 		(pad "61" smd rect
-			(at -159.5 -326.1)
+			(at -702.5 -879.6)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6671,7 +6671,7 @@
 			(uuid "83109b07-e81a-4405-93dd-fdab0c9a99fa")
 		)
 		(pad "61" smd rect
-			(at -159.5 -324.45)
+			(at -702.5 -877.95)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6681,7 +6681,7 @@
 			(uuid "d809fa1b-cb57-4190-8967-da2d899ccd02")
 		)
 		(pad "61" smd rect
-			(at -159.5 -322.8)
+			(at -702.5 -876.3)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6691,7 +6691,7 @@
 			(uuid "a6e8f24a-22d2-4f95-bb4a-6bea3dfef972")
 		)
 		(pad "61" smd rect
-			(at -157.85 -326.1)
+			(at -700.85 -879.6)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6701,7 +6701,7 @@
 			(uuid "8393b1b4-7b3d-493a-8655-9fb7b4a992eb")
 		)
 		(pad "61" smd rect
-			(at -157.85 -324.45)
+			(at -700.85 -877.95)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6711,7 +6711,7 @@
 			(uuid "6d316319-b84d-4629-9529-56b09b082472")
 		)
 		(pad "61" smd rect
-			(at -157.85 -322.8)
+			(at -700.85 -876.3)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask" "F.Paste")
@@ -6721,7 +6721,7 @@
 			(uuid "c4890b92-9371-448f-8521-baabf480e0b3")
 		)
 		(pad "62" smd rect
-			(at -166.5 -331.45)
+			(at -709.5 -884.95)
 			(size 0.8 0.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6729,7 +6729,7 @@
 			(uuid "16641447-e0b3-40ae-91e2-847164701b68")
 		)
 		(pad "63" smd rect
-			(at -166.5 -317.45)
+			(at -709.5 -870.95)
 			(size 0.8 0.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6737,7 +6737,7 @@
 			(uuid "27982b66-8feb-49e7-b986-53577ce22065")
 		)
 		(pad "64" smd rect
-			(at -152.5 -317.45)
+			(at -695.5 -870.95)
 			(size 0.8 0.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6745,7 +6745,7 @@
 			(uuid "c2b39cea-a3f1-4f2b-b3d4-2e0c8d372e9f")
 		)
 		(pad "65" smd rect
-			(at -152.5 -331.45)
+			(at -695.5 -884.95)
 			(size 0.8 0.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -6779,7 +6779,7 @@
 			)
 			(polygon
 				(pts
-					(xy 2.925 -131.975) (xy -42.475 -131.975) (xy -42.475 -151.475) (xy 2.925 -151.475)
+					(xy -540.075 -685.475) (xy -585.475 -685.475) (xy -585.475 -704.975) (xy -540.075 -704.975)
 				)
 			)
 		)
@@ -6799,7 +6799,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "5282214c-b164-41a6-b2aa-17f60eb432f5")
-		(at 62.225 -132.945)
+		(at -480.775 -686.445)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R17"
@@ -6916,7 +6916,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -6925,7 +6925,7 @@
 			(uuid "b391284f-942c-413c-96f1-42170a20c823")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -6949,7 +6949,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "587cb75c-9ca8-403e-9e90-fe3c8bb342f6")
-		(at -345.25 -430.5)
+		(at -543.25 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW6"
@@ -7025,7 +7025,7 @@
 			(uuid "37a780d8-4f98-4fb6-b3d2-068f5dbc01b9")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -7045,7 +7045,7 @@
 			(uuid "8ef48583-7a6d-4749-860a-3a7f62aedf0d")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col5")
@@ -7068,7 +7068,7 @@
 			(uuid "fd5687d6-822b-4a9f-9452-ac890600aa53")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -7093,7 +7093,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "58f82e12-42d6-4cd9-9893-10050189e77a")
-		(at 42.135 -123.905)
+		(at -500.865 -677.405)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R21"
@@ -7210,7 +7210,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7219,7 +7219,7 @@
 			(uuid "6d15dbef-24a0-4d19-9cc3-62e77bf748a4")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7243,7 +7243,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "59becacd-03b7-4e2b-89c8-a1b4284494d9")
-		(at 1.245 -46.505)
+		(at -541.755 -600.005)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C21"
@@ -7360,7 +7360,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7369,7 +7369,7 @@
 			(uuid "e2894445-7216-4843-a47d-ab30f6d3da6c")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7393,7 +7393,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "5c26d589-2246-4410-a4cb-95bfe5d09016")
-		(at 56.765 -137.195)
+		(at -486.235 -690.695)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C12"
@@ -7510,7 +7510,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7519,7 +7519,7 @@
 			(uuid "27ad1bf8-90d1-4ff0-a8c8-f223b5e7dd9b")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7543,7 +7543,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "615cafb4-f67e-49ab-a9c1-576a19057a0f")
-		(at 54.925 -68.645)
+		(at -488.075 -622.145)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C20"
@@ -7660,7 +7660,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.45 -327)
+			(at -703.45 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7669,7 +7669,7 @@
 			(uuid "d61b18f4-0cc0-45b5-add7-72a4109c9ca3")
 		)
 		(pad "2" smd roundrect
-			(at -158.55 -327)
+			(at -701.55 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7693,7 +7693,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "6492cc2a-71b7-4280-a52f-5d1b8ec8c8b5")
-		(at -376.5 -382.5)
+		(at -574.5 -552.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW25"
@@ -7769,7 +7769,7 @@
 			(uuid "3b569234-1f99-49f7-9a65-b231667b2a5d")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -7789,7 +7789,7 @@
 			(uuid "43e386e0-ea8e-46b5-ba4e-4249a6843852")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -7812,7 +7812,7 @@
 			(uuid "0b0b1c99-dad3-43ee-a23d-1fa2c3c783dd")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row4")
@@ -7837,7 +7837,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "68077a03-f6b1-4dae-9cfa-4e3b0e87ccb5")
-		(at 56.765 -119.155)
+		(at -486.235 -672.655)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C17"
@@ -7954,7 +7954,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7963,7 +7963,7 @@
 			(uuid "d7edd400-9069-4a46-84ef-e72166d4cba1")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -7987,7 +7987,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "68184a9f-b5f2-428b-8cde-b14ea8674b5f")
-		(at 63.295 -92.675)
+		(at -479.705 -646.175)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R7"
@@ -8104,7 +8104,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -8113,7 +8113,7 @@
 			(uuid "2d1dfae3-1ea5-47ad-b1db-cb7ab85cbb0e")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -8137,7 +8137,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "6bd7bf3b-62fa-4a4f-a7e9-8f2e97954764")
-		(at -376.5 -358.5)
+		(at -574.5 -528.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW35"
@@ -8213,7 +8213,7 @@
 			(uuid "03f6fc1c-0824-4744-bad6-fc0d6db0b2dc")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -8233,7 +8233,7 @@
 			(uuid "41973461-d586-4725-876b-4657dbf58566")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -8256,7 +8256,7 @@
 			(uuid "bc8eab73-33ae-45bd-94bc-20b3bbc637e4")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row6")
@@ -8281,7 +8281,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "6d0211ec-95b1-41bc-921e-3c9dc2972e91")
-		(at -407.75 -382.5)
+		(at -605.75 -552.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW23"
@@ -8357,7 +8357,7 @@
 			(uuid "07343fd5-b727-4d6e-bfb0-93d99703364a")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -8377,7 +8377,7 @@
 			(uuid "490d07f4-36f9-4c50-be9c-bc45add2a18d")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -8400,7 +8400,7 @@
 			(uuid "b717cab1-609b-454e-b1c4-72354d548cd1")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row4")
@@ -8425,7 +8425,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "73dad05b-cf4c-4f54-bb18-21dc6af109e1")
-		(at -361.5 -382.5)
+		(at -559.5 -552.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW26"
@@ -8501,7 +8501,7 @@
 			(uuid "5395ad59-e2df-4986-8a11-7dc910c46bcf")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -8521,7 +8521,7 @@
 			(uuid "8b91891d-90fd-414a-9f43-b50f0d87d9ec")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -8544,7 +8544,7 @@
 			(uuid "4872f5f4-8997-4901-b58c-1e8f7b82cf84")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row4")
@@ -8569,7 +8569,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "74c4b923-2ee9-4736-9a70-a381c31b9030")
-		(at 20.115 -47.685)
+		(at -522.885 -601.185)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C11"
@@ -8686,7 +8686,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -8695,7 +8695,7 @@
 			(uuid "1551caaa-9639-41bb-90ed-ec2fdad42291")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -8719,7 +8719,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "79d0b982-721e-45fc-9f8c-4dcb9cbeac1a")
-		(at -346.5 -382.5)
+		(at -544.5 -552.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW27"
@@ -8795,7 +8795,7 @@
 			(uuid "91ccb9b0-e0f0-45ea-93ba-cac07f8a5975")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -8815,7 +8815,7 @@
 			(uuid "5f9d3fce-5166-4633-936f-263edd1ee096")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -8838,7 +8838,7 @@
 			(uuid "080f7e4f-1c6a-4894-afbe-d6b33fd58916")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row4")
@@ -8863,7 +8863,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "7a9cbd52-a8d8-4d47-893c-bd392451fe55")
-		(at -376.5 -370.5)
+		(at -574.5 -540.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW30"
@@ -8939,7 +8939,7 @@
 			(uuid "e0f90fae-15c8-4c3e-8bd7-40a8f8ca237c")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -8959,7 +8959,7 @@
 			(uuid "1d0ea774-ef47-4cc8-b1a5-3755600095d6")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -8982,7 +8982,7 @@
 			(uuid "8e7a4e83-a604-459f-aa37-1d50e360d8ec")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row5")
@@ -9007,7 +9007,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "7c986f59-bde9-4a6d-bb2a-9dc91120e679")
-		(at -357.75 -418.5)
+		(at -555.75 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW11"
@@ -9083,7 +9083,7 @@
 			(uuid "f31bb33b-faf5-4257-bd79-2fa721fc9111")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -9103,7 +9103,7 @@
 			(uuid "888d8914-75d7-40ee-919e-5d4fcd5575a2")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -9126,7 +9126,7 @@
 			(uuid "c5a5733e-0683-4c79-953c-7528d9b4649f")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -9151,7 +9151,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "7d56c4e5-7521-454a-a74c-fe22119c59e6")
-		(at -13.405 -45.265)
+		(at -556.405 -598.765)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C22"
@@ -9268,7 +9268,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -159.98 -327)
+			(at -702.98 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9277,7 +9277,7 @@
 			(uuid "abb326e2-e849-44d6-a395-71ab38051858")
 		)
 		(pad "2" smd roundrect
-			(at -159.02 -327)
+			(at -702.02 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9301,7 +9301,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "81c409cb-7d4e-4600-baac-0a6a990f4a34")
-		(at 17.365 -120.515)
+		(at -525.635 -674.015)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R12"
@@ -9418,7 +9418,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9427,7 +9427,7 @@
 			(uuid "92da4904-494b-48e0-8c8f-08dccc8c163f")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9451,7 +9451,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "81f05984-feee-4739-b72f-80233f696d35")
-		(at 39.72 -60.925)
+		(at -503.28 -614.425)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D6"
@@ -9698,7 +9698,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -161.15 -327)
+			(at -704.15 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9707,7 +9707,7 @@
 			(uuid "cc79e026-2801-453d-ae3f-708c6dc16446")
 		)
 		(pad "2" smd roundrect
-			(at -157.85 -327)
+			(at -700.85 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -9731,7 +9731,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "8253cfff-aa11-47c1-8121-3262156f64c5")
-		(at -391.5 -358.5)
+		(at -589.5 -528.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW34"
@@ -9807,7 +9807,7 @@
 			(uuid "cff64f9b-217b-4e97-a80e-eebb0d22409b")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -9827,7 +9827,7 @@
 			(uuid "777ca585-bfdf-4bac-88de-ba4268d873ec")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -9850,7 +9850,7 @@
 			(uuid "5d30585a-85d6-4dba-92c4-5a25d67020ef")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row6")
@@ -9875,7 +9875,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "830e751a-0d99-44a6-a550-b48be83d343e")
-		(at -395.25 -430.5)
+		(at -593.25 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW2"
@@ -9951,7 +9951,7 @@
 			(uuid "61846d45-b523-4a20-8b0b-fde0792a537e")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -9971,7 +9971,7 @@
 			(uuid "4f11e877-7df2-466d-aa4f-7ef0f0770076")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -9994,7 +9994,7 @@
 			(uuid "886db665-1c46-4622-a129-78a0160b2a71")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -10019,7 +10019,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "868fee36-55b1-49f8-814a-57c79aa41beb")
-		(at -346.5 -370.5)
+		(at -544.5 -540.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW32"
@@ -10095,7 +10095,7 @@
 			(uuid "2754b801-afd0-4895-b7c7-53f605341da7")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -10115,7 +10115,7 @@
 			(uuid "02ef70ca-9d58-4156-bff4-3eb50b67a592")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -10138,7 +10138,7 @@
 			(uuid "e587fd9d-bb85-4742-bcaf-02c34fff1602")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row5")
@@ -10163,7 +10163,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "89c23343-86ab-4854-b221-9a9ef1d93519")
-		(at -370.25 -406.5)
+		(at -568.25 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW15"
@@ -10239,7 +10239,7 @@
 			(uuid "2612e754-e7bf-4bff-a308-d61ec2b510e0")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -10259,7 +10259,7 @@
 			(uuid "fe743a16-5d0e-4ee7-88f1-8273811dbc1a")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -10282,7 +10282,7 @@
 			(uuid "c6ce8650-22d0-4f93-aa02-f7306b3ff0c9")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -10307,7 +10307,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "8a6a6d39-14cb-4bb8-86d6-3a9b1011d43c")
-		(at -361.5 -358.5)
+		(at -559.5 -528.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW36"
@@ -10383,7 +10383,7 @@
 			(uuid "271b2d17-61fa-4516-ac4b-ef2b923c3c0e")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -10403,7 +10403,7 @@
 			(uuid "96f035d1-d708-4f37-bf27-0a514adf826e")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -10426,7 +10426,7 @@
 			(uuid "643e0218-b6ec-4b7a-b5ab-c7758afeae6e")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row6")
@@ -10451,7 +10451,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "8aec597d-a853-4f2a-a6f7-c532160855b1")
-		(at 17.365 -124.505)
+		(at -525.635 -678.005)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R6"
@@ -10568,7 +10568,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -10577,7 +10577,7 @@
 			(uuid "096ba5d5-2223-4a4d-b997-767e9ce77557")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -10601,7 +10601,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "8cff78df-0d74-4545-b083-d701867b01b6")
-		(at -345.25 -418.5)
+		(at -543.25 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW12"
@@ -10677,7 +10677,7 @@
 			(uuid "65d775d5-f0b6-4a45-b446-3c9ac3e69ce0")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -10697,7 +10697,7 @@
 			(uuid "21005724-d734-455a-b9d4-df1dfe0de410")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col5")
@@ -10720,7 +10720,7 @@
 			(uuid "ae01e59b-f080-4e56-be0e-93c393667028")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -10745,7 +10745,7 @@
 	(footprint "hp42s:Vishay_VSMB2943SLX01_SideView"
 		(layer "F.Cu")
 		(uuid "8d381255-53e0-479d-8f3a-e9abf15d520f")
-		(at -392.5 -490.9)
+		(at -590.5 -660.9)
 		(descr "Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, 2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits 1.2 mm above the board face the part is soldered to. Pad 1 = cathode.")
 		(tags "LED IR 940nm side-view sidelooker VSMB2943SLX01")
 		(property "Reference" "D4"
@@ -10850,7 +10850,7 @@
 			(uuid "18ba579c-a5b8-424c-8b12-d400854674c8")
 		)
 		(pad "1" smd roundrect
-			(at -161.15 -327)
+			(at -704.15 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -10859,7 +10859,7 @@
 			(uuid "5cdde1b9-4630-4fea-8554-b39595877995")
 		)
 		(pad "2" smd roundrect
-			(at -157.85 -327)
+			(at -700.85 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -10872,7 +10872,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "8d8d0007-ad46-4cd5-9736-7f1ea6985d53")
-		(at -370.25 -418.5)
+		(at -568.25 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW10"
@@ -10948,7 +10948,7 @@
 			(uuid "10a76609-a84e-4d4d-bfb8-bb550ac171be")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -10968,7 +10968,7 @@
 			(uuid "f8ca3358-acba-40c0-99ee-75271cefc8df")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -10991,7 +10991,7 @@
 			(uuid "2c8c9bb7-85c8-4ada-96b9-45b45d429bbb")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -11016,7 +11016,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "945079df-0643-48b0-bd47-60d0d7551577")
-		(at 63.295 -104.725)
+		(at -479.705 -658.225)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R5"
@@ -11133,7 +11133,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11142,7 +11142,7 @@
 			(uuid "8aa4e3ff-22fd-4576-8ca9-252d35ad7cbd")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11166,7 +11166,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "946ab4e7-2e3f-4e92-9df0-17af93dd579a")
-		(at 63.295 -112.705)
+		(at -479.705 -666.205)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R22"
@@ -11283,7 +11283,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11292,7 +11292,7 @@
 			(uuid "f03a2954-8bec-45e3-aa45-f7f2554dec78")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11316,7 +11316,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "94c25bc1-812f-4066-8a3a-adb60cd4d096")
-		(at 20.115 -52.195)
+		(at -522.885 -605.695)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C13"
@@ -11433,7 +11433,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11442,7 +11442,7 @@
 			(uuid "0725c1d4-7013-4813-a927-28e7cdb41279")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11466,7 +11466,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "970f73db-8c89-407f-8b97-7a2c0bfc1e32")
-		(at -407.75 -406.5)
+		(at -605.75 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW13"
@@ -11542,7 +11542,7 @@
 			(uuid "b4fe6d9d-9f25-47ce-91b2-37891b520730")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -11562,7 +11562,7 @@
 			(uuid "7113c3f1-dd14-44c3-982c-6f76664cd861")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -11585,7 +11585,7 @@
 			(uuid "2104bcb2-994f-42e5-883b-764dd3e2ba93")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -11610,7 +11610,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "980fa751-8095-419f-8776-7b82a51d8404")
-		(at 39.72 -55.575)
+		(at -503.28 -609.075)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D1"
@@ -11857,7 +11857,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -161.15 -327)
+			(at -704.15 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11866,7 +11866,7 @@
 			(uuid "9c5f69f1-69c3-4fb4-ae4b-62d170956a44")
 		)
 		(pad "2" smd roundrect
-			(at -157.85 -327)
+			(at -700.85 -880.5)
 			(size 0.9 1.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -11890,7 +11890,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "989f75f4-830e-47ff-98fb-1f23aa603cf8")
-		(at -391.5 -370.5)
+		(at -589.5 -540.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW29"
@@ -11966,7 +11966,7 @@
 			(uuid "10df9f07-7d2a-4af1-8ac9-a6ac9f3f72a4")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -11986,7 +11986,7 @@
 			(uuid "e5d9a58b-1881-43be-ba03-55c0512b5cd0")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -12009,7 +12009,7 @@
 			(uuid "7b57a3ec-64ee-4310-8a91-1782aa68dd70")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row5")
@@ -12034,7 +12034,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9c6d0a94-8d67-49ba-8c27-5ce9fce682cb")
-		(at 63.295 -84.615)
+		(at -479.705 -638.115)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R15"
@@ -12151,7 +12151,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12160,7 +12160,7 @@
 			(uuid "cba5a96b-12fa-46e4-a45c-f014fe4c1911")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12184,7 +12184,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "9cd7970c-d080-466d-a304-37f134a36b17")
-		(at 28.375 -117.575)
+		(at -514.625 -671.075)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP6"
@@ -12272,7 +12272,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "v3v3")
@@ -12284,7 +12284,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9f311167-76d7-45fe-b562-37b63568daba")
-		(at 12.455 -120.515)
+		(at -530.545 -674.015)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R24"
@@ -12401,7 +12401,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12410,7 +12410,7 @@
 			(uuid "3518fa6f-9cc2-4456-b477-b57c31b09b53")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12434,7 +12434,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9fd1f49c-a7d7-4eec-8079-39f657e103a8")
-		(at 62.225 -137.455)
+		(at -480.775 -690.955)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R18"
@@ -12551,7 +12551,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12560,7 +12560,7 @@
 			(uuid "a11c18d7-94d6-4040-96e1-2e15b92e5c86")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -12584,7 +12584,7 @@
 	(footprint "Buzzer_Beeper:Buzzer_Murata_PKLCS1212E"
 		(layer "F.Cu")
 		(uuid "a083c936-b9d5-4f22-aa88-e0781507c39b")
-		(at 12.43 -134.275)
+		(at -530.57 -687.775)
 		(descr "Murata Buzzer https://www.murata.com/~/media/webrenewal/support/library/catalog/products/sound/p37e.ashx")
 		(tags "Murata Buzzer Beeper")
 		(property "Reference" "LS1"
@@ -12891,7 +12891,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -165.1 -327)
+			(at -708.1 -880.5)
 			(size 1.2 4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "gnd")
@@ -12899,7 +12899,7 @@
 			(uuid "b16d9dc7-5f2f-4855-a973-b75010a745c9")
 		)
 		(pad "2" smd rect
-			(at -153.9 -327)
+			(at -696.9 -880.5)
 			(size 1.2 4)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "sounder")
@@ -12922,7 +12922,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "a989c8d8-1761-4e30-b986-b398ce0bfc02")
-		(at -346.5 -394.5)
+		(at -544.5 -564.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW22"
@@ -12998,7 +12998,7 @@
 			(uuid "b0333d58-082b-45f8-8ead-194bd4ddcb09")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -13018,7 +13018,7 @@
 			(uuid "b7d3798a-dca8-46a0-9381-56019c41f978")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -13041,7 +13041,7 @@
 			(uuid "ea53695b-39d8-463e-877c-c6b4e385e992")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row3")
@@ -13066,7 +13066,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "a9a1b585-043d-4ff8-8d15-393885cac0c7")
-		(at 62.085 -150.225)
+		(at -480.915 -703.725)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP7"
@@ -13154,7 +13154,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "gnd")
@@ -13166,7 +13166,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ae3ae94b-b89f-4631-8082-184cdb19e2ac")
-		(at -382.75 -418.5)
+		(at -580.75 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW9"
@@ -13242,7 +13242,7 @@
 			(uuid "e37fc08f-84f3-46f6-9d59-caeadfb018ec")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -13262,7 +13262,7 @@
 			(uuid "cc934673-bf35-431c-b575-d18c2f99c1a3")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -13285,7 +13285,7 @@
 			(uuid "0df0ba82-5531-44b9-9687-0e976059a176")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -13310,7 +13310,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ae7fa3ac-101d-4944-8aa8-b885bf69d5e8")
-		(at -407.75 -358.5)
+		(at -605.75 -528.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW33"
@@ -13386,7 +13386,7 @@
 			(uuid "8745d3f1-88f1-4f20-a2e9-793a2a250ffd")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -13406,7 +13406,7 @@
 			(uuid "de368720-928d-4999-8107-41d24e207d80")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -13429,7 +13429,7 @@
 			(uuid "4b7422fa-fc77-44e4-b412-2e47275e12ad")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row6")
@@ -13454,7 +13454,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b060624a-a59c-43bf-950b-274601cdaf62")
-		(at 62.225 -128.435)
+		(at -480.775 -681.935)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R1"
@@ -13571,7 +13571,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -13580,7 +13580,7 @@
 			(uuid "3ac52767-d5b9-4b9b-99c4-81037ed37474")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -13604,7 +13604,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "b082632e-c0b9-423b-834b-2dde49a204d2")
-		(at -357.75 -406.5)
+		(at -555.75 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW16"
@@ -13680,7 +13680,7 @@
 			(uuid "bdeed4d3-099a-4c54-9589-72bf9cbbddbd")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -13700,7 +13700,7 @@
 			(uuid "6b533576-f1b7-47f6-a17f-788df06cea16")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -13723,7 +13723,7 @@
 			(uuid "9c67a4a4-4ec0-4daa-9c53-7a71014fe17a")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -13748,7 +13748,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "b2eece24-38dd-436b-806e-308439975cd7")
-		(at -6.825 -49.505)
+		(at -549.825 -603.005)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C14"
@@ -13865,7 +13865,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -13874,7 +13874,7 @@
 			(uuid "83f17cff-730d-4a92-80ba-f2716134ac9f")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -13898,7 +13898,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b761fc4e-0577-406d-9be4-036d171fb6a5")
-		(at 22.855 -140.055)
+		(at -520.145 -693.555)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R8"
@@ -14015,7 +14015,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14024,7 +14024,7 @@
 			(uuid "b83ccfd2-b9ea-431c-aee2-a32c656288b7")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14048,7 +14048,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "bade4e81-4f35-4de7-95b7-1c662a611500")
-		(at -346.5 -358.5)
+		(at -544.5 -528.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW37"
@@ -14124,7 +14124,7 @@
 			(uuid "229e10df-6f10-493a-912f-b42476207fc2")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -14144,7 +14144,7 @@
 			(uuid "38f212dc-8bc2-4c68-8d57-293fa23245b6")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col4")
@@ -14167,7 +14167,7 @@
 			(uuid "062ee61c-40b9-4c1a-b4fe-5ff35d523d8d")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row6")
@@ -14192,7 +14192,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "bc8f9205-7124-4ddf-b719-c5bb6306804d")
-		(at 63.295 -108.715)
+		(at -479.705 -662.215)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R13"
@@ -14309,7 +14309,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14318,7 +14318,7 @@
 			(uuid "c54d1922-0019-4cec-a5be-38d2b256b298")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14342,7 +14342,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "bf5f6905-77cc-48fe-bbaf-2ae9ba4aabfd")
-		(at 47.025 -123.915)
+		(at -495.975 -677.415)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C6"
@@ -14459,7 +14459,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -159.98 -327)
+			(at -702.98 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14468,7 +14468,7 @@
 			(uuid "6553c971-6fbc-4726-b077-3b10462845c9")
 		)
 		(pad "2" smd roundrect
-			(at -159.02 -327)
+			(at -702.02 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14492,7 +14492,7 @@
 	(footprint "Package_DFN_QFN:TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm"
 		(layer "F.Cu")
 		(uuid "c372327c-da99-424e-b174-792cc6c0a3a6")
-		(at 13.915 -46.24)
+		(at -529.085 -599.74)
 		(descr "TDFN, 8 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0168.PDF)")
 		(tags "TDFN NoLead")
 		(property "Reference" "U4"
@@ -14731,35 +14731,35 @@
 			)
 		)
 		(pad "" smd roundrect
-			(at -159.7 -327.3)
+			(at -702.7 -880.8)
 			(size 0.32 0.48)
 			(layers "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "d06c1bf6-3360-49c4-8c5a-bbafe97893c3")
 		)
 		(pad "" smd roundrect
-			(at -159.7 -326.7)
+			(at -702.7 -880.2)
 			(size 0.32 0.48)
 			(layers "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "1293df24-4083-4886-9446-c845d1088059")
 		)
 		(pad "" smd roundrect
-			(at -159.3 -327.3)
+			(at -702.3 -880.8)
 			(size 0.32 0.48)
 			(layers "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "efecfcd0-a1b6-4c40-90dd-b163bc628aa6")
 		)
 		(pad "" smd roundrect
-			(at -159.3 -326.7)
+			(at -702.3 -880.2)
 			(size 0.32 0.48)
 			(layers "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "6e5e90a9-1d01-4c04-9f5c-2bde388c6a23")
 		)
 		(pad "1" smd roundrect
-			(at -160.4875 -327.75)
+			(at -703.4875 -881.25)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14768,7 +14768,7 @@
 			(uuid "58fce756-d751-4393-aedc-3991a2a67575")
 		)
 		(pad "2" smd roundrect
-			(at -160.4875 -327.25)
+			(at -703.4875 -880.75)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14777,7 +14777,7 @@
 			(uuid "2d6e55fb-ee83-43d1-8889-722274be6017")
 		)
 		(pad "3" smd roundrect
-			(at -160.4875 -326.75)
+			(at -703.4875 -880.25)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14786,7 +14786,7 @@
 			(uuid "78bdaecf-d8b5-44ac-bac9-c259f956a9e3")
 		)
 		(pad "4" smd roundrect
-			(at -160.4875 -326.25)
+			(at -703.4875 -879.75)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14795,7 +14795,7 @@
 			(uuid "03611e3f-961b-434e-b09c-45b64dee97bf")
 		)
 		(pad "5" smd roundrect
-			(at -158.5125 -326.25)
+			(at -701.5125 -879.75)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14804,7 +14804,7 @@
 			(uuid "b084fd85-fc8a-4190-9ed0-8082374320c3")
 		)
 		(pad "6" smd roundrect
-			(at -158.5125 -326.75)
+			(at -701.5125 -880.25)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14813,7 +14813,7 @@
 			(uuid "469947de-9b42-4b83-864a-d2ee25c4e07c")
 		)
 		(pad "7" smd roundrect
-			(at -158.5125 -327.25)
+			(at -701.5125 -880.75)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14822,7 +14822,7 @@
 			(uuid "281e8de3-f173-4e7a-aeb8-06312a2cec41")
 		)
 		(pad "8" smd roundrect
-			(at -158.5125 -327.75)
+			(at -701.5125 -881.25)
 			(size 0.775 0.25)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -14831,7 +14831,7 @@
 			(uuid "0edfee5e-8482-4939-9a4c-1462555e629e")
 		)
 		(pad "9" smd rect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.8 1.2)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask")
@@ -14856,7 +14856,7 @@
 	(footprint "Inductor_SMD:L_Bourns-SRN4018"
 		(layer "F.Cu")
 		(uuid "c465ef00-5e1e-4ea2-9c23-5c8b8cecf691")
-		(at 39.855 -67.375)
+		(at -503.145 -620.875)
 		(descr "Bourns SRN4018 series SMD inductor, https://www.bourns.com/docs/Product-Datasheets/SRN4018.pdf")
 		(tags "Bourns SRN4018 SMD inductor")
 		(property "Reference" "L2"
@@ -15083,7 +15083,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -161.025 -327)
+			(at -704.025 -880.5)
 			(size 1.5 3.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "v3v3")
@@ -15091,7 +15091,7 @@
 			(uuid "07732bd5-0d18-4386-802b-d6e4a82c7932")
 		)
 		(pad "2" smd rect
-			(at -157.975 -327)
+			(at -700.975 -880.5)
 			(size 1.5 3.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(net "display-sw")
@@ -15114,7 +15114,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-323_SC-70"
 		(layer "F.Cu")
 		(uuid "c6028e3c-676b-4871-a115-2efd1023ffbd")
-		(at 62.745 -118.715)
+		(at -480.255 -672.215)
 		(descr "SOT, 3 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=148)")
 		(tags "SOT TO_SOT_SMD SC-70 SOT-323")
 		(property "Reference" "Q1"
@@ -15423,7 +15423,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.3875 -327.65)
+			(at -703.3875 -881.15)
 			(size 0.925 0.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -15432,7 +15432,7 @@
 			(uuid "090ae33c-97f8-437e-b7e9-e6bcda69b5a0")
 		)
 		(pad "2" smd roundrect
-			(at -160.3875 -326.35)
+			(at -703.3875 -879.85)
 			(size 0.925 0.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -15441,7 +15441,7 @@
 			(uuid "ec607377-f12c-41b0-bda2-ae9c2c07d6d8")
 		)
 		(pad "3" smd roundrect
-			(at -158.6125 -327)
+			(at -701.6125 -880.5)
 			(size 0.925 0.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -15465,7 +15465,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "c64229de-5679-49a9-a464-6970755a7492")
-		(at 63.295 -88.605)
+		(at -479.705 -642.105)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R10"
@@ -15582,7 +15582,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -15591,7 +15591,7 @@
 			(uuid "817e0259-9db2-4d45-bf21-433f8a6a7504")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -15615,7 +15615,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "c6e9aa44-6167-441b-bec8-2c2e41de7033")
-		(at -407.75 -418.5)
+		(at -605.75 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW7"
@@ -15691,7 +15691,7 @@
 			(uuid "bf95f6f6-57ac-41fa-b287-0b472e3d8c57")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -15711,7 +15711,7 @@
 			(uuid "3a9cdfd4-0b57-4089-9e4f-4afc46e08c08")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -15734,7 +15734,7 @@
 			(uuid "5feb4b30-fd64-4651-8b34-7984b337eb1f")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -15759,7 +15759,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "c8be4a3e-f360-469e-b6ef-02f4fd933ea6")
-		(at -370.25 -430.5)
+		(at -568.25 -600.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW4"
@@ -15835,7 +15835,7 @@
 			(uuid "5145e580-e9aa-4a83-b49b-f22194dac7a0")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -15855,7 +15855,7 @@
 			(uuid "ebd8d1dd-e9e1-48b8-9d4d-110058f7e669")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -15878,7 +15878,7 @@
 			(uuid "05ccf348-1125-4e14-86e0-d797041debaf")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row0")
@@ -15903,7 +15903,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "cb1da414-d490-4517-9d52-c3f91cdb6564")
-		(at -382.75 -406.5)
+		(at -580.75 -576.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW14"
@@ -15979,7 +15979,7 @@
 			(uuid "382f4c4b-fc54-4c29-a63a-9b6a9a1ecceb")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -15999,7 +15999,7 @@
 			(uuid "1d7a210a-0ac1-4bde-99e1-5eb9f70e3d31")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -16022,7 +16022,7 @@
 			(uuid "e66565d7-7442-483e-bdb1-81788b249ef1")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row2")
@@ -16047,7 +16047,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "cd7f9ba3-bf72-4980-8a1a-48b6ece4f553")
-		(at -357.5 -491 180)
+		(at -555.5 -661 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW41"
@@ -16201,21 +16201,21 @@
 			(uuid "c6893495-f417-4097-a4fd-955f231c3612")
 		)
 		(pad "" np_thru_hole circle
-			(at 667.375 658 180)
+			(at 1210.375 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "eef937f0-006c-4572-9513-7fbae76d0095")
 		)
 		(pad "" np_thru_hole circle
-			(at 671.625 658 180)
+			(at 1214.625 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "88e257b6-fa63-4dbc-9e85-50b141086971")
 		)
 		(pad "1" smd roundrect
-			(at 668.275 657.1 180)
+			(at 1211.275 1210.6 180)
 			(size 0.75 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16224,7 +16224,7 @@
 			(uuid "d41f20fb-8dc6-47cf-b5f1-6778e731839c")
 		)
 		(pad "1" smd roundrect
-			(at 670.725 657.1 180)
+			(at 1213.725 1210.6 180)
 			(size 0.75 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16233,7 +16233,7 @@
 			(uuid "2ec36010-aa45-4872-b35d-83fb99b34d16")
 		)
 		(pad "2" smd roundrect
-			(at 669.5 657.1 180)
+			(at 1212.5 1210.6 180)
 			(size 0.6 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16242,7 +16242,7 @@
 			(uuid "5ac06e96-fe8a-4212-8f11-939be432bd86")
 		)
 		(pad "MP" smd roundrect
-			(at 667.65 659.05 180)
+			(at 1210.65 1212.55 180)
 			(size 1.3 0.9)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16251,7 +16251,7 @@
 			(uuid "f809d987-5ad4-4983-b078-5090f9b963ad")
 		)
 		(pad "MP" smd roundrect
-			(at 671.35 659.05 180)
+			(at 1214.35 1212.55 180)
 			(size 1.3 0.9)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16286,7 +16286,7 @@
 			)
 			(polygon
 				(pts
-					(xy -358.5 -491.3) (xy -356.5 -491.3) (xy -356.5 -492.5) (xy -358.5 -492.5)
+					(xy -556.5 -661.3) (xy -554.5 -661.3) (xy -554.5 -662.5) (xy -556.5 -662.5)
 				)
 			)
 		)
@@ -16295,7 +16295,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "ce6f22e6-a30d-41be-b0b7-af95ca0f7838")
-		(at 33.925 -123.125)
+		(at -509.075 -676.625)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP10"
@@ -16383,7 +16383,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "en")
@@ -16395,7 +16395,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ce74c356-7648-4034-bf09-107fa2da9480")
-		(at -407.75 -370.5)
+		(at -605.75 -540.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW28"
@@ -16471,7 +16471,7 @@
 			(uuid "771371fa-3564-432a-b217-9154be294034")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -16491,7 +16491,7 @@
 			(uuid "08d2256f-5c79-4e67-af94-4f1c82588288")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -16514,7 +16514,7 @@
 			(uuid "a56d70fe-132f-4e73-9d74-1cc6c5bd2e9c")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row5")
@@ -16539,7 +16539,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "d1643257-ce3e-4aa6-9629-e926d8481bf6")
-		(at -361.5 -394.5)
+		(at -559.5 -564.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW21"
@@ -16615,7 +16615,7 @@
 			(uuid "8dbc6918-7158-488c-8299-add8e1a5a4de")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -16635,7 +16635,7 @@
 			(uuid "be4fd333-789a-4a96-aae2-2d1d71b8033e")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col3")
@@ -16658,7 +16658,7 @@
 			(uuid "d2fe4a33-0a84-407b-9ec0-6934d86b3ac4")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row3")
@@ -16683,7 +16683,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "d39fc323-2278-47b4-9a2a-885f8f496f6a")
-		(at 12.455 -124.505)
+		(at -530.545 -678.005)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R11"
@@ -16800,7 +16800,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16809,7 +16809,7 @@
 			(uuid "1c12c102-97cf-4f39-b353-051ab13c79d2")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16833,7 +16833,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d7ecb24e-31d6-4a13-8695-a4905dbbd5ad")
-		(at 56.765 -128.175)
+		(at -486.235 -681.675)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C10"
@@ -16950,7 +16950,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16959,7 +16959,7 @@
 			(uuid "77024c1c-cf80-4e65-9991-3359d23a5d5b")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -16983,7 +16983,7 @@
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 		(layer "F.Cu")
 		(uuid "d88483a5-2b67-4c7e-a1b6-311a25ebe27d")
-		(at -378.5 -488.825 180)
+		(at -576.5 -658.825 180)
 		(descr "USB 2.0 Type C Receptacle, GCT, 16P, top mounted, horizontal, 5A: https://gct.co/files/drawings/usb4105.pdf")
 		(tags "USB C Type-C Receptacle SMD USB 2.0 16P 16C USB4105-15-A USB4105-15-A-060 USB4105-15-A-120 USB4105-GF-A USB4105-GF-A-060 USB4105-GF-A-120")
 		(property "Reference" "J1"
@@ -17117,21 +17117,21 @@
 			)
 		)
 		(pad "" np_thru_hole circle
-			(at 666.61 655.395 180)
+			(at 1209.61 1208.895 180)
 			(size 0.65 0.65)
 			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(uuid "d9ad1bc0-d45d-41fa-bf51-c82ce9068b6e")
 		)
 		(pad "" np_thru_hole circle
-			(at 672.39 655.395 180)
+			(at 1215.39 1208.895 180)
 			(size 0.65 0.65)
 			(drill 0.65)
 			(layers "*.Cu" "*.Mask")
 			(uuid "3fc33c1a-b6f8-4d89-974e-0bbbdd805259")
 		)
 		(pad "A1" smd roundrect
-			(at 666.3 654.32 180)
+			(at 1209.3 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17140,7 +17140,7 @@
 			(uuid "b5fce121-5e57-4343-9063-c3e85ac3e221")
 		)
 		(pad "A4" smd roundrect
-			(at 667.1 654.32 180)
+			(at 1210.1 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17149,7 +17149,7 @@
 			(uuid "ba67341a-e17c-4f16-9020-6e9acc4801dd")
 		)
 		(pad "A5" smd roundrect
-			(at 668.25 654.32 180)
+			(at 1211.25 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17158,7 +17158,7 @@
 			(uuid "1a07e67a-beb5-4177-8ff9-dcb116d89931")
 		)
 		(pad "A6" smd roundrect
-			(at 669.25 654.32 180)
+			(at 1212.25 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17167,7 +17167,7 @@
 			(uuid "6bf7bc39-af28-4ece-aa92-99b89f7197d6")
 		)
 		(pad "A7" smd roundrect
-			(at 669.75 654.32 180)
+			(at 1212.75 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17176,7 +17176,7 @@
 			(uuid "94c9ae30-78fc-4dbe-a677-d824aba99849")
 		)
 		(pad "A8" smd roundrect
-			(at 670.75 654.32 180)
+			(at 1213.75 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17185,7 +17185,7 @@
 			(uuid "e591b5de-2855-49b4-ba8c-8db535418b52")
 		)
 		(pad "A9" smd roundrect
-			(at 671.9 654.32 180)
+			(at 1214.9 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17194,7 +17194,7 @@
 			(uuid "e6b8c1ee-f3e0-4144-9a74-b6f60a5133ce")
 		)
 		(pad "A12" smd roundrect
-			(at 672.7 654.32 180)
+			(at 1215.7 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17203,7 +17203,7 @@
 			(uuid "795e65fb-712c-4370-9d47-ff5c63cf6d29")
 		)
 		(pad "B1" smd roundrect
-			(at 672.7 654.32 180)
+			(at 1215.7 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17212,7 +17212,7 @@
 			(uuid "0545987a-c85e-40f5-9a84-da95feccd96b")
 		)
 		(pad "B4" smd roundrect
-			(at 671.9 654.32 180)
+			(at 1214.9 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17221,7 +17221,7 @@
 			(uuid "1476381f-601a-4a72-a1c0-6f1ee0f38128")
 		)
 		(pad "B5" smd roundrect
-			(at 671.25 654.32 180)
+			(at 1214.25 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17230,7 +17230,7 @@
 			(uuid "6d94559a-c936-4e6e-b182-e5f5c8b0abac")
 		)
 		(pad "B6" smd roundrect
-			(at 670.25 654.32 180)
+			(at 1213.25 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17239,7 +17239,7 @@
 			(uuid "fae858e5-6e9f-491f-84b2-ac9f8a79d093")
 		)
 		(pad "B7" smd roundrect
-			(at 668.75 654.32 180)
+			(at 1211.75 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17248,7 +17248,7 @@
 			(uuid "58865d49-61ec-4335-b46b-82c31969ff20")
 		)
 		(pad "B8" smd roundrect
-			(at 667.75 654.32 180)
+			(at 1210.75 1207.82 180)
 			(size 0.3 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17257,7 +17257,7 @@
 			(uuid "2e89d9af-5e7d-4513-96d2-a009057e0c36")
 		)
 		(pad "B9" smd roundrect
-			(at 667.1 654.32 180)
+			(at 1210.1 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17266,7 +17266,7 @@
 			(uuid "a72afe56-4093-4b55-ba03-9435248e1654")
 		)
 		(pad "B12" smd roundrect
-			(at 666.3 654.32 180)
+			(at 1209.3 1207.82 180)
 			(size 0.6 1.15)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17275,7 +17275,7 @@
 			(uuid "c7b1d932-d6b4-47b8-bc89-20a0bed4ebf1")
 		)
 		(pad "SH" thru_hole oval
-			(at 665.18 654.895 180)
+			(at 1208.18 1208.395 180)
 			(size 1 2.1)
 			(drill oval 0.6 1.7)
 			(property pad_prop_mechanical)
@@ -17286,7 +17286,7 @@
 			(uuid "b6102060-7c06-4c82-b005-540d0b17b240")
 		)
 		(pad "SH" thru_hole oval
-			(at 665.18 659.075 180)
+			(at 1208.18 1212.575 180)
 			(size 1 1.8)
 			(drill oval 0.6 1.4)
 			(property pad_prop_mechanical)
@@ -17297,7 +17297,7 @@
 			(uuid "956e919c-516f-47a4-9521-8513882b6709")
 		)
 		(pad "SH" thru_hole oval
-			(at 673.82 654.895 180)
+			(at 1216.82 1208.395 180)
 			(size 1 2.1)
 			(drill oval 0.6 1.7)
 			(property pad_prop_mechanical)
@@ -17308,7 +17308,7 @@
 			(uuid "fcee631b-e11f-48ee-95e7-144f1c274ead")
 		)
 		(pad "SH" thru_hole oval
-			(at 673.82 659.075 180)
+			(at 1216.82 1212.575 180)
 			(size 1 1.8)
 			(drill oval 0.6 1.4)
 			(property pad_prop_mechanical)
@@ -17334,7 +17334,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d98a0e27-c452-47ef-8bf8-5bcae618c699")
-		(at 56.765 -123.665)
+		(at -486.235 -677.165)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C15"
@@ -17451,7 +17451,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17460,7 +17460,7 @@
 			(uuid "12b33d48-e9e5-4f6d-afa4-0b28cb75d918")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17484,7 +17484,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "dc4c6619-c0ee-427d-bfff-a6144d0805a5")
-		(at 56.535 -144.675)
+		(at -486.465 -698.175)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP8"
@@ -17572,7 +17572,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "uart0_tx")
@@ -17584,7 +17584,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "dc5a2110-4fd2-4b12-ae70-23e33ac7f31a")
-		(at 28.375 -123.125)
+		(at -514.625 -676.625)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP1"
@@ -17672,7 +17672,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "vled")
@@ -17684,7 +17684,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "e47f7049-de42-44dc-b8b8-328198b52b29")
-		(at -407.75 -394.5)
+		(at -605.75 -564.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW18"
@@ -17760,7 +17760,7 @@
 			(uuid "13010024-52b4-4529-b31f-3dddcacd8361")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -17780,7 +17780,7 @@
 			(uuid "1dbe81c6-a331-4123-a900-0a051e9a7a2b")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col0")
@@ -17803,7 +17803,7 @@
 			(uuid "d222c18e-91b6-4e3d-be5a-f1d46fb9329e")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row3")
@@ -17828,7 +17828,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "e5acc032-96dc-495a-bbb6-a83434c130b2")
-		(at 22.275 -120.515)
+		(at -520.725 -674.015)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R16"
@@ -17945,7 +17945,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17954,7 +17954,7 @@
 			(uuid "b051c96b-85cf-4e1b-b26e-87f73f297f8e")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -17978,7 +17978,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "e81256ad-414b-4bf7-9300-a8b81537aa4a")
-		(at 47.025 -119.945)
+		(at -495.975 -673.445)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C5"
@@ -18095,7 +18095,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -159.98 -327)
+			(at -702.98 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18104,7 +18104,7 @@
 			(uuid "cf617c9c-e79f-42fa-b694-019fc0fffd6d")
 		)
 		(pad "2" smd roundrect
-			(at -159.02 -327)
+			(at -702.02 -880.5)
 			(size 0.56 0.62)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18128,7 +18128,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "e836c4a2-bc08-4f43-91b3-88b38f4d115b")
-		(at 62.675 -76.295)
+		(at -480.325 -629.795)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C19"
@@ -18245,7 +18245,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.275 -327)
+			(at -703.275 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18254,7 +18254,7 @@
 			(uuid "0c05c844-75b4-42a7-bbcc-e98d1f4d3fee")
 		)
 		(pad "2" smd roundrect
-			(at -158.725 -327)
+			(at -701.725 -880.5)
 			(size 0.9 0.95)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18278,7 +18278,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "e8ed8a2c-9dc5-4580-8100-077434ed3378")
-		(at -395.25 -418.5)
+		(at -593.25 -588.5)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW8"
@@ -18354,7 +18354,7 @@
 			(uuid "33be5b36-735d-4d13-9a94-f3e1bfdfe2d7")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -18374,7 +18374,7 @@
 			(uuid "e4670207-85f6-497f-9a93-fc56d0327e6d")
 		)
 		(pad "1" smd custom
-			(at -159.5 -330.51)
+			(at -702.5 -884.01)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -18397,7 +18397,7 @@
 			(uuid "0c22d468-afd1-4659-9b48-f5b3410cb21e")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 3.48 3.48)
 			(layers "F.Cu" "F.Mask")
 			(net "row1")
@@ -18422,7 +18422,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "ea542542-3330-43f6-b00a-d20d2c3ad1d8")
-		(at 63.295 -80.625)
+		(at -479.705 -634.125)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R14"
@@ -18539,7 +18539,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18548,7 +18548,7 @@
 			(uuid "670a9c3c-2037-489d-bc1b-7718909650c1")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18572,7 +18572,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23"
 		(layer "F.Cu")
 		(uuid "ebf36fa0-cf09-4340-9f0c-212af7c9af83")
-		(at 61.985 -49.485)
+		(at -481.015 -602.985)
 		(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "Q2"
@@ -18901,7 +18901,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.4375 -327.95)
+			(at -703.4375 -881.45)
 			(size 1.475 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18910,7 +18910,7 @@
 			(uuid "a67cc5ad-3386-4cd3-bbfa-faec7418e4b5")
 		)
 		(pad "2" smd roundrect
-			(at -160.4375 -326.05)
+			(at -703.4375 -879.55)
 			(size 1.475 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18919,7 +18919,7 @@
 			(uuid "db6bb647-173e-4e87-9f31-890df44c7c25")
 		)
 		(pad "3" smd roundrect
-			(at -158.5625 -327)
+			(at -701.5625 -880.5)
 			(size 1.475 0.6)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -18943,7 +18943,7 @@
 	(footprint "hp42s:Dialight_599_BiColor_1208_RA"
 		(layer "F.Cu")
 		(uuid "ed106eb4-db80-40e4-8077-f4607b5a98bf")
-		(at -366.5 -490.7)
+		(at -564.5 -660.7)
 		(descr "Dialight 599 series MicroLED, bi-colour 1208 right angle, 3.0x2.0x1.0 mm. Pads per the recommended layout on page 1 of the Dialight datasheet. Lens faces -y; it spans roughly 1.0 to 2.0 mm above the board face the part is soldered to. Pad 2 = common anode, pad 3 = LED die 1, pad 1 = LED die 2.")
 		(tags "LED bicolor side-view right-angle Dialight 599 1208")
 		(property "Reference" "D5"
@@ -19048,7 +19048,7 @@
 			(uuid "02d9e1b9-6e55-41bd-88e7-0ea9b660c51c")
 		)
 		(pad "1" smd roundrect
-			(at -159.5 -326.185)
+			(at -702.5 -879.685)
 			(size 0.9 0.65)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -19057,7 +19057,7 @@
 			(uuid "8e20998d-6dfe-4af6-8f6e-0226ed59d4a2")
 		)
 		(pad "2" smd roundrect
-			(at -158 -327)
+			(at -701 -880.5)
 			(size 1 1.5)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -19066,7 +19066,7 @@
 			(uuid "f60794a9-7bda-4031-a175-6bc14aa155bf")
 		)
 		(pad "3" smd roundrect
-			(at -161 -327)
+			(at -704 -880.5)
 			(size 1 1.5)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.15)
@@ -19079,7 +19079,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "ef32b9f8-2717-4f91-b48a-842be3c53f9e")
-		(at 63.295 -100.655)
+		(at -479.705 -654.155)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R9"
@@ -19196,7 +19196,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.01 -327)
+			(at -703.01 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19205,7 +19205,7 @@
 			(uuid "5856f698-17c8-4a33-8a38-2e403afacd5f")
 		)
 		(pad "2" smd roundrect
-			(at -158.99 -327)
+			(at -701.99 -880.5)
 			(size 0.54 0.64)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19229,7 +19229,7 @@
 	(footprint "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
 		(layer "F.Cu")
 		(uuid "f2a26907-3777-476b-abd3-047e751f36b8")
-		(at 1.395 -51.53)
+		(at -541.605 -605.03)
 		(descr "Texas DSQ0010A WSON, 10 Pin (https://www.ti.com/lit/pdf/mpds335b)")
 		(tags "Texas WSON NoLead")
 		(property "Reference" "U2"
@@ -19468,14 +19468,14 @@
 			)
 		)
 		(pad "" smd roundrect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.84 1.4)
 			(layers "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "c7b0d0dd-20c3-444d-9c52-f6ba9b801b19")
 		)
 		(pad "1" smd roundrect
-			(at -160.5125 -327.8)
+			(at -703.5125 -881.3)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19484,7 +19484,7 @@
 			(uuid "92e2687e-f8f8-4df6-9fc4-ab9e9fd7dfc3")
 		)
 		(pad "2" smd roundrect
-			(at -160.5125 -327.4)
+			(at -703.5125 -880.9)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19493,7 +19493,7 @@
 			(uuid "5e806778-b2eb-41ad-b45c-34a2060bf15f")
 		)
 		(pad "3" smd roundrect
-			(at -160.5125 -327)
+			(at -703.5125 -880.5)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19502,7 +19502,7 @@
 			(uuid "2bf4dd4f-1919-4d75-88e3-c3d97ae54174")
 		)
 		(pad "4" smd roundrect
-			(at -160.5125 -326.6)
+			(at -703.5125 -880.1)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19511,7 +19511,7 @@
 			(uuid "a0a5ee79-b5f9-4357-a909-e1207fa6f8bd")
 		)
 		(pad "5" smd roundrect
-			(at -160.5125 -326.2)
+			(at -703.5125 -879.7)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19520,7 +19520,7 @@
 			(uuid "1462c4a6-b28e-4438-9de1-1ff0c86bf3d8")
 		)
 		(pad "6" smd roundrect
-			(at -158.4875 -326.2)
+			(at -701.4875 -879.7)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19529,7 +19529,7 @@
 			(uuid "7f29e30e-0ef5-407d-82ef-231ac42438b5")
 		)
 		(pad "7" smd roundrect
-			(at -158.4875 -326.6)
+			(at -701.4875 -880.1)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19538,7 +19538,7 @@
 			(uuid "a29d0e16-a681-497f-ae63-d74c3219b011")
 		)
 		(pad "8" smd roundrect
-			(at -158.4875 -327)
+			(at -701.4875 -880.5)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19547,7 +19547,7 @@
 			(uuid "e5cb7fe5-958e-4acf-a774-e8e9afdfbde1")
 		)
 		(pad "9" smd roundrect
-			(at -158.4875 -327.4)
+			(at -701.4875 -880.9)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19556,7 +19556,7 @@
 			(uuid "023a18a0-2927-4596-b529-5f2201c76305")
 		)
 		(pad "10" smd roundrect
-			(at -158.4875 -327.8)
+			(at -701.4875 -881.3)
 			(size 0.725 0.2)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -19565,7 +19565,7 @@
 			(uuid "fba2fd74-d071-46ea-8b89-c1a271420cd2")
 		)
 		(pad "11" smd rect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.9 1.5)
 			(property pad_prop_heatsink)
 			(layers "F.Cu" "F.Mask")
@@ -19590,7 +19590,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "f3806941-ef91-48ed-8f81-3d263889c140")
-		(at 33.925 -117.575)
+		(at -509.075 -671.075)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP9"
@@ -19678,7 +19678,7 @@
 			)
 		)
 		(pad "1" smd circle
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.5 1.5)
 			(layers "F.Cu" "F.Mask")
 			(net "uart0_rx")
@@ -19690,7 +19690,7 @@
 	(footprint "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical"
 		(layer "F.Cu")
 		(uuid "f4ecf478-de6c-4a08-93dd-580a9b8d3753")
-		(at 27.255 -50.725)
+		(at -515.745 -604.225)
 		(descr "JST PH series connector, B2B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf)")
 		(tags "connector JST PH vertical")
 		(property "Reference" "BT1"
@@ -20028,7 +20028,7 @@
 			)
 		)
 		(pad "1" thru_hole roundrect
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 1.2 1.75)
 			(drill 0.75)
 			(layers "*.Cu" "*.Mask")
@@ -20039,7 +20039,7 @@
 			(uuid "ff427aae-414e-4e33-a4d3-3f1926cca430")
 		)
 		(pad "2" thru_hole oval
-			(at -157.5 -327)
+			(at -700.5 -880.5)
 			(size 1.2 1.75)
 			(drill 0.75)
 			(layers "*.Cu" "*.Mask")
@@ -20064,7 +20064,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "f84f42e2-3772-4776-bf2d-2f42f7e17c0a")
-		(at -376.5 -394.5)
+		(at -574.5 -564.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW20"
@@ -20140,7 +20140,7 @@
 			(uuid "7386dd31-f439-4e70-8731-3bc84030a212")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -20160,7 +20160,7 @@
 			(uuid "7e565408-0de9-4164-92be-ed8d948f7bab")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col2")
@@ -20183,7 +20183,7 @@
 			(uuid "43bb6886-5823-4a08-94cc-2d5435abde96")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row3")
@@ -20208,7 +20208,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "f97daf63-ebc2-4958-9ee3-b9b77ac593cd")
-		(at 61.335 -63.295)
+		(at -481.665 -616.795)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C3"
@@ -20325,7 +20325,7 @@
 			)
 		)
 		(pad "1" smd roundrect
-			(at -160.45 -327)
+			(at -703.45 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20334,7 +20334,7 @@
 			(uuid "81e482fb-4b9d-4259-b766-f08840924464")
 		)
 		(pad "2" smd roundrect
-			(at -158.55 -327)
+			(at -701.55 -880.5)
 			(size 1 1.45)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20358,7 +20358,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "fc9537fa-8fbb-4aac-a743-4925c92c0512")
-		(at -348.5 -491 180)
+		(at -546.5 -661 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW40"
@@ -20512,21 +20512,21 @@
 			(uuid "6ddf4b4f-bb4e-4c31-add3-723774008ac1")
 		)
 		(pad "" np_thru_hole circle
-			(at 667.375 658 180)
+			(at 1210.375 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "a7d8f195-826c-4c6b-84bf-141cbdffa1d5")
 		)
 		(pad "" np_thru_hole circle
-			(at 671.625 658 180)
+			(at 1214.625 1211.5 180)
 			(size 0.9 0.9)
 			(drill 0.9)
 			(layers "*.Cu" "*.Mask")
 			(uuid "edde2313-5d56-4e76-9723-0691f58943db")
 		)
 		(pad "1" smd roundrect
-			(at 668.275 657.1 180)
+			(at 1211.275 1210.6 180)
 			(size 0.75 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20535,7 +20535,7 @@
 			(uuid "703d4d2c-3199-4158-8bdc-cf6867070c22")
 		)
 		(pad "1" smd roundrect
-			(at 670.725 657.1 180)
+			(at 1213.725 1210.6 180)
 			(size 0.75 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20544,7 +20544,7 @@
 			(uuid "a64a894a-1e1d-4e6a-9c6c-c2c302341edb")
 		)
 		(pad "2" smd roundrect
-			(at 669.5 657.1 180)
+			(at 1212.5 1210.6 180)
 			(size 0.6 1.8)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20553,7 +20553,7 @@
 			(uuid "7f27ae11-3a18-491a-99eb-b65307af7546")
 		)
 		(pad "MP" smd roundrect
-			(at 667.65 659.05 180)
+			(at 1210.65 1212.55 180)
 			(size 1.3 0.9)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20562,7 +20562,7 @@
 			(uuid "88c6ca05-4b4e-431d-b31e-dbad7991a3fb")
 		)
 		(pad "MP" smd roundrect
-			(at 671.35 659.05 180)
+			(at 1214.35 1212.55 180)
 			(size 1.3 0.9)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20597,7 +20597,7 @@
 			)
 			(polygon
 				(pts
-					(xy -349.5 -491.3) (xy -347.5 -491.3) (xy -347.5 -492.5) (xy -349.5 -492.5)
+					(xy -547.5 -661.3) (xy -545.5 -661.3) (xy -545.5 -662.5) (xy -547.5 -662.5)
 				)
 			)
 		)
@@ -20606,7 +20606,7 @@
 	(footprint "hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm"
 		(layer "F.Cu")
 		(uuid "fd42fedd-b6ad-4a9d-af9c-4989d3bb12eb")
-		(at 14.085 -51.725)
+		(at -528.915 -605.225)
 		(descr "TI DQA0010A, USON-10 2.5x1.0mm, 0.5mm pitch. From TI drawing 4220328/A example board layout. Pins 3 and 8, the grounds, get the wider 0.4mm pads TI draws for them. Used by TPD4E05U06.")
 		(tags "USON DFN TPD4E05U06 DQA0010A ESD")
 		(property "Reference" "U1"
@@ -20691,7 +20691,7 @@
 			(uuid "97889740-6fdf-4fc2-9ce2-a767e7ce4c5d")
 		)
 		(pad "1" smd roundrect
-			(at -159.9175 -328 270)
+			(at -702.9175 -881.5 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20700,7 +20700,7 @@
 			(uuid "50e04eaf-6d36-4041-9f0b-a6dab1ddd26f")
 		)
 		(pad "2" smd roundrect
-			(at -159.9175 -327.5 270)
+			(at -702.9175 -881 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20709,7 +20709,7 @@
 			(uuid "67c57419-d2b3-4400-b560-5339af70e5df")
 		)
 		(pad "3" smd roundrect
-			(at -159.9175 -327 270)
+			(at -702.9175 -880.5 270)
 			(size 0.4 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20718,7 +20718,7 @@
 			(uuid "37cb82bb-1fed-4788-b3f2-9b3e2cdadcad")
 		)
 		(pad "4" smd roundrect
-			(at -159.9175 -326.5 270)
+			(at -702.9175 -880 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20727,7 +20727,7 @@
 			(uuid "2518f1ad-87a2-4f10-a7af-c0e4e8871d49")
 		)
 		(pad "5" smd roundrect
-			(at -159.9175 -326 270)
+			(at -702.9175 -879.5 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20736,21 +20736,21 @@
 			(uuid "57ab3b46-125c-4f1b-bc50-bd241606e576")
 		)
 		(pad "6" smd roundrect
-			(at -159.0825 -326 270)
+			(at -702.0825 -879.5 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "f79fab9c-e1dd-4f24-818b-f2f7eadc1dc8")
 		)
 		(pad "7" smd roundrect
-			(at -159.0825 -326.5 270)
+			(at -702.0825 -880 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "bbe2e1a8-f87b-411b-84e3-fad46fbb81e4")
 		)
 		(pad "8" smd roundrect
-			(at -159.0825 -327 270)
+			(at -702.0825 -880.5 270)
 			(size 0.4 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20759,14 +20759,14 @@
 			(uuid "8b03e9d2-089a-4d3d-a698-4355cc2198b6")
 		)
 		(pad "9" smd roundrect
-			(at -159.0825 -327.5 270)
+			(at -702.0825 -881 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
 			(uuid "d067b3b4-2738-4a65-896c-ab810836c046")
 		)
 		(pad "10" smd roundrect
-			(at -159.0825 -328 270)
+			(at -702.0825 -881.5 270)
 			(size 0.2 0.565)
 			(layers "F.Cu" "F.Mask" "F.Paste")
 			(roundrect_rratio 0.25)
@@ -20777,7 +20777,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "fde661c2-09fe-40f8-9ace-191eaa91fc45")
-		(at -391.5 -394.5)
+		(at -589.5 -564.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW19"
@@ -20853,7 +20853,7 @@
 			(uuid "0d5f6234-eabb-4bdf-9d38-97c6c9e65abe")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -20873,7 +20873,7 @@
 			(uuid "66e9fac0-e6bf-4560-9aa2-f732e563b10e")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -20896,7 +20896,7 @@
 			(uuid "9a72f3f6-e75a-4bd7-8a56-946b14b3d281")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row3")
@@ -20921,7 +20921,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "ff5cb03a-b0b1-4328-b5c9-821dbe397c93")
-		(at -391.5 -382.5)
+		(at -589.5 -552.5)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW24"
@@ -20997,7 +20997,7 @@
 			(uuid "b8635d20-6a93-4ca6-aca5-994f95607e60")
 		)
 		(pad "" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 0.2 0.2)
 			(layers "F.Mask")
 			(options
@@ -21017,7 +21017,7 @@
 			(uuid "fd873bb6-eb6f-4baf-9046-2d1d140dc660")
 		)
 		(pad "1" smd custom
-			(at -159.5 -331.075)
+			(at -702.5 -884.575)
 			(size 0.3 0.3)
 			(layers "F.Cu" "F.Mask")
 			(net "col1")
@@ -21040,7 +21040,7 @@
 			(uuid "4593969e-43f1-41cb-b04a-3e90c884edf3")
 		)
 		(pad "2" smd custom
-			(at -159.5 -327)
+			(at -702.5 -880.5)
 			(size 4.08 4.08)
 			(layers "F.Cu" "F.Mask")
 			(net "row4")
@@ -21065,7 +21065,7 @@
 	(footprint "Connector_FFC-FPC:Hirose_FH12-24S-0.5SH_1x24-1MP_P0.50mm_Horizontal"
 		(layer "B.Cu")
 		(uuid "9122ee62-8390-4616-9c61-340de689e29c")
-		(at -405.5 -462.35 90)
+		(at -603.5 -632.35 90)
 		(descr "Hirose FH12, FFC/FPC connector, FH12-24S-0.5SH, 24 Pins per row (https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/)")
 		(tags "connector Hirose FH12 horizontal")
 		(property "Reference" "J2"
@@ -21397,7 +21397,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at 741.75 -578.15 90)
+			(at 1295.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "nc1")
@@ -21405,7 +21405,7 @@
 			(uuid "f43227e8-3edb-4a4f-be07-75348e1d006c")
 		)
 		(pad "2" smd rect
-			(at 742.25 -578.15 90)
+			(at 1295.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gdr")
@@ -21413,7 +21413,7 @@
 			(uuid "f3869047-6541-491d-a0f3-290fbc788170")
 		)
 		(pad "3" smd rect
-			(at 742.75 -578.15 90)
+			(at 1296.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "rese")
@@ -21421,7 +21421,7 @@
 			(uuid "c234fab7-4c43-4477-9cb8-52b79942c178")
 		)
 		(pad "4" smd rect
-			(at 743.25 -578.15 90)
+			(at 1296.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "nc4")
@@ -21429,7 +21429,7 @@
 			(uuid "7f0c5cef-6a4f-4eee-a8c7-382999b6affc")
 		)
 		(pad "5" smd rect
-			(at 743.75 -578.15 90)
+			(at 1297.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vsh2")
@@ -21437,7 +21437,7 @@
 			(uuid "94f7d80d-f3cb-443a-9091-fde845401124")
 		)
 		(pad "6" smd rect
-			(at 744.25 -578.15 90)
+			(at 1297.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "tscl")
@@ -21445,7 +21445,7 @@
 			(uuid "0190b946-b461-44e9-b8a3-44461aa0f788")
 		)
 		(pad "7" smd rect
-			(at 744.75 -578.15 90)
+			(at 1298.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "tsda")
@@ -21453,7 +21453,7 @@
 			(uuid "9a5af266-9cd6-4af5-aa2e-cb522ab1a646")
 		)
 		(pad "8" smd rect
-			(at 745.25 -578.15 90)
+			(at 1298.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -21461,7 +21461,7 @@
 			(uuid "d82c3d09-d1fc-4e16-9068-6d14f27f879e")
 		)
 		(pad "9" smd rect
-			(at 745.75 -578.15 90)
+			(at 1299.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_busy")
@@ -21469,7 +21469,7 @@
 			(uuid "03801e8c-8142-4f0c-a22b-7bed4cc18a70")
 		)
 		(pad "10" smd rect
-			(at 746.25 -578.15 90)
+			(at 1299.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_rst")
@@ -21477,7 +21477,7 @@
 			(uuid "f4fd75cc-db1b-4d17-9de7-82fcad8dca45")
 		)
 		(pad "11" smd rect
-			(at 746.75 -578.15 90)
+			(at 1300.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_dc")
@@ -21485,7 +21485,7 @@
 			(uuid "ecdf90dd-0a56-47fd-ac55-bf7fd50f22eb")
 		)
 		(pad "12" smd rect
-			(at 747.25 -578.15 90)
+			(at 1300.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_cs")
@@ -21493,7 +21493,7 @@
 			(uuid "ea9e026f-0c48-4cd0-8dde-824c15e7c401")
 		)
 		(pad "13" smd rect
-			(at 747.75 -578.15 90)
+			(at 1301.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_sck")
@@ -21501,7 +21501,7 @@
 			(uuid "46f51dfc-2955-4d89-beb5-ad0219689c09")
 		)
 		(pad "14" smd rect
-			(at 748.25 -578.15 90)
+			(at 1301.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_mosi")
@@ -21509,7 +21509,7 @@
 			(uuid "0e0504c8-3ecb-4888-a686-ec8aa1b9f8ee")
 		)
 		(pad "15" smd rect
-			(at 748.75 -578.15 90)
+			(at 1302.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "v3v3")
@@ -21517,7 +21517,7 @@
 			(uuid "f0c31bba-b5fd-434f-b3cb-3ea0e48518a9")
 		)
 		(pad "16" smd rect
-			(at 749.25 -578.15 90)
+			(at 1302.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "v3v3")
@@ -21525,7 +21525,7 @@
 			(uuid "df3f38be-295d-4fd6-8042-fca61557dfd3")
 		)
 		(pad "17" smd rect
-			(at 749.75 -578.15 90)
+			(at 1303.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -21533,7 +21533,7 @@
 			(uuid "c83e8b30-d77a-4d83-9fc5-40c1fb1f67bf")
 		)
 		(pad "18" smd rect
-			(at 750.25 -578.15 90)
+			(at 1303.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vdd")
@@ -21541,7 +21541,7 @@
 			(uuid "9b272afb-fe98-48ea-bc46-0a7469773bd0")
 		)
 		(pad "19" smd rect
-			(at 750.75 -578.15 90)
+			(at 1304.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vpp")
@@ -21549,7 +21549,7 @@
 			(uuid "bb622bcc-8814-4b47-a82d-01b1194b2c19")
 		)
 		(pad "20" smd rect
-			(at 751.25 -578.15 90)
+			(at 1304.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vsh1")
@@ -21557,7 +21557,7 @@
 			(uuid "0302c5e0-9528-4095-9c29-0525becd3550")
 		)
 		(pad "21" smd rect
-			(at 751.75 -578.15 90)
+			(at 1305.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "prevgh")
@@ -21565,7 +21565,7 @@
 			(uuid "eb90895c-c332-42a9-8a85-da89fb6f5cff")
 		)
 		(pad "22" smd rect
-			(at 752.25 -578.15 90)
+			(at 1305.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vsl")
@@ -21573,7 +21573,7 @@
 			(uuid "4185ee00-394c-4b2e-a4f9-9a798ec8f777")
 		)
 		(pad "23" smd rect
-			(at 752.75 -578.15 90)
+			(at 1306.25 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "prevgl")
@@ -21581,7 +21581,7 @@
 			(uuid "32141715-c52b-4eac-8a65-e02e95a2bfee")
 		)
 		(pad "24" smd rect
-			(at 753.25 -578.15 90)
+			(at 1306.75 -1121.15 90)
 			(size 0.3 1.3)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "vcom")
@@ -21589,7 +21589,7 @@
 			(uuid "38100e36-19e3-413d-8d6f-d13ec6948436")
 		)
 		(pad "MP" smd rect
-			(at 739.85 -581.4 90)
+			(at 1293.35 -1124.4 90)
 			(size 1.8 2.2)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -21597,7 +21597,7 @@
 			(uuid "8f63ae6e-6133-4e4a-9647-fb487793ea06")
 		)
 		(pad "MP" smd rect
-			(at 755.15 -581.4 90)
+			(at 1308.65 -1124.4 90)
 			(size 1.8 2.2)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
