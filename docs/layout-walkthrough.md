@@ -41,9 +41,22 @@ it. When something goes wrong at step 9 you want to be able to go back to the
 end of step 8, not to the beginning.
 
 ```bash
-cd /path/to/Hp42s_calc
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 git add -A && git commit -m "layout: step N done"
 ```
+
+**Quote the path in every shell command.** The checkout lives at
+
+```
+/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1
+```
+
+which has spaces in it in three places. Unquoted, bash reads
+`cd /Users/barnaby osborne/...` as *cd to `/Users/barnaby`, with `osborne/...`
+as a second argument*, and you get "No such file or directory" pointing at a
+path that plainly exists. The shell commands below are already written with the
+quotes in. Python is not affected — `open('...')` takes the whole string — so
+the scripting console in step 6 needs no special treatment.
 
 **Do not fight the software.** If a step does not behave the way this file says
 it will, stop and say so rather than working around it. Everything here is
@@ -79,13 +92,18 @@ you find things you have lost.
 
 ### The panel on the right
 
-Two tabs matter:
+It is called the **Appearance** panel. If it is not showing, **View → Panels →
+Appearance**. It has tabs across the top; the one you live in is **Layers**.
 
-- **Layers** — the list of copper and non-copper layers. **Clicking a layer
-  name here selects it**, and the selected layer is where new tracks go. This
-  is the single most common source of "why is my track on the wrong side".
-- **Appearance** — checkboxes that hide layers. Hiding is not deleting.
-  Turning off `B.Cu` while you work on the front is normal practice.
+Two different things happen in that tab and it is worth knowing they are
+different:
+
+- **Clicking a layer's name makes it the active layer**, and the active layer
+  is where new tracks go. This is the single most common source of "why is my
+  track on the wrong side of the board".
+- **The checkbox beside it hides or shows that layer.** Hiding is not deleting.
+  Turning off `B.Cu` while you work on the front is normal practice and changes
+  nothing about the board.
 
 ### Two more worth knowing now
 
@@ -105,7 +123,7 @@ directory, so `elec/layout/` only appears once something is in it. Make it
 first:
 
 ```bash
-cd /path/to/Hp42s_calc
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 mkdir -p elec/layout
 ```
 
@@ -145,10 +163,15 @@ and `tools/gen_ic_footprints.py` from the vendors' own drawings.
 
 Without this step the netlist import fails on 44 of the 119 parts.
 
-1. **Preferences → Manage Footprint Libraries…**
+1. In the **PCB editor**, **Preferences → Manage Footprint Libraries…**
 2. Choose the **Project Specific Libraries** tab, not Global. The path below
    only makes sense inside this project.
-3. Click the **+** at the bottom left to add an empty row, and fill it in:
+3. Add a row. There are two buttons under the table and either will do: the one
+   whose tooltip reads **"Add empty row to table"** gives you a blank line to
+   type into, and **"Add Existing"** opens a file picker you can point at
+   `elec/footprints/hp42s.pretty` and let KiCad fill in for you.
+
+   Whichever you use, the row has to end up reading:
 
    | Column | Value |
    |---|---|
@@ -158,15 +181,15 @@ Without this step the netlist import fails on 44 of the 119 parts.
 
    `${KIPRJMOD}` is KiCad's variable for "the folder this project is in", so
    the path means *up two levels from `elec/layout/default/`, then into
-   `elec/footprints/`*. Writing it this way rather than as `/home/you/...`
-   means the project still works on another machine.
+   `elec/footprints/`*. If you used the file picker and it filled in an
+   absolute path like `/Users/barnaby/…`, click the cell and retype it as
+   above. The absolute one works on your machine today and nowhere else.
 
 4. **OK**.
 
-**Check it before moving on.** Open the footprint browser: the toolbar button
-that looks like a chip with a magnifier, or **Preferences → Manage Footprint
-Libraries** then close it and use **Place → Add Footprint** and browse. Under
-`hp42s` you should see **nine** entries:
+**Check it before moving on: View → Footprint Library Browser.** A window opens
+with every library listed down the left. Click `hp42s` and you should see
+**nine** entries:
 
 ```
 Alps_SKRTLAE010_SidePush
@@ -186,9 +209,10 @@ LEDs, which sit on a separate sliver of FR4 and are not on this board.
 to the GCT part on 22 September 2026; it is kept only so old board files still
 open.
 
-If the list is empty, the path is wrong. Check that
-`elec/footprints/hp42s.pretty/` really is two levels up from your project
-folder.
+If `hp42s` is not in the list at all, or is there but empty, the path is wrong.
+Check that `elec/footprints/hp42s.pretty/` really is two levels up from your
+project folder — from `elec/layout/default/`, `../../footprints/` should land
+you in `elec/footprints/`.
 
 ---
 
@@ -207,9 +231,17 @@ Go to **Board Stackup → Physical Stackup**. At the top, set **Copper Layers:
 4**. (Some builds put that selector on the **Board Editor Layers** page just
 above it instead; either is the same setting.)
 
-Then set the **board thickness to 1.0 mm**. One millimetre, not the default
-1.6 — this board has to fit a 15 mm case with a cell on the back of it, and
-0.6 mm is 0.6 mm.
+Leave the **board thickness at 1.6 mm**, which is KiCad's default.
+
+It was 1.0 mm until 23 September 2026, on the reasoning that a 15 mm case with
+a cell on the back of it could use the 0.6 mm. Barnaby asked whether that would
+flex under 37 dome switches. It would: a 1.0 mm board supported only at its
+edges moves about 0.28 mm under a firm press, against 0.5 mm of dome travel,
+which would make every key feel dead. 1.6 mm is 4.1× stiffer, the stack-up had
+2.6 mm of slack to pay for it, and the panel's fold geometry had assumed
+1.6 mm all along. The working is in `docs/board-thickness.md`.
+
+The case stays at 15 mm.
 
 You will now have four copper layers: `F.Cu`, `In1.Cu`, `In2.Cu`, `B.Cu`.
 
@@ -229,35 +261,104 @@ courtyard and drops to `In2.Cu`.
 
 ### 4b. Constraints
 
-Go to **Design Rules → Constraints**. Set:
+Go to **Design Rules → Constraints**.
+
+Everything on this page is a **floor**, not a value. Nothing here decides how
+wide your tracks come out — that is the net classes in 4c. These exist only to
+make DRC shout when you draw something the fab cannot make, so the right
+numbers are your fab's capabilities, not your preferences.
+
+Four to set, in the **Copper** and **Holes** groups on the left:
 
 | Setting | Value | Why |
 |---|---|---|
-| Minimum clearance | `0.2 mm` | every cheap fab meets this |
-| Minimum track width | `0.15 mm` | you will not go this thin, but it is the floor |
-| Minimum via diameter | `0.45 mm` | |
-| Minimum through hole | `0.3 mm` | |
-| Minimum annular width | `0.075 mm` | |
+| Minimum clearance | `0.2 mm` | every cheap fab beats this comfortably |
+| Minimum track width | `0.15 mm` | you will not go this thin; it is the floor |
+| Minimum via diameter | `0.5 mm` | see below — this one has to agree with the next two |
+| Minimum drill size | `0.3 mm` | the smallest hole a cheap fab will drill without a surcharge |
 
-These are deliberately conservative. A board this dense does not need
-fine-pitch rules anywhere except under the module, and paying for tighter
-tolerances would be paying for nothing.
+And **leave "Minimum annular width" at KiCad's `0.1 mm`.**
+
+**Those three numbers have to agree with each other**, which is the part that
+is easy to get wrong. The annular ring is the copper left around a hole, so
+
+```
+annular width = (via diameter − drill) / 2
+```
+
+At a 0.5 mm via on a 0.3 mm drill that is exactly 0.1 mm, which is what the
+annular rule asks for and what a cheap fab quotes. A 0.45 mm via on the same
+drill gives only 0.075 mm, so a via drawn at the minimum diameter would fail
+the annular rule — an internally inconsistent set of limits, which is worth
+avoiding even though nothing on this board is drawn anywhere near these floors.
+(The net classes in 4c use 0.6/0.3 and 0.8/0.4, so 0.15 and 0.2 mm of ring.)
+
+**Leave every other field on the page alone.** KiCad's defaults are right for
+this board and several of them matter:
+
+- **Copper to edge clearance `0.5 mm`** keeps the pours back from the outline,
+  which matters here because the left edge is notched and the module's antenna
+  hangs off the bottom.
+- **uVias** are microvias and there are none on this board.
+- **Silk minimum text height `0.8 mm`** is about the smallest a fab will print
+  legibly, and you have 38 dome sites to label.
+
+These are all deliberately loose. A board this dense does not need fine-pitch
+rules anywhere except under the module, and paying for tighter tolerances would
+be paying for nothing.
 
 ### 4c. Net classes
 
-Go to **Design Rules → Net Classes**. There is a `Default` class already. Set
-its **Track Width** to `0.2 mm`, **Via Size** `0.6 mm`, **Via Hole** `0.3 mm`,
-**Clearance** `0.2 mm`.
+*These* are the numbers that decide what gets drawn, as opposed to 4b's floors.
+Each class says how wide a track on its nets comes out and how big its vias
+are, and you can change a class later and have every net on it follow.
 
-Add two more with the **+** button:
+Go to **Design Rules → Net Classes**. The columns are `Name`, `Clearance`,
+`Track Width`, `Via Size`, `Via Hole`, then `uVia Size`, `uVia Hole`,
+`DP Width`, `DP Gap`, `Tuning Profile` and a `PCB Color` swatch. Only the first
+five and the colour matter here; the microvia and differential-pair columns are
+for things this board does not have.
 
-| Class | Track width | Via size / hole | For |
-|---|---|---|---|
-| `power` | `0.5 mm` | `0.8 / 0.4 mm` | the rails |
-| `keypad` | `0.2 mm` | `0.6 / 0.3 mm` | 13 matrix nets |
+There is a `Default` class already. Set it to `0.2` clearance, `0.2` track,
+`0.6` via size, `0.3` via hole. Then add two more with the **+** button under
+the table:
 
-Then, in the **pattern assignment** table in the lower half of the same page,
-assign nets to them. Patterns use `*` as a wildcard:
+| Class | Clearance | Track Width | Via Size | Via Hole | For |
+|---|---|---|---|---|---|
+| `Default` | `0.2` | `0.2` | `0.6` | `0.3` | everything not named below |
+| `power` | *blank* | `0.5` | `0.8` | `0.4` | the rails |
+| `keypad` | *blank* | `0.2` | `0.6` | `0.3` | the 13 matrix nets |
+
+**Leave a cell blank when you want Default's value.** These fields are optional
+in KiCad 10, and the effective rules for a net are built by starting from
+`Default` and letting the assigned class overwrite only the fields it actually
+has set. So a blank `Clearance` on `power` is not "no clearance", it is
+"whatever `Default` says" — and it stays right if you ever change `Default`.
+Typing `0.2` into all three works too; it is just three places to remember
+instead of one.
+
+**`keypad` is deliberately identical to `Default`, and that is not a mistake.**
+The matrix carries no current worth the name — a dome contact against a
+pull-up, microamps — so there is nothing to make its tracks wider for, and
+nothing about it that wants a different via.
+
+It exists for a different reason, and you will be glad of it in step 7. In the
+**Appearance** panel there is a **Nets** tab with a **Netclasses** section, and
+right-clicking a class there gives you **Set Netclass Color** and **Hide All
+Other Netclasses**. The keypad matrix is 13 nets across 38 dome sites, which is
+most of the ratsnest on this board; being able to colour it, or switch it off
+entirely while you place the power parts, is the difference between a readable
+ratsnest and a grey fog. A class is the only handle KiCad gives you for that.
+
+So set a colour on it while you are here — anything that stands out — and one
+on `power` too.
+
+### The half that actually does something
+
+**The classes above apply to nothing until you assign nets to them.** That is
+the **Netclass Assignments** table in the lower half of the same page, and it
+starts empty. Add rows with its own **+** button — the one under *that* table,
+not the one under the class list. Patterns use `*` as a wildcard:
 
 | Pattern | Net class |
 |---|---|
@@ -274,6 +375,27 @@ assign nets to them. Patterns use `*` as a wildcard:
 `gnd` stays on `Default` because it is going to be a poured plane, not tracks,
 and the class width would only apply to the stubs.
 
+Nine rows. If that table is empty when you close the dialog, `power` and
+`keypad` exist and do nothing, every net is `Default`, and the rails come out
+at 0.2 mm.
+
+**The "Nets matching" panel on the right will be empty, and that is correct
+right now.** It lists the nets on the board that a pattern catches, and the
+board has no nets yet — they arrive with the netlist in step 5. Come back to
+this page once they do; it turns into the cheapest check in this whole file.
+Click each pattern in turn and you should see:
+
+| Pattern | Nets | |
+|---|---|---|
+| `sys`, `bat`, `cell`, `v3v3`, `vbus`, `lx1`, `lx2` | 1 each | 7 |
+| `row*` | `row0`–`row6` | 7 |
+| `col*` | `col0`–`col5` | 6 |
+
+**20 nets assigned, 63 left on `Default`.** A pattern showing 0 after the
+import is a typo in the pattern, and a typo here is silent: the net simply
+stays on `Default` and you find out when a 3 A rail turns out to be 0.2 mm
+wide.
+
 ### 4d. Pre-defined sizes
 
 Go to **Design Rules → Pre-defined Sizes** and add a couple of track widths you
@@ -284,7 +406,7 @@ editing its net class.
 **OK** to close Board Setup.
 
 ```bash
-git add -A && git commit -m "layout: 4-layer 1.0 mm stackup, net classes"
+git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes"
 ```
 
 ---
@@ -299,12 +421,18 @@ after a clone or a pull there is no `build/default.net` on your machine at all.
 Run this before you go looking for it:
 
 ```bash
-cd /path/to/Hp42s_calc
+conda activate ato
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 ato --non-interactive build
 ```
 
-Note that `--non-interactive` goes **before** `build`, not after. It is a flag
-on the `ato` command itself, and putting it after gives you
+**The `conda activate ato` is not optional.** atopile lives in a conda
+environment called `ato`, not in `base`, so a fresh terminal gives you
+`-bash: ato: command not found`. `conda env list` shows the environments if the
+name ever changes.
+
+Note also that `--non-interactive` goes **before** `build`, not after. It is a
+flag on the `ato` command itself, and putting it after gives you
 `No such option: '--non-interactive'`.
 
 It takes two to four minutes and ends with `Build complete!`. You now have
@@ -333,14 +461,47 @@ Now, in the PCB editor:
    of your carefully placed parts to each other's positions, and tstamp linking
    just renames them in place.
 
-4. **Options:** tick **"Replace footprints with those specified in netlist"**.
-   Leave **"Delete footprints with no components in netlist"** ticked too.
-   Leave **"Delete/replace footprints even if locked"** unticked — you will
-   lock the placed keypad later and you want that to mean something.
-5. **Update PCB**.
+4. **Options.** Leave **"Delete footprints with no components in netlist"** and
+   **"Replace footprints with those specified in netlist"** ticked, and
+   **"Group footprints based on symbol group"** and **"Delete tracks shorting
+   multiple nets"** unticked. All four are already that way.
 
-Read the message pane. **Expect no errors.** Every footprint resolves: 21 of
-the 28 from KiCad's own libraries, 7 from `hp42s`.
+   **Untick "Delete/replace footprints even if locked".** KiCad ships it
+   *ticked*, so this is an active change rather than something to leave alone.
+   It costs nothing today, because nothing is locked yet, but the setting
+   sticks: you lock the placed keypad at the end of step 6, and a re-import
+   after that would walk straight through the lock and put all 38 dome sites
+   back in the heap.
+
+   Changing any option re-runs the preview on its own, so the list refreshes as
+   you click.
+
+5. **Press "Update PCB".** Not "Load and Test Netlist".
+
+   Both read the netlist and fill the panel with the same list, but only
+   `Update PCB` applies it; the other is a dry run, and it is the highlighted
+   default button, so it is the easy one to press and feel finished. **The
+   panel's own heading tells you which you are looking at**: it says *Changes
+   to Be Applied* after a test, and *Changes Applied to PCB* after the real
+   thing.
+
+Read the message pane. **Expect `Total warnings: 9, errors: 0`.** Errors are
+what matter, and there should be none. Every footprint resolves: 21 of the 28
+from KiCad's own libraries, 7 from `hp42s`.
+
+All nine warnings read `No net found for component <ref> pad <n>`, and all nine
+are pins deliberately left unconnected:
+
+| Part | Pads | Why |
+|---|---|---|
+| `U1` TPD4E05U06 | 6, 7, 9, 10 | TI marks them NC in table 4-2 of SLVSBO7O. Nothing inside the package touches them. |
+| `U5` ESP32-S3-MINI-1 | 7, 26, 38, 41, 44 | `IO3`, `IO26`, `IO42`, `IO45`, `IO46` — spare GPIOs this design does not use. All 24 of the module's ground pins are connected. |
+
+A warning naming any *other* reference or pad is not on this list and is worth
+stopping for. If you imported before 23 September 2026 you will see 11 rather
+than 9: the extra two are `J2 pad MP`, the display connector's metal hold-downs,
+which are now tied to ground in `elec/src/display.ato`. Rebuild and re-import
+and they go away.
 
 If you see `Cannot add <ref> (footprint "hp42s:..." not found)`, step 3 did not
 take — go back and fix the library path before doing anything else.
@@ -351,7 +512,7 @@ take — go back and fix the library path before doing anything else.
    supposed to look terrible.
 
 **Done looks like:** 119 footprints on the sheet and no errors in the import
-log. You can confirm the count with **Inspect → Board Statistics**.
+log. You can confirm the count with **Inspect → Show Board Statistics**.
 
 ```bash
 git add -A && git commit -m "layout: import 119 footprints"
@@ -377,12 +538,13 @@ millimetre against case drawings. None of that should be done by dragging.
 2. Paste this, with the path adjusted to wherever the repo actually is:
 
 ```python
-exec(open('/full/path/to/Hp42s_calc/tools/place_keypad.py').read())
+exec(open('/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/tools/place_keypad.py').read())
 ```
 
-Use the **full absolute path**. The console's working directory is not
-necessarily the project folder, and a relative path here is the most common
-reason this step appears to do nothing.
+That is the real path on this machine, spaces and all; Python's quotes handle
+them, so it needs no escaping. Use the **full absolute path** — the console's
+working directory is not necessarily the project folder, and a relative path
+here is the most common reason this step appears to do nothing.
 
 3. Press Enter. It prints what it did:
 
@@ -424,8 +586,9 @@ about 7 mm of clear board below the bottom row and the display area above it.
 Measure it with `Ctrl+Shift+M` if it looks off.
 
 5. Now **lock the keypad** so you cannot nudge it by accident. Drag a selection
-   box around the dome grid only, right-click → **Locking → Lock**. Locked
-   footprints refuse to move until you unlock them.
+   box around the dome grid only, then press **`L`** (Toggle Lock) — it is also
+   on the right-click menu. Locked footprints refuse to move until you unlock
+   them, which is `L` again.
 
 ```bash
 git add -A && git commit -m "layout: keypad grid, top edge, panel, outline"
@@ -444,13 +607,21 @@ Do not hunt for it. **Ctrl+F**, type the reference designator, Enter — KiCad
 selects it and centres the view on it. Press `M` with the cursor over it and it
 comes with you.
 
-(`A` is the "place a footprint" tool, which opens a library browser. You do not
-want it on this board — every part you need is already on the sheet.)
+(**Place → Place Footprints**, hotkey `A`, is the tool for adding a *new* part
+from a library. You do not want it on this board — every part you need is
+already on the sheet, put there by the netlist import.)
 
-A faster way for a group: select the part you want to anchor on, then
-right-click → **Select → Connected Items**, or click a net in the **Net
-Inspector** panel and press `` ` `` to highlight it. Everything on that net
-lights up.
+To see a whole circuit at once, hover anything on the net and press `` ` `` —
+that is **Highlight Net**, and everything on it lights up. `U` is
+**Select/Expand Connection**, which selects what is connected rather than just
+colouring it. The **Net Inspector** panel (**View → Panels → Net Inspector**)
+lists every net by name if you would rather go at it from that end.
+
+**Turn the keypad matrix off while you do this.** Appearance panel → **Nets**
+tab → **Netclasses**, right-click `keypad` → **Hide All Other Netclasses**, or
+just untick it. Those 13 nets across 38 dome sites are most of the ratsnest on
+the board and none of it is your problem until step 9.5. This is what the
+`keypad` class in 4c was for.
 
 ### The rule that governs all of it
 
@@ -545,6 +716,24 @@ than the capacitor does.
 The way to do this is one IC at a time. Find the IC, find its decoupling caps
 by net, and tuck each one in. It is tedious and it is the difference between a
 board that works and a board that mostly works.
+
+### Leave room for the case to hold the board up
+
+New on 23 September 2026, and it belongs here rather than at the end, because
+it is a placement constraint and not a routing one.
+
+37 dome switches need something behind the board taking the push, or the board
+bends instead of the dome snapping. Board thickness only gets you so far —
+`docs/board-thickness.md` has the numbers — and the rest has to come from the
+case bearing on the board *inside* the keyboard area, not just around its edge.
+
+The 14 mm bezel put the electronics behind the keyboard, so parts and support
+posts now want the same space. As you place the back side, keep three or four
+clear patches spread through the keyboard region for the case to push on. The
+gaps between key columns are the natural place, since nothing routes there on
+the front anyway. It does not have to be a regular grid and it does not have to
+be perfect; going from edge-support-only to a few bearing points is worth as
+much as the thickness change was.
 
 ### Done looks like
 
@@ -764,8 +953,8 @@ highlighted in the Layers panel. Select the layer *first*, then press `X`.
 **"The zone disappeared."** Zones show as outlines until they are filled. Press
 `B`.
 
-**"A part won't move."** It is locked. Right-click → Locking → Unlock. You
-locked the keypad deliberately in step 6.
+**"A part won't move."** It is locked. Select it and press `L`. You locked
+the keypad deliberately in step 6.
 
 **"I imported the netlist again and everything moved."** You used reference
 designator linking instead of tstamps. Revert to your last commit and re-import

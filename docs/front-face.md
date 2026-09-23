@@ -12,7 +12,11 @@ ideas collapse into one part.
 The front stack-up is not the constraint on any of it. The 15 mm case with
 1.2 mm shells leaves 12.6 mm inside, and the deepest arrangement — a 6 mm cell
 at the top of the back, the board, the panel, its adhesive, a 1 mm light guide
-and an air gap — comes to 10.0 mm. The keyboard side is looser still.
+and an air gap — comes to 10.6 mm. The keyboard side is looser still.
+
+(That was 10.0 mm until 23 September 2026, when the board went from 1.0 mm to
+1.6 mm to stop it flexing under the domes. It was this paragraph's 2.6 mm of
+slack that paid for it. See `docs/board-thickness.md`.)
 
 ## The metal plate
 

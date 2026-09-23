@@ -42,7 +42,7 @@ What it covers, and roughly what each costs:
 | 1 | The six KiCad keys and the layers panel | 5 minutes |
 | 2 | Make the project at `elec/layout/default/` | 5 minutes |
 | 3 | Add the `hp42s` footprint library | 5 minutes |
-| 4 | Board Setup: 4 layers at 1.0 mm, constraints, net classes | 20 minutes |
+| 4 | Board Setup: 4 layers at 1.6 mm, constraints, net classes | 20 minutes |
 | 5 | Import `build/default.net` — **link by unique ids, not designators** | 10 minutes |
 | 6 | Run `tools/place_keypad.py` for the keypad, outline and panel | 10 minutes |
 | 7 | Place the other ~60 parts, in the order the file gives | an evening |
@@ -88,7 +88,7 @@ missing outlines.
 
 ## 9. Ordering rev A
 
-- **5 boards**, 1.0 mm, 4 layer, ENIG, black or white soldermask to taste.
+- **5 boards**, 1.6 mm, 4 layer, ENIG, black or white soldermask to taste.
   Roughly £40 for the batch.
 - **A stencil** for the top side. The module, the WSON parts and the USON ESD
   array are not hand-solderable without one; the 0402s are not fun without one

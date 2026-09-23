@@ -78,6 +78,11 @@ module DisplayDrive:
     epd.VDDIO ~ v3v3
     epd.VSS   ~ gnd
 
+    # The connector's two metal hold-down fittings. Not electrical, but they
+    # are large pads right under a flex that gets folded on assembly, so they
+    # go to ground rather than being left as isolated copper.
+    epd.MP ~ gnd
+
     # Pins 1, 4, 6, 7 and 19 are left unconnected on purpose. 6 and 7 are the
     # touch-panel I2C on the touch variant of this glass; ours has no touch.
     # 19 is VPP, the OTP programming supply, used at the factory only.
