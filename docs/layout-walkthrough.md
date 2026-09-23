@@ -41,9 +41,22 @@ it. When something goes wrong at step 9 you want to be able to go back to the
 end of step 8, not to the beginning.
 
 ```bash
-cd /path/to/Hp42s_calc
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 git add -A && git commit -m "layout: step N done"
 ```
+
+**Quote the path in every shell command.** The checkout lives at
+
+```
+/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1
+```
+
+which has spaces in it in three places. Unquoted, bash reads
+`cd /Users/barnaby osborne/...` as *cd to `/Users/barnaby`, with `osborne/...`
+as a second argument*, and you get "No such file or directory" pointing at a
+path that plainly exists. The shell commands below are already written with the
+quotes in. Python is not affected — `open('...')` takes the whole string — so
+the scripting console in step 6 needs no special treatment.
 
 **Do not fight the software.** If a step does not behave the way this file says
 it will, stop and say so rather than working around it. Everything here is
@@ -110,7 +123,7 @@ directory, so `elec/layout/` only appears once something is in it. Make it
 first:
 
 ```bash
-cd /path/to/Hp42s_calc
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 mkdir -p elec/layout
 ```
 
@@ -409,7 +422,7 @@ Run this before you go looking for it:
 
 ```bash
 conda activate ato
-cd /path/to/Hp42s_calc
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 ato --non-interactive build
 ```
 
@@ -492,12 +505,13 @@ millimetre against case drawings. None of that should be done by dragging.
 2. Paste this, with the path adjusted to wherever the repo actually is:
 
 ```python
-exec(open('/full/path/to/Hp42s_calc/tools/place_keypad.py').read())
+exec(open('/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/tools/place_keypad.py').read())
 ```
 
-Use the **full absolute path**. The console's working directory is not
-necessarily the project folder, and a relative path here is the most common
-reason this step appears to do nothing.
+That is the real path on this machine, spaces and all; Python's quotes handle
+them, so it needs no escaping. Use the **full absolute path** — the console's
+working directory is not necessarily the project folder, and a relative path
+here is the most common reason this step appears to do nothing.
 
 3. Press Enter. It prints what it did:
 
