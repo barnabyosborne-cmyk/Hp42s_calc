@@ -1,18 +1,45 @@
 # Where everything goes, and why
 
-First pass, 23 September 2026, in `tools/place_board.py` as `FIRST_PASS`.
-Nothing here is routed, and routing will move some of it.
+23 September 2026. The table is `FIRST_PASS` in `tools/place_board.py`, which
+writes it into `elec/layout/default/default.kicad_pcb`. Nothing here is
+routed, and routing will move some of it.
+
+## The rules this follows
+
+Barnaby sent a placement checklist on 23 September; these are the parts of it
+that bite on a board this size.
+
+| Rule | How it is applied here |
+|---|---|
+| Fixed parts first | The keys, the six top-edge parts, the FPC, the sliver lands and the ESP32 were placed by the case, the panel and the antenna before anything else moved. None of them is on a grid, and none of them should be. |
+| Then the ICs, then the passives | Each supply is a block built outwards from its own IC. |
+| Decoupling at the pin | Every bypass capacitor is beside the pin it serves, and the comment beside it in `place_board.py` names that pin. |
+| Zoning | The two boosts are at opposite corners. The fuel gauge, the only analogue part, is 14 mm from the display inductor and 45 mm from the frontlight's. |
+| Signal flow | Power runs down the back: charger Y 72, regulator Y 89, module Y 133. USB runs J1 → U1 → down. |
+| Grid | ICs and connectors on 1.27 mm (50 mil), passives on 0.635 mm (25 mil). |
+| Clearance | At least 1.0 mm between courtyards — near enough the 40 mil asked for, and the courtyards already carry the manufacturer's own handling allowance. |
+| Uniform orientation | Every two-terminal passive is at 0°, so the board is one pick-and-place orientation. |
+| One side if possible | Not possible: see below. |
+
+Two rules cannot be met and are not:
+
+- **100 mil to the board edge.** The board is 76 × 144 mm with a keyboard over
+  half of it and a cell over a third. The top-edge parts are *meant* to
+  overhang the outline, and the back components sit 0.5–5 mm from it. This is
+  a sealed resin case with no edge rails or board guides, so the reason for
+  the rule — handling damage and depanelling — is weaker here than the space
+  is scarce.
+- **All on one side.** The keys own the front and the cell owns the top of the
+  back, so the electronics go on the back below the keyboard, which is the
+  only place left. Barnaby had already spotted this one.
 
 ## What was already spoken for
-
-Three areas were fixed before this started, and between them they take most
-of the board:
 
 | | |
 |---|---|
 | FRONT Y 0–5 | the six top-edge parts, pushed out towards the case wall |
 | FRONT Y 12–48.3 | the panel's glass |
-| FRONT Y 59–137 | the keyboard, on Barnaby's measured grid |
+| FRONT Y 57–137 | the keyboard, on Barnaby's measured grid |
 | BACK Y 5–59 | the battery bay, full width but for the FPC in the left 10 mm |
 
 The battery bay is the hard one. `docs/display-mounting.md` settled the cell
@@ -20,60 +47,80 @@ on the back at the top, which evicted the electronics to **behind the
 keyboard**, and nothing may go under a pouch cell — it grows over its life and
 its case is soft aluminium laminate.
 
-So there were three places left: the back below Y 59, and two slivers of front
-that nothing else wanted.
-
 ## The two front slivers
 
-**Y 5–12, between the top-edge parts and the glass.** The USB front end lives
-here — the ESD array, the two CC resistors and the VBUS capacitor — directly
-behind J1, because the alternative is 60 mm of unprotected D+/D− running the
-length of the board to the only other free space. The IR transistor and its
-two resistors are here too, next to the emitter they drive, and so are the
-status LED's two ballast resistors.
+**Y 5–11.6, between the top-edge parts and the glass.** The USB front end
+lives here — the ESD array under J1's own D+/D− pins, the two CC resistors at
+U1's CC pins, the VBUS capacitor at the connector where the current enters.
+The alternative is 60 mm of unprotected D+/D− running the length of the board
+to the only other free space. The IR transistor and its two resistors are here
+too, under the emitter they drive, and so are the status LED's two ballast
+resistors, under it.
 
-The band is a single row at Y 9.60, not two rows starting at Y 5, because the
-USB-C receptacle's body reaches Y 6.8 and the slider's Y 5.9. That collision
-is the reason for the row.
+Nothing in this band can go above Y 11.6: the glass starts at 12. And nothing
+can sit directly under J1's body, which reaches Y 7.24, or the slider's, which
+reaches Y 6.0.
 
-**Y 48.3–59, between the glass and the keys.** `TP1` and `TP2` are the
-frontlight sliver's two ends, 60 mm apart at the active area's edges, with the
-sliver spanning between them along the guide's injection edge. `TP3` bonds the
-metal faceplate to ground and has to be on the front, under the plate.
+**Y 48.3–57, between the glass and the keys.** `TP1` and `TP2` are the
+frontlight sliver's two solder lands, 60 mm apart because that is the sliver's
+length, with the sliver spanning between them along the guide's injection
+edge. `TP3` is a ground point to clip a scope to while the frontlight is being
+set up; it is on the front because that is where the frontlight is.
 
 ## The back, below Y 59
 
-**Top left — the panel's boost.** As near J2 as the bay allows. The ten rail
-capacitors sit with the boost rather than at the connector, which is a
-compromise the bay forces: decoupling belongs at the load, but the load's
-connector is surrounded by cell.
+**Rows 1 and 2, left — the panel's own rail capacitors.** C10 (3V3), C11
+(VDD), C12 (VSH1), C13 (VSH2), C14 (VSL), C15 (VCOM). These belong at J2's
+pins and they cannot get there: the bay is in the way. They sit in the first
+two rows below it, directly under the connector, which is as close as the
+geometry allows. The run is about 33 mm. That is the price of the cell being
+where it is, and it was paid the moment the cell went on the back.
 
-**Top right — the frontlight driver.** `elec/src/frontlight.ato` asks for this
-explicitly: a second fast switching node, kept as far from the FPC and the
-panel's own converter as the board allows. FL+ and FL− climb through vias to
-`TP1` and `TP2`; both are DC once past the output capacitor, so the 60 mm run
-to the far land costs nothing.
+**Left, Y 65–81 — the display boost.** The noisiest block on the board. Q1
+switches L2 against the 3V3 rail; D1 rectifies PREVGH into C17; D2, D3 and C18
+are the inverting charge pump that makes PREVGL into C19. The inductor is hard
+against Q1's drain so the switching loop stays small.
 
-**Centre, just below the bay — the cell connector**, so the cell's leads drop
-straight down into it.
+**Right, Y 59.5–72 — the frontlight boost.** U6 sits at the sliver's FB end,
+so the high-impedance feedback trace is short and it is the 38 V rail that
+takes the long way to TP1 — a rail is far happier running 60 mm than a
+feedback node is. L3, D6 and C20 close the switching loop in that order.
 
-**Middle — charger, regulator, fuel gauge** and their passives.
+**Centre, Y 60–79 — the cell and the charger.** BT1 is hard against the bottom
+edge of the bay so the cell's tails drop straight into it. U2 is directly
+below, C2 at its BAT pin, C3 at its SYS pin, the four programming resistors on
+the right-hand side where their pins are.
 
-**Bottom — the module.** Rotated 180° so the antenna faces the board's bottom
-edge and radiates off it. Its keepout then covers Y 138.75–144 from X 15 to
-61, which is the chin — where `docs/front-face.md` already keeps the metal
-faceplate out for the same reason. **No copper, no pour and no parts in that
-rectangle.**
+**Centre, Y 86–96 — the 3V3 regulator.** L1 straddles the TPS63900's two
+switch pins. C4 and C5 are at the VOUT pin, R11 and the three CFG resistors on
+the left where theirs are.
 
-**Bottom left — the buzzer**, which needs a hole through the case back, clear
-of the antenna keepout.
+**Left, Y 87–91 — the fuel gauge**, kept away from both switchers, with its
+BAT bypass at pin 3 and the two I²C pull-ups at pins 7 and 8.
+
+**Right, Y 108–125 — the sounder**, which needs a hole through the case back,
+clear of the antenna keepout.
+
+**Bottom, Y 123–138 — the module.** Rotated 180° so the antenna faces the
+board's bottom edge and radiates off it. Its keepout covers Y 138.75–144 from
+X 15.3 to 60.7, which is the chin — where `docs/front-face.md` already keeps
+the metal faceplate out for the same reason. **No copper, no pour and no parts
+in that rectangle.** C8 and C9 bypass 3V3 at pin 3, C7 and R14 hold EN at pin
+45, and the four signal test points sit at the pins they probe.
+
+**Right, Y 85–90 — the four power test points**: BAT, SYS, 3V3, GND.
 
 ## What is checked
 
-`tools/place_board.py` writes positions into the `.kicad_pcb` directly, so the
-result is reviewable in `git diff`. The placement was checked for courtyard
-overlaps on each layer, for parts crossing the board outline, and for anything
-straying into the battery bay or the antenna keepout. All four are clean.
+`tools/check_placement.py` reads the board file and reports courtyards closer
+than 1.0 mm on the same side, anything crossing the outline, anything on the
+back inside the battery bay, anything inside the antenna keepout, anything on
+the front under the glass or the keys, and anything off its grid. It is clean
+apart from the six top-edge parts, which are meant to overhang.
+
+`tools/fix_pads.py --check` is the other half: it compares every pad on the
+board against the library footprint it came from and reports any that have
+drifted. Run it after any KiCad session that moved things.
 
 ## What is not settled
 
@@ -82,9 +129,9 @@ straying into the battery bay or the antenna keepout. All four are clean.
   against the case before this is fixed; the side-entry variant is the same
   land pattern turned on its side if it does not fit.
 - **Support corridors.** `docs/board-thickness.md` wants the case to bear on
-  the board inside the keyboard area, in the gaps between key columns. The
-  back is now populated there. Three or four bearing points still need to be
-  agreed, and parts moved out of their way.
+  the board inside the keyboard area, in the gaps between key columns. Y
+  96–108 and Y 125–144 to the left and right of the module are the clearest
+  bands on the back. Three or four bearing points still need to be agreed.
 - **The antenna and the bottom key row.** The 10 mm domes on the bottom row
   reach Y 139.0; the keepout starts at Y 138.75. A 0.25 mm sliver of dome pad
   is not going to detune a 2.4 GHz antenna, but the ground pour must stop at

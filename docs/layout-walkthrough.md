@@ -32,7 +32,8 @@ There are five distinct activities and they are not equally hard:
 
 B is the one that matters. A good placement makes the routing almost draw
 itself; a bad one makes it impossible, and you find out four hours in. This is
-why the placement order in step 7 is an order and not a list.
+why step 6 places everything by script and step 7 is where you argue
+with it.
 
 ### Two rules before you start
 
@@ -342,7 +343,8 @@ The matrix carries no current worth the name — a dome contact against a
 pull-up, microamps — so there is nothing to make its tracks wider for, and
 nothing about it that wants a different via.
 
-It exists for a different reason, and you will be glad of it in step 7. In the
+It exists for a different reason, and you will be glad of it when you route.
+In the
 **Appearance** panel there is a **Nets** tab with a **Netclasses** section, and
 right-clicking a class there gives you **Set Netclass Color** and **Hide All
 Other Netclasses**. The keypad matrix is 13 nets across 38 dome sites, which is
@@ -569,23 +571,30 @@ If it throws a Python traceback, paste the whole thing back to me.
 **Run it once and once only.** It is not idempotent: a second run draws a
 second set of reference rectangles on `Cmts.User` on top of the first.
 
-### Step 6b — correct the positions
+### Step 6b — fix what KiCad got wrong, from outside KiCad
 
-The script gets the board outline, the reference rectangles, the layers and
-every rotation right. What it does **not** get right under KiCad 10.0 is
-where the footprints end up.
+Two separate things are wrong with the board at this point, and neither is
+your doing.
 
-On 23 September 2026 the first real run put all 45 footprints it touched
-414.5 mm from the positions it asked for. A second run put them 345.0 mm out
-instead — a different distance, same symptom — while the outline and the
-rectangles, drawn through the same API in the same run, landed exactly where
-they were asked. Reading a position back through the API returns the value
-that was asked for, so the script cannot tell that anything is wrong. The
-relative geometry is always perfect: it is one clean translation of the whole
-block.
+**The positions.** `place_keypad.py` gets the board outline, the reference
+rectangles, the layers and every rotation right. What it does not get right
+under KiCad 10.0 is where the footprints end up. On 23 September 2026 the
+first real run put all 45 footprints it touched 414.5 mm from the positions it
+asked for. A second run put them 345.0 mm out instead — a different distance,
+same symptom — while the outline and the rectangles, drawn through the same
+API in the same run, landed exactly where they were asked. Reading a position
+back through the API returns the value that was asked for, so the script
+cannot tell that anything is wrong.
 
-So the positions get written into the file instead, where they can be checked
-with `git diff`:
+**The pads.** Every footprint on the board came out of the netlist import with
+its pads about 1.1 metres from the footprint they belong to, while its
+silkscreen, courtyard and fab outline were all in the right place. All 119
+had the same offset, so every pad on the board landed in one pile off the
+side. That pile is the cluster of copper you may have noticed nowhere near
+anything.
+
+Both are repaired from outside KiCad, where the file can be checked with
+`git diff`.
 
 1. **Save the board** (Cmd+S), then **quit KiCad**. This matters — KiCad holds
    the whole file in memory and will overwrite the fix if it is still open.
@@ -594,30 +603,50 @@ with `git diff`:
 ```bash
 cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
 python3 tools/place_board.py
+python3 tools/fix_pads.py
+python3 tools/check_placement.py
 ```
 
-   It prints `placed 45 parts, moved the other 74 to a block at (90, 20)`.
-   It needs no KiCad and no conda environment — plain Python.
+   The first sets every position and rotation. The second puts every pad back
+   on its own footprint, taking the correct positions from the library
+   footprint each part came from. The third checks the result and should end
+   with `all clear`. All three are plain Python: no KiCad, no conda
+   environment.
 3. Open the board again.
 
-`git diff` on the `.kicad_pcb` should show exactly 119 changed lines, every one
-of them an `(at ...)`. Nothing else in the board is touched.
+### Step 6c — put the back-side parts on the back
 
-4. **Ctrl+0** to zoom to fit. You should now see the board rectangle with a
-   6 × 7 grid of dome sites in the lower two thirds, the display glass outlined
-   on `Cmts.User` above them, the top-edge parts along the top, and the other
-   74 parts in a block to the right of the board waiting for step 7.
+62 of the parts belong on the back of the board. Flipping is the one thing
+the scripting API does correctly, so KiCad does this one.
+
+1. **Tools → Scripting Console** again.
+2. Paste:
+
+```python
+exec(open('/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/tools/flip_back.py').read())
+```
+
+   It prints `flipped 62 of 62 to the back`. It moves nothing.
+3. **Save** (Cmd+S) and **quit KiCad**.
+4. Back in the terminal, confirm KiCad did not disturb anything:
+
+```bash
+python3 tools/fix_pads.py --check
+python3 tools/check_placement.py
+```
+
+   `fix_pads.py --check` should say `0 footprints with pads out of place`. If
+   it says otherwise, run it without `--check` and it will put them back.
 
 ### Two things to check by eye right now
 
 **The FPC connector's mouth.** Hover `J2`, look at which way its opening
 points. It must face the **notched left edge** of the board. If it points into
 the middle of the board, open `tools/place_keypad.py`, change
-`FPC_ANGLE = 90.0` to `270.0`, and re-run just that rotation — or tell me and
-I will set it in the file.
+`FPC_ANGLE = 90.0` to `270.0`, and tell me — I will set it in the file.
 
 **The keyboard's position.** The dome grid spans board Y 62 to 134, inside the
-70 x 78 mm keyboard area at board Y 59 to 137, with about 7 mm of clear board
+70 × 78 mm keyboard area at board Y 59 to 137, with about 7 mm of clear board
 below the bottom row. Measure it with `Ctrl+Shift+M` if it looks off.
 
 5. Now **lock the keypad** so you cannot nudge it by accident. Drag a selection
@@ -626,170 +655,51 @@ below the bottom row. Measure it with `Ctrl+Shift+M` if it looks off.
    them, which is `L` again.
 
 ```bash
-git add -A && git commit -m "layout: keypad grid, top edge, panel, outline"
+git add -A && git commit -m "layout: placed and repaired"
 ```
 
 ---
 
-## Step 7 — Place everything else
+## Step 7 — Read the placement, and change what you disagree with
 
-This is the judgement part of the job, and it is the part worth being slow
-about. Roughly 60 parts are still in a heap at the origin.
+Every part is now placed. `docs/placement.md` says where each block went and
+why, against the placement rules you sent: fixed parts first, then the ICs,
+then the passives clustered at the pins they serve; the two boosts at opposite
+corners; the fuel gauge away from both; 1.27 mm grid for ICs and 0.635 mm for
+passives; at least 1.0 mm between courtyards.
 
-### How to find a part
+This is the judgement part of the job and it is worth being slow about. The
+script's job was to get everything to a defensible starting point, not to have
+the last word.
 
-Do not hunt for it. **Ctrl+F**, type the reference designator, Enter — KiCad
-selects it and centres the view on it. Press `M` with the cursor over it and it
-comes with you.
+### How to look at it
 
-(**Place → Place Footprints**, hotkey `A`, is the tool for adding a *new* part
-from a library. You do not want it on this board — every part you need is
-already on the sheet, put there by the netlist import.)
+**Alt+3** opens the Appearance panel. Turn off everything except `F.Cu`,
+`B.Cu`, `Edge.Cuts` and `Cmts.User` to see the shape of it. Then turn the
+courtyards on (`F.CrtYd`, `B.CrtYd`) — those are what the clearance check
+measures.
 
-To see a whole circuit at once, hover anything on the net and press `` ` `` —
-that is **Highlight Net**, and everything on it lights up. `U` is
-**Select/Expand Connection**, which selects what is connected rather than just
-colouring it. The **Net Inspector** panel (**View → Panels → Net Inspector**)
-lists every net by name if you would rather go at it from that end.
+**Ctrl+Shift+M** measures. Use it on anything that looks tight.
 
-**Turn the keypad matrix off while you do this.** Appearance panel → **Nets**
-tab → **Netclasses**, right-click `keypad` → **Hide All Other Netclasses**, or
-just untick it. Those 13 nets across 38 dome sites are most of the ratsnest on
-the board and none of it is your problem until step 9.5. This is what the
-`keypad` class in 4c was for.
+### If you move something
 
-### The rule that governs all of it
-
-**Parts that belong to one circuit go together, and circuits that hate each
-other go apart.** This board has three switching converters on it, each of
-which is a small radio transmitter, and one radio receiver which is the
-module's antenna. The whole of the placement below is the consequence.
-
-### Where things go
-
-Two decisions from 21 September 2026 shape this. The **cell goes at the top of
-the back**, which pushes the electronics into the space behind the keyboard.
-And the **top bezel is 14 mm**, which is what let the six top-edge parts move
-to the front. See `docs/top-edge.md` and `docs/display-mounting.md`.
-
-So the back of the board, top to bottom, is: battery bay (board Y 5 to 59),
-then the FPC connector and the panel booster crammed into the top left of that
-same region because the ribbon gives them nowhere else, then the keyboard from
-Y 59 down, with the electronics tucked behind it.
-
-### Place in this order
-
-Each one constrains the next, which is why it is an order.
-
-**7.1 — The panel's FPC connector (`J2`).** Already placed by the script, on
-the back at board X 9.00, Y 30.15. **Do not move it.** The panel's tail is
-14.30 mm long and after the fold there is 11.00 mm of reach; the connector's
-pad row has to fall in the last 3 mm of that. Two millimetres to the right and
-the flex pulls out of the contacts. Measure the real panel's tail before you
-commit the board, because the drawing only gives it to ±0.3 mm.
-
-**7.2 — The module (`U5`).** Back side, behind the keyboard, low on the board.
-
-The antenna end must **overhang the board outline** with all copper cleared
-beneath it. This is not optional and it is not a suggestion in the datasheet —
-ground plane under a chip antenna detunes it into uselessness. The module's
-footprint has a keepout area marked; put it past the edge.
-
-The bottom edge of the board does this as well as the top used to, and it is
-diagonally opposite the USB connector, which is what you want: USB is the
-noisiest thing on the board and the antenna is the most sensitive.
-
-**7.3 — The panel's booster (`L2`, `Q1`, `C3`, `D1`, `D2`, `D3`).** One tight
-cluster right next to `J2`. This is a switching loop and every millimetre of
-it is inductance you do not want. Keep the loop `L2` → `Q1` → ground → back to
-`L2` as small as you physically can, and make sure its ground return runs
-directly underneath it on `In1.Cu` rather than wandering off.
-
-These two — `J2` and the booster — are the only things still pinned to the top
-left of the back. The cell has to come down past them.
-
-**7.4 — The buck-boost (`U3`, `L1`) and its capacitors.** Same discipline,
-equally tight, and **far from 7.3**. Behind the keyboard. Two switchers close
-together beat against each other and you hear it through the buzzer.
-
-`U3` is a WSON-10 with a thermal pad that the datasheet says explicitly must be
-connected to ground for correct operation. It is not optional and it is not
-just heat.
-
-**7.5 — The charger (`U2`) and the cell connector (`BT1`).** Near the USB-C at
-`J1`, with the cell connection running away from the signal side of the board.
-
-This is the one part of the design that *gained* from the 14 mm bezel. USB-C is
-on the front now, so the charge current no longer has to run the length of the
-board to reach a cell at the top.
-
-`U2`'s TS/MR pin cannot float — it has 10 kΩ to ground in the netlist already.
-Just make sure that resistor lands next to the pin and not across the board.
-
-**7.6 — The fuel gauge (`U4`).** Anywhere convenient on the cell net. It draws
-3 µA and it is not fussy.
-
-**7.7 — The frontlight driver (`U6`, `L3`, `D6`, and its capacitors).** Only if
-this unit is getting a light guide. Front side, in the strip between the panel
-and the keyboard — board Y 48.3 to 59.0 — at the **right-hand end**, as far as
-the board allows from `J2` and the panel booster at X 7–20.
-
-It is a third switching node and it wants to be nowhere near the panel's SPI.
-
-**7.8 — The test pads (`TP1`–`TP11`).** Put them somewhere you can get a probe
-on with the board out of the case. `TP3` is the chassis ground bond for the
-metal faceplate and belongs on the **front**, near the USB-C shield's ground
-stitch — not near the module.
-
-**7.9 — The decoupling capacitors.** Last, and deliberately.
-
-Every 100 nF goes **hard against the pin it serves**, on the same side of the
-board, with its ground end straight down a via into `In1.Cu`. A 100 nF placed
-10 mm from its pin is decoration: at 100 MHz the track to it has more impedance
-than the capacitor does.
-
-The way to do this is one IC at a time. Find the IC, find its decoupling caps
-by net, and tuck each one in. It is tedious and it is the difference between a
-board that works and a board that mostly works.
-
-### Leave room for the case to hold the board up
-
-New on 23 September 2026, and it belongs here rather than at the end, because
-it is a placement constraint and not a routing one.
-
-37 dome switches need something behind the board taking the push, or the board
-bends instead of the dome snapping. Board thickness only gets you so far —
-`docs/board-thickness.md` has the numbers — and the rest has to come from the
-case bearing on the board *inside* the keyboard area, not just around its edge.
-
-The 14 mm bezel put the electronics behind the keyboard, so parts and support
-posts now want the same space. As you place the back side, keep three or four
-clear patches spread through the keyboard region for the case to push on. The
-gaps between key columns are the natural place, since nothing routes there on
-the front anyway. It does not have to be a regular grid and it does not have to
-be perfect; going from edge-support-only to a few bearing points is worth as
-much as the thickness change was.
-
-### Done looks like
-
-- Nothing overlaps. Run DRC (step 11) now if you want — courtyard overlaps show
-  up as errors and it is a cheap check.
-- No ratsnest line crosses the whole board. A long line means two things that
-  belong together are not together. Fix the placement, not the routing.
-- The battery bay on the back is clear from about board Y 5 to Y 59. Y 5 rather
-  than Y 0 because the USB-C receptacle's four through-hole shield legs have
-  their solder fillets there now, on the back, and a pouch cell resting on four
-  solder fillets is not a risk worth taking.
-- The module's antenna hangs off the board with nothing under it.
-
-Expect to redo this once after you see how the routing goes. That is normal and
-it is not wasted time.
+Move it in KiCad, save, quit, and run:
 
 ```bash
-git add -A && git commit -m "layout: place the electronics"
+python3 tools/check_placement.py
 ```
 
----
+It will tell you if the new position is too close to something, off the grid,
+over the battery bay, in the antenna keepout, under the glass or over the
+outline. Then tell me the new coordinates and I will put them in
+`tools/place_board.py`, so the next run of the script does not undo your work.
+
+### What is deliberately not settled
+
+`docs/placement.md` ends with four open items: the battery connector's height
+against the 5 mm cell, where the case should bear on the board, the 0.25 mm
+overlap between the antenna keepout and the bottom key row, and the fact that
+nothing is routed yet. Read them before you start moving things.
 
 ## Step 8 — Pour the ground planes
 
