@@ -98,7 +98,16 @@ Two tabs matter:
 ## Step 2 — Make the project
 
 KiCad needs a project file to hang a board off. It does not exist in this repo
-yet; `elec/layout/` is an empty folder waiting for it.
+yet.
+
+Neither does the folder it goes in, in a fresh clone: git cannot store an empty
+directory, so `elec/layout/` only appears once something is in it. Make it
+first:
+
+```bash
+cd /path/to/Hp42s_calc
+mkdir -p elec/layout
+```
 
 1. Open **KiCad** (the project manager, the one with the workflow icons).
 2. **File → New Project…**
@@ -284,19 +293,26 @@ git add -A && git commit -m "layout: 4-layer 1.0 mm stackup, net classes"
 
 This is where the 119 parts arrive.
 
-First make sure the netlist is current. In a terminal:
+**First you have to build the netlist, because it is not in the repo.**
+`build/` is in `.gitignore` — generated output does not belong in git — so
+after a clone or a pull there is no `build/default.net` on your machine at all.
+Run this before you go looking for it:
 
 ```bash
 cd /path/to/Hp42s_calc
 ato --non-interactive build
 ```
 
-Note that `--non-interactive` goes **before** `build`, not after — it is a flag
+Note that `--non-interactive` goes **before** `build`, not after. It is a flag
 on the `ato` command itself, and putting it after gives you
 `No such option: '--non-interactive'`.
 
-You do not need to rebuild if you have not touched `elec/src/`;
-`build/default.net` is already in the repo and is current.
+It takes two to four minutes and ends with `Build complete!`. You now have
+`build/default.net` and `build/default.csv`, the BOM.
+
+Re-run it any time `elec/src/` changes, and re-import into KiCad afterwards.
+That import is not a one-time operation and it does not disturb placement or
+routing you have already done.
 
 Now, in the PCB editor:
 
@@ -756,6 +772,21 @@ designator linking instead of tstamps. Revert to your last commit and re-import
 with the right Link Method. This is exactly why step 5 makes a point of it.
 
 **"The script did nothing."** Relative path. Use the absolute one.
+
+**`git add` fails with "'…/.history/' does not have a commit checked out".**
+Some editors — VS Code's "Local History" extension is the usual one — keep
+timestamped copies of your files in a `.history/` folder next to them, and
+some of those run `git init` inside it. Git then finds a repository with no
+commits in it, refuses to work out what to record, and aborts the whole `git
+add`, so nothing at all gets staged.
+
+`.history/` is in this repo's `.gitignore`, so a current clone will not hit
+this. If you do, pull, and it goes away. Nothing is lost either way: that
+folder is your editor's own backups and git was never going to store it.
+
+**`build/default.net` is not there after a pull.** It is not supposed to be —
+`build/` is gitignored because it is generated. Run `ato --non-interactive
+build`. See step 5.
 
 **Anything else** — paste the error or describe what you see. Do not work
 around it; a layout problem worked around is a board problem later.

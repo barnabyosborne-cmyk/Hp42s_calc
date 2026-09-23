@@ -12,6 +12,12 @@ fp-info-cache
 ~*.*
 *.net.bak
 
+# Editor local history. VS Code's "Local History" extension and several
+# others drop a .history/ folder beside the files they are watching, and
+# some of them run `git init` inside it. An uninitialised nested repo makes
+# `git add -A` fail outright with "does not have a commit checked out".
+.history/
+
 # Python
 __pycache__/
 *.pyc
