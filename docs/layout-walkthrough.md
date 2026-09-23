@@ -300,20 +300,29 @@ be paying for nothing.
 Each class says how wide a track on its nets comes out and how big its vias
 are, and you can change a class later and have every net on it follow.
 
-Go to **Design Rules → Net Classes**. The column headings are wordier than you
-might expect — **Minimum track width**, **Via pad diameter**, **Via plated hole
-diameter**, **Minimum copper clearance** — and there are differential-pair and
-microvia columns you can ignore, plus a **PCB netclass color** swatch which
-matters below.
+Go to **Design Rules → Net Classes**. The columns are `Name`, `Clearance`,
+`Track Width`, `Via Size`, `Via Hole`, then `uVia Size`, `uVia Hole`,
+`DP Width`, `DP Gap`, `Tuning Profile` and a `PCB Color` swatch. Only the first
+five and the colour matter here; the microvia and differential-pair columns are
+for things this board does not have.
 
-There is a `Default` class already. Set it to `0.2` track, `0.6` via pad, `0.3`
-via hole, `0.2` clearance. Then add two more with the **+** button:
+There is a `Default` class already. Set it to `0.2` clearance, `0.2` track,
+`0.6` via size, `0.3` via hole. Then add two more with the **+** button under
+the table:
 
-| Class | Track | Via pad / hole | Clearance | For |
-|---|---|---|---|---|
-| `Default` | `0.2` | `0.6 / 0.3` | `0.2` | everything not named below |
-| `power` | `0.5` | `0.8 / 0.4` | `0.2` | the rails |
-| `keypad` | `0.2` | `0.6 / 0.3` | `0.2` | the 13 matrix nets |
+| Class | Clearance | Track Width | Via Size | Via Hole | For |
+|---|---|---|---|---|---|
+| `Default` | `0.2` | `0.2` | `0.6` | `0.3` | everything not named below |
+| `power` | *blank* | `0.5` | `0.8` | `0.4` | the rails |
+| `keypad` | *blank* | `0.2` | `0.6` | `0.3` | the 13 matrix nets |
+
+**Leave a cell blank when you want Default's value.** These fields are optional
+in KiCad 10, and the effective rules for a net are built by starting from
+`Default` and letting the assigned class overwrite only the fields it actually
+has set. So a blank `Clearance` on `power` is not "no clearance", it is
+"whatever `Default` says" — and it stays right if you ever change `Default`.
+Typing `0.2` into all three works too; it is just three places to remember
+instead of one.
 
 **`keypad` is deliberately identical to `Default`, and that is not a mistake.**
 The matrix carries no current worth the name — a dome contact against a
@@ -331,8 +340,12 @@ ratsnest and a grey fog. A class is the only handle KiCad gives you for that.
 So set a colour on it while you are here — anything that stands out — and one
 on `power` too.
 
-Then, in the **pattern assignment** table in the lower half of the same page,
-assign nets to them. Patterns use `*` as a wildcard:
+### The half that actually does something
+
+**The classes above apply to nothing until you assign nets to them.** That is
+the **Netclass Assignments** table in the lower half of the same page, and it
+starts empty. Add rows with its own **+** button — the one under *that* table,
+not the one under the class list. Patterns use `*` as a wildcard:
 
 | Pattern | Net class |
 |---|---|
@@ -348,6 +361,10 @@ assign nets to them. Patterns use `*` as a wildcard:
 
 `gnd` stays on `Default` because it is going to be a poured plane, not tracks,
 and the class width would only apply to the stubs.
+
+Nine rows. If that table is empty when you close the dialog, `power` and
+`keypad` exist and do nothing, every net is `Default`, and the rails come out
+at 0.2 mm.
 
 ### 4d. Pre-defined sizes
 
