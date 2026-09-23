@@ -758,17 +758,26 @@ select the zone, press **`E`**, and the Corners tab lets you type them in.
 
 ### 8.4 — The antenna keepout
 
-The module's antenna must have no copper under it on any layer.
+**This one is already done — it is in the file. Nothing to draw.**
 
-This is a different tool from the zone above, not an option on it:
-**Place → Draw Rule Areas**, or `Ctrl+Shift+K`. In its dialog, select all four
-copper layers and tick **"Keep out copper pours"** (and "Keep out tracks" and
-"Keep out vias" while you are there). Then draw it over the antenna's overhang.
+You drew it on 23 September, and it needed two changes, so I made them
+directly: it was on `In2.Cu` alone rather than all four copper layers, and it
+sat at X 29.5–46.5, Y 123–128.5 rather than over the antenna. The antenna
+overhangs the bottom edge at **X 15.30–60.70, from Y 138.75 down to the board
+edge at 144**, and that is where it is now. "Keep out pads" is also off: the
+bottom row of key domes reaches 0.25 mm into that box and there is nowhere
+else for them to go, so pads are allowed and tracks, vias and pours are not.
 
-The zones will refuse to fill inside it, and DRC will complain if you route
-through it, which is the point.
+For reference, if you ever need to draw one: it is a different tool from the
+zone above, not an option on it — **Place → Draw Rule Areas**, or
+`Ctrl+Shift+K`, and its dialog is where you pick the layers and what is kept
+out.
 
-Press **`B`** again to refill everything.
+The zones refuse to fill inside it, and DRC complains if you route through it,
+which is the point.
+
+Press **`B`** to refill everything — the parts have moved since you last
+filled, so the pours are stale until you do.
 
 ```bash
 git add -A && git commit -m "layout: ground planes and antenna keepout" && git push origin main

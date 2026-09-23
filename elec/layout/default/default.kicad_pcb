@@ -24855,8 +24855,9 @@
 		)
 	)
 	(zone
-		(layer "In2.Cu")
+		(layers "F.Cu" "In1.Cu" "In2.Cu" "B.Cu")
 		(uuid "f932d531-3b47-4d76-aef4-7c18603ac096")
+		(name "antenna keepout")
 		(hatch edge 0.5)
 		(connect_pads
 			(clearance 0)
@@ -24865,13 +24866,9 @@
 		(keepout
 			(tracks not_allowed)
 			(vias not_allowed)
-			(pads not_allowed)
+			(pads allowed)
 			(copperpour not_allowed)
 			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/elec/src/hp42s.ato:HP42S::c_en")
 		)
 		(fill
 			(thermal_gap 0.5)
@@ -24880,7 +24877,7 @@
 		)
 		(polygon
 			(pts
-				(xy 29.5 123) (xy 46.5 123) (xy 46.5 128.5) (xy 29.5 128.5)
+				(xy 15.3 138.75) (xy 60.7 138.75) (xy 60.7 144) (xy 15.3 144)
 			)
 		)
 	)
