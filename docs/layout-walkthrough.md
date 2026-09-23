@@ -461,14 +461,32 @@ Now, in the PCB editor:
    of your carefully placed parts to each other's positions, and tstamp linking
    just renames them in place.
 
-4. **Options:** tick **"Replace footprints with those specified in netlist"**.
-   Leave **"Delete footprints with no components in netlist"** ticked too.
-   Leave **"Delete/replace footprints even if locked"** unticked — you will
-   lock the placed keypad later and you want that to mean something.
-5. **Update PCB**.
+4. **Options.** Leave **"Delete footprints with no components in netlist"** and
+   **"Replace footprints with those specified in netlist"** ticked, and
+   **"Group footprints based on symbol group"** and **"Delete tracks shorting
+   multiple nets"** unticked. All four are already that way.
 
-Read the message pane. **Expect no errors.** Every footprint resolves: 21 of
-the 28 from KiCad's own libraries, 7 from `hp42s`.
+   **Untick "Delete/replace footprints even if locked".** KiCad ships it
+   *ticked*, so this is an active change rather than something to leave alone.
+   It costs nothing today, because nothing is locked yet, but the setting
+   sticks: you lock the placed keypad at the end of step 6, and a re-import
+   after that would walk straight through the lock and put all 38 dome sites
+   back in the heap.
+
+   Changing any option re-runs the preview on its own, so the list refreshes as
+   you click.
+
+5. **Press "Update PCB".** Not "Load and Test Netlist".
+
+   Both read the netlist and fill the panel with the same list, but only
+   `Update PCB` applies it; the other is a dry run, and it is the highlighted
+   default button, so it is the easy one to press and feel finished. **The
+   panel's own heading tells you which you are looking at**: it says *Changes
+   to Be Applied* after a test, and *Changes Applied to PCB* after the real
+   thing.
+
+Read the message pane. **Expect `Total warnings: 0, errors: 0`.** Every
+footprint resolves: 21 of the 28 from KiCad's own libraries, 7 from `hp42s`.
 
 If you see `Cannot add <ref> (footprint "hp42s:..." not found)`, step 3 did not
 take — go back and fix the library path before doing anything else.
