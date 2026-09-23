@@ -43,8 +43,12 @@ end of step 8, not to the beginning.
 
 ```bash
 cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
-git add -A && git commit -m "layout: step N done"
+git add -A && git commit -m "layout: step N done" && git push origin main
 ```
+
+**Push every time, not just commit.** I cannot see your machine — the pushed
+repo is the only version of the board I can look at. "I have done step 8, can
+you check" only works if step 8 is on GitHub.
 
 **Quote the path in every shell command.** The checkout lives at
 
@@ -149,7 +153,7 @@ of them.
 saying `default.kicad_pcb`.
 
 ```bash
-git add -A && git commit -m "layout: empty KiCad project"
+git add -A && git commit -m "layout: empty KiCad project" && git push origin main
 ```
 
 ---
@@ -408,7 +412,7 @@ editing its net class.
 **OK** to close Board Setup.
 
 ```bash
-git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes"
+git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes" && git push origin main
 ```
 
 ---
@@ -517,7 +521,7 @@ take — go back and fix the library path before doing anything else.
 log. You can confirm the count with **Inspect → Show Board Statistics**.
 
 ```bash
-git add -A && git commit -m "layout: import 119 footprints"
+git add -A && git commit -m "layout: import 119 footprints" && git push origin main
 ```
 
 ---
@@ -634,7 +638,7 @@ below the bottom row. Measure it with `Ctrl+Shift+M` if it looks off.
    them, which is `L` again.
 
 ```bash
-git add -A && git commit -m "layout: placed and repaired"
+git add -A && git commit -m "layout: placed and repaired" && git push origin main
 ```
 
 ---
@@ -767,7 +771,7 @@ through it, which is the point.
 Press **`B`** again to refill everything.
 
 ```bash
-git add -A && git commit -m "layout: ground planes and antenna keepout"
+git add -A && git commit -m "layout: ground planes and antenna keepout" && git push origin main
 ```
 
 ---
@@ -836,7 +840,7 @@ ghosting. That is already handled; see `docs/connections.md`.
 **Done looks like:** DRC reports zero unrouted nets.
 
 ```bash
-git add -A && git commit -m "layout: routing complete"
+git add -A && git commit -m "layout: routing complete" && git push origin main
 ```
 
 ---
