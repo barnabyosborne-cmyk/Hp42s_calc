@@ -3969,7 +3969,7 @@
 	(footprint "Button_Switch_SMD:SW_SPDT_CK_JS102011SAQN"
 		(layer "F.Cu")
 		(uuid "3bf55d5b-e1cb-4448-b96d-88b97a3cfd40")
-		(at 11 3 180)
+		(at 11 1.5 180)
 		(descr "Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf")
 		(tags "switch spdt")
 		(property "Reference" "SW39"
@@ -10745,7 +10745,7 @@
 	(footprint "hp42s:Vishay_VSMB2943SLX01_SideView"
 		(layer "F.Cu")
 		(uuid "8d381255-53e0-479d-8f3a-e9abf15d520f")
-		(at 22 1.6)
+		(at 22 0.9)
 		(descr "Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, 2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits 1.2 mm above the board face the part is soldered to. Pad 1 = cathode.")
 		(tags "LED IR 940nm side-view sidelooker VSMB2943SLX01")
 		(property "Reference" "D4"
@@ -16047,7 +16047,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "cd7f9ba3-bf72-4980-8a1a-48b6ece4f553")
-		(at 57 1.5 180)
+		(at 57 1.8 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW41"
@@ -16983,7 +16983,7 @@
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 		(layer "F.Cu")
 		(uuid "d88483a5-2b67-4c7e-a1b6-311a25ebe27d")
-		(at 36 3.675 180)
+		(at 36 2.475 180)
 		(descr "USB 2.0 Type C Receptacle, GCT, 16P, top mounted, horizontal, 5A: https://gct.co/files/drawings/usb4105.pdf")
 		(tags "USB C Type-C Receptacle SMD USB 2.0 16P 16C USB4105-15-A USB4105-15-A-060 USB4105-15-A-120 USB4105-GF-A USB4105-GF-A-060 USB4105-GF-A-120")
 		(property "Reference" "J1"
@@ -18943,7 +18943,7 @@
 	(footprint "hp42s:Dialight_599_BiColor_1208_RA"
 		(layer "F.Cu")
 		(uuid "ed106eb4-db80-40e4-8077-f4607b5a98bf")
-		(at 48 1.8)
+		(at 48 1.05)
 		(descr "Dialight 599 series MicroLED, bi-colour 1208 right angle, 3.0x2.0x1.0 mm. Pads per the recommended layout on page 1 of the Dialight datasheet. Lens faces -y; it spans roughly 1.0 to 2.0 mm above the board face the part is soldered to. Pad 2 = common anode, pad 3 = LED die 1, pad 1 = LED die 2.")
 		(tags "LED bicolor side-view right-angle Dialight 599 1208")
 		(property "Reference" "D5"
@@ -20358,7 +20358,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "fc9537fa-8fbb-4aac-a743-4925c92c0512")
-		(at 66 1.5 180)
+		(at 66 1.8 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW40"

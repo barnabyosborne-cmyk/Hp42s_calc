@@ -162,11 +162,14 @@ def mm(v):
 # There are TWO Alps tact switches now, RESET and BOOT, and they share a
 # footprint -- so those two are placed by reference designator after the
 # others, not by footprint name like the rest.
+# Revised 23 September 2026: each part pushed out until its own pads stop it,
+# so its actuator gets as near the outside of the case as the board allows.
+# The table in tools/place_board.py has the reach and the limit for each.
 EDGE_PARTS = {
-    "SW_SPDT_CK_JS102011SAQN": (11.0, 3.00, "power slider"),
-    "Vishay_VSMB2943SLX01_SideView": (22.0, 1.60, "IR emitter"),
-    "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (36.0, 3.675, "USB-C"),
-    "Dialight_599_BiColor_1208_RA": (48.0, 1.80, "status LED"),
+    "SW_SPDT_CK_JS102011SAQN": (11.0, 1.500, "power slider"),
+    "Vishay_VSMB2943SLX01_SideView": (22.0, 0.900, "IR emitter"),
+    "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (36.0, 2.475, "USB-C"),
+    "Dialight_599_BiColor_1208_RA": (48.0, 1.050, "status LED"),
 }
 
 # The two tact switches, by the net each one pulls down: BOOT sits inboard of
@@ -174,7 +177,7 @@ EDGE_PARTS = {
 # hp42s.ato declares sw_reset before sw_boot, and atopile hands out
 # designators in declaration order, so the LOWER reference number is RESET.
 TACT_FOOTPRINT = "Alps_SKRTLAE010_SidePush"
-TACT_ORDER = [(66.0, 1.50, "reset"), (57.0, 1.50, "boot")]
+TACT_ORDER = [(66.0, 1.800, "reset"), (57.0, 1.800, "boot")]
 
 # Both LEDs are the edge parts that are NOT rotated 180. Their lens faces are
 # the -y end of the body, so at 0 degrees they already look at the top edge;
