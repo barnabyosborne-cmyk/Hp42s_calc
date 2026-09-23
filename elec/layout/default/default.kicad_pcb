@@ -154,7 +154,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "03a70054-96f4-4f86-8509-8f6c9817bae5")
-		(at -486.235 -686.185)
+		(at 166.54 37.54)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C1"
@@ -304,7 +304,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "0697def4-2d42-4845-9266-390955fcb49e")
-		(at -480.915 -698.175)
+		(at 171.86 25.55)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP2"
@@ -404,7 +404,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "093de39a-53c3-4dd2-ac7f-6acf517ada84")
-		(at -479.705 -650.165)
+		(at 173.07 73.56)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R20"
@@ -554,7 +554,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "0b9bf111-5c8e-46dd-98cc-846a1217fa55")
-		(at -605.75 -600.5)
+		(at 6.75 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW1"
@@ -698,7 +698,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "11b4be68-fb1c-4127-b9b1-ce346428152d")
-		(at -535.775 -677.225)
+		(at 117 46.5)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP4"
@@ -798,7 +798,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "133d3c6a-2848-457c-83b8-37e30c7d862e")
-		(at -593.25 -576.5)
+		(at 19.25 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW38"
@@ -942,7 +942,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "13cceb54-a527-4293-93c9-f58d4cbf67e5")
-		(at -486.555 -629.545)
+		(at 166.22 94.18)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C2"
@@ -1092,7 +1092,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "14e0ed4a-0f4c-4580-8db7-e99eb1fe180c")
-		(at -486.465 -703.725)
+		(at 166.31 20)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP11"
@@ -1192,7 +1192,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "15338df0-88ee-41ab-a855-912a66f5771e")
-		(at -520.725 -678.005)
+		(at 132.05 45.72)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R19"
@@ -1342,7 +1342,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "17f2f39c-3069-42f7-8d5b-b143ce9b1eeb")
-		(at -504.745 -599.055)
+		(at 148.03 124.67)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R2"
@@ -1492,7 +1492,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "18986950-66e6-4aca-9348-5c0da9a3955f")
-		(at -503.28 -603.725)
+		(at 149.495 120)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D2"
@@ -1772,7 +1772,7 @@
 	(footprint "Inductor_SMD:L_APV_ANR3015"
 		(layer "F.Cu")
 		(uuid "1981070e-4853-4921-bef8-5eeb97f3c103")
-		(at -481.045 -609.555)
+		(at 171.73 114.17)
 		(descr "Inductor, APV, ANR3015, 3.0x3.0x1.5mm, (http://en.apvind.com/public/upload/20240407/3375c395e460caa8519b4d637d9113ce.pdf)")
 		(tags "wirewound power shielded")
 		(property "Reference" "L3"
@@ -2031,7 +2031,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "1ac404af-4c22-40eb-917e-7f402587c866")
-		(at -555.75 -600.5)
+		(at 56.75 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW5"
@@ -2175,7 +2175,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "1dec555a-faa9-4e41-8e79-4d1023c79f9f")
-		(at -535.775 -671.675)
+		(at 117 52.05)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP5"
@@ -2275,7 +2275,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "22514fb9-ed07-48ba-aa5f-bef64d40d89e")
-		(at -481.625 -622.145)
+		(at 171.15 101.58)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C8"
@@ -2425,7 +2425,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "243a86d2-5e1e-4e19-980c-5bb45c4a09ff")
-		(at -535.445 -599.645)
+		(at 117.33 124.08)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C16"
@@ -2575,7 +2575,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "285463a8-3626-417a-8522-79e514f34c28")
-		(at -580.75 -600.5)
+		(at 31.75 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW3"
@@ -2719,7 +2719,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "2d6a98e2-5843-466f-9a28-aec35ddc7a6e")
-		(at -480.775 -677.425)
+		(at 172 46.3)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R4"
@@ -2869,7 +2869,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "30d5aad9-72fd-46e3-a5cc-9e4d448ccbbf")
-		(at -500.885 -673.425)
+		(at 151.89 50.3)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C7"
@@ -3019,7 +3019,7 @@
 	(footprint "TestPoint:TestPoint_Pad_3.0x3.0mm"
 		(layer "F.Cu")
 		(uuid "319fcb60-f09c-4185-89fd-251ea19b330a")
-		(at -487.995 -602.685)
+		(at 164.78 121.04)
 		(descr "SMD rectangular pad as test Point, square 3.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP3"
@@ -3177,7 +3177,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "36ff406e-e179-48c1-88e3-73cd63d92ce7")
-		(at -520.145 -689.565)
+		(at 132.63 34.16)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R3"
@@ -3327,7 +3327,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23-6"
 		(layer "F.Cu")
 		(uuid "39bfd08c-132a-4029-9d0f-84056bdb43e2")
-		(at -487.945 -609.43)
+		(at 164.83 114.295)
 		(descr "SOT, 6 Pin (JEDEC MO-178 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=MO-178)")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "U6"
@@ -3675,7 +3675,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "39ff9e26-8e3a-4f28-91d2-62b71b7658f9")
-		(at -550.395 -598.765)
+		(at 102.38 124.96)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C9"
@@ -3825,7 +3825,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "3b87fd4e-a6b7-4434-9e64-254db3f4a6f9")
-		(at -543.25 -576.5)
+		(at 69.25 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW17"
@@ -3969,7 +3969,7 @@
 	(footprint "Button_Switch_SMD:SW_SPDT_CK_JS102011SAQN"
 		(layer "F.Cu")
 		(uuid "3bf55d5b-e1cb-4448-b96d-88b97a3cfd40")
-		(at -601.5 -659.5 180)
+		(at 11 3 180)
 		(descr "Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf")
 		(tags "switch spdt")
 		(property "Reference" "SW39"
@@ -4472,7 +4472,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "3edbaf1d-2e2c-4d7c-bf63-c679569eb18a")
-		(at -495.17 -621.975)
+		(at 157.605 101.75)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D3"
@@ -4752,7 +4752,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "3fe3179f-868e-4ba6-a345-8d738fb88f25")
-		(at -555.835 -603.005)
+		(at 96.94 120.72)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C18"
@@ -4902,7 +4902,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "431b8b8b-42c8-4612-93f5-a868640c6fb3")
-		(at -559.5 -540.5)
+		(at 53 122)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW31"
@@ -5046,7 +5046,7 @@
 	(footprint "hp42s:TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm"
 		(layer "F.Cu")
 		(uuid "46d18ab5-6f8d-42bf-ad61-09c9aff7dcc6")
-		(at -535.29 -604.925)
+		(at 117.485 118.8)
 		(descr "TI DSK0010A, WSON-10 2.5x2.5mm, 0.5mm pitch, exposed pad 1.2x2.0mm. From TI drawing 4218903/C example board layout. Used by TPS63900.")
 		(tags "WSON DFN TPS63900 DSK0010A")
 		(property "Reference" "U3"
@@ -5235,7 +5235,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "49bad93d-b55f-4231-a352-4120a3aa0a6d")
-		(at -520.145 -685.575)
+		(at 132.63 38.15)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R23"
@@ -5385,7 +5385,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "4a0266e6-55be-4c58-a3c7-0f3731255447")
-		(at -488.115 -616.795)
+		(at 164.66 106.93)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C4"
@@ -5535,7 +5535,7 @@
 	(footprint "Inductor_SMD:L_Coilcraft_XxL4020"
 		(layer "F.Cu")
 		(uuid "4abec207-b560-4fbf-90cf-5a702722431d")
-		(at -495.305 -609.045)
+		(at 157.47 114.68)
 		(descr "L_Coilcraft_XxL4020 https://www.coilcraft.com/pdfs/xfl4020.pdf")
 		(tags "L Coilcraft XxL4020")
 		(property "Reference" "L1"
@@ -5733,7 +5733,7 @@
 	(footprint "RF_Module:ESP32-S2-MINI-1"
 		(layer "F.Cu")
 		(uuid "520d547e-8296-4952-ab5d-cbb4b886680d")
-		(at -562.775 -680.225)
+		(at 90 43.5)
 		(descr "2.4 GHz Wi-Fi and Bluetooth combo chip, external antenna, https://www.espressif.com/sites/default/files/documentation/esp32-s3-mini-1_mini-1u_datasheet_en.pdf")
 		(tags "2.4 GHz Wi-Fi Bluetooth external antenna espressif  20*15.4mm")
 		(property "Reference" "U5"
@@ -6799,7 +6799,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "5282214c-b164-41a6-b2aa-17f60eb432f5")
-		(at -480.775 -686.445)
+		(at 172 37.28)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R17"
@@ -6949,7 +6949,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "587cb75c-9ca8-403e-9e90-fe3c8bb342f6")
-		(at -543.25 -600.5)
+		(at 69.25 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW6"
@@ -7093,7 +7093,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "58f82e12-42d6-4cd9-9893-10050189e77a")
-		(at -500.865 -677.405)
+		(at 151.91 46.32)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R21"
@@ -7243,7 +7243,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "59becacd-03b7-4e2b-89c8-a1b4284494d9")
-		(at -541.755 -600.005)
+		(at 111.02 123.72)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C21"
@@ -7393,7 +7393,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "5c26d589-2246-4410-a4cb-95bfe5d09016")
-		(at -486.235 -690.695)
+		(at 166.54 33.03)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C12"
@@ -7543,7 +7543,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "615cafb4-f67e-49ab-a9c1-576a19057a0f")
-		(at -488.075 -622.145)
+		(at 164.7 101.58)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C20"
@@ -7693,7 +7693,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "6492cc2a-71b7-4280-a52f-5d1b8ec8c8b5")
-		(at -574.5 -552.5)
+		(at 38 110)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW25"
@@ -7837,7 +7837,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "68077a03-f6b1-4dae-9cfa-4e3b0e87ccb5")
-		(at -486.235 -672.655)
+		(at 166.54 51.07)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C17"
@@ -7987,7 +7987,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "68184a9f-b5f2-428b-8cde-b14ea8674b5f")
-		(at -479.705 -646.175)
+		(at 173.07 77.55)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R7"
@@ -8137,7 +8137,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "6bd7bf3b-62fa-4a4f-a7e9-8f2e97954764")
-		(at -574.5 -528.5)
+		(at 38 134)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW35"
@@ -8281,7 +8281,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "6d0211ec-95b1-41bc-921e-3c9dc2972e91")
-		(at -605.75 -552.5)
+		(at 6.75 110)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW23"
@@ -8425,7 +8425,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "73dad05b-cf4c-4f54-bb18-21dc6af109e1")
-		(at -559.5 -552.5)
+		(at 53 110)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW26"
@@ -8569,7 +8569,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "74c4b923-2ee9-4736-9a70-a381c31b9030")
-		(at -522.885 -601.185)
+		(at 129.89 122.54)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C11"
@@ -8719,7 +8719,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "79d0b982-721e-45fc-9f8c-4dcb9cbeac1a")
-		(at -544.5 -552.5)
+		(at 68 110)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW27"
@@ -8863,7 +8863,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "7a9cbd52-a8d8-4d47-893c-bd392451fe55")
-		(at -574.5 -540.5)
+		(at 38 122)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW30"
@@ -9007,7 +9007,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "7c986f59-bde9-4a6d-bb2a-9dc91120e679")
-		(at -555.75 -588.5)
+		(at 56.75 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW11"
@@ -9151,7 +9151,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "7d56c4e5-7521-454a-a74c-fe22119c59e6")
-		(at -556.405 -598.765)
+		(at 96.37 124.96)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C22"
@@ -9301,7 +9301,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "81c409cb-7d4e-4600-baac-0a6a990f4a34")
-		(at -525.635 -674.015)
+		(at 127.14 49.71)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R12"
@@ -9451,7 +9451,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "81f05984-feee-4739-b72f-80233f696d35")
-		(at -503.28 -614.425)
+		(at 149.495 109.3)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D6"
@@ -9731,7 +9731,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "8253cfff-aa11-47c1-8121-3262156f64c5")
-		(at -589.5 -528.5)
+		(at 23 134)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW34"
@@ -9875,7 +9875,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "830e751a-0d99-44a6-a550-b48be83d343e")
-		(at -593.25 -600.5)
+		(at 19.25 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW2"
@@ -10019,7 +10019,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "868fee36-55b1-49f8-814a-57c79aa41beb")
-		(at -544.5 -540.5)
+		(at 68 122)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW32"
@@ -10163,7 +10163,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "89c23343-86ab-4854-b221-9a9ef1d93519")
-		(at -568.25 -576.5)
+		(at 44.25 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW15"
@@ -10307,7 +10307,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "8a6a6d39-14cb-4bb8-86d6-3a9b1011d43c")
-		(at -559.5 -528.5)
+		(at 53 134)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW36"
@@ -10451,7 +10451,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "8aec597d-a853-4f2a-a6f7-c532160855b1")
-		(at -525.635 -678.005)
+		(at 127.14 45.72)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R6"
@@ -10601,7 +10601,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "8cff78df-0d74-4545-b083-d701867b01b6")
-		(at -543.25 -588.5)
+		(at 69.25 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW12"
@@ -10745,7 +10745,7 @@
 	(footprint "hp42s:Vishay_VSMB2943SLX01_SideView"
 		(layer "F.Cu")
 		(uuid "8d381255-53e0-479d-8f3a-e9abf15d520f")
-		(at -590.5 -660.9)
+		(at 22 1.6)
 		(descr "Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, 2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits 1.2 mm above the board face the part is soldered to. Pad 1 = cathode.")
 		(tags "LED IR 940nm side-view sidelooker VSMB2943SLX01")
 		(property "Reference" "D4"
@@ -10872,7 +10872,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "8d8d0007-ad46-4cd5-9736-7f1ea6985d53")
-		(at -568.25 -588.5)
+		(at 44.25 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW10"
@@ -11016,7 +11016,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "945079df-0643-48b0-bd47-60d0d7551577")
-		(at -479.705 -658.225)
+		(at 173.07 65.5)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R5"
@@ -11166,7 +11166,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "946ab4e7-2e3f-4e92-9df0-17af93dd579a")
-		(at -479.705 -666.205)
+		(at 173.07 57.52)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R22"
@@ -11316,7 +11316,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "94c25bc1-812f-4066-8a3a-adb60cd4d096")
-		(at -522.885 -605.695)
+		(at 129.89 118.03)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C13"
@@ -11466,7 +11466,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "970f73db-8c89-407f-8b97-7a2c0bfc1e32")
-		(at -605.75 -576.5)
+		(at 6.75 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW13"
@@ -11610,7 +11610,7 @@
 	(footprint "Diode_SMD:D_SOD-123"
 		(layer "F.Cu")
 		(uuid "980fa751-8095-419f-8776-7b82a51d8404")
-		(at -503.28 -609.075)
+		(at 149.495 114.65)
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D1"
@@ -11890,7 +11890,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "989f75f4-830e-47ff-98fb-1f23aa603cf8")
-		(at -589.5 -540.5)
+		(at 23 122)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW29"
@@ -12034,7 +12034,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9c6d0a94-8d67-49ba-8c27-5ce9fce682cb")
-		(at -479.705 -638.115)
+		(at 173.07 85.61)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R15"
@@ -12184,7 +12184,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "9cd7970c-d080-466d-a304-37f134a36b17")
-		(at -514.625 -671.075)
+		(at 138.15 52.65)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP6"
@@ -12284,7 +12284,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9f311167-76d7-45fe-b562-37b63568daba")
-		(at -530.545 -674.015)
+		(at 122.23 49.71)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R24"
@@ -12434,7 +12434,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "9fd1f49c-a7d7-4eec-8079-39f657e103a8")
-		(at -480.775 -690.955)
+		(at 172 32.77)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R18"
@@ -12584,7 +12584,7 @@
 	(footprint "Buzzer_Beeper:Buzzer_Murata_PKLCS1212E"
 		(layer "F.Cu")
 		(uuid "a083c936-b9d5-4f22-aa88-e0781507c39b")
-		(at -530.57 -687.775)
+		(at 122.205 35.95)
 		(descr "Murata Buzzer https://www.murata.com/~/media/webrenewal/support/library/catalog/products/sound/p37e.ashx")
 		(tags "Murata Buzzer Beeper")
 		(property "Reference" "LS1"
@@ -12922,7 +12922,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "a989c8d8-1761-4e30-b986-b398ce0bfc02")
-		(at -544.5 -564.5)
+		(at 68 98)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW22"
@@ -13066,7 +13066,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "a9a1b585-043d-4ff8-8d15-393885cac0c7")
-		(at -480.915 -703.725)
+		(at 171.86 20)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP7"
@@ -13166,7 +13166,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ae3ae94b-b89f-4631-8082-184cdb19e2ac")
-		(at -580.75 -588.5)
+		(at 31.75 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW9"
@@ -13310,7 +13310,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ae7fa3ac-101d-4944-8aa8-b885bf69d5e8")
-		(at -605.75 -528.5)
+		(at 6.75 134)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW33"
@@ -13454,7 +13454,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b060624a-a59c-43bf-950b-274601cdaf62")
-		(at -480.775 -681.935)
+		(at 172 41.79)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R1"
@@ -13604,7 +13604,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "b082632e-c0b9-423b-834b-2dde49a204d2")
-		(at -555.75 -576.5)
+		(at 56.75 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW16"
@@ -13748,7 +13748,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "b2eece24-38dd-436b-806e-308439975cd7")
-		(at -549.825 -603.005)
+		(at 102.95 120.72)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C14"
@@ -13898,7 +13898,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "b761fc4e-0577-406d-9be4-036d171fb6a5")
-		(at -520.145 -693.555)
+		(at 132.63 30.17)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R8"
@@ -14048,7 +14048,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "bade4e81-4f35-4de7-95b7-1c662a611500")
-		(at -544.5 -528.5)
+		(at 68 134)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW37"
@@ -14192,7 +14192,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "bc8f9205-7124-4ddf-b719-c5bb6306804d")
-		(at -479.705 -662.215)
+		(at 173.07 61.51)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R13"
@@ -14342,7 +14342,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "bf5f6905-77cc-48fe-bbaf-2ae9ba4aabfd")
-		(at -495.975 -677.415)
+		(at 156.8 46.31)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C6"
@@ -14492,7 +14492,7 @@
 	(footprint "Package_DFN_QFN:TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm"
 		(layer "F.Cu")
 		(uuid "c372327c-da99-424e-b174-792cc6c0a3a6")
-		(at -529.085 -599.74)
+		(at 123.69 123.985)
 		(descr "TDFN, 8 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0168.PDF)")
 		(tags "TDFN NoLead")
 		(property "Reference" "U4"
@@ -14856,7 +14856,7 @@
 	(footprint "Inductor_SMD:L_Bourns-SRN4018"
 		(layer "F.Cu")
 		(uuid "c465ef00-5e1e-4ea2-9c23-5c8b8cecf691")
-		(at -503.145 -620.875)
+		(at 149.63 102.85)
 		(descr "Bourns SRN4018 series SMD inductor, https://www.bourns.com/docs/Product-Datasheets/SRN4018.pdf")
 		(tags "Bourns SRN4018 SMD inductor")
 		(property "Reference" "L2"
@@ -15114,7 +15114,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-323_SC-70"
 		(layer "F.Cu")
 		(uuid "c6028e3c-676b-4871-a115-2efd1023ffbd")
-		(at -480.255 -672.215)
+		(at 172.52 51.51)
 		(descr "SOT, 3 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=148)")
 		(tags "SOT TO_SOT_SMD SC-70 SOT-323")
 		(property "Reference" "Q1"
@@ -15465,7 +15465,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "c64229de-5679-49a9-a464-6970755a7492")
-		(at -479.705 -642.105)
+		(at 173.07 81.62)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R10"
@@ -15615,7 +15615,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "c6e9aa44-6167-441b-bec8-2c2e41de7033")
-		(at -605.75 -588.5)
+		(at 6.75 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW7"
@@ -15759,7 +15759,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "c8be4a3e-f360-469e-b6ef-02f4fd933ea6")
-		(at -568.25 -600.5)
+		(at 44.25 62)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW4"
@@ -15903,7 +15903,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "cb1da414-d490-4517-9d52-c3f91cdb6564")
-		(at -580.75 -576.5)
+		(at 31.75 86)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW14"
@@ -16047,7 +16047,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "cd7f9ba3-bf72-4980-8a1a-48b6ece4f553")
-		(at -555.5 -661 180)
+		(at 57 1.5 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW41"
@@ -16295,7 +16295,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "ce6f22e6-a30d-41be-b0b7-af95ca0f7838")
-		(at -509.075 -676.625)
+		(at 143.7 47.1)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP10"
@@ -16395,7 +16395,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "ce74c356-7648-4034-bf09-107fa2da9480")
-		(at -605.75 -540.5)
+		(at 6.75 122)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW28"
@@ -16539,7 +16539,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "d1643257-ce3e-4aa6-9629-e926d8481bf6")
-		(at -559.5 -564.5)
+		(at 53 98)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW21"
@@ -16683,7 +16683,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "d39fc323-2278-47b4-9a2a-885f8f496f6a")
-		(at -530.545 -678.005)
+		(at 122.23 45.72)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R11"
@@ -16833,7 +16833,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d7ecb24e-31d6-4a13-8695-a4905dbbd5ad")
-		(at -486.235 -681.675)
+		(at 166.54 42.05)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C10"
@@ -16983,7 +16983,7 @@
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 		(layer "F.Cu")
 		(uuid "d88483a5-2b67-4c7e-a1b6-311a25ebe27d")
-		(at -576.5 -658.825 180)
+		(at 36 3.675 180)
 		(descr "USB 2.0 Type C Receptacle, GCT, 16P, top mounted, horizontal, 5A: https://gct.co/files/drawings/usb4105.pdf")
 		(tags "USB C Type-C Receptacle SMD USB 2.0 16P 16C USB4105-15-A USB4105-15-A-060 USB4105-15-A-120 USB4105-GF-A USB4105-GF-A-060 USB4105-GF-A-120")
 		(property "Reference" "J1"
@@ -17334,7 +17334,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "d98a0e27-c452-47ef-8bf8-5bcae618c699")
-		(at -486.235 -677.165)
+		(at 166.54 46.56)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C15"
@@ -17484,7 +17484,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "dc4c6619-c0ee-427d-bfff-a6144d0805a5")
-		(at -486.465 -698.175)
+		(at 166.31 25.55)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP8"
@@ -17584,7 +17584,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "dc5a2110-4fd2-4b12-ae70-23e33ac7f31a")
-		(at -514.625 -676.625)
+		(at 138.15 47.1)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP1"
@@ -17684,7 +17684,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "e47f7049-de42-44dc-b8b8-328198b52b29")
-		(at -605.75 -564.5)
+		(at 6.75 98)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW18"
@@ -17828,7 +17828,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "e5acc032-96dc-495a-bbb6-a83434c130b2")
-		(at -520.725 -674.015)
+		(at 132.05 49.71)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R16"
@@ -17978,7 +17978,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "e81256ad-414b-4bf7-9300-a8b81537aa4a")
-		(at -495.975 -673.445)
+		(at 156.8 50.28)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C5"
@@ -18128,7 +18128,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "F.Cu")
 		(uuid "e836c4a2-bc08-4f43-91b3-88b38f4d115b")
-		(at -480.325 -629.795)
+		(at 172.45 93.93)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C19"
@@ -18278,7 +18278,7 @@
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
 		(uuid "e8ed8a2c-9dc5-4580-8100-077434ed3378")
-		(at -593.25 -588.5)
+		(at 19.25 74)
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW8"
@@ -18422,7 +18422,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "ea542542-3330-43f6-b00a-d20d2c3ad1d8")
-		(at -479.705 -634.125)
+		(at 173.07 89.6)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R14"
@@ -18572,7 +18572,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23"
 		(layer "F.Cu")
 		(uuid "ebf36fa0-cf09-4340-9f0c-212af7c9af83")
-		(at -481.015 -602.985)
+		(at 171.76 120.74)
 		(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "Q2"
@@ -18943,7 +18943,7 @@
 	(footprint "hp42s:Dialight_599_BiColor_1208_RA"
 		(layer "F.Cu")
 		(uuid "ed106eb4-db80-40e4-8077-f4607b5a98bf")
-		(at -564.5 -660.7)
+		(at 48 1.8)
 		(descr "Dialight 599 series MicroLED, bi-colour 1208 right angle, 3.0x2.0x1.0 mm. Pads per the recommended layout on page 1 of the Dialight datasheet. Lens faces -y; it spans roughly 1.0 to 2.0 mm above the board face the part is soldered to. Pad 2 = common anode, pad 3 = LED die 1, pad 1 = LED die 2.")
 		(tags "LED bicolor side-view right-angle Dialight 599 1208")
 		(property "Reference" "D5"
@@ -19079,7 +19079,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
 		(uuid "ef32b9f8-2717-4f91-b48a-842be3c53f9e")
-		(at -479.705 -654.155)
+		(at 173.07 69.57)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R9"
@@ -19229,7 +19229,7 @@
 	(footprint "Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm"
 		(layer "F.Cu")
 		(uuid "f2a26907-3777-476b-abd3-047e751f36b8")
-		(at -541.605 -605.03)
+		(at 111.17 118.695)
 		(descr "Texas DSQ0010A WSON, 10 Pin (https://www.ti.com/lit/pdf/mpds335b)")
 		(tags "Texas WSON NoLead")
 		(property "Reference" "U2"
@@ -19590,7 +19590,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "F.Cu")
 		(uuid "f3806941-ef91-48ed-8f81-3d263889c140")
-		(at -509.075 -671.075)
+		(at 143.7 52.65)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP9"
@@ -19690,7 +19690,7 @@
 	(footprint "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical"
 		(layer "F.Cu")
 		(uuid "f4ecf478-de6c-4a08-93dd-580a9b8d3753")
-		(at -515.745 -604.225)
+		(at 137.03 119.5)
 		(descr "JST PH series connector, B2B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf)")
 		(tags "connector JST PH vertical")
 		(property "Reference" "BT1"
@@ -20064,7 +20064,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "f84f42e2-3772-4776-bf2d-2f42f7e17c0a")
-		(at -574.5 -564.5)
+		(at 38 98)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW20"
@@ -20208,7 +20208,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "F.Cu")
 		(uuid "f97daf63-ebc2-4958-9ee3-b9b77ac593cd")
-		(at -481.665 -616.795)
+		(at 171.11 106.93)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C3"
@@ -20358,7 +20358,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
 		(uuid "fc9537fa-8fbb-4aac-a743-4925c92c0512")
-		(at -546.5 -661 180)
+		(at 66 1.5 180)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW40"
@@ -20606,7 +20606,7 @@
 	(footprint "hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm"
 		(layer "F.Cu")
 		(uuid "fd42fedd-b6ad-4a9d-af9c-4989d3bb12eb")
-		(at -528.915 -605.225)
+		(at 123.86 118.5)
 		(descr "TI DQA0010A, USON-10 2.5x1.0mm, 0.5mm pitch. From TI drawing 4220328/A example board layout. Pins 3 and 8, the grounds, get the wider 0.4mm pads TI draws for them. Used by TPD4E05U06.")
 		(tags "USON DFN TPD4E05U06 DQA0010A ESD")
 		(property "Reference" "U1"
@@ -20777,7 +20777,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "fde661c2-09fe-40f8-9ace-191eaa91fc45")
-		(at -589.5 -564.5)
+		(at 23 98)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW19"
@@ -20921,7 +20921,7 @@
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "ff5cb03a-b0b1-4328-b5c9-821dbe397c93")
-		(at -589.5 -552.5)
+		(at 23 110)
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW24"
@@ -21065,7 +21065,7 @@
 	(footprint "Connector_FFC-FPC:Hirose_FH12-24S-0.5SH_1x24-1MP_P0.50mm_Horizontal"
 		(layer "B.Cu")
 		(uuid "9122ee62-8390-4616-9c61-340de689e29c")
-		(at -603.5 -632.35 90)
+		(at 9 30.15 90)
 		(descr "Hirose FH12, FFC/FPC connector, FH12-24S-0.5SH, 24 Pins per row (https://www.hirose.com/product/en/products/FH12/FH12-24S-0.5SH(55)/)")
 		(tags "connector Hirose FH12 horizontal")
 		(property "Reference" "J2"

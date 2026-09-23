@@ -564,26 +564,61 @@ drew a 76.0 x 144.0 mm outline on Edge.Cuts, with a 0.55 x 16.0 mm notch ...
 placed 38 dome sites
 ```
 
-If it throws a Python traceback, paste the whole thing back to me. The script's
-arithmetic is checked but its KiCad API calls have never been run — that is
-what the `UNTESTED IN KICAD` banner at the top of the file means, and the first
-run is the test.
+If it throws a Python traceback, paste the whole thing back to me.
 
-4. **Ctrl+0** to zoom to fit. You should now see the board rectangle, a 6 × 7
-   grid of dome sites in the lower two thirds, a dashed outline of the display
-   glass on `Cmts.User`, and the top-edge parts along the top.
+**Run it once and once only.** It is not idempotent: a second run draws a
+second set of reference rectangles on `Cmts.User` on top of the first.
+
+### Step 6b — correct the positions
+
+The script gets the board outline, the reference rectangles, the layers and
+every rotation right. What it does **not** get right under KiCad 10.0 is
+where the footprints end up.
+
+On 23 September 2026 the first real run put all 45 footprints it touched
+414.5 mm from the positions it asked for. A second run put them 345.0 mm out
+instead — a different distance, same symptom — while the outline and the
+rectangles, drawn through the same API in the same run, landed exactly where
+they were asked. Reading a position back through the API returns the value
+that was asked for, so the script cannot tell that anything is wrong. The
+relative geometry is always perfect: it is one clean translation of the whole
+block.
+
+So the positions get written into the file instead, where they can be checked
+with `git diff`:
+
+1. **Save the board** (Cmd+S), then **quit KiCad**. This matters — KiCad holds
+   the whole file in memory and will overwrite the fix if it is still open.
+2. In a terminal:
+
+```bash
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
+python3 tools/place_board.py
+```
+
+   It prints `placed 45 parts, moved the other 74 to a block at (90, 20)`.
+   It needs no KiCad and no conda environment — plain Python.
+3. Open the board again.
+
+`git diff` on the `.kicad_pcb` should show exactly 119 changed lines, every one
+of them an `(at ...)`. Nothing else in the board is touched.
+
+4. **Ctrl+0** to zoom to fit. You should now see the board rectangle with a
+   6 × 7 grid of dome sites in the lower two thirds, the display glass outlined
+   on `Cmts.User` above them, the top-edge parts along the top, and the other
+   74 parts in a block to the right of the board waiting for step 7.
 
 ### Two things to check by eye right now
 
 **The FPC connector's mouth.** Hover `J2`, look at which way its opening
 points. It must face the **notched left edge** of the board. If it points into
 the middle of the board, open `tools/place_keypad.py`, change
-`FPC_ANGLE = 90.0` to `270.0`, and run the script again. It is idempotent —
-running it twice just puts everything back.
+`FPC_ANGLE = 90.0` to `270.0`, and re-run just that rotation — or tell me and
+I will set it in the file.
 
-**The keyboard's position.** The dome grid should span board Y 59 to 137, with
-about 7 mm of clear board below the bottom row and the display area above it.
-Measure it with `Ctrl+Shift+M` if it looks off.
+**The keyboard's position.** The dome grid spans board Y 62 to 134, inside the
+70 x 78 mm keyboard area at board Y 59 to 137, with about 7 mm of clear board
+below the bottom row. Measure it with `Ctrl+Shift+M` if it looks off.
 
 5. Now **lock the keypad** so you cannot nudge it by accident. Drag a selection
    box around the dome grid only, then press **`L`** (Toggle Lock) — it is also

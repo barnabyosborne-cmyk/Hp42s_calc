@@ -11,8 +11,13 @@ It moves SW1..SW38 onto the key grid and, if Edge.Cuts is empty, draws the
 board outline. It touches nothing else -- run it again after a re-import and
 it just puts the keys back.
 
-UNTESTED IN KICAD. The geometry is checked by arithmetic; the pcbnew API
-calls have not been run. If it throws, paste the error back.
+POSITIONS FROM THIS SCRIPT ARE NOT TRUSTWORTHY under KiCad 10.0. It gets the
+outline, the reference rectangles, the layers and every rotation right, but
+the footprint positions land hundreds of millimetres out, by a different
+amount each run, and reading them back through the API returns the value that
+was asked for -- so nothing here can detect it. Run tools/place_board.py
+afterwards, which writes the same positions into the .kicad_pcb directly.
+This file stays the reference for WHERE everything goes.
 
 WHERE THE NUMBERS COME FROM
 ---------------------------
