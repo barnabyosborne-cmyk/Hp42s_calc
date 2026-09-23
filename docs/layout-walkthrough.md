@@ -79,13 +79,18 @@ you find things you have lost.
 
 ### The panel on the right
 
-Two tabs matter:
+It is called the **Appearance** panel. If it is not showing, **View → Panels →
+Appearance**. It has tabs across the top; the one you live in is **Layers**.
 
-- **Layers** — the list of copper and non-copper layers. **Clicking a layer
-  name here selects it**, and the selected layer is where new tracks go. This
-  is the single most common source of "why is my track on the wrong side".
-- **Appearance** — checkboxes that hide layers. Hiding is not deleting.
-  Turning off `B.Cu` while you work on the front is normal practice.
+Two different things happen in that tab and it is worth knowing they are
+different:
+
+- **Clicking a layer's name makes it the active layer**, and the active layer
+  is where new tracks go. This is the single most common source of "why is my
+  track on the wrong side of the board".
+- **The checkbox beside it hides or shows that layer.** Hiding is not deleting.
+  Turning off `B.Cu` while you work on the front is normal practice and changes
+  nothing about the board.
 
 ### Two more worth knowing now
 
@@ -145,10 +150,15 @@ and `tools/gen_ic_footprints.py` from the vendors' own drawings.
 
 Without this step the netlist import fails on 44 of the 119 parts.
 
-1. **Preferences → Manage Footprint Libraries…**
+1. In the **PCB editor**, **Preferences → Manage Footprint Libraries…**
 2. Choose the **Project Specific Libraries** tab, not Global. The path below
    only makes sense inside this project.
-3. Click the **+** at the bottom left to add an empty row, and fill it in:
+3. Add a row. There are two buttons under the table and either will do: the one
+   whose tooltip reads **"Add empty row to table"** gives you a blank line to
+   type into, and **"Add Existing"** opens a file picker you can point at
+   `elec/footprints/hp42s.pretty` and let KiCad fill in for you.
+
+   Whichever you use, the row has to end up reading:
 
    | Column | Value |
    |---|---|
@@ -158,15 +168,15 @@ Without this step the netlist import fails on 44 of the 119 parts.
 
    `${KIPRJMOD}` is KiCad's variable for "the folder this project is in", so
    the path means *up two levels from `elec/layout/default/`, then into
-   `elec/footprints/`*. Writing it this way rather than as `/home/you/...`
-   means the project still works on another machine.
+   `elec/footprints/`*. If you used the file picker and it filled in an
+   absolute path like `/Users/barnaby/…`, click the cell and retype it as
+   above. The absolute one works on your machine today and nowhere else.
 
 4. **OK**.
 
-**Check it before moving on.** Open the footprint browser: the toolbar button
-that looks like a chip with a magnifier, or **Preferences → Manage Footprint
-Libraries** then close it and use **Place → Add Footprint** and browse. Under
-`hp42s` you should see **nine** entries:
+**Check it before moving on: View → Footprint Library Browser.** A window opens
+with every library listed down the left. Click `hp42s` and you should see
+**nine** entries:
 
 ```
 Alps_SKRTLAE010_SidePush
@@ -186,9 +196,10 @@ LEDs, which sit on a separate sliver of FR4 and are not on this board.
 to the GCT part on 22 September 2026; it is kept only so old board files still
 open.
 
-If the list is empty, the path is wrong. Check that
-`elec/footprints/hp42s.pretty/` really is two levels up from your project
-folder.
+If `hp42s` is not in the list at all, or is there but empty, the path is wrong.
+Check that `elec/footprints/hp42s.pretty/` really is two levels up from your
+project folder — from `elec/layout/default/`, `../../footprints/` should land
+you in `elec/footprints/`.
 
 ---
 
@@ -351,7 +362,7 @@ take — go back and fix the library path before doing anything else.
    supposed to look terrible.
 
 **Done looks like:** 119 footprints on the sheet and no errors in the import
-log. You can confirm the count with **Inspect → Board Statistics**.
+log. You can confirm the count with **Inspect → Show Board Statistics**.
 
 ```bash
 git add -A && git commit -m "layout: import 119 footprints"
@@ -424,8 +435,9 @@ about 7 mm of clear board below the bottom row and the display area above it.
 Measure it with `Ctrl+Shift+M` if it looks off.
 
 5. Now **lock the keypad** so you cannot nudge it by accident. Drag a selection
-   box around the dome grid only, right-click → **Locking → Lock**. Locked
-   footprints refuse to move until you unlock them.
+   box around the dome grid only, then press **`L`** (Toggle Lock) — it is also
+   on the right-click menu. Locked footprints refuse to move until you unlock
+   them, which is `L` again.
 
 ```bash
 git add -A && git commit -m "layout: keypad grid, top edge, panel, outline"
@@ -444,13 +456,15 @@ Do not hunt for it. **Ctrl+F**, type the reference designator, Enter — KiCad
 selects it and centres the view on it. Press `M` with the cursor over it and it
 comes with you.
 
-(`A` is the "place a footprint" tool, which opens a library browser. You do not
-want it on this board — every part you need is already on the sheet.)
+(**Place → Place Footprints**, hotkey `A`, is the tool for adding a *new* part
+from a library. You do not want it on this board — every part you need is
+already on the sheet, put there by the netlist import.)
 
-A faster way for a group: select the part you want to anchor on, then
-right-click → **Select → Connected Items**, or click a net in the **Net
-Inspector** panel and press `` ` `` to highlight it. Everything on that net
-lights up.
+To see a whole circuit at once, hover anything on the net and press `` ` `` —
+that is **Highlight Net**, and everything on it lights up. `U` is
+**Select/Expand Connection**, which selects what is connected rather than just
+colouring it. The **Net Inspector** panel (**View → Panels → Net Inspector**)
+lists every net by name if you would rather go at it from that end.
 
 ### The rule that governs all of it
 
@@ -764,8 +778,8 @@ highlighted in the Layers panel. Select the layer *first*, then press `X`.
 **"The zone disappeared."** Zones show as outlines until they are filled. Press
 `B`.
 
-**"A part won't move."** It is locked. Right-click → Locking → Unlock. You
-locked the keypad deliberately in step 6.
+**"A part won't move."** It is locked. Select it and press `L`. You locked
+the keypad deliberately in step 6.
 
 **"I imported the netlist again and everything moved."** You used reference
 designator linking instead of tstamps. Revert to your last commit and re-import
