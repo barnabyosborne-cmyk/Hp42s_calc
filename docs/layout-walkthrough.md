@@ -485,8 +485,23 @@ Now, in the PCB editor:
    to Be Applied* after a test, and *Changes Applied to PCB* after the real
    thing.
 
-Read the message pane. **Expect `Total warnings: 0, errors: 0`.** Every
-footprint resolves: 21 of the 28 from KiCad's own libraries, 7 from `hp42s`.
+Read the message pane. **Expect `Total warnings: 9, errors: 0`.** Errors are
+what matter, and there should be none. Every footprint resolves: 21 of the 28
+from KiCad's own libraries, 7 from `hp42s`.
+
+All nine warnings read `No net found for component <ref> pad <n>`, and all nine
+are pins deliberately left unconnected:
+
+| Part | Pads | Why |
+|---|---|---|
+| `U1` TPD4E05U06 | 6, 7, 9, 10 | TI marks them NC in table 4-2 of SLVSBO7O. Nothing inside the package touches them. |
+| `U5` ESP32-S3-MINI-1 | 7, 26, 38, 41, 44 | `IO3`, `IO26`, `IO42`, `IO45`, `IO46` — spare GPIOs this design does not use. All 24 of the module's ground pins are connected. |
+
+A warning naming any *other* reference or pad is not on this list and is worth
+stopping for. If you imported before 23 September 2026 you will see 11 rather
+than 9: the extra two are `J2 pad MP`, the display connector's metal hold-downs,
+which are now tied to ground in `elec/src/display.ato`. Rebuild and re-import
+and they go away.
 
 If you see `Cannot add <ref> (footprint "hp42s:..." not found)`, step 3 did not
 take — go back and fix the library path before doing anything else.
