@@ -577,21 +577,20 @@ Two separate things are wrong with the board at this point, and neither is
 your doing.
 
 **The positions.** `place_keypad.py` gets the board outline, the reference
-rectangles, the layers and every rotation right. What it does not get right
-under KiCad 10.0 is where the footprints end up. On 23 September 2026 the
-first real run put all 45 footprints it touched 414.5 mm from the positions it
-asked for. A second run put them 345.0 mm out instead — a different distance,
-same symptom — while the outline and the rectangles, drawn through the same
-API in the same run, landed exactly where they were asked. Reading a position
-back through the API returns the value that was asked for, so the script
-cannot tell that anything is wrong.
+rectangles and the layers right. What it does not get right under KiCad 10.0
+is where the footprints end up. On 23 September 2026 the first real run put
+all 45 footprints it touched 414.5 mm from the positions it asked for. A
+second run put them 345.0 mm out instead — a different distance, same symptom
+— while the outline and the rectangles, drawn through the same API in the same
+run, landed exactly where they were asked. Reading a position back through the
+API returns the value that was asked for, so the script cannot tell that
+anything is wrong.
 
 **The pads.** Every footprint on the board came out of the netlist import with
 its pads about 1.1 metres from the footprint they belong to, while its
-silkscreen, courtyard and fab outline were all in the right place. All 119
-had the same offset, so every pad on the board landed in one pile off the
-side. That pile is the cluster of copper you may have noticed nowhere near
-anything.
+silkscreen, courtyard and fab outline were all in the right place. All 119 had
+the same offset, so every pad on the board landed in one pile off the side.
+That pile is the cluster of copper you may have noticed nowhere near anything.
 
 Both are repaired from outside KiCad, where the file can be checked with
 `git diff`.
@@ -607,36 +606,16 @@ python3 tools/fix_pads.py
 python3 tools/check_placement.py
 ```
 
-   The first sets every position and rotation. The second puts every pad back
-   on its own footprint, taking the correct positions from the library
-   footprint each part came from. The third checks the result and should end
-   with `all clear`. All three are plain Python: no KiCad, no conda
-   environment.
+   The first sets every position and rotation, and turns the 62 back-side
+   parts over. The second gives every footprint the pads its library says it
+   has. The third checks the result and should end with `all clear`. All three
+   are plain Python: no KiCad, no conda environment, and they can be run again
+   at any time.
 3. Open the board again.
 
-### Step 6c — put the back-side parts on the back
-
-62 of the parts belong on the back of the board. Flipping is the one thing
-the scripting API does correctly, so KiCad does this one.
-
-1. **Tools → Scripting Console** again.
-2. Paste:
-
-```python
-exec(open('/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/tools/flip_back.py').read())
-```
-
-   It prints `flipped 62 of 62 to the back`. It moves nothing.
-3. **Save** (Cmd+S) and **quit KiCad**.
-4. Back in the terminal, confirm KiCad did not disturb anything:
-
-```bash
-python3 tools/fix_pads.py --check
-python3 tools/check_placement.py
-```
-
-   `fix_pads.py --check` should say `0 footprints with pads out of place`. If
-   it says otherwise, run it without `--check` and it will put them back.
+**Nothing in this repair goes through the Scripting Console.** Run the three
+commands in that order, always, and run `fix_pads.py --check` and
+`check_placement.py` after any KiCad session that moved things.
 
 ### Two things to check by eye right now
 

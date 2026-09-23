@@ -13,6 +13,9 @@ It reads the board file, not KiCad, so it can be run any time. It reports:
   * anything on the front under the panel glass or under the keys
   * parts off the grid they are supposed to be on
 
+Sides are read from the board file, not from place_board.py's table, so this
+also catches a part that ended up on the wrong side.
+
 Every distance here is between COURTYARDS, which already include the
 manufacturer's own handling clearance, so 1.0 mm between two courtyards is
 about 1.5 mm between the parts themselves.
@@ -84,9 +87,7 @@ def read():
             rx, ry = rot(x, y, fr)
             xs.append(fx + rx)
             ys.append(fy + ry)
-        side = "B" if pb.FIRST_PASS.get(ref, (0, 0, "F"))[2] == "B" else "F"
-        if ref == "J2":
-            side = "B"
+        side = pb.side_of(b)
         parts[ref] = dict(x=fx, y=fy, rot=fr, side=side,
                           bb=(min(xs), min(ys), max(xs), max(ys)))
     return parts

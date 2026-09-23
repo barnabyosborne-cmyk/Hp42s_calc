@@ -28,15 +28,17 @@ top-edge parts and the panel FPC at the positions docs/keypad-geometry.md and
 docs/display-mounting.md give, and all 74 of the rest from the table below.
 docs/placement.md explains the table.
 
-What it does NOT set is which side of the board a part is on. Flipping is
-KiCad's job -- see tools/flip_back.py -- because a flipped footprint has every
-pad and graphic mirrored inside the block, not just its layer names renamed.
+It also puts each part on the side of the board it belongs on. A flipped
+footprint is not the same footprint with B.* layer names: every graphic and
+every text inside it is mirrored in y as well. This does that, and leaves the
+pads to fix_pads.py, which rewrites them from the library outright.
 
 AFTERWARDS
 ----------
-Run tools/fix_pads.py, which checks every pad against the library footprint it
-came from, then tools/check_placement.py, which checks clearances, the board
-outline, the battery bay, the antenna keepout and the grid.
+Always run these two, in this order:
+
+    python3 tools/fix_pads.py          # every pad, from its library footprint
+    python3 tools/check_placement.py   # clearances, outline, bay, keepout, grid
 """
 
 import re
@@ -317,8 +319,64 @@ def turn_pads(block, delta):
 
 
 def back_refs():
-    """The parts that belong on the back. tools/flip_back.py reads this."""
+    """The parts that belong on the back."""
     return sorted(r for r, v in FIRST_PASS.items() if v[2] == "B")
+
+
+LAYER_RE = re.compile(r'"([FB])\.([A-Za-z]+)"')
+# Every coordinate pair inside a footprint that is measured from the
+# footprint's own origin. The footprint's own (at ...) is cut out first.
+XY_RE = re.compile(r'\((at|start|end|center|mid|xy|offset) '
+                   r'(-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')
+FONT_RE = re.compile(r'\(effects\n((\t+)\(font\n(?:.*?\n)*?\2\)\n)', re.S)
+MODEL_RE = re.compile(r'\n\t\t\(model ')
+SIDE_RE = re.compile(r'\(layer "([FB])\.Cu"\)')
+
+
+def side_of(block):
+    """Which side of the board a footprint block is on."""
+    m = SIDE_RE.search(block)
+    return m.group(1) if m else "F"
+
+
+def swap_layers(text):
+    return LAYER_RE.sub(
+        lambda g: f'"{"B" if g.group(1) == "F" else "F"}.{g.group(2)}"', text)
+
+
+def flip(block):
+    """Turn a footprint block over.
+
+    A flipped footprint is not the same footprint with B.* layer names: KiCad
+    mirrors every coordinate inside it in y as well, and marks its text as
+    mirrored so it still reads the right way round when you look at that side
+    of the board.
+
+    Two things are deliberately left alone. The 3D model block, because KiCad
+    places the model from the footprint's side rather than from anything
+    written there. And the pads, because fix_pads.py rewrites those from the
+    library footprint outright, which is the only place their true geometry
+    lives -- and it reads the side from the layer this sets.
+    """
+    m = MODEL_RE.search(block)
+    body, tail = (block[:m.start()], block[m.start():]) if m else (block, "")
+
+    at = AT_RE.search(body)
+    head = swap_layers(body[:at.start()])
+    own_at = body[at.start():at.end()]
+    rest = swap_layers(body[at.end():])
+
+    rest = XY_RE.sub(
+        lambda g: f"({g.group(1)} {g.group(2)} {-float(g.group(3)) + 0.0:g}{g.group(4)})",
+        rest)
+
+    if side_of(head) == "B":
+        rest = FONT_RE.sub(
+            lambda g: f"(effects\n{g.group(1)}{g.group(2)}(justify mirror)\n", rest)
+    else:
+        rest = re.sub(r'\n\t+\(justify mirror\)', '', rest)
+
+    return head + own_at + rest + tail
 
 
 def main():
@@ -339,7 +397,7 @@ def main():
     else:
         dx = dy = 0.0
 
-    out, moved = [], 0
+    out, moved, flipped = [], 0, 0
     for i, block in enumerate(blocks):
         ref = refs[i]
         m = AT_RE.search(block)
@@ -355,15 +413,20 @@ def main():
         else:
             x, y = float(m.group(2)) + dx, float(m.group(3)) + dy
         new = f"{m.group(1)}{x:g} {y:g}{rot}"
-        out.append(block[:m.start()] + new + block[m.end():])
+        block = block[:m.start()] + new + block[m.end():]
+        want = FIRST_PASS[ref][2] if ref in FIRST_PASS else side_of(block)
+        if side_of(block) != want:
+            block = flip(block)
+            flipped += 1
+        out.append(block)
         moved += 1
 
     PCB.write_text(head + FP_SPLIT + FP_SPLIT.join(out))
 
     print(f"placed {len(TARGETS)} from the keypad script and {len(FIRST_PASS)} "
           f"from the first pass")
-    print(f"{len(back_refs())} of them belong on the back -- run "
-          f"tools/flip_back.py in KiCad's console to put them there")
+    print(f"{len(back_refs())} of them belong on the back; "
+          f"{flipped} had to be turned over to get there")
     left = moved - len(TARGETS) - len(FIRST_PASS)
     if left:
         print(f"{left} not in either table, parked at "

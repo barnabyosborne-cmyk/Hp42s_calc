@@ -119,8 +119,15 @@ the front under the glass or the keys, and anything off its grid. It is clean
 apart from the six top-edge parts, which are meant to overhang.
 
 `tools/fix_pads.py --check` is the other half: it compares every pad on the
-board against the library footprint it came from and reports any that have
-drifted. Run it after any KiCad session that moved things.
+board against the library footprint it came from — mirrored in y for the
+parts on the back, and with the footprint's rotation folded into each pad's
+angle — and reports any that have drifted. Run it after any KiCad session
+that moved things; without `--check` it puts them back.
+
+Both sides are set by `place_board.py` too. A flipped footprint is not the
+same footprint with B.* layer names: every coordinate inside it is mirrored
+in y. All 75 footprints that come from KiCad's own libraries were checked
+graphic by graphic against those libraries, mirrored where they should be.
 
 ## What is not settled
 
