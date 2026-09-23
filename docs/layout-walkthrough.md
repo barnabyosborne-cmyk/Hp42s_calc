@@ -218,9 +218,17 @@ Go to **Board Stackup → Physical Stackup**. At the top, set **Copper Layers:
 4**. (Some builds put that selector on the **Board Editor Layers** page just
 above it instead; either is the same setting.)
 
-Then set the **board thickness to 1.0 mm**. One millimetre, not the default
-1.6 — this board has to fit a 15 mm case with a cell on the back of it, and
-0.6 mm is 0.6 mm.
+Leave the **board thickness at 1.6 mm**, which is KiCad's default.
+
+It was 1.0 mm until 23 September 2026, on the reasoning that a 15 mm case with
+a cell on the back of it could use the 0.6 mm. Barnaby asked whether that would
+flex under 37 dome switches. It would: a 1.0 mm board supported only at its
+edges moves about 0.28 mm under a firm press, against 0.5 mm of dome travel,
+which would make every key feel dead. 1.6 mm is 4.1× stiffer, the stack-up had
+2.6 mm of slack to pay for it, and the panel's fold geometry had assumed
+1.6 mm all along. The working is in `docs/board-thickness.md`.
+
+The case stays at 15 mm.
 
 You will now have four copper layers: `F.Cu`, `In1.Cu`, `In2.Cu`, `B.Cu`.
 
@@ -295,7 +303,7 @@ editing its net class.
 **OK** to close Board Setup.
 
 ```bash
-git add -A && git commit -m "layout: 4-layer 1.0 mm stackup, net classes"
+git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes"
 ```
 
 ---
@@ -559,6 +567,24 @@ than the capacitor does.
 The way to do this is one IC at a time. Find the IC, find its decoupling caps
 by net, and tuck each one in. It is tedious and it is the difference between a
 board that works and a board that mostly works.
+
+### Leave room for the case to hold the board up
+
+New on 23 September 2026, and it belongs here rather than at the end, because
+it is a placement constraint and not a routing one.
+
+37 dome switches need something behind the board taking the push, or the board
+bends instead of the dome snapping. Board thickness only gets you so far —
+`docs/board-thickness.md` has the numbers — and the rest has to come from the
+case bearing on the board *inside* the keyboard area, not just around its edge.
+
+The 14 mm bezel put the electronics behind the keyboard, so parts and support
+posts now want the same space. As you place the back side, keep three or four
+clear patches spread through the keyboard region for the case to push on. The
+gaps between key columns are the natural place, since nothing routes there on
+the front anyway. It does not have to be a regular grid and it does not have to
+be perfect; going from edge-support-only to a few bearing points is worth as
+much as the thickness change was.
 
 ### Done looks like
 

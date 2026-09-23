@@ -21,6 +21,7 @@ Case dimensions follow the original HP-42S as closely as the parts allow:
 | `docs/display-mounting.md` | The panel's tail and off-centre image, and where the cell can go. |
 | `docs/front-face.md` | The etched metal plate, the window, and an edge-lit frontlight. |
 | `docs/before-layout.md` | **What is still open, and whether it stops you starting.** |
+| `docs/board-thickness.md` | Why the board is 1.6 mm, and flex under the keyboard. |
 | `docs/layout-walkthrough.md` | **The layout, step by step.** Written for a first PCB. |
 | `docs/pcb-process.md` | The map from netlist to boards in your hand. |
 | `docs/kicad-setup.md` | Why the pin numbers are what they are. |
