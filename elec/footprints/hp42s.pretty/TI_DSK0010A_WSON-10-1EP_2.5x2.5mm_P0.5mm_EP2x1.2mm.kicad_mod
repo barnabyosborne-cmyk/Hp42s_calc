@@ -21,4 +21,9 @@
 	(pad "9" smd roundrect (at 0.850 -0.500) (size 0.600 0.250) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "10" smd roundrect (at 0.850 -1.000) (size 0.600 0.250) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "11" smd roundrect (at 0.000 0.000) (size 1.200 2.000) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )

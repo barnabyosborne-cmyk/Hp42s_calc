@@ -29,4 +29,9 @@
     ))
   (fp_poly (pts (xy 5.2500 -2.1746) (xy 2.1746 -5.2500) (xy -2.1746 -5.2500) (xy -5.2500 -2.1746) (xy -5.2500 2.1746) (xy -2.1746 5.2500) (xy 2.1746 5.2500) (xy 5.2500 2.1746)) (stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))
   (fp_circle (center 0 0) (end 5.000 0) (layer "F.Fab") (width 0.1) (fill none))
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )

@@ -693,6 +693,17 @@
 			(uuid "4ca1e633-1f1f-4db0-b970-9d251b2c9eee")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -837,6 +848,17 @@
 			(uuid "b3453bda-502b-46d1-a041-71bd6517e2f9")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
@@ -1281,6 +1303,17 @@
 			(uuid "01bd3b00-4eef-401a-8770-150af0e11698")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -1425,6 +1458,17 @@
 			(uuid "3359c5be-c7e2-4792-93f6-fc70a49687ea")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_3.0x3.0mm"
 		(layer "F.Cu")
@@ -1727,6 +1771,17 @@
 			(uuid "90ecd6ed-90bd-4d88-8cb0-af2193269f8d")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Button_Switch_SMD:SW_SPDT_CK_JS102011SAQN"
 		(layer "F.Cu")
@@ -2374,6 +2429,17 @@
 			(uuid "db5044ae-f77d-43e5-a664-e6ad68148707")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -2518,6 +2584,17 @@
 			(uuid "d59052b8-915b-46d6-bb64-0f9beff35bbf")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
@@ -2812,6 +2889,17 @@
 			(uuid "faaa0845-ef42-4514-8bdb-1452db6ba2a9")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -2956,6 +3044,17 @@
 			(uuid "8b696eae-d75f-4504-b8d0-65aa7cf8b745")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -3100,6 +3199,17 @@
 			(uuid "39b784bc-31a1-4fac-903f-822bc3e9dea2")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -3244,6 +3354,17 @@
 			(uuid "c2827ceb-154a-4ba4-bac0-6688667aee97")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -3388,6 +3509,17 @@
 			(uuid "2d24a471-dd9c-4026-b1b0-84d88f2884c6")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -3532,6 +3664,17 @@
 			(uuid "2862c75c-c863-4ab9-a604-07abd7ad5a04")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -3676,6 +3819,17 @@
 			(uuid "1765ab00-412e-4f53-a82a-c74dfc6b7a61")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -3820,6 +3974,17 @@
 			(uuid "c2abbfac-faea-450b-b206-0ff0010de1cf")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -3964,6 +4129,17 @@
 			(uuid "17d02ebe-6250-4048-b715-1b2a4da5c4cd")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -4108,6 +4284,17 @@
 			(uuid "07817459-72ea-4e3b-adf1-39396549f04d")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -4252,6 +4439,17 @@
 			(uuid "e693400b-f718-4bbb-9e16-581dafcb5ae5")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -4396,6 +4594,17 @@
 			(uuid "ccad6d00-29ab-47bf-9531-7e938acb3ceb")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -4540,6 +4749,17 @@
 			(uuid "36011a7d-90c0-4348-8155-093b40a91ef9")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Vishay_VSMB2943SLX01_SideView"
 		(layer "F.Cu")
@@ -4667,6 +4887,17 @@
 			(uuid "5f089d50-e2d7-408b-b3fe-c0ea43b4eaea")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Vishay_VSMB2943SLX01_SideView.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -4811,6 +5042,17 @@
 			(uuid "c748146b-3100-4c93-81bb-632d52d41439")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -4955,6 +5197,17 @@
 			(uuid "33ed2a02-8700-4a89-b19f-1829f4474f23")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -5099,6 +5352,17 @@
 			(uuid "29d78bdd-7958-4256-90e2-0cd8347b7e24")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
@@ -5393,6 +5657,17 @@
 			(uuid "92a2954b-0b58-4b27-9822-ff72810c70ea")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -5537,6 +5812,17 @@
 			(uuid "a128db28-8268-4109-961a-00fac5fefa13")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -5681,6 +5967,17 @@
 			(uuid "50b7de93-161e-43d7-a828-8f23966c2a87")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "F.Cu")
@@ -5975,6 +6272,17 @@
 			(uuid "57c81181-5050-4e9a-99a4-6c054d627906")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -6119,6 +6427,17 @@
 			(uuid "65b45ccb-b956-4e6a-b8a6-f03f86152c3c")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -6263,6 +6582,17 @@
 			(uuid "fdd6f8ba-9ebb-4271-bab0-68e26207af72")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -6407,6 +6737,17 @@
 			(uuid "c5995177-2844-42e4-81dd-30319bcbf0af")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -6551,6 +6892,17 @@
 			(uuid "efe5a510-f3e9-4b41-a5af-d22d63e69aa7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
@@ -6799,6 +7151,17 @@
 			)
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Alps_SKRTLAE010_SidePush.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -6943,6 +7306,17 @@
 			(uuid "71d98e2c-9f21-419e-9328-d5e6f28c14e3")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -7087,6 +7461,17 @@
 			(uuid "af96daa2-8843-4af7-9bfe-0d6c42692841")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 		(layer "F.Cu")
@@ -7682,6 +8067,17 @@
 			(uuid "58a57cc4-b303-4fa9-9fcc-17487b21fb86")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_8.5mm"
 		(layer "F.Cu")
@@ -7826,6 +8222,17 @@
 			(uuid "e7f0b9f9-6682-42f7-94c9-fd3e2924dec7")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_8.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Package_TO_SOT_SMD:SOT-23"
 		(layer "F.Cu")
@@ -8333,6 +8740,17 @@
 			(uuid "a43a33ea-e790-46df-acf1-60d9576eee20")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dialight_599_BiColor_1208_RA.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -8477,6 +8895,17 @@
 			(uuid "feec3335-b75c-4203-896f-c3d11cbabf00")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "F.Cu")
@@ -8725,6 +9154,17 @@
 			)
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Alps_SKRTLAE010_SidePush.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm"
 		(layer "F.Cu")
@@ -8896,6 +9336,17 @@
 			(uuid "89bc35cd-d4dd-430e-85f6-d7514a01d865")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/TI_DQA0010A_USON-10_2.5x1mm_P0.5mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -9040,6 +9491,17 @@
 			(uuid "acef6ddf-612b-4be5-b828-95af08795e8d")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -9184,6 +9646,17 @@
 			(uuid "56f16cd5-2d9b-44cc-aac0-4a2ac48ff137")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dome_4Leg_10mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "B.Cu")
@@ -12129,6 +12602,17 @@
 			(uuid "5f1273f2-5543-47dc-8c26-b5dabf3bbe76")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm.step"
+			(offset
+				(xyz 0 0 0)
+			)
+			(scale
+				(xyz 1 1 1)
+			)
+			(rotate
+				(xyz 0 0 0)
+			)
+		)
 	)
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")

@@ -35,4 +35,9 @@
 		(fill (thermal_gap 0.508) (thermal_bridge_width 0.508) (island_removal_mode 0))
 		(polygon (pts (xy 1.000 0.300) (xy -1.000 0.300) (xy -1.000 1.500) (xy 1.000 1.500)))
 	)
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Alps_SKRTLAE010_SidePush.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )

@@ -15,4 +15,9 @@
 	(pad "2" smd roundrect (at -1.500 0) (size 1.000 1.500) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "1" smd roundrect (at 1.500 0) (size 1.000 1.500) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "3" smd roundrect (at 0 0.815) (size 0.900 0.650) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Dialight_599_White_1208_RA.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )
