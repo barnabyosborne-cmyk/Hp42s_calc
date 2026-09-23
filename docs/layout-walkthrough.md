@@ -366,6 +366,23 @@ Nine rows. If that table is empty when you close the dialog, `power` and
 `keypad` exist and do nothing, every net is `Default`, and the rails come out
 at 0.2 mm.
 
+**The "Nets matching" panel on the right will be empty, and that is correct
+right now.** It lists the nets on the board that a pattern catches, and the
+board has no nets yet — they arrive with the netlist in step 5. Come back to
+this page once they do; it turns into the cheapest check in this whole file.
+Click each pattern in turn and you should see:
+
+| Pattern | Nets | |
+|---|---|---|
+| `sys`, `bat`, `cell`, `v3v3`, `vbus`, `lx1`, `lx2` | 1 each | 7 |
+| `row*` | `row0`–`row6` | 7 |
+| `col*` | `col0`–`col5` | 6 |
+
+**20 nets assigned, 63 left on `Default`.** A pattern showing 0 after the
+import is a typo in the pattern, and a typo here is silent: the net simply
+stays on `Default` and you find out when a 3 A rail turns out to be 0.2 mm
+wide.
+
 ### 4d. Pre-defined sizes
 
 Go to **Design Rules → Pre-defined Sizes** and add a couple of track widths you
