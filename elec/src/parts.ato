@@ -619,6 +619,13 @@ component EPDConnector:
     signal VGL   ~ pin 23
     signal VCOM  ~ pin 24
 
+    # The two metal fittings. KiCad gives them both the pad name "MP", so one
+    # signal reaches both, and tying them to ground is the usual practice:
+    # they are what holds a 24-way ZIF down when the flex is folded against
+    # it, and a grounded hold-down is one less isolated copper island under a
+    # part the user will flex on assembly.
+    signal MP ~ pin MP
+
 component StatusLED:
     # Side-emitting status indicator, on the top edge between USB-C and the
     # two recovery buttons. Dialight 599 series MicroLED, bi-colour, 1208
