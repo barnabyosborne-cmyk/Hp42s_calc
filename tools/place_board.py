@@ -269,20 +269,30 @@ FIRST_PASS = {
     "R17": (64.77, 108.585, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
-    # U5's position is set by its antenna, not by the grid: rotated 180 so
-    # the antenna faces the bottom edge of the case, with the module's own
-    # keepout clear of copper. C8 and C9 bypass 3V3 at pin 3; C7 and R14
-    # hold EN at pin 45, on the other side. The test points sit at the pins
-    # they probe.
-    "U5":  (38, 133.5, "B", 180),
-    "C8":  (48.26, 135.255, "B", 0),
-    "C9":  (48.26, 137.795, "B", 0),
-    "C7":  (28.575, 136.525, "B", 0),
-    "R14": (28.575, 133.985, "B", 0),
-    "TP10": (25.4, 136.525, "B", 0),   # EN
-    "TP11": (48.26, 132.08, "B", 0),  # BOOT
-    "TP8": (27.94, 130.81, "B", 0),   # UART0 TX, at pin 39
-    "TP9": (27.94, 128.27, "B", 0),   # UART0 RX, at pin 40
+    # U5's position and rotation are set by its antenna, not by the grid.
+    # The antenna sits at one end of the module and must hang over the
+    # bottom edge of the board, with the module's own keepout wing -- 45.4
+    # by 19.5 mm -- clear of copper on every layer.
+    #
+    # ROTATION 0, NOT 180. It was 180 while the module was on the front. A
+    # part is mirrored when it goes to the back, which reverses the antenna
+    # end, so the rotation that pointed the antenna at the bottom edge now
+    # points it up into the keyboard. Barnaby caught that on the board on
+    # 23 September 2026; check_placement.py now works the keepout out from
+    # the footprint itself rather than from a number I typed in, so it
+    # cannot go unnoticed again.
+    #
+    # Everything around the module mirrors with it: 3V3 (pin 3) and BOOT
+    # (pin 4) are on the left now, EN (pin 45) and the UART on the right.
+    "U5":  (38, 133.5, "B", 0),
+    "C8":  (27.305, 135.255, "B", 0),  # 3V3, at pin 3
+    "C9":  (27.305, 137.795, "B", 0),
+    "C7":  (47.625, 136.525, "B", 0),  # EN, at pin 45
+    "R14": (47.625, 133.985, "B", 0),
+    "TP10": (50.8, 136.525, "B", 0),  # EN
+    "TP11": (27.94, 132.08, "B", 0),  # BOOT
+    "TP8": (48.26, 130.81, "B", 0),   # UART0 TX, at pin 39
+    "TP9": (48.26, 128.27, "B", 0),   # UART0 RX, at pin 40
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
     "TP4": (50.8, 86.36, "B", 0),     # BAT
@@ -383,6 +393,13 @@ def main():
     text = PCB.read_text()
     head, *blocks = text.split(FP_SPLIT)
 
+    # The footprints are one contiguous run, and everything after the last of
+    # them -- the outline, the reference rectangles, the zones -- comes back
+    # attached to it. Cut it off first: flip() swaps F. and B. layer names,
+    # and it must not reach a zone.
+    end = blocks[-1].index("\n\t)") + 3
+    blocks[-1], tail = blocks[-1][:end], blocks[-1][end:]
+
     refs = [REF_RE.search(b).group(1) for b in blocks]
 
     # The heap keeps its shape, so work out its corner before moving anything.
@@ -421,7 +438,7 @@ def main():
         out.append(block)
         moved += 1
 
-    PCB.write_text(head + FP_SPLIT + FP_SPLIT.join(out))
+    PCB.write_text(head + FP_SPLIT + FP_SPLIT.join(out) + tail)
 
     print(f"placed {len(TARGETS)} from the keypad script and {len(FIRST_PASS)} "
           f"from the first pass")

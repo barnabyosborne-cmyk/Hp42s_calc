@@ -9449,7 +9449,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "B.Cu")
 		(uuid "14e0ed4a-0f4c-4580-8db7-e99eb1fe180c")
-		(at 48.26 132.08)
+		(at 27.94 132.08)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP11"
@@ -10209,7 +10209,7 @@
 	(footprint "Capacitor_SMD:C_0805_2012Metric"
 		(layer "B.Cu")
 		(uuid "22514fb9-ed07-48ba-aa5f-bef64d40d89e")
-		(at 48.26 135.255)
+		(at 27.305 135.255)
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C8"
@@ -10677,7 +10677,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "30d5aad9-72fd-46e3-a5cc-9e4d448ccbbf")
-		(at 28.575 136.525)
+		(at 47.625 136.525)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C7"
@@ -11343,7 +11343,7 @@
 	(footprint "Capacitor_SMD:C_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "39ff9e26-8e3a-4f28-91d2-62b71b7658f9")
-		(at 48.26 137.795)
+		(at 27.305 137.795)
 		(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C9"
@@ -12648,7 +12648,7 @@
 	(footprint "RF_Module:ESP32-S2-MINI-1"
 		(layer "B.Cu")
 		(uuid "520d547e-8296-4952-ab5d-cbb4b886680d")
-		(at 38 133.5 180)
+		(at 38 133.5)
 		(descr "2.4 GHz Wi-Fi and Bluetooth combo chip, external antenna, https://www.espressif.com/sites/default/files/documentation/esp32-s3-mini-1_mini-1u_datasheet_en.pdf")
 		(tags "2.4 GHz Wi-Fi Bluetooth external antenna espressif  20*15.4mm")
 		(property "Reference" "U5"
@@ -13080,7 +13080,7 @@
 			)
 		)
 		(pad "1" smd rect
-			(at -7 3.4 180)
+			(at -7 3.4)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13088,7 +13088,7 @@
 			(uuid "120d1b42-fe9b-424a-987e-f06a06504f9b")
 		)
 		(pad "2" smd rect
-			(at -7 2.55 180)
+			(at -7 2.55)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13096,7 +13096,7 @@
 			(uuid "459947f8-a3c0-4e3d-95ae-7e7db6a6e501")
 		)
 		(pad "3" smd rect
-			(at -7 1.7 180)
+			(at -7 1.7)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "v3v3")
@@ -13104,7 +13104,7 @@
 			(uuid "888ba26b-dffd-4e90-8650-a6f42e6cb21d")
 		)
 		(pad "4" smd rect
-			(at -7 0.85 180)
+			(at -7 0.85)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "boot")
@@ -13112,7 +13112,7 @@
 			(uuid "6c1354d8-0e5d-4b99-86b7-03691cc4a6ee")
 		)
 		(pad "5" smd rect
-			(at -7 0 180)
+			(at -7 0)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col0")
@@ -13120,7 +13120,7 @@
 			(uuid "7b90738d-d813-42c2-9480-b32da4db8dc0")
 		)
 		(pad "6" smd rect
-			(at -7 -0.85 180)
+			(at -7 -0.85)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col1")
@@ -13128,13 +13128,13 @@
 			(uuid "d512dd5f-98a9-4394-8c3e-b2fc67330756")
 		)
 		(pad "7" smd rect
-			(at -7 -1.7 180)
+			(at -7 -1.7)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(uuid "39e5a5d3-b663-4bf3-88ee-8b9b4d33a36e")
 		)
 		(pad "8" smd rect
-			(at -7 -2.55 180)
+			(at -7 -2.55)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col2")
@@ -13142,7 +13142,7 @@
 			(uuid "3dd6d65e-c341-4f5b-9976-0385beaf2687")
 		)
 		(pad "9" smd rect
-			(at -7 -3.4 180)
+			(at -7 -3.4)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col3")
@@ -13150,7 +13150,7 @@
 			(uuid "192c1616-5a90-497c-9509-27ca2dc48ef4")
 		)
 		(pad "10" smd rect
-			(at -7 -4.25 180)
+			(at -7 -4.25)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col4")
@@ -13158,7 +13158,7 @@
 			(uuid "ce81b7c7-2e69-4659-adf3-005a083f2e97")
 		)
 		(pad "11" smd rect
-			(at -7 -5.1 180)
+			(at -7 -5.1)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "col5")
@@ -13166,7 +13166,7 @@
 			(uuid "6b394b20-b643-436a-a33e-cb661bc653df")
 		)
 		(pad "12" smd rect
-			(at -7 -5.95 180)
+			(at -7 -5.95)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row0")
@@ -13174,7 +13174,7 @@
 			(uuid "447de5b4-0143-4a8a-bd52-ce2d93405399")
 		)
 		(pad "13" smd rect
-			(at -7 -6.8 180)
+			(at -7 -6.8)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row1")
@@ -13182,7 +13182,7 @@
 			(uuid "87e66ff9-a443-4323-b6d7-b315103bd58c")
 		)
 		(pad "14" smd rect
-			(at -7 -7.65 180)
+			(at -7 -7.65)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row2")
@@ -13190,7 +13190,7 @@
 			(uuid "38a5fef1-15b9-4a74-98b8-ee07ebe8fbe9")
 		)
 		(pad "15" smd rect
-			(at -7 -8.5 180)
+			(at -7 -8.5)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row3")
@@ -13198,7 +13198,7 @@
 			(uuid "00dd092e-5641-44e7-a096-1da0ea8fc2cb")
 		)
 		(pad "16" smd rect
-			(at -5.95 -9.55 90)
+			(at -5.95 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row4")
@@ -13206,7 +13206,7 @@
 			(uuid "ca6cd212-d938-4487-8525-27ce3327b7ad")
 		)
 		(pad "17" smd rect
-			(at -5.1 -9.55 90)
+			(at -5.1 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row5")
@@ -13214,7 +13214,7 @@
 			(uuid "aa61e391-0e48-48fc-8efd-af0bcefccf0f")
 		)
 		(pad "18" smd rect
-			(at -4.25 -9.55 90)
+			(at -4.25 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "row6")
@@ -13222,7 +13222,7 @@
 			(uuid "63864126-a84c-4c8a-8a4c-124dec4ac60f")
 		)
 		(pad "19" smd rect
-			(at -3.4 -9.55 90)
+			(at -3.4 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "chg_stat2")
@@ -13230,7 +13230,7 @@
 			(uuid "b1316d76-9e65-4dad-8d40-09de0d23a00d")
 		)
 		(pad "20" smd rect
-			(at -2.55 -9.55 90)
+			(at -2.55 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "led_red")
@@ -13238,7 +13238,7 @@
 			(uuid "2bb28e87-ae91-4d8a-841b-fa8c97a3bfa9")
 		)
 		(pad "21" smd rect
-			(at -1.7 -9.55 90)
+			(at -1.7 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "i2c_sda")
@@ -13246,7 +13246,7 @@
 			(uuid "5b269a87-6d50-4e26-a0a6-3e134431e8d8")
 		)
 		(pad "22" smd rect
-			(at -0.85 -9.55 90)
+			(at -0.85 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "i2c_scl")
@@ -13254,7 +13254,7 @@
 			(uuid "55bded70-06c9-4aca-b48e-a3bf8f1bbc84")
 		)
 		(pad "23" smd rect
-			(at 0 -9.55 90)
+			(at 0 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "usb_dm")
@@ -13262,7 +13262,7 @@
 			(uuid "c546d03f-08a3-4a7c-b533-e3477af59dce")
 		)
 		(pad "24" smd rect
-			(at 0.85 -9.55 90)
+			(at 0.85 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "usb_dp")
@@ -13270,7 +13270,7 @@
 			(uuid "9b3a87f0-1792-41d3-a0e8-aec4b2a5fece")
 		)
 		(pad "25" smd rect
-			(at 1.7 -9.55 90)
+			(at 1.7 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "buzzer")
@@ -13278,13 +13278,13 @@
 			(uuid "3003ae82-f435-4cfe-9422-d5f0ed7923fd")
 		)
 		(pad "26" smd rect
-			(at 2.55 -9.55 90)
+			(at 2.55 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(uuid "01c6f667-4175-4896-8466-20c10121b426")
 		)
 		(pad "27" smd rect
-			(at 3.4 -9.55 90)
+			(at 3.4 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "ir_led")
@@ -13292,7 +13292,7 @@
 			(uuid "5dc8e603-0538-4bbf-afaa-8a9449e2929d")
 		)
 		(pad "28" smd rect
-			(at 4.25 -9.55 90)
+			(at 4.25 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_cs")
@@ -13300,7 +13300,7 @@
 			(uuid "7a3525c2-9f68-4243-9967-e83d7bd54c42")
 		)
 		(pad "29" smd rect
-			(at 5.1 -9.55 90)
+			(at 5.1 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_dc")
@@ -13308,7 +13308,7 @@
 			(uuid "04dd48f4-c058-4665-ae08-c130493ef889")
 		)
 		(pad "30" smd rect
-			(at 5.95 -9.55 90)
+			(at 5.95 -9.55 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "chg_stat")
@@ -13316,7 +13316,7 @@
 			(uuid "b6eafffa-dfee-4879-8f46-4b8038b302e5")
 		)
 		(pad "31" smd rect
-			(at 7 -8.5 180)
+			(at 7 -8.5)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_rst")
@@ -13324,7 +13324,7 @@
 			(uuid "e5b57882-593c-442f-b747-0fc664eb7617")
 		)
 		(pad "32" smd rect
-			(at 7 -7.65 180)
+			(at 7 -7.65)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_busy")
@@ -13332,7 +13332,7 @@
 			(uuid "c1c4d65b-0454-44cf-9f98-c9ab92564f1b")
 		)
 		(pad "33" smd rect
-			(at 7 -6.8 180)
+			(at 7 -6.8)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_sck")
@@ -13340,7 +13340,7 @@
 			(uuid "822c3da9-ad0a-439b-ad51-ad021b9f4d01")
 		)
 		(pad "34" smd rect
-			(at 7 -5.95 180)
+			(at 7 -5.95)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "epd_mosi")
@@ -13348,7 +13348,7 @@
 			(uuid "3a9dfcac-9be2-4ae3-9b2e-9831e5fc02e3")
 		)
 		(pad "35" smd rect
-			(at 7 -5.1 180)
+			(at 7 -5.1)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "led_green")
@@ -13356,7 +13356,7 @@
 			(uuid "48f7e8e5-fd70-44c9-b2b7-71512308e27e")
 		)
 		(pad "36" smd rect
-			(at 7 -4.25 180)
+			(at 7 -4.25)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "io40")
@@ -13364,7 +13364,7 @@
 			(uuid "e0157892-8662-4965-8a53-1486e3eb34cb")
 		)
 		(pad "37" smd rect
-			(at 7 -3.4 180)
+			(at 7 -3.4)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "frontlight_pwm")
@@ -13372,13 +13372,13 @@
 			(uuid "c702b7fc-e971-430b-9213-d727e0fbba62")
 		)
 		(pad "38" smd rect
-			(at 7 -2.55 180)
+			(at 7 -2.55)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(uuid "df15d056-ab93-4d3a-aaf3-b1b13bb342b4")
 		)
 		(pad "39" smd rect
-			(at 7 -1.7 180)
+			(at 7 -1.7)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "uart0_tx")
@@ -13386,7 +13386,7 @@
 			(uuid "3ba3bde3-c867-4101-afcb-9bd2e6d62ca4")
 		)
 		(pad "40" smd rect
-			(at 7 -0.85 180)
+			(at 7 -0.85)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "uart0_rx")
@@ -13394,13 +13394,13 @@
 			(uuid "f5452560-22c9-4a44-8616-36b5137bd366")
 		)
 		(pad "41" smd rect
-			(at 7 0 180)
+			(at 7 0)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(uuid "2eec401d-5879-49d2-b624-f19532ff6ebe")
 		)
 		(pad "42" smd rect
-			(at 7 0.85 180)
+			(at 7 0.85)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13408,7 +13408,7 @@
 			(uuid "ed76303d-83de-469e-bde8-2877ce3d89d0")
 		)
 		(pad "43" smd rect
-			(at 7 1.7 180)
+			(at 7 1.7)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13416,13 +13416,13 @@
 			(uuid "a7eb56a8-54f2-4e3a-9441-3f300093e4bd")
 		)
 		(pad "44" smd rect
-			(at 7 2.55 180)
+			(at 7 2.55)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(uuid "98f3d768-461a-4533-941d-0708f696ae7c")
 		)
 		(pad "45" smd rect
-			(at 7 3.4 180)
+			(at 7 3.4)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "en")
@@ -13430,7 +13430,7 @@
 			(uuid "9b6e51b4-1b52-488a-9164-1b27bb37eb49")
 		)
 		(pad "46" smd rect
-			(at 5.95 4.45 90)
+			(at 5.95 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13438,7 +13438,7 @@
 			(uuid "5418e7bd-19b8-4ae5-8354-cf75f7664c01")
 		)
 		(pad "47" smd rect
-			(at 5.1 4.45 90)
+			(at 5.1 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13446,7 +13446,7 @@
 			(uuid "45c52208-1ee7-413c-affe-e6e72c7337a0")
 		)
 		(pad "48" smd rect
-			(at 4.25 4.45 90)
+			(at 4.25 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13454,7 +13454,7 @@
 			(uuid "521362ce-ee3c-48aa-ba93-54b93269e724")
 		)
 		(pad "49" smd rect
-			(at 3.4 4.45 90)
+			(at 3.4 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13462,7 +13462,7 @@
 			(uuid "d4b8e5bd-2398-425c-b0a6-727f13362420")
 		)
 		(pad "50" smd rect
-			(at 2.55 4.45 90)
+			(at 2.55 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13470,7 +13470,7 @@
 			(uuid "a1724882-21ea-452f-9127-8f7f8e2015a2")
 		)
 		(pad "51" smd rect
-			(at 1.7 4.45 90)
+			(at 1.7 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13478,7 +13478,7 @@
 			(uuid "da83b68e-8d5e-47f7-af7a-0d44f7a0a1b1")
 		)
 		(pad "52" smd rect
-			(at 0.85 4.45 90)
+			(at 0.85 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13486,7 +13486,7 @@
 			(uuid "692cb213-1ebb-48b6-9415-5039fcc53f36")
 		)
 		(pad "53" smd rect
-			(at 0 4.45 90)
+			(at 0 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13494,7 +13494,7 @@
 			(uuid "3f2751b4-caf9-417e-bba5-0732dba25eb9")
 		)
 		(pad "54" smd rect
-			(at -0.85 4.45 90)
+			(at -0.85 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13502,7 +13502,7 @@
 			(uuid "fe926739-a1f7-4303-adfb-0619c40e1174")
 		)
 		(pad "55" smd rect
-			(at -1.7 4.45 90)
+			(at -1.7 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13510,7 +13510,7 @@
 			(uuid "e097c588-989a-4ab5-aa98-bb0bb9f8008f")
 		)
 		(pad "56" smd rect
-			(at -2.55 4.45 90)
+			(at -2.55 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13518,7 +13518,7 @@
 			(uuid "84e7a4ad-54c9-4ce4-aa3d-78540b74456d")
 		)
 		(pad "57" smd rect
-			(at -3.4 4.45 90)
+			(at -3.4 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13526,7 +13526,7 @@
 			(uuid "9c749640-c745-4014-91a1-efb50c216fb5")
 		)
 		(pad "58" smd rect
-			(at -4.25 4.45 90)
+			(at -4.25 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13534,7 +13534,7 @@
 			(uuid "7da983e8-85c0-4568-8858-14b128245c3b")
 		)
 		(pad "59" smd rect
-			(at -5.1 4.45 90)
+			(at -5.1 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13542,7 +13542,7 @@
 			(uuid "5ed8df72-3c58-4b89-95b7-213873800822")
 		)
 		(pad "60" smd rect
-			(at -5.95 4.45 90)
+			(at -5.95 4.45 270)
 			(size 0.8 0.4)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13550,7 +13550,7 @@
 			(uuid "bc889263-0f29-44e1-8543-c950e56c9118")
 		)
 		(pad "61" smd rect
-			(at -1.65 -4.2 180)
+			(at -1.65 -4.2)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13560,7 +13560,7 @@
 			(uuid "d6107fdb-964e-4df1-be0f-78effbfbd8e2")
 		)
 		(pad "61" smd rect
-			(at -1.65 -2.55 180)
+			(at -1.65 -2.55)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13570,7 +13570,7 @@
 			(uuid "91f22c62-3282-4b3e-88ad-e3eeaf6f42b3")
 		)
 		(pad "61" smd roundrect
-			(at -1.65 -0.9 180)
+			(at -1.65 -0.9)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13583,7 +13583,7 @@
 			(uuid "6d943980-bcec-4152-8968-c054a8155d55")
 		)
 		(pad "61" smd rect
-			(at 0 -4.2 180)
+			(at 0 -4.2)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13593,7 +13593,7 @@
 			(uuid "a6e8f24a-22d2-4f95-bb4a-6bea3dfef972")
 		)
 		(pad "61" smd rect
-			(at 0 -2.55 180)
+			(at 0 -2.55)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13603,7 +13603,7 @@
 			(uuid "d809fa1b-cb57-4190-8967-da2d899ccd02")
 		)
 		(pad "61" smd rect
-			(at 0 -0.9 180)
+			(at 0 -0.9)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13613,7 +13613,7 @@
 			(uuid "83109b07-e81a-4405-93dd-fdab0c9a99fa")
 		)
 		(pad "61" smd rect
-			(at 1.65 -4.2 180)
+			(at 1.65 -4.2)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13623,7 +13623,7 @@
 			(uuid "c4890b92-9371-448f-8521-baabf480e0b3")
 		)
 		(pad "61" smd rect
-			(at 1.65 -2.55 180)
+			(at 1.65 -2.55)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13633,7 +13633,7 @@
 			(uuid "6d316319-b84d-4629-9529-56b09b082472")
 		)
 		(pad "61" smd rect
-			(at 1.65 -0.9 180)
+			(at 1.65 -0.9)
 			(size 1.2 1.2)
 			(property pad_prop_heatsink)
 			(layers "B.Cu" "B.Mask" "B.Paste")
@@ -13643,7 +13643,7 @@
 			(uuid "8393b1b4-7b3d-493a-8655-9fb7b4a992eb")
 		)
 		(pad "62" smd rect
-			(at -7 4.45 180)
+			(at -7 4.45)
 			(size 0.8 0.8)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13651,7 +13651,7 @@
 			(uuid "16641447-e0b3-40ae-91e2-847164701b68")
 		)
 		(pad "63" smd rect
-			(at -7 -9.55 180)
+			(at -7 -9.55)
 			(size 0.8 0.8)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13659,7 +13659,7 @@
 			(uuid "27982b66-8feb-49e7-b986-53577ce22065")
 		)
 		(pad "64" smd rect
-			(at 7 -9.55 180)
+			(at 7 -9.55)
 			(size 0.8 0.8)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -13667,7 +13667,7 @@
 			(uuid "c2b39cea-a3f1-4f2b-b3d4-2e0c8d372e9f")
 		)
 		(pad "65" smd rect
-			(at 7 4.45 180)
+			(at 7 4.45)
 			(size 0.8 0.8)
 			(layers "B.Cu" "B.Mask" "B.Paste")
 			(net "gnd")
@@ -19509,7 +19509,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "B.Cu")
 		(uuid "ce6f22e6-a30d-41be-b0b7-af95ca0f7838")
-		(at 25.4 136.525)
+		(at 50.8 136.525)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP10"
@@ -20082,7 +20082,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "B.Cu")
 		(uuid "dc4c6619-c0ee-427d-bfff-a6144d0805a5")
-		(at 27.94 130.81)
+		(at 48.26 130.81)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP8"
@@ -20655,7 +20655,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "ea542542-3330-43f6-b00a-d20d2c3ad1d8")
-		(at 28.575 133.985)
+		(at 47.625 133.985)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R14"
@@ -21334,7 +21334,7 @@
 	(footprint "TestPoint:TestPoint_Pad_D1.5mm"
 		(layer "B.Cu")
 		(uuid "f3806941-ef91-48ed-8f81-3d263889c140")
-		(at 27.94 128.27)
+		(at 48.26 128.27)
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP9"
