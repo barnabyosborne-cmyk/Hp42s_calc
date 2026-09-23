@@ -86,7 +86,10 @@ the plane of the board.
   on 22 September 2026, which cost `power.ato` its `sw_power.shield`
   connection.
 - **Reset and BOOT: Alps SKRTLAE010**, body 4.5 x 2.56 mm with the plunger
-  0.84 mm proud of it, 4.5 x 3.4 overall and 3.3 tall. 1.6 N to operate and
+  **1.05 mm** proud of it (0.84 was the catalogue figure; Alps' own STEP
+  model, checked 23 September 2026, has it reaching 2.261 mm from the
+  origin), 4.5 x 3.55 overall and 3.3 tall, with the guide bosses 0.5 below
+  the board face. 1.6 N to operate and
   0.2 mm of travel, so it is a deliberate press with a fingernail or a pen,
   not something a pocket does by accident. 100,000 cycles, which for these two
   is forever.
@@ -259,9 +262,13 @@ The four mechanical parts are rotated 180 degrees so their actuators face the
 edge, each leaving about 0.8 mm proud for the case wall to capture. With
 everything on the front there is no layer flip on top of that rotation, so
 what the viewer shows is what gets built. **The two LEDs are not rotated** -- their lenses are already the -y end of the body, and
-turning them round would aim them into the middle of the board. Both sit just
-inside the edge rather than proud of it, so the case needs a window rather
-than a slot: clear for the IR, diffused for the status LED.
+turning them round would aim them into the middle of the board.
+
+**Both are proud of the board edge, not inside it** -- the IR dome by
+0.45 mm and the status LED's lens by 0.475 mm, measured off the vendor STEP
+models on 23 September 2026. The board is inset 2 mm from the case, so
+there is room, but the case needs a relief pocket for each lens and not
+merely a window in the wall: clear for the IR, diffused for the status LED.
 
 ## The IR emitter
 
@@ -278,9 +285,15 @@ Two numbers for the case:
   soldered to**. It is on the front, so the beam runs 1.2 mm in front of the
   front copper, not on the board centreline. (It was on the back until the
   bezel changed, so if you have already cut an IR window, it moves.)
-- The dome tip stops 0.22 mm short of the board edge, and the lens is 1.8 mm
-  across, so a 2.5 mm window centred on x = 22.0 clears the beam without
-  vignetting the +/- 25 degrees.
+- **Corrected 23 September 2026, from Vishay's own STEP model.** The dome
+  tip does not stop short of the board edge: it reaches 1.35 mm from the
+  part's origin, and with D4 at board Y 0.900 that puts the tip at board
+  **Y -0.45**, so it overhangs the edge by 0.45 mm. The optical axis sits
+  **1.15 mm** above the board face, not 1.20. The lens is 1.8 mm across, so
+  a 2.5 mm window centred on x = 22.0 still clears the beam without
+  vignetting the +/- 25 degrees -- but the case wall has to be relieved for
+  the dome rather than merely windowed, and the same is true of the status
+  LED, whose lens reaches board Y -0.475.
 
 One thing to watch: this USB-C receptacle anchors with through-hole shield
 legs. With the receptacle on the front those fillets are on the back, in the
