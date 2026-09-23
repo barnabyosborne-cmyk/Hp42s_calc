@@ -131,10 +131,17 @@ graphic by graphic against those libraries, mirrored where they should be.
 
 ## What is not settled
 
-- **The cell connector's height.** `JST_PH_B2B-PH-K` is the vertical variant,
-  about 6 mm tall, on the back. The cell beside it is 5 mm. Worth measuring
-  against the case before this is fixed; the side-entry variant is the same
-  land pattern turned on its side if it does not fit.
+- ~~The cell connector's height.~~ **Settled 23 September 2026.** It was
+  `JST_PH_B2B-PH-K`, the vertical variant, and Barnaby made two objections
+  that were both right: the plug and its leads need more headroom above it
+  than the 5 mm cell beside it is tall, and its through-holes went straight
+  through the board into the SW3 dome site on the front. It is now
+  **`S2B-PH-SM4-TB`** — side entry and fully surface mount, so nothing
+  pierces the board and the leads leave it flat. It is turned 180° so its
+  mouth faces the bay, and it moved right to (50.8, 64.77) because its
+  courtyard is 9.2 × 10.2 mm against the old 6.9 × 5.5. Nearest neighbour is
+  L3, 3.1 mm away. **This needs `ato build` and a netlist re-import** before
+  the board carries the new land pattern.
 - **Support corridors.** `docs/board-thickness.md` wants the case to bear on
   the board inside the keyboard area, in the gaps between key columns. Y
   96–108 and Y 125–144 to the left and right of the module are the clearest

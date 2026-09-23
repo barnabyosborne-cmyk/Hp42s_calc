@@ -227,11 +227,13 @@ FIRST_PASS = {
     "R24": (66.675, 70.485, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
-    # BT1 is hard against the bottom edge of the bay so the cell's tails
-    # reach it without crossing anything. U2 is directly below, C2 at its
-    # BAT pin and C3 at its SYS pin; the four programming resistors are on
-    # its right-hand side where those pins are.
-    "BT1": (33.02, 63.5, "B", 0),
+    # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
+    # faces the bay and the cell's leads run straight in without doubling
+    # back. It moved right, out from under the charger, because the side-entry
+    # part's courtyard is 9.2 x 10.2 mm against the vertical one's 6.9 x 5.5.
+    # U2 keeps its place: C2 at its BAT pin and C3 at its SYS pin, with the
+    # four programming resistors on its right-hand side where those pins are.
+    "BT1": (50.8, 64.77, "B", 180),
     "U2":  (33.02, 72.39, "B", 0),
     "C2":  (28.575, 71.755, "B", 0),  # BAT, at U2 pin 2
     "C3":  (28.575, 74.93, "B", 0),   # SYS, at U2 pin 1

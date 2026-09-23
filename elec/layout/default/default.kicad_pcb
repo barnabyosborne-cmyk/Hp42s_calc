@@ -21439,7 +21439,7 @@
 	(footprint "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical"
 		(layer "B.Cu")
 		(uuid "f4ecf478-de6c-4a08-93dd-580a9b8d3753")
-		(at 33.02 63.5)
+		(at 50.8 64.77 180)
 		(descr "JST PH series connector, B2B-PH-K (http://www.jst-mfg.com/product/pdf/eng/ePH.pdf)")
 		(tags "connector JST PH vertical")
 		(property "Reference" "BT1"
@@ -21783,7 +21783,7 @@
 			)
 		)
 		(pad "1" thru_hole roundrect
-			(at 0 0)
+			(at 0 0 180)
 			(size 1.2 1.75)
 			(drill 0.75)
 			(layers "*.Cu" "*.Mask")
@@ -21794,7 +21794,7 @@
 			(uuid "ff427aae-414e-4e33-a4d3-3f1926cca430")
 		)
 		(pad "2" thru_hole oval
-			(at 2 0)
+			(at 2 0 180)
 			(size 1.2 1.75)
 			(drill 0.75)
 			(layers "*.Cu" "*.Mask")

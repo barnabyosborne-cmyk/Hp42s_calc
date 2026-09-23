@@ -301,8 +301,16 @@ component TPD4E05U06:
     # Pins 6, 7, 9, 10 are no-connects on this part.
 
 component Battery:
-    # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh. Two-pad JST or soldered tabs.
-    footprint = "Connector_JST:JST_PH_B2B-PH-K_1x02_P2.00mm_Vertical"
+    # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh.
+    #
+    # S2B-PH-SM4-TB, not the B2B vertical it started as. Two reasons, both
+    # Barnaby's, 23 September 2026. The vertical one takes the plug from
+    # above, and the plug plus its leads need more headroom than the cell
+    # beside it is tall. And its through-holes went straight through the
+    # board into the SW3 dome site on the front. The SM4-TB is side entry
+    # and fully surface mount: nothing pierces the board, and the leads
+    # leave it flat.
+    footprint = "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
     designator_prefix = "BT"
     value = "LiPo 1650 mAh"
     signal p ~ pin 1
