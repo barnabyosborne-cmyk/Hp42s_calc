@@ -248,19 +248,51 @@ courtyard and drops to `In2.Cu`.
 
 ### 4b. Constraints
 
-Go to **Design Rules → Constraints**. Set:
+Go to **Design Rules → Constraints**.
+
+Everything on this page is a **floor**, not a value. Nothing here decides how
+wide your tracks come out — that is the net classes in 4c. These exist only to
+make DRC shout when you draw something the fab cannot make, so the right
+numbers are your fab's capabilities, not your preferences.
+
+Four to set, in the **Copper** and **Holes** groups on the left:
 
 | Setting | Value | Why |
 |---|---|---|
-| Minimum clearance | `0.2 mm` | every cheap fab meets this |
-| Minimum track width | `0.15 mm` | you will not go this thin, but it is the floor |
-| Minimum via diameter | `0.45 mm` | |
-| Minimum through hole | `0.3 mm` | |
-| Minimum annular width | `0.075 mm` | |
+| Minimum clearance | `0.2 mm` | every cheap fab beats this comfortably |
+| Minimum track width | `0.15 mm` | you will not go this thin; it is the floor |
+| Minimum via diameter | `0.5 mm` | see below — this one has to agree with the next two |
+| Minimum drill size | `0.3 mm` | the smallest hole a cheap fab will drill without a surcharge |
 
-These are deliberately conservative. A board this dense does not need
-fine-pitch rules anywhere except under the module, and paying for tighter
-tolerances would be paying for nothing.
+And **leave "Minimum annular width" at KiCad's `0.1 mm`.**
+
+**Those three numbers have to agree with each other**, which is the part that
+is easy to get wrong. The annular ring is the copper left around a hole, so
+
+```
+annular width = (via diameter − drill) / 2
+```
+
+At a 0.5 mm via on a 0.3 mm drill that is exactly 0.1 mm, which is what the
+annular rule asks for and what a cheap fab quotes. A 0.45 mm via on the same
+drill gives only 0.075 mm, so a via drawn at the minimum diameter would fail
+the annular rule — an internally inconsistent set of limits, which is worth
+avoiding even though nothing on this board is drawn anywhere near these floors.
+(The net classes in 4c use 0.6/0.3 and 0.8/0.4, so 0.15 and 0.2 mm of ring.)
+
+**Leave every other field on the page alone.** KiCad's defaults are right for
+this board and several of them matter:
+
+- **Copper to edge clearance `0.5 mm`** keeps the pours back from the outline,
+  which matters here because the left edge is notched and the module's antenna
+  hangs off the bottom.
+- **uVias** are microvias and there are none on this board.
+- **Silk minimum text height `0.8 mm`** is about the smallest a fab will print
+  legibly, and you have 38 dome sites to label.
+
+These are all deliberately loose. A board this dense does not need fine-pitch
+rules anywhere except under the module, and paying for tighter tolerances would
+be paying for nothing.
 
 ### 4c. Net classes
 
