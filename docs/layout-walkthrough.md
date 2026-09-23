@@ -43,8 +43,12 @@ end of step 8, not to the beginning.
 
 ```bash
 cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
-git add -A && git commit -m "layout: step N done"
+git add -A && git commit -m "layout: step N done" && git push origin main
 ```
+
+**Push every time, not just commit.** I cannot see your machine — the pushed
+repo is the only version of the board I can look at. "I have done step 8, can
+you check" only works if step 8 is on GitHub.
 
 **Quote the path in every shell command.** The checkout lives at
 
@@ -149,7 +153,7 @@ of them.
 saying `default.kicad_pcb`.
 
 ```bash
-git add -A && git commit -m "layout: empty KiCad project"
+git add -A && git commit -m "layout: empty KiCad project" && git push origin main
 ```
 
 ---
@@ -252,7 +256,7 @@ What each is for on this board:
 |---|---|
 | `F.Cu` | dome pads, the panel's connector, short signal runs |
 | `In1.Cu` | **solid ground.** Do not cut it up. |
-| `In2.Cu` | 3.3 V pour, plus the keypad column and row nets |
+| `In2.Cu` | 3.3 V pour over the whole layer, with the keypad column and row nets routed through it |
 | `B.Cu` | everything else, and a second ground pour |
 
 The keypad matrix has to live on an inner layer because nothing can route
@@ -408,7 +412,7 @@ editing its net class.
 **OK** to close Board Setup.
 
 ```bash
-git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes"
+git add -A && git commit -m "layout: 4-layer 1.6 mm stackup, net classes" && git push origin main
 ```
 
 ---
@@ -517,7 +521,7 @@ take — go back and fix the library path before doing anything else.
 log. You can confirm the count with **Inspect → Show Board Statistics**.
 
 ```bash
-git add -A && git commit -m "layout: import 119 footprints"
+git add -A && git commit -m "layout: import 119 footprints" && git push origin main
 ```
 
 ---
@@ -634,7 +638,7 @@ below the bottom row. Measure it with `Ctrl+Shift+M` if it looks off.
    them, which is `L` again.
 
 ```bash
-git add -A && git commit -m "layout: placed and repaired"
+git add -A && git commit -m "layout: placed and repaired" && git push origin main
 ```
 
 ---
@@ -709,9 +713,48 @@ that is fine; it is a supplement, not the plane.
 
 ### 8.3 — The 3.3 V pour
 
-On **`In2.Cu`**, net `v3v3`, but **not** the whole board — draw it only over
-the region where the ICs are, behind the keyboard. The rest of `In2.Cu` is
-needed for the keypad matrix.
+**Draw it over the whole board.** An earlier version of this page said to pour
+it only over "the region where the ICs are" and to leave the rest for the
+keypad matrix. That was written before the placement existed, and it is not
+possible: the ICs ended up on the back *behind the keyboard*, so the IC region
+and the matrix region are the same region. Barnaby spotted this on
+23 September 2026.
+
+It does not need to be carved up, because a zone is not a track. KiCad knocks
+a zone back around every pad and every track of a different net as it fills,
+so the matrix will cut its own channels through the 3.3 V pour without you
+doing anything. Where the matrix is dense the pour becomes a web between the
+tracks; where there is nothing — the top third of the board, above the
+keyboard — it stays a solid plane. That top third is exactly where 3.3 V has
+the furthest to go: the panel's connector, and the two LEDs on the top edge.
+
+1. **`In2.Cu`**, `Alt+Z`, net **`v3v3`**, **priority 0**.
+2. Draw it a little outside the board outline, as in 8.1.
+3. In the same dialog set **Remove islands: Yes**. Without it you get little
+   marooned patches of 3.3 V between matrix tracks, which do nothing and
+   confuse DRC.
+
+### 8.3b — Ground under the three switching nodes
+
+One exception to the above. The stack-up is `F.Cu / In1.Cu / In2.Cu / B.Cu`,
+so the layer directly under a part on the back is `In2.Cu` — the 3.3 V pour.
+Three of those parts switch hard: the display boost, the frontlight boost and
+the 3.3 V regulator. You do not want their switch nodes capacitively coupled
+straight into the rail that feeds the module and the panel.
+
+So put ground under them instead. Three more zones on **`In2.Cu`**, net
+**`gnd`**, **priority 1** — a higher number wins, so these fill first and the
+3.3 V pour flows around them:
+
+| | X | Y |
+|---|---|---|
+| display boost | 3.0 to 24.0 | 63.5 to 82.0 |
+| frontlight boost | 57.5 to 74.0 | 59.0 to 72.0 |
+| 3.3 V regulator | 30.0 to 42.0 | 85.5 to 95.0 |
+
+Those are board coordinates in mm, each about 1 mm clear of the block it
+covers. Draw each roughly with the mouse and then fix the corners exactly:
+select the zone, press **`E`**, and the Corners tab lets you type them in.
 
 ### 8.4 — The antenna keepout
 
@@ -728,7 +771,7 @@ through it, which is the point.
 Press **`B`** again to refill everything.
 
 ```bash
-git add -A && git commit -m "layout: ground planes and antenna keepout"
+git add -A && git commit -m "layout: ground planes and antenna keepout" && git push origin main
 ```
 
 ---
@@ -785,13 +828,19 @@ Each dome ring gets a via placed **outside its courtyard** — there is 0.6 mm o
 clearance between adjacent numeric domes' courtyards and nothing at all routes
 between them on the front — and drops to `In2.Cu`, where there is room.
 
+Keep matrix tracks out of the three rectangles in step 8.3b if you can. A
+matrix line is slow and high impedance, which makes it a good aerial for
+anything a switching node injects into it, and the failure mode is a phantom
+keypress. There is plenty of room to go round; it is only about 5% of the
+layer.
+
 There are no diodes in this matrix, which means the firmware is responsible for
 ghosting. That is already handled; see `docs/connections.md`.
 
 **Done looks like:** DRC reports zero unrouted nets.
 
 ```bash
-git add -A && git commit -m "layout: routing complete"
+git add -A && git commit -m "layout: routing complete" && git push origin main
 ```
 
 ---
