@@ -6,6 +6,17 @@ Measure the physical panel before committing the board — the drawing gives the
 tail length to ±0.3 mm and does not say unambiguously which edge of the glass
 it is measured from.
 
+**The Pi Hut's panel is the same panel.** Barnaby found a
+`ZJY296152-0266EAAMFGN` (Zhengzhou Zhongjingyuan, spec rev 1.1, 16 Nov 2022)
+he can buy locally, and it is a drop-in: SSD1680, 296 × 152, 30.704 × 60.088
+active area, 36.30 × 71.82 × 1.0 glass, 14.30 mm tail, 12.50 mm wide, 0.30
+thick, 24 contacts at 0.5 mm over an 11.50 mm span, and the same 24-pin
+assignment from NC/GDR/RESE through to VCOM. The application circuit on its
+page 28 is the same one in `elec/src/display.ato`, down to the 2.2 Ω sense
+resistor, the MBR0530s, the Si1304BDL and the 47 µH inductor. Both are the
+same OEM glass on the same `FPC-A003` flex, which is why the numbers agree to
+the third decimal. Nothing on the board or in the firmware changes.
+
 ## The tail
 
 | | |
@@ -26,6 +37,36 @@ put one.
 
 So the tail folds **around the board's left edge**, which is what Barnaby
 proposed and is what every ESL tag using this panel does.
+
+### Which face the contacts are on, and what it costs
+
+**The contacts are on the panel's viewing face.** Two independent checks say
+so. The `ZJY296152` drawing's side view labels *contact side* on the left-hand
+face, which in third-angle projection — side view to the right of the front
+view — is the front of the module. And Barnaby laid the physical panel face up
+on 23 September 2026 and photographed it: the gold fingers are on top.
+
+That settles the connector, and not the way the board was drawn. The panel
+sits on the FRONT of the board with its viewing face pointing away from the
+board, so its contacts point away from the board too. The half-turn around the
+left edge carries that straight through: on the back they still face away from
+the board. So the contacts present themselves to the **top** of whatever is
+mounted there.
+
+**The connector therefore has to be top contact.** It was a Hirose
+FH12-24S-0.5SH, which is bottom contact — Hirose's own series page says
+"0.5mm Pitch, Height 2.0mm Bottom Contact, Front Flip". A bottom-contact part
+clamps the flex's board-facing side, which here is the bare backing. It would
+have held the flex perfectly well and connected nothing.
+
+It is now an **Amphenol F32Q-1A7H1-11024**: top contact, 0.5 mm pitch, 24 way,
+2.00 mm high, 0.5 A, right-angle SMT ZIF. Same height as the FH12, 1.2 mm
+shallower front to back. The **F32R** is the identical shell with bottom
+contacts, so the letter matters when ordering.
+
+There is no way to fold round this. A Z-fold before the edge would flip the
+flex over, but the tail has 14.30 mm in it and the edge wrap already spends
+3.30 of that; there is not another fold's worth left.
 
 ### The fold, with numbers
 
@@ -182,13 +223,30 @@ on the board. See `docs/top-edge.md`.
 | Tail, unfolded | X −13.75 → 0.55, Y 23.90 → 36.40 |
 | Fold apex | X −0.50, which is 0.30 mm clear of the case wall |
 | Back leg ends | X 10.50 |
-| FPC connector | origin X 9.00, Y 30.15, on the back, mouth facing the left edge |
+| FPC connector | origin X 9.75, Y 30.15, 270°, on the back, mouth facing the left edge |
+| Connector body | X 7.50 → 10.50, courtyard X 5.80 → 12.50, Y 20.00 → 40.30 |
+| Solder pad row | X 6.85, pin 1 at Y 24.40, pin 24 at Y 35.90 |
 
-The connector is a Hirose FH12-24S-0.5SH, whose pad row sits 1.85 mm from its
-origin — so the pads land at X 7.15, inside the last 3 mm of flex. Move the
-connector 2 mm right and the flex pulls out of the contacts. The connector
-*body* may run further right than X 10.50; nothing constrains that. What is
-constrained is where its pads are.
+The connector is an Amphenol F32Q-1A7H1-11024. Its body is 3.00 mm deep, and
+the back wall of that body goes at X 10.50 — where the flex ends — so the flex
+bottoms out against it and its own 3.00 mm of exposed finger fills the body
+exactly. Wherever inside that body the contact point actually is, it is on
+copper. The solder pads stand 0.65 mm proud of the mouth and land at X 6.85.
+
+**Corrected 23 September 2026.** The board file had this at 90° rather than
+270°, which is a single error that showed up twice: the mouth pointed right,
+away from the fold, with the flex arriving at the closed end of the connector;
+and the pin order ran backwards. Both are fixed by the one turn.
+
+The pin order, from first principles: on the panel's own front view the tail
+leaves the bottom edge with pin 1 at the left. Mounted landscape with the tail
+to the left, that is a quarter turn clockwise, which puts pin 1 at the top of
+the board. The fold is about the board's left edge, a vertical axis, so it
+mirrors X and leaves Y alone. Pin 1 therefore arrives at Y 24.40 and pin 24 at
+Y 35.90, which is what 270° gives.
+
+The cost of turning it round is that the body now runs right, into the battery
+bay, as far as X 12.50. See below.
 
 There is still 3.63 mm of board to the right of the glass, so nothing on that
 side is tight.
@@ -229,10 +287,17 @@ short in a LiPo is a fire. Nothing goes under the cell.
 **As the board now stands**, the top of the back is bounded by the USB-C
 receptacle's through-hole shield fillets, which land in about board Y 0 to 5,
 and by the keyboard, which starts at board Y 59. That leaves a bay **about
-54 mm tall**, full width apart from the FPC connector in the left 10 mm. A
+54 mm tall**, full width apart from the FPC connector in the left 13 mm. A
 50 × 60 × 5 mm cell fits, and the three ways out below are no longer needed —
 they are kept because they are the fallbacks if the cell you can actually buy
 is a different shape.
+
+**The cell's X moved on 23 September 2026.** It was drawn at X 10 → 70. The
+FPC connector, turned the right way round, reaches X 12.50, so the cell now
+starts at **X 14** and runs to **X 74** — still 60 mm, with 1.5 mm to the
+connector and 2 mm to the board's right edge. `check_placement.py` has the bay
+starting at X 13 to match. This is a number for the case model: the cell
+pocket is not centred on the board.
 
 What follows was written when the six top-edge parts were on the back and the
 bay was 49 mm:

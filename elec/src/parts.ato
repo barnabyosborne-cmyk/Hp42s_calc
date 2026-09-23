@@ -586,22 +586,35 @@ component ESP32S3MINI1:
     signal GND65 ~ pin 65
 
 component EPDConnector:
-    # 24-pin 0.5 mm FPC, bottom contact, for the Good Display GDEY0266T90.
-    # The panel mounts on the FRONT of the board and the tail folds through a
-    # slot to this connector on the BACK, so its height stays out of the
-    # front stack-up.
+    # 24-pin 0.5 mm FPC, TOP CONTACT, for the 2.66 inch SSD1680 panel.
+    # The panel mounts on the FRONT of the board and the tail folds around the
+    # left board edge to this connector on the BACK, so its height stays out
+    # of the front stack-up.
     #
-    # Pin NUMBERS here, from the panel specification (24.12.03) page 28.
-    # This is the one part in the file where the numbering is certain, so it
-    # is written down: the tail is a plain 24-way 0.5 mm flex and pad 1 of
-    # the connector really is panel pin 1.
+    # Pin NUMBERS here, from the panel specification page 28. This is the one
+    # part in the file where the numbering is certain, so it is written down:
+    # the tail is a plain 24-way 0.5 mm flex and pad 1 of the connector really
+    # is panel pin 1.
     #
-    # Check the tail direction before ordering. FH12 is bottom-contact; if
-    # the tail folds the other way you want a top-contact part instead, and
-    # that is a different footprint with the same 24 pads.
-    footprint = "Connector_FFC-FPC:Hirose_FH12-24S-0.5SH_1x24-1MP_P0.50mm_Horizontal"
+    # TOP CONTACT, and that is not a preference. The panel's contacts are on
+    # its VIEWING face -- the datasheet's side view marks the contact side on
+    # the front face, and Barnaby confirmed it on the physical panel on
+    # 23 September 2026: laid face up, the gold fingers are on top. The panel
+    # is on the front of the board with its viewing face pointing away from
+    # the board, so the contacts point away from the board too; the half-turn
+    # around the left edge carries that through, and on the back they face
+    # away from the board again. A bottom-contact part clamps the flex's
+    # BOARD-facing side, so it would be holding the bare backing. This
+    # started as a Hirose FH12-24S-0.5SH, which is bottom contact, and that
+    # was wrong.
+    #
+    # Amphenol F32Q-1A7H1-11024. Top contact, 0.5 mm pitch, 24 way, 2.00 mm
+    # high, 0.5 A, right angle SMT ZIF -- the same height as the FH12 it
+    # replaces and 1.2 mm shorter front to back. The F32R is the same shell
+    # with bottom contacts, so order the Q.
+    footprint = "Connector_FFC-FPC:Amphenol_F32Q-1A7x1-11024_1x24-1MP_P0.5mm_Horizontal"
     designator_prefix = "J"
-    value = "GDEY0266T90 FPC"
+    value = "EPD FPC 24way top contact"
     signal NC1   ~ pin 1
     signal GDR   ~ pin 2
     signal RESE  ~ pin 3

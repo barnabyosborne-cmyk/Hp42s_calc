@@ -110,7 +110,6 @@ TARGETS.update({
     "D5":   (48.0, 1.050),     # status LED
     "SW41": (57.0, 1.800),     # boot
     "SW40": (66.0, 1.800),     # reset
-    "J2":   (9.00, 30.15),     # panel FPC, on the back
 })
 
 # ---------------------------------------------------------------------------
@@ -180,6 +179,45 @@ FIRST_PASS = {
     "TP1": (9.5, 50.5, "F", 0),
     "TP2": (69.5, 50.5, "F", 0),
     "TP3": (3.81, 53.34, "F", 0),
+
+    # -- BACK, Y 20..40, left edge: the panel's FPC connector ----------------
+    # The one placement on the board with no slack in it, and it was wrong in
+    # both of the ways it could be until 23 September 2026. It was at 90
+    # degrees; it wants 270.
+    #
+    # WHICH WAY THE MOUTH FACES. The flex comes around the left board edge
+    # and runs rightwards along the back, so the connector's mouth has to
+    # face LEFT and its body has to sit to the RIGHT of it. At 90 degrees it
+    # was the other way round: mouth at X 12.00 facing right, body running
+    # back to X 4.10, with the flex arriving at the closed end of it.
+    #
+    # HOW FAR IN. The back leg of the tail ends at X 10.50 and cannot be
+    # made to end anywhere else -- see docs/display-mounting.md. The F32Q's
+    # body is 3.00 mm deep, so its BACK WALL goes at X 10.50 and the flex
+    # bottoms out against it: mouth at X 7.50, and the flex's own 3.00 mm of
+    # exposed finger runs X 7.50..10.50, which is exactly the body. Wherever
+    # inside that body the contact point actually is, it is on copper.
+    # X 9.75 is what puts the back wall there, and the solder pads, which
+    # stand 0.65 mm proud of the mouth, land at X 6.85.
+    #
+    # Y 30.15 is the tail's own centreline: the tail is centred on the
+    # panel's 36.30 mm edge, 11.90 + 12.50 + 11.90, and the glass spans
+    # Y 12.00..48.30.
+    #
+    # PIN ORDER. On the panel's own front view the tail leaves the bottom
+    # edge with pin 1 at the left. Mounted landscape with the tail to the
+    # left that is a quarter turn clockwise, which puts pin 1 at the TOP of
+    # the board. The fold is about the board's left edge, a vertical axis,
+    # so it mirrors X and leaves Y alone, and pin 1 arrives at Y 24.40 with
+    # pin 24 at Y 35.90. 270 degrees gives that. 90 gave the reverse, which
+    # is the same single error as the mouth pointing the wrong way.
+    #
+    # WHERE THE CELL GOES. At 270 the connector's body runs right to
+    # X 12.50 instead of stopping at 12.00 the wrong way round, so the cell
+    # has to start at X 14 rather than the 10 the bay was drawn at. It has
+    # the room -- 60 mm of cell in a 62 mm bay -- but it is a note for the
+    # case model, and it is why BAY in check_placement.py now starts at 13.
+    "J2": (9.75, 30.15, "B", 270),
 
     # -- BACK, Y 59.5..64: the panel's own rail capacitors -------------------
     # These six belong at J2's pins. They cannot get there: the battery bay
@@ -454,6 +492,21 @@ def main():
     missing = [r for r in list(TARGETS) + list(FIRST_PASS) if r not in refs]
     if missing:
         print("not on the board yet, skipped: " + ", ".join(sorted(missing)))
+
+    # J2's X is the one number on the board that is set by a part's internal
+    # geometry rather than by where it should sit, so it is worth saying out
+    # loud when the part in the file is not the part the number was worked
+    # out for. 10.05 assumes the Amphenol F32Q's 2.90 mm pad offset; the
+    # Hirose FH12 it replaced had 1.85 and wanted 9.00.
+    if "J2" in refs:
+        lib = blocks[refs.index("J2")].split('"', 2)[1]
+        if "F32Q" not in lib:
+            print(f"WARNING: J2 is still {lib}.\n"
+                  "         X 9.75 is worked out from the Amphenol F32Q's "
+                  "own depth, so the mouth\n"
+                  "         has landed in the wrong place. Rebuild and "
+                  "re-import the netlist,\n"
+                  "         then run this again.")
     return 0
 
 

@@ -40,7 +40,9 @@ PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kica
 BOARD_W, BOARD_H = 76.0, 144.0
 GAP = 1.0                 # between courtyards, same side
 EDGE = 0.5                # courtyard to board outline
-BAY = (10.0, 5.0, 76.0, 59.0)        # back only: the cell, and the FPC's strip
+BAY = (13.0, 5.0, 76.0, 59.0)        # back only: the cell. It used to start at
+                                     # X 10; J2 turned the right way round needs
+                                     # to X 12.50, and 60 mm of cell still fits.
 GLASS = (12.0, 48.3)                  # front only, full width
 KEYS_TOP = 57.0                       # front only, below this the domes live
 # The ESP32 module's antenna keepout is worked out from the module's own
