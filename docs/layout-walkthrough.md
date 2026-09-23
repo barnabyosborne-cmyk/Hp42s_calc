@@ -408,12 +408,18 @@ after a clone or a pull there is no `build/default.net` on your machine at all.
 Run this before you go looking for it:
 
 ```bash
+conda activate ato
 cd /path/to/Hp42s_calc
 ato --non-interactive build
 ```
 
-Note that `--non-interactive` goes **before** `build`, not after. It is a flag
-on the `ato` command itself, and putting it after gives you
+**The `conda activate ato` is not optional.** atopile lives in a conda
+environment called `ato`, not in `base`, so a fresh terminal gives you
+`-bash: ato: command not found`. `conda env list` shows the environments if the
+name ever changes.
+
+Note also that `--non-interactive` goes **before** `build`, not after. It is a
+flag on the `ato` command itself, and putting it after gives you
 `No such option: '--non-interactive'`.
 
 It takes two to four minutes and ends with `Build complete!`. You now have
