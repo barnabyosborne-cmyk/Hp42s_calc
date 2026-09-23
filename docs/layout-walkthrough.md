@@ -296,16 +296,40 @@ be paying for nothing.
 
 ### 4c. Net classes
 
-Go to **Design Rules → Net Classes**. There is a `Default` class already. Set
-its **Track Width** to `0.2 mm`, **Via Size** `0.6 mm`, **Via Hole** `0.3 mm`,
-**Clearance** `0.2 mm`.
+*These* are the numbers that decide what gets drawn, as opposed to 4b's floors.
+Each class says how wide a track on its nets comes out and how big its vias
+are, and you can change a class later and have every net on it follow.
 
-Add two more with the **+** button:
+Go to **Design Rules → Net Classes**. The column headings are wordier than you
+might expect — **Minimum track width**, **Via pad diameter**, **Via plated hole
+diameter**, **Minimum copper clearance** — and there are differential-pair and
+microvia columns you can ignore, plus a **PCB netclass color** swatch which
+matters below.
 
-| Class | Track width | Via size / hole | For |
-|---|---|---|---|
-| `power` | `0.5 mm` | `0.8 / 0.4 mm` | the rails |
-| `keypad` | `0.2 mm` | `0.6 / 0.3 mm` | 13 matrix nets |
+There is a `Default` class already. Set it to `0.2` track, `0.6` via pad, `0.3`
+via hole, `0.2` clearance. Then add two more with the **+** button:
+
+| Class | Track | Via pad / hole | Clearance | For |
+|---|---|---|---|---|
+| `Default` | `0.2` | `0.6 / 0.3` | `0.2` | everything not named below |
+| `power` | `0.5` | `0.8 / 0.4` | `0.2` | the rails |
+| `keypad` | `0.2` | `0.6 / 0.3` | `0.2` | the 13 matrix nets |
+
+**`keypad` is deliberately identical to `Default`, and that is not a mistake.**
+The matrix carries no current worth the name — a dome contact against a
+pull-up, microamps — so there is nothing to make its tracks wider for, and
+nothing about it that wants a different via.
+
+It exists for a different reason, and you will be glad of it in step 7. In the
+**Appearance** panel there is a **Nets** tab with a **Netclasses** section, and
+right-clicking a class there gives you **Set Netclass Color** and **Hide All
+Other Netclasses**. The keypad matrix is 13 nets across 38 dome sites, which is
+most of the ratsnest on this board; being able to colour it, or switch it off
+entirely while you place the power parts, is the difference between a readable
+ratsnest and a grey fog. A class is the only handle KiCad gives you for that.
+
+So set a colour on it while you are here — anything that stands out — and one
+on `power` too.
 
 Then, in the **pattern assignment** table in the lower half of the same page,
 assign nets to them. Patterns use `*` as a wildcard:
@@ -505,6 +529,12 @@ that is **Highlight Net**, and everything on it lights up. `U` is
 **Select/Expand Connection**, which selects what is connected rather than just
 colouring it. The **Net Inspector** panel (**View → Panels → Net Inspector**)
 lists every net by name if you would rather go at it from that end.
+
+**Turn the keypad matrix off while you do this.** Appearance panel → **Nets**
+tab → **Netclasses**, right-click `keypad` → **Hide All Other Netclasses**, or
+just untick it. Those 13 nets across 38 dome sites are most of the ratsnest on
+the board and none of it is your problem until step 9.5. This is what the
+`keypad` class in 4c was for.
 
 ### The rule that governs all of it
 
