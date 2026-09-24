@@ -884,12 +884,32 @@ them the wrong way round wastes an afternoon:
   antenna rule area from step 8.4 is honoured, and a via keepout over a dome
   would be too.
 
-**The one thing that has to be added before run 2: 38 via keepouts, one over
-each dome site.** A via inside a dome's courtyard fouls the dome — it is a metal
-disc that has to sit flat on its ring — and there is nothing in the board today
-that says so. Step 9.5 below already routes the matrix that way by hand, from
-the same reasoning, but a rule from a walkthrough is not a rule an autorouter can
-read. Allow tracks, disallow vias, and leave the pour alone.
+**The 38 via keepouts are in the board, one over each dome site**, added
+24 September 2026 by `tools/dome_keepouts.py`. A via inside a dome's courtyard
+fouls the dome — it is a metal disc that has to sit flat on its ring — and until
+then nothing in the board said so. Step 9.5 below already routes the matrix that
+way by hand, from the same reasoning, but a rule from a walkthrough is not a rule
+an autorouter can read, and step 9a hands it the matrix deliberately.
+
+Each one is a board-level rule area on all four copper layers, with the dome's
+own courtyard as its outline: **tracks allowed, vias not allowed**, pads allowed,
+copper pour allowed. The courtyard is an octagon 0.25 mm outside the disc, which
+is what the footprints already draw. Using it rather than a bounding square
+leaves the diagonal gaps between adjacent domes open, and on a 12 mm pitch with
+8.5 and 10 mm domes those gaps are most of the room the router has.
+
+If the domes ever move, re-run it — it removes what it wrote last time first, so
+it is safe to run repeatedly and produces a byte-identical file when nothing has
+changed:
+
+```sh
+python3 tools/dome_keepouts.py --check   # 38 keepouts, and the extents
+python3 tools/dome_keepouts.py
+```
+
+Nothing else needs a via keepout. The antenna rule area from step 8.4 already
+disallows both tracks and vias, and where the bottom key row's domes overlap it
+by 0.25 mm the stricter rule is the one that applies.
 
 #### The mechanics
 
