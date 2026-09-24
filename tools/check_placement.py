@@ -67,7 +67,10 @@ ANTENNA_PAD_ALLOWANCE = 0.3
 GRID_IC = 1.27
 GRID_PASSIVE = 0.635
 # Positions that come from the case, the panel or the antenna, not the grid.
-OFF_GRID = {"J2", "U5", "TP1", "TP2", "SW40", "SW41", "J1", "D4", "D5"}
+# The two tact switches are named by whatever place_board.py resolved them to:
+# their designators shift whenever a part before them in the source is added or
+# removed, so naming them literally here goes stale silently. See BY_NET there.
+OFF_GRID = {"J2", "U5", "TP1", "TP2", "J1", "D4", "D5"} | set(pb.RESOLVED.values())
 
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
 FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')

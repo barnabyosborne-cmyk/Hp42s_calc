@@ -114,8 +114,9 @@ below, C2 at its BAT pin, C3 at its SYS pin, the four programming resistors on
 the right-hand side where their pins are.
 
 **Centre, Y 86–96 — the 3V3 regulator.** L1 straddles the TPS63900's two
-switch pins. C4 and C5 are at the VOUT pin, R11 and the three CFG resistors on
-the left where theirs are.
+switch pins. C4 and C5 are at the VOUT pin and the three CFG resistors on
+the left where theirs are. There used to be a fourth resistor here, a 1 M
+holding EN down; EN is tied to SYS now that the power slider is gone.
 
 **Left, Y 87–91 — the fuel gauge**, kept away from both switchers, with its
 BAT bypass at pin 3 and the two I²C pull-ups at pins 7 and 8.
@@ -127,7 +128,7 @@ clear of the antenna keepout.
 board's bottom edge and radiates off it. Its keepout covers Y 138.75–144 from
 X 15.3 to 60.7, which is the chin — where `docs/front-face.md` already keeps
 the metal faceplate out for the same reason. **No copper, no pour and no parts
-in that rectangle.** C8 and C9 bypass 3V3 at pin 3, C7 and R14 hold EN at pin
+in that rectangle.** C8 and C9 bypass 3V3 at pin 3, C7 and R13 hold EN at pin
 45, and the four signal test points sit at the pins they probe.
 
 **Right, Y 85–90 — the four power test points**: BAT, SYS, 3V3, GND.

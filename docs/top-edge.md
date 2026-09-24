@@ -120,8 +120,8 @@ What moved with it, from the front at exactly the same x and y:
 | | serves |
 |---|---|
 | U1, R1, R2, C1 | the USB-C: ESD array, CC pulldowns, VBUS bulk cap |
-| Q2, R18, R19 | the IR emitter's driver |
-| R20, R21 | the status LED's two ballast resistors |
+| Q2, R17, R18 | the IR emitter's driver |
+| R19, R20 | the status LED's two ballast resistors |
 
 They are all directly behind where they were, so every distance to the part it
 serves is unchanged, and the USB pair no longer has to cross the board through

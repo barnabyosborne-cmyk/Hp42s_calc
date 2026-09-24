@@ -559,8 +559,8 @@ top edge:
   D4    IR emitter    -> back, (25.33, 0.9)
   J1    USB-C         -> back, (38.0, 2.475)
   D5    status LED    -> back, (50.57, 1.05)
-  SW40  reset         -> back, (71.31, 1.8)
-  SW41  boot          -> back, (60.65, 1.8)
+  SW39  reset         -> back, (71.31, 1.8)
+  SW40  boot          -> back, (60.65, 1.8)
 panel:
   J2    panel FPC     -> back, (9.0, 30.15), 90 deg -- check the mouth faces the left edge
   drew glass 71.82 x 36.30 on Cmts.User
@@ -1085,6 +1085,41 @@ python3 tools/place_board.py
 python3 tools/fix_pads.py
 python3 tools/check_placement.py
 ```
+
+**Run them in that order and read the first one's output.** `place_board.py`
+now checks the designators before it writes anything, and if it says **STOP**
+it has found what happened on 24 September 2026 and must not be overridden.
+The story is worth knowing, because it is silent by nature:
+
+Deleting the power slider from the source also deleted the 1 M resistor that
+held `EN` down, and atopile hands out designators in source order, so **every
+resistor after it moved down a number** — the old `R12` became `R11`, and so on
+to `R24` becoming `R23`. The netlist re-import renames them in place, correctly,
+and the board is fine. But `place_board.py`'s tables are keyed on designators,
+so the entry written for `R19` was now pointing at the part that used to be
+`R20`. A run of it moved thirteen resistors to each other's positions. The board
+still had the right number of footprints, `fix_pads.py` still reported nothing
+out of place, and `check_placement.py` still said "all clear", because every
+part was on its grid and clear of its neighbours — just the wrong part in each
+spot. The two buttons went the same way: `SW40` (reset) became `SW39` and `SW41`
+(boot) became `SW40`, which would have put reset and boot in each other's holes
+in a moulded case.
+
+Two things now stop that. The buttons are identified by the net on their first
+pad — `en` is reset, `boot` is boot — so they cannot be swapped by a renumber at
+all. And `tools/placement-ids.json` records each designator against the tstamp
+path that does not move, which is what the re-import links on. `place_board.py`
+compares the two on every run and refuses to write if they disagree.
+
+So when it stops, correct the tables in `tools/place_board.py` by hand — only a
+person can say whether the part that inherited a number belongs at that position
+— and then record the new state:
+
+```sh
+python3 tools/place_board.py --record
+```
+
+Commit `placement-ids.json` with the board.
 
 `place_board.py` should no longer warn about `J2`, `fix_pads.py` should report
 nothing out of place, and `check_placement.py` should end in **"all clear"** with

@@ -65,9 +65,43 @@ def pads_of(fpid):
     return {p for p in re.findall(r'\(pad\s+"([^"]*)"', text) if p}
 
 
+def stale_sources():
+    """The .ato files modified since the netlist was built.
+
+    build/ is gitignored, so a checkout carries whatever netlist the last
+    `ato build` left behind -- or one from a different machine entirely. On
+    24 September 2026 this script reported 119 components from a netlist two
+    commits out of date while the real one had 117, which is exactly the sort
+    of difference that costs an afternoon. Say so rather than counting a file
+    nobody rebuilt.
+    """
+    built = os.path.getmtime(NET)
+    src = os.path.join(ROOT, "elec", "src")
+    late = []
+    for dirpath, _dirs, names in os.walk(src):
+        for name in names:
+            if not name.endswith(".ato"):
+                continue
+            full = os.path.join(dirpath, name)
+            if os.path.getmtime(full) > built:
+                late.append(os.path.relpath(full, ROOT))
+    return sorted(late)
+
+
 def main():
     if not os.path.exists(NET):
         sys.exit(f"no netlist at {NET} -- run `ato build` in elec/ first")
+
+    late = stale_sources()
+    if late:
+        print(f"WARNING: the netlist is older than {len(late)} source file(s):")
+        for name in late[:6]:
+            print(f"         {name}")
+        if len(late) > 6:
+            print(f"         ... and {len(late) - 6} more")
+        print("         Everything below describes the OLD netlist. Run "
+              "`ato --non-interactive build` first.\n")
+
     comps, used = read_netlist(NET)
     cache, problems = {}, []
 

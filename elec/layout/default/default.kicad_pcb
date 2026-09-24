@@ -13828,7 +13828,7 @@
 	(footprint "Connector_FFC-FPC:Amphenol_F32Q-1A7x1-11024_1x24-1MP_P0.5mm_Horizontal"
 		(layer "B.Cu")
 		(uuid "9122ee62-8390-4616-9c61-340de689e29c")
-		(at 9.75 30.15 -90)
+		(at 9.75 30.15 270)
 		(descr "Amphenol F32Q/T FPC connector, 24 top-side contacts, 0.5mm pitch, SMT, https://cdn.amphenol-icc.com/media/wysiwyg/files/drawing/f32q-f32t.pdf")
 		(tags "F32T")
 		(property "Reference" "J2"

@@ -41,6 +41,7 @@ Always run these two, in this order:
     python3 tools/check_placement.py   # clearances, outline, bay, keepout, grid
 """
 
+import json
 import re
 import sys
 from pathlib import Path
@@ -174,11 +175,11 @@ FIRST_PASS = {
     #   D4     25.33    22.98 .. 27.68   5.00 to J1
     #   J1     38.00    32.68 .. 43.32   board centre, and case centre at 40
     #   D5     50.57    48.32 .. 52.82   5.00 from J1
-    #   SW41   60.65    57.82 .. 63.48   5.00 from D5
-    #   SW40   71.31    68.48 .. 74.14   5.00 from SW41, 1.86 to the board edge
+    #   BOOT   60.65    57.82 .. 63.48   5.00 from D5
+    #   RESET  71.31    68.48 .. 74.14   5.00 from BOOT, 1.86 to the board edge
     #
     # 5.00 mm is the one free number and it is near the biggest that fits: the
-    # chain is anchored at the centre and runs right, so 5.45 would put SW40's
+    # chain is anchored at the centre and runs right, so 5.45 would put RESET's
     # courtyard on the 0.5 mm edge limit. The left of the edge is empty from
     # x = 0 to 22.98, where the power slider used to be. Nothing has claimed it.
     #
@@ -189,8 +190,8 @@ FIRST_PASS = {
     "D4":   (25.33, 0.900, "B", 180),  # IR emitter
     "J1":   (38.00, 2.475, "B", 0),    # USB-C, on the board's centreline
     "D5":   (50.57, 1.050, "B", 180),  # status LED
-    "SW41": (60.65, 1.800, "B", 0),    # BOOT
-    "SW40": (71.31, 1.800, "B", 0),    # RESET
+    # The two tact switches are NOT here. Their designators move, so they are
+    # resolved by net below -- see BY_NET.
 
     # -- BACK, Y 4..11.7: what the five top-edge parts need -------------------
     #
@@ -225,11 +226,11 @@ FIRST_PASS = {
     "C1":  (42.545, 10.16, "B", 0),
     # The IR emitter's driver, behind D4.
     "Q2":  (25.4, 8.89, "B", 0),
-    "R18": (24.13, 4.445, "B", 0),
-    "R19": (20.955, 8.89, "B", 0),
+    "R17": (24.13, 4.445, "B", 0),
+    "R18": (20.955, 8.89, "B", 0),
     # The status LED's two ballast resistors, behind D5.
-    "R20": (52.07, 4.445, "B", 0),
-    "R21": (48.895, 4.445, "B", 0),
+    "R19": (52.07, 4.445, "B", 0),
+    "R20": (48.895, 4.445, "B", 0),
 
     # -- FRONT, Y 48.3..57 ---------------------------------------------------
     # TP1 and TP2 are the frontlight sliver's solder lands, 60 mm apart
@@ -300,8 +301,8 @@ FIRST_PASS = {
     "Q1":  (8.89, 71.12, "B", 0),
     "L2":  (13.97, 71.12, "B", 0),
     "C16": (13.97, 65.405, "B", 0),   # 3V3 into L2
-    "R15": (5.08, 70.485, "B", 0),    # gate pulldown, at Q1 pin 1
-    "R16": (5.08, 73.025, "B", 0),    # RESE, at Q1 pin 2
+    "R14": (5.08, 70.485, "B", 0),    # gate pulldown, at Q1 pin 1
+    "R15": (5.08, 73.025, "B", 0),    # RESE, at Q1 pin 2
     "D1":  (20.32, 69.85, "B", 0),
     "C17": (20.32, 73.025, "B", 0),   # PREVGH reservoir, after D1
     "C18": (8.255, 75.565, "B", 0),   # the pump capacitor
@@ -319,9 +320,9 @@ FIRST_PASS = {
     "D6":  (66.04, 61.595, "B", 0),
     "C20": (71.12, 61.595, "B", 0),   # VLED reservoir, after D6
     "C22": (71.12, 65.405, "B", 0),   # COMP, at U6 pin 5
-    "R22": (71.12, 67.945, "B", 0),   # FB sense, at U6 pin 6
-    "R23": (63.5, 70.485, "B", 0),    # CTRL divider, at U6 pin 2
-    "R24": (66.675, 70.485, "B", 0),
+    "R21": (71.12, 67.945, "B", 0),   # FB sense, at U6 pin 6
+    "R22": (63.5, 70.485, "B", 0),    # CTRL divider, at U6 pin 2
+    "R23": (66.675, 70.485, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
     # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
@@ -342,13 +343,15 @@ FIRST_PASS = {
 
     # -- BACK, Y 86..96, centre: the 3V3 regulator ---------------------------
     # L1 straddles the TPS63900's two switch pins. C4 and C5 are the output
-    # capacitors, at the VOUT pin; R11 and the three CFG resistors are on
-    # the left where their pins are.
+    # capacitors, at the VOUT pin; the three CFG resistors are on the left
+    # where their pins are.
     "U3":  (33.02, 88.9, "B", 0),
     "L1":  (38.735, 88.9, "B", 0),
     "C4":  (33.02, 92.71, "B", 0),    # 3V3 out, at U3 pin 6
     "C5":  (36.83, 92.71, "B", 0),
-    "R11": (28.575, 87.63, "B", 0),   # REG_EN, at pin 1
+    # There was an R11 here, the 1 M that held EN down. EN is tied to SYS now
+    # that there is no power slider, so the part went with it -- and taking it
+    # out of the source renumbered every resistor after it. See RENUMBERING.
     "R9":  (28.575, 90.17, "B", 0),   # CFG1
     "R10": (28.575, 92.71, "B", 0),   # CFG2
     "R8":  (28.575, 95.25, "B", 0),   # CFG3
@@ -356,16 +359,16 @@ FIRST_PASS = {
     # -- BACK, Y 87..91, left: the fuel gauge --------------------------------
     # The one analogue part on the board, so it is kept away from both
     # boosts: 14 mm below the display inductor and 45 mm from the
-    # frontlight's. C6 is its BAT bypass, at pin 3; R12 and R13 pull the
+    # frontlight's. C6 is its BAT bypass, at pin 3; R11 and R12 pull the
     # I2C bus up, at pins 7 and 8.
     "U4":  (7.62, 88.9, "B", 0),
     "C6":  (3.81, 89.535, "B", 0),
-    "R12": (11.43, 87.63, "B", 0),
-    "R13": (11.43, 90.17, "B", 0),
+    "R11": (11.43, 87.63, "B", 0),
+    "R12": (11.43, 90.17, "B", 0),
 
     # -- BACK, Y 108..125, right: the sounder --------------------------------
     "LS1": (64.77, 118.11, "B", 0),
-    "R17": (64.77, 108.585, "B", 0),
+    "R16": (64.77, 108.585, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
     # U5's position and rotation are set by its antenna, not by the grid.
@@ -387,7 +390,7 @@ FIRST_PASS = {
     "C8":  (27.305, 135.255, "B", 0),  # 3V3, at pin 3
     "C9":  (27.305, 137.795, "B", 0),
     "C7":  (47.625, 136.525, "B", 0),  # EN, at pin 45
-    "R14": (47.625, 133.985, "B", 0),
+    "R13": (47.625, 133.985, "B", 0),
     "TP10": (50.8, 136.525, "B", 0),  # EN
     "TP11": (27.94, 132.08, "B", 0),  # BOOT
     "TP8": (48.26, 130.81, "B", 0),   # UART0 TX, at pin 39
@@ -401,11 +404,136 @@ FIRST_PASS = {
 }
 
 # Where anything not in the table goes, if the netlist grows.
+
+# --- the two parts whose designators move ------------------------------------
+#
+# atopile hands out designators in the order it meets components in the source,
+# so deleting one renumbers everything after it. Deleting the power slider on
+# 24 September 2026 did exactly that: the old SW40 (RESET) became SW39 and the
+# old SW41 (BOOT) became SW40. The netlist re-import renames them in place, as
+# tstamp linking is meant to, and the board is right afterwards -- but a table
+# keyed on designators is then silently wrong, and wrong in the worst way. Under
+# the old table "SW40" still resolved, to BOOT, and BOOT would have been placed
+# at RESET's x while RESET went to the parking heap. Two buttons in the wrong
+# holes of a moulded case, and RESET is the only way to interrupt hung firmware.
+#
+# So these two are keyed on the net their pad 1 sits on, which is fixed by the
+# circuit and cannot be renumbered. `en` is RESET, `boot` is BOOT. Both nets
+# touch other parts -- `en` is on the RC debounce, the module and a test point
+# -- so the footprint has to match as well, and only the two buttons have it.
+FP_MATCH = "SKRTLAE010"
+
+BY_NET = {
+    "en":   (71.31, 1.800, "B", 0),   # RESET
+    "boot": (60.65, 1.800, "B", 0),   # BOOT
+}
+
+NET_RE = re.compile(r'\(net "([^"]+)"\)')
+
+
+def resolve_by_net(text=None):
+    """Add the net-keyed parts to FIRST_PASS under whatever they are called now.
+
+    Returns the mapping it worked out, so a caller can report it. Missing or
+    duplicate matches raise: placing a button in the wrong hole is worse than
+    not placing it, and this is the one check that catches it.
+    """
+    if text is None:
+        if not PCB.exists():
+            return {}
+        text = PCB.read_text()
+
+    found = {}
+    for block in text.split(FP_SPLIT)[1:]:
+        ref = REF_RE.search(block)
+        if not ref or FP_MATCH not in block.split('"')[1]:
+            continue
+        nets = set(NET_RE.findall(block))
+        for net in BY_NET:
+            if net in nets:
+                found.setdefault(net, []).append(ref.group(1))
+
+    resolved = {}
+    for net, spec in BY_NET.items():
+        hits = found.get(net, [])
+        if len(hits) != 1:
+            raise SystemExit(
+                f"net {net!r} is on {len(hits)} {FP_MATCH} footprints "
+                f"({', '.join(hits) or 'none'}), expected exactly 1.\nThe {net!r} "
+                f"entry in BY_NET cannot be placed without guessing which part "
+                f"it means.")
+        FIRST_PASS[hits[0]] = spec
+        resolved[net] = hits[0]
+    return resolved
+
+
 HEAP_ORIGIN = (90.0, 20.0)
 
 FP_SPLIT = "\n\t(footprint "
 AT_RE = re.compile(r'(\n\t\t\(at )(-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?\))')
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
+
+# Needs FP_SPLIT and REF_RE, so it cannot run where BY_NET is defined.
+RESOLVED = resolve_by_net()
+
+
+# --- the renumbering guard ---------------------------------------------------
+#
+# Every table in this file is keyed on a reference designator, and a designator
+# is not a durable name for a part. atopile hands them out in source order, so
+# removing one component renumbers every component of the same prefix after it.
+# That happened on 24 September 2026: taking out the 1 M pulldown on EN moved
+# thirteen resistors down a number, and a run of this script then moved all
+# thirteen to each other's positions. Nothing complained. The board still had
+# 117 footprints, every check still passed, and R18 was simply sitting where
+# R19 belonged.
+#
+# What does not move is the tstamp path KiCad keeps in each footprint's
+# `(path ...)`, because that is the unique id atopile assigns and the netlist
+# re-import links on. So record ref -> path once, and compare on every run. A
+# mismatch means a renumber, and the tables have to be corrected by hand before
+# anything is written -- which is the right outcome, because only a person can
+# say whether the part that inherited a number belongs at that position.
+IDS = Path(__file__).resolve().parent / "placement-ids.json"
+
+PATH_RE = re.compile(r'\n\t\t\(path "([^"]+)"\)')
+
+
+def board_ids(text):
+    """ref -> tstamp path, for every footprint that has both."""
+    out = {}
+    for block in text.split(FP_SPLIT)[1:]:
+        ref = REF_RE.search(block)
+        path = PATH_RE.search(block)
+        if ref and path:
+            out[ref.group(1)] = path.group(1)
+    return out
+
+
+def check_ids(text):
+    """Return a list of (recorded_ref, current_ref) pairs that have swapped.
+
+    An empty list means the board's designators are the ones the tables were
+    written against. No record on disk means we cannot tell, which is reported
+    but not treated as a failure -- the first run has to start somewhere.
+    """
+    if not IDS.exists():
+        print(f"no {IDS.name} yet, so the designators cannot be checked. "
+              f"Run with --record once the board is known good.")
+        return []
+
+    recorded = json.loads(IDS.read_text())
+    current = board_ids(text)
+    by_path = {path: ref for ref, path in current.items()}
+
+    swaps = []
+    for ref, path in sorted(recorded.items()):
+        now = by_path.get(path)
+        if now is None:
+            swaps.append((ref, None))
+        elif now != ref:
+            swaps.append((ref, now))
+    return swaps
 # A pad's own (at x y angle). The angle there is absolute -- it already
 # includes the footprint's rotation -- so turning a footprint has to turn
 # every one of its pads by the same amount or the land pattern comes out
@@ -497,6 +625,26 @@ def flip(block):
 
 def main():
     text = PCB.read_text()
+
+    if "--record" in sys.argv:
+        ids = board_ids(text)
+        IDS.write_text(json.dumps(ids, indent=1, sort_keys=True) + "\n")
+        print(f"recorded {len(ids)} designators in {IDS.name}")
+        return 0
+
+    swaps = check_ids(text)
+    if swaps:
+        print("STOP: the designators have moved since placement-ids.json was "
+              "written.\n")
+        for was, now in swaps:
+            print(f"   {was} is now {now or 'not on the board'}")
+        print("\nThe tables in this file are keyed on designators, so placing "
+              "the board now\nwould put each of these parts where its old "
+              "number belonged. Correct the\ntables by hand, then re-record:"
+              "\n\n    python3 tools/place_board.py --record\n\n"
+              "Nothing has been written.")
+        return 1
+
     head, *blocks = text.split(FP_SPLIT)
 
     # The footprints are one contiguous run, and everything after the last of
@@ -553,6 +701,9 @@ def main():
           f"from the first pass")
     print(f"{len(back_refs())} of them belong on the back; "
           f"{flipped} had to be turned over to get there")
+    if RESOLVED:
+        print("resolved by net: " + ", ".join(
+            f"{ref} is {net.upper()}" for net, ref in sorted(RESOLVED.items())))
     left = moved - len(TARGETS) - len(FIRST_PASS)
     if left:
         print(f"{left} not in either table, parked at "
