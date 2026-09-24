@@ -326,7 +326,9 @@ component TPD4E05U06:
     # Pins 6, 7, 9, 10 are no-connects on this part.
 
 component Battery:
-    # LiPo cell, 5 x 50 x 60 mm, ~1650 mAh.
+    # LiPo cell, 6 x 45 x 55 mm, ~1600 mAh. It was a 5 x 50 x 60 until the
+    # single-sided assembly on 24 September 2026 pushed the bay in; same
+    # capacity, one millimetre thicker. See docs/top-edge.md.
     #
     # S2B-PH-SM4-TB, not the B2B vertical it started as. Two reasons, both
     # Barnaby's, 23 September 2026. The vertical one takes the plug from
@@ -337,7 +339,7 @@ component Battery:
     # leave it flat.
     footprint = "Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal"
     designator_prefix = "BT"
-    value = "LiPo 1650 mAh"
+    value = "LiPo 1600 mAh"
     signal p ~ pin 1
     signal n ~ pin 2
 
