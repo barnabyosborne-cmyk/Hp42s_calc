@@ -133,11 +133,24 @@ def mm(v):
 # pokes into the case wall.
 #
 #   part            x     y      actuator reaches   courtyard reaches
-#   USB-C          36.0   2.475   y = -1.71          y = 7.24
-#   IR emitter     22.0   0.900   y = -0.73          y = 2.34
-#   status LED     48.0   1.050   y = -0.77          y = 2.45
-#   BOOT           57.0   1.800   y = -0.50          y = 3.85
-#   RESET          66.0   1.800   y = -0.50          y = 3.85
+#   IR emitter     25.33  0.900   y = -0.73          y = 2.34
+#   USB-C          38.00  2.475   y = -1.71          y = 7.24
+#   status LED     50.57  1.050   y = -0.77          y = 2.45
+#   BOOT           60.65  1.800   y = -0.50          y = 3.85
+#   RESET          71.31  1.800   y = -0.50          y = 3.85
+#
+# THE X POSITIONS COME FROM ONE RULE, from 24 September 2026. Barnaby asked for
+# the USB-C centred on the board and for the rest spaced evenly off it, measured
+# EDGE TO EDGE rather than centre to centre, which is what the eye sees. So J1
+# sits at 38.00 -- the board's centreline, and the case's at x_case 40 -- and
+# every gap between adjacent courtyards is 5.00 mm. The two LEDs are either side
+# of the connector and the two buttons beyond the status LED, so everything that
+# blinks or gets pressed is in the right-hand half.
+#
+# 5.00 is the one free number in that and it is near the largest that fits: the
+# chain is anchored at the centre and runs right, and 5.45 would put RESET's
+# courtyard on the 0.5 mm edge limit. As drawn RESET clears the edge by 1.86 mm
+# and the board is empty from x = 0 to 22.98, where the slider used to be.
 #
 # THE USB-C CHANGED ON 22 September 2026, to a GCT USB4105-GF-A from a Same Sky
 # UJ20, to get off a doubtful land pattern and onto one drawn from the vendor's
@@ -146,9 +159,9 @@ def mm(v):
 # line did.
 #
 EDGE_PARTS = {
-    "Vishay_VSMB2943SLX01_SideView": (22.0, 0.900, "IR emitter"),
-    "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (36.0, 2.475, "USB-C"),
-    "Dialight_599_BiColor_1208_RA": (48.0, 1.050, "status LED"),
+    "Vishay_VSMB2943SLX01_SideView": (25.33, 0.900, "IR emitter"),
+    "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (38.00, 2.475, "USB-C"),
+    "Dialight_599_BiColor_1208_RA": (50.57, 1.050, "status LED"),
 }
 
 # The two tact switches, by the net each one pulls down: BOOT sits inboard of
@@ -156,7 +169,7 @@ EDGE_PARTS = {
 # hp42s.ato declares sw_reset before sw_boot, and atopile hands out
 # designators in declaration order, so the LOWER reference number is RESET.
 TACT_FOOTPRINT = "Alps_SKRTLAE010_SidePush"
-TACT_ORDER = [(66.0, 1.800, "reset"), (57.0, 1.800, "boot")]
+TACT_ORDER = [(71.31, 1.800, "reset"), (60.65, 1.800, "boot")]
 
 # Both LEDs are the edge parts that ARE rotated 180 -- the opposite of the
 # other three, and the opposite of what they wanted on the front. Their lens

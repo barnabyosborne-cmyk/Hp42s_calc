@@ -556,11 +556,11 @@ here is the most common reason this step appears to do nothing.
 
 ```
 top edge:
-  D4    IR emitter    -> back, (22.0, 0.9)
-  J1    USB-C         -> back, (36.0, 2.475)
-  D5    status LED    -> back, (48.0, 1.05)
-  SW40  reset         -> back, (66.0, 1.8)
-  SW41  boot          -> back, (57.0, 1.8)
+  D4    IR emitter    -> back, (25.33, 0.9)
+  J1    USB-C         -> back, (38.0, 2.475)
+  D5    status LED    -> back, (50.57, 1.05)
+  SW40  reset         -> back, (71.31, 1.8)
+  SW41  boot          -> back, (60.65, 1.8)
 panel:
   J2    panel FPC     -> back, (9.0, 30.15), 90 deg -- check the mouth faces the left edge
   drew glass 71.82 x 36.30 on Cmts.User
@@ -701,6 +701,15 @@ on bare board.
    board edge automatically, so overshooting is correct.
 7. Press **`B`** to fill all zones.
 
+**All three of the big pours are drawn to the same rectangle: (−1, −1) to
+(77, 145)**, which is the 76 × 144 mm board with a 1 mm margin on every side.
+They were three different hand-drawn shapes until 24 September 2026 — one a
+ragged hexagon overhanging by 7 mm on one side and 5 on another, one a
+trapezoid — and Barnaby asked for the zones to line up. Nothing about the fill
+changes, because KiCad clips all three to the board edge anyway; what changes is
+that the outlines now say what they mean. If you redraw one, type the corners in
+rather than clicking: select the zone, press **`E`**, and use the Corners tab.
+
 `In1.Cu` should go solid copper. **Leave it that way.** Every signal on this
 board returns through it, and a slot cut in it forces a return current to go
 the long way round, which is how a board that looks fine radiates.
@@ -728,7 +737,7 @@ keyboard — it stays a solid plane. That top third is exactly where 3.3 V has
 the furthest to go: the panel's connector, and the two LEDs on the top edge.
 
 1. **`In2.Cu`**, `Alt+Z`, net **`v3v3`**, **priority 0**.
-2. Draw it a little outside the board outline, as in 8.1.
+2. Same rectangle as the other two, (−1, −1) to (77, 145).
 3. In the same dialog set **Remove islands: Yes**. Without it you get little
    marooned patches of 3.3 V between matrix tracks, which do nothing and
    confuse DRC.
@@ -747,13 +756,23 @@ So put ground under them instead. Three more zones on **`In2.Cu`**, net
 
 | | X | Y |
 |---|---|---|
-| display boost | 3.0 to 24.0 | 63.5 to 82.0 |
+| display boost | **0.5 to 24.0** | **61.0 to 82.0** |
 | frontlight boost | 57.5 to 74.0 | 59.0 to 72.0 |
 | 3.3 V regulator | 30.0 to 42.0 | 85.5 to 95.0 |
 
-Those are board coordinates in mm, each about 1 mm clear of the block it
-covers. Draw each roughly with the mouse and then fix the corners exactly:
-select the zone, press **`E`**, and the Corners tab lets you type them in.
+Those are board coordinates in mm. **Each is its block's own bounding box plus
+1 mm, rounded outwards to the nearest half millimetre** — one rule, applied the
+same way three times, which is what makes them look like a set rather than three
+mouse gestures.
+
+**The display boost's rectangle changed on 24 September 2026, and not for
+neatness.** Applying that rule found it was 1.3 mm short on the left and 1.4 mm
+short at the top, so `C13` and its neighbours at X 1.69 and Y 62.14 were sitting
+over the 3.3 V pour rather than over ground — which is the one thing these three
+zones exist to prevent. The other two were already right.
+
+Draw each roughly with the mouse and then fix the corners exactly: select the
+zone, press **`E`**, and the Corners tab lets you type them in.
 
 ### 8.4 — The antenna keepout
 

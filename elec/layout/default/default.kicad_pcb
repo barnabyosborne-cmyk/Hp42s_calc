@@ -153,7 +153,7 @@
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "B.Cu")
 		(uuid "03a70054-96f4-4f86-8509-8f6c9817bae5")
-		(at 40.005 10.16)
+		(at 42.545 10.16)
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C1"
@@ -409,7 +409,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "093de39a-53c3-4dd2-ac7f-6acf517ada84")
-		(at 49.53 4.445)
+		(at 52.07 4.445)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R20"
@@ -875,7 +875,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "15338df0-88ee-41ab-a855-912a66f5771e")
-		(at 18.415 8.89)
+		(at 20.955 8.89)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R19"
@@ -1031,7 +1031,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "17f2f39c-3069-42f7-8d5b-b143ce9b1eeb")
-		(at 31.75 10.16)
+		(at 34.29 10.16)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R2"
@@ -1807,509 +1807,6 @@
 			)
 		)
 	)
-	(footprint "Button_Switch_SMD:SW_SPDT_CK_JS102011SAQN"
-		(layer "F.Cu")
-		(uuid "3bf55d5b-e1cb-4448-b96d-88b97a3cfd40")
-		(at 90 20 180)
-		(descr "Sub-miniature slide switch, right-angle, http://www.ckswitches.com/media/1422/js.pdf")
-		(tags "switch spdt")
-		(property "Reference" "SW39"
-			(at 0 -4.8 180)
-			(layer "F.SilkS")
-			(uuid "5011a6e5-ecfb-4c7c-abae-3e117825cfc4")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Value" "?"
-			(at 0 5 180)
-			(layer "F.Fab")
-			(uuid "5d12aa3f-8e6f-4ec4-b68a-26c2b3756c72")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 0 0 180)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "68f67861-447f-455a-b74f-bd42a51694cc")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(property "Description" ""
-			(at 0 0 180)
-			(unlocked yes)
-			(layer "F.Fab")
-			(hide yes)
-			(uuid "a9a2e9dc-e65f-4991-b82a-a8533da1a10c")
-			(effects
-				(font
-					(size 1.27 1.27)
-					(thickness 0.15)
-				)
-			)
-		)
-		(path "/4b36cbdb-a97e-faf5-0fd0-48c380bae5c6/4b36cbdb-a97e-faf5-0fd0-48c380bae5c6")
-		(sheetname "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/elec/src/hp42s.ato:HP42S::power.sw_power")
-		(attr smd)
-		(duplicate_pad_numbers_are_jumpers no)
-		(fp_line
-			(start 4.6 -1.9)
-			(end 4.6 0.4)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "23092ce5-c2f0-4598-a5cf-2386dcd7a241")
-		)
-		(fp_line
-			(start 3.4 -1.9)
-			(end 4.6 -1.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "b1a317ee-0fa9-45a3-a49c-9bc9fa4100f4")
-		)
-		(fp_line
-			(start 1.6 -1.9)
-			(end 0.9 -1.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "7b6777e5-684b-41d6-a8c1-6a70a3a3e0d9")
-		)
-		(fp_line
-			(start -0.9 -1.9)
-			(end -1.6 -1.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "a393d101-4da5-4a98-916d-1838dfacf830")
-		)
-		(fp_line
-			(start -4.6 0.4)
-			(end -4.6 -1.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "112b266e-ae9b-4a61-a37d-e5f1664bb4ec")
-		)
-		(fp_line
-			(start -4.6 -1.9)
-			(end -3.4 -1.9)
-			(stroke
-				(width 0.12)
-				(type solid)
-			)
-			(layer "F.SilkS")
-			(uuid "4b84038d-1da0-4611-87b7-65f3112b50c4")
-		)
-		(fp_line
-			(start 5 2.25)
-			(end 5 -2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "a4772545-5ebb-4db3-adb6-f859fad44654")
-		)
-		(fp_line
-			(start 5 -2.25)
-			(end 3.5 -2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "30c4c314-a672-4f13-9635-7173927716ec")
-		)
-		(fp_line
-			(start 3.5 -2.25)
-			(end 3.5 -4.5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "4c8e9b8f-5bb8-493b-bd73-98251b3d6269")
-		)
-		(fp_line
-			(start 3.5 -4.5)
-			(end -3.5 -4.5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "aac42433-5373-42ae-a86c-6f70db9dbd92")
-		)
-		(fp_line
-			(start 3.25 2.5)
-			(end 3.25 2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "798fe37e-f75e-4eac-82ac-d17d741d7b70")
-		)
-		(fp_line
-			(start 3.25 2.25)
-			(end 5 2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "34d6d7c8-61b7-481c-8e2a-a90c7266c6d2")
-		)
-		(fp_line
-			(start 2.5 4.25)
-			(end 2.5 2.5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "56074df4-9953-42cd-bfa8-a53a5ffaf936")
-		)
-		(fp_line
-			(start 2.5 2.5)
-			(end 3.25 2.5)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "0e05e85b-01f7-4d84-abfe-591e2676433e")
-		)
-		(fp_line
-			(start -2.5 4.25)
-			(end 2.5 4.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "25e306c1-361a-460b-a4bb-25ce2a7e29ce")
-		)
-		(fp_line
-			(start -2.5 2.75)
-			(end -2.5 4.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "bae7a3a1-3cd1-4565-a3a3-71b2dcbe5f26")
-		)
-		(fp_line
-			(start -3.25 2.75)
-			(end -2.5 2.75)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "158710c6-048d-4197-a6dc-499250986496")
-		)
-		(fp_line
-			(start -3.25 2.25)
-			(end -3.25 2.75)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "3ccb9f34-e9fd-4a79-8bb8-711f5bd56399")
-		)
-		(fp_line
-			(start -3.5 -2.25)
-			(end -5 -2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "f7a6de79-ee46-4255-a80f-eab71f5f8750")
-		)
-		(fp_line
-			(start -3.5 -4.5)
-			(end -3.5 -2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "bc8c6eca-3049-4df7-acdc-668b2648c6d4")
-		)
-		(fp_line
-			(start -5 2.25)
-			(end -3.25 2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "f2433ec2-4d72-4a0b-8ccd-17e295a260a6")
-		)
-		(fp_line
-			(start -5 -2.25)
-			(end -5 2.25)
-			(stroke
-				(width 0.05)
-				(type solid)
-			)
-			(layer "F.CrtYd")
-			(uuid "a6b24565-b707-47a3-b123-4ea047c0b3d7")
-		)
-		(fp_line
-			(start 4.5 1.8)
-			(end -4.5 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "92793831-7594-4f43-96ae-39593d079ce9")
-		)
-		(fp_line
-			(start 4.5 -1.8)
-			(end 4.5 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "77eaec7c-cb3c-42ba-9714-3a80de9381e0")
-		)
-		(fp_line
-			(start 2.8 2.1)
-			(end 2.8 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "bd483164-cb1e-44f2-b256-522457289551")
-		)
-		(fp_line
-			(start 2.2 2.1)
-			(end 2.8 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "fd352902-0784-4333-aca6-9546404f2d54")
-		)
-		(fp_line
-			(start 2.2 1.8)
-			(end 2.2 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "72c0e0d1-8742-4872-8f73-a48962a1a270")
-		)
-		(fp_line
-			(start 0.3 2.1)
-			(end -0.3 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "2a0de1c7-6553-4164-9a15-6f820686138c")
-		)
-		(fp_line
-			(start 0.3 1.8)
-			(end 0.3 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "f0c576c5-350c-45b9-9e60-6c84854334a8")
-		)
-		(fp_line
-			(start -0.3 2.1)
-			(end -0.3 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "734a9c33-9389-4525-b1a3-b254767223e0")
-		)
-		(fp_line
-			(start -0.5 3.8)
-			(end -2 3.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "3dadad3f-8686-4a53-8194-3fc800f53d29")
-		)
-		(fp_line
-			(start -0.5 1.8)
-			(end -0.5 3.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "e31f666e-fdb9-4200-a548-4d9020080da2")
-		)
-		(fp_line
-			(start -2 3.8)
-			(end -2 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "eba47f24-a68a-4654-a370-abd98f5af5d3")
-		)
-		(fp_line
-			(start -2.2 2.1)
-			(end -2.8 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "4f3435e9-5ed6-46c5-9acc-9a535bcca269")
-		)
-		(fp_line
-			(start -2.2 1.8)
-			(end -2.2 2.1)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "60035d1c-414a-40d5-98e6-e04d2af21293")
-		)
-		(fp_line
-			(start -2.8 2.1)
-			(end -2.8 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "d996f4a9-d331-4c3f-91c2-42d5371f1769")
-		)
-		(fp_line
-			(start -4.5 -1.8)
-			(end 4.5 -1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "c06baa06-7078-4283-a9f7-01c6e40eaae1")
-		)
-		(fp_line
-			(start -4.5 -1.8)
-			(end -4.5 1.8)
-			(stroke
-				(width 0.1)
-				(type solid)
-			)
-			(layer "F.Fab")
-			(uuid "fec8ce99-427e-480e-b1af-ec96d4381e5a")
-		)
-		(fp_text user "${REFERENCE}"
-			(at 0 0 180)
-			(layer "F.Fab")
-			(uuid "035163ab-08fc-4274-a833-84d954d93e77")
-			(effects
-				(font
-					(size 1 1)
-					(thickness 0.15)
-				)
-			)
-		)
-		(pad "" np_thru_hole circle
-			(at -3.4 0 180)
-			(size 0.9 0.9)
-			(drill 0.9)
-			(layers "*.Cu" "*.Mask")
-			(uuid "46fa2baa-203d-483e-98f4-9bada1622a87")
-		)
-		(pad "" np_thru_hole circle
-			(at 3.4 0 180)
-			(size 0.9 0.9)
-			(drill 0.9)
-			(layers "*.Cu" "*.Mask")
-			(uuid "705f9c22-f3e7-4759-8444-7581f6544f0e")
-		)
-		(pad "1" smd roundrect
-			(at -2.5 -2.75 180)
-			(size 1.25 2.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.2)
-			(net "sys")
-			(pintype "stereo")
-			(uuid "2e204a6d-33e4-4526-b266-c4c3087a0732")
-		)
-		(pad "2" smd roundrect
-			(at 0 -2.75 180)
-			(size 1.25 2.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.2)
-			(net "reg_en")
-			(pintype "stereo")
-			(uuid "3a176f25-9886-4b7a-bdc1-a4a221f23d89")
-		)
-		(pad "3" smd roundrect
-			(at 2.5 -2.75 180)
-			(size 1.25 2.5)
-			(layers "F.Cu" "F.Mask" "F.Paste")
-			(roundrect_rratio 0.2)
-			(net "b")
-			(pintype "stereo")
-			(uuid "b503b072-15b6-44a1-93d7-518e928c0d46")
-		)
-		(embedded_fonts no)
-		(model "${KICAD10_3DMODEL_DIR}/Button_Switch_SMD.3dshapes/SW_SPDT_CK_JS102011SAQN.step"
-			(offset
-				(xyz 0 0 0)
-			)
-			(scale
-				(xyz 1 1 1)
-			)
-			(rotate
-				(xyz 0 0 0)
-			)
-		)
-	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
 		(uuid "431b8b8b-42c8-4612-93f5-a868640c6fb3")
@@ -2623,7 +2120,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "58f82e12-42d6-4cd9-9893-10050189e77a")
-		(at 46.355 4.445)
+		(at 48.895 4.445)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R21"
@@ -4794,7 +4291,7 @@
 	(footprint "hp42s:Vishay_VSMB2943SLX01_SideView"
 		(layer "B.Cu")
 		(uuid "8d381255-53e0-479d-8f3a-e9abf15d520f")
-		(at 22 0.9 180)
+		(at 25.33 0.9 180)
 		(descr "Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, 2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits 1.2 mm above the board face the part is soldered to. Pad 1 = cathode.")
 		(tags "LED IR 940nm side-view sidelooker VSMB2943SLX01")
 		(property "Reference" "D4"
@@ -5401,7 +4898,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "9fd1f49c-a7d7-4eec-8079-39f657e103a8")
-		(at 20.955 4.445)
+		(at 24.13 4.445)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R18"
@@ -6022,7 +5519,7 @@
 	(footprint "Resistor_SMD:R_0402_1005Metric"
 		(layer "B.Cu")
 		(uuid "b060624a-a59c-43bf-950b-274601cdaf62")
-		(at 28.575 10.16)
+		(at 31.115 10.16)
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R1"
@@ -6953,7 +6450,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "B.Cu")
 		(uuid "cd7f9ba3-bf72-4980-8a1a-48b6ece4f553")
-		(at 57 1.8)
+		(at 60.65 1.8)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW41"
@@ -7526,7 +7023,7 @@
 	(footprint "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
 		(layer "B.Cu")
 		(uuid "d88483a5-2b67-4c7e-a1b6-311a25ebe27d")
-		(at 36 2.475)
+		(at 38 2.475)
 		(descr "USB 2.0 Type C Receptacle, GCT, 16P, top mounted, horizontal, 5A: https://gct.co/files/drawings/usb4105.pdf")
 		(tags "USB C Type-C Receptacle SMD USB 2.0 16P 16C USB4105-15-A USB4105-15-A-060 USB4105-15-A-120 USB4105-GF-A USB4105-GF-A-060 USB4105-GF-A-120")
 		(property "Reference" "J1"
@@ -8293,7 +7790,7 @@
 	(footprint "Package_TO_SOT_SMD:SOT-23"
 		(layer "B.Cu")
 		(uuid "ebf36fa0-cf09-4340-9f0c-212af7c9af83")
-		(at 22.86 8.89)
+		(at 25.4 8.89)
 		(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 		(tags "SOT TO_SOT_SMD")
 		(property "Reference" "Q2"
@@ -8670,7 +8167,7 @@
 	(footprint "hp42s:Dialight_599_BiColor_1208_RA"
 		(layer "B.Cu")
 		(uuid "ed106eb4-db80-40e4-8077-f4607b5a98bf")
-		(at 48 1.05 180)
+		(at 50.57 1.05 180)
 		(descr "Dialight 599 series MicroLED, bi-colour 1208 right angle, 3.0x2.0x1.0 mm. Pads per the recommended layout on page 1 of the Dialight datasheet. Lens faces -y; it spans roughly 1.0 to 2.0 mm above the board face the part is soldered to. Pad 2 = common anode, pad 3 = LED die 1, pad 1 = LED die 2.")
 		(tags "LED bicolor side-view right-angle Dialight 599 1208")
 		(property "Reference" "D5"
@@ -8976,7 +8473,7 @@
 	(footprint "hp42s:Alps_SKRTLAE010_SidePush"
 		(layer "B.Cu")
 		(uuid "fc9537fa-8fbb-4aac-a743-4925c92c0512")
-		(at 66 1.8)
+		(at 71.31 1.8)
 		(descr "Alps SKRTLAE010, 4.5x3.4x3.3 mm side-push tact switch with guide bosses. Land, both dia 0.9 boss holes and the prohibited copper area from the Alps TACT Switch catalogue page 250. Terminals 1 and 3 are commoned inside the switch, so both are pad 1. MP is the ground terminal. Plunger faces +y and stands 0.84 mm proud.")
 		(tags "tact switch side-push Alps SKRT SKRTLAE010")
 		(property "Reference" "SW40"
@@ -9239,7 +8736,7 @@
 	(footprint "hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm"
 		(layer "B.Cu")
 		(uuid "fd42fedd-b6ad-4a9d-af9c-4989d3bb12eb")
-		(at 35.56 10.16)
+		(at 38.1 10.16)
 		(descr "TI DQA0010A, USON-10 2.5x1.0mm, 0.5mm pitch. From TI drawing 4220328/A example board layout. Pins 3 and 8, the grounds, get the wider 0.4mm pads TI draws for them. Used by TPD4E05U06.")
 		(tags "USON DFN TPD4E05U06 DQA0010A ESD")
 		(property "Reference" "U1"
@@ -22671,7 +22168,7 @@
 		)
 		(polygon
 			(pts
-				(xy 43 -7) (xy -7 -7) (xy -5 149) (xy 83.5 148.5) (xy 84 -7) (xy 69.626528 -6.883347)
+				(xy -1 -1) (xy 77 -1) (xy 77 145) (xy -1 145)
 			)
 		)
 		(filled_polygon
@@ -24788,7 +24285,7 @@
 		)
 		(polygon
 			(pts
-				(xy 78.5 -3) (xy 80 -4) (xy -4.5 -4.5) (xy -2.5 147) (xy 79 145.5) (xy 79.5 -4)
+				(xy -1 -1) (xy 77 -1) (xy 77 145) (xy -1 145)
 			)
 		)
 		(filled_polygon
@@ -25068,7 +24565,7 @@
 		)
 		(polygon
 			(pts
-				(xy -3.5 -4) (xy 81 -3.5) (xy 81 147) (xy -5.5 147)
+				(xy -1 -1) (xy 77 -1) (xy 77 145) (xy -1 145)
 			)
 		)
 		(filled_polygon
@@ -25400,7 +24897,7 @@
 		)
 		(polygon
 			(pts
-				(xy 24 82) (xy 24 63.5) (xy 3 63.5) (xy 3 82)
+				(xy 0.5 61) (xy 24 61) (xy 24 82) (xy 0.5 82)
 			)
 		)
 		(filled_polygon

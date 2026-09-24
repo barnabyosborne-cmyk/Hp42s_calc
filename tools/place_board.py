@@ -163,16 +163,34 @@ FIRST_PASS = {
     # middle of the board, which is why check_placement.py prints each of these
     # five with its courtyard: every one must reach past y = 0.
     #
-    # X is unchanged from when they were on the front, deliberately. The case's
-    # x mapping does not depend on which side a part is soldered to
-    # (x_case = x_board + 2 either way), so every hole Barnaby has already
-    # drawn stays where it is. Only their depth in the 15 mm wall changes.
-    # The slider's 6..16 mm of edge is now free; nothing has claimed it.
-    "D4":   (22.0, 0.900, "B", 180),   # IR emitter
-    "J1":   (36.0, 2.475, "B", 0),     # USB-C
-    "D5":   (48.0, 1.050, "B", 180),   # status LED
-    "SW41": (57.0, 1.800, "B", 0),     # BOOT
-    "SW40": (66.0, 1.800, "B", 0),     # RESET
+    # THE X POSITIONS ARE SET BY ONE RULE, from 24 September 2026: the USB-C
+    # sits on the board's centreline, and every gap between adjacent courtyards
+    # along the edge is the same 5.00 mm. Barnaby asked for the connector
+    # centred and for the rest spaced evenly off it, measured edge to edge
+    # rather than centre to centre, which is what you see rather than what a
+    # datum sheet says.
+    #
+    #   part   centre   courtyard        gap to the next
+    #   D4     25.33    22.98 .. 27.68   5.00 to J1
+    #   J1     38.00    32.68 .. 43.32   board centre, and case centre at 40
+    #   D5     50.57    48.32 .. 52.82   5.00 from J1
+    #   SW41   60.65    57.82 .. 63.48   5.00 from D5
+    #   SW40   71.31    68.48 .. 74.14   5.00 from SW41, 1.86 to the board edge
+    #
+    # 5.00 mm is the one free number and it is near the biggest that fits: the
+    # chain is anchored at the centre and runs right, so 5.45 would put SW40's
+    # courtyard on the 0.5 mm edge limit. The left of the edge is empty from
+    # x = 0 to 22.98, where the power slider used to be. Nothing has claimed it.
+    #
+    # The two LEDs sit either side of the connector and the two buttons beyond
+    # the status LED, so everything that blinks or gets pressed is in the
+    # right-hand half and the IR window is on its own. That is Barnaby's
+    # arrangement, not a derived one.
+    "D4":   (25.33, 0.900, "B", 180),  # IR emitter
+    "J1":   (38.00, 2.475, "B", 0),    # USB-C, on the board's centreline
+    "D5":   (50.57, 1.050, "B", 180),  # status LED
+    "SW41": (60.65, 1.800, "B", 0),    # BOOT
+    "SW40": (71.31, 1.800, "B", 0),    # RESET
 
     # -- BACK, Y 4..11.7: what the five top-edge parts need -------------------
     #
@@ -196,17 +214,22 @@ FIRST_PASS = {
     # own side of the board now rather than across two vias. R1/R2 are the CC
     # pulldowns, at U1's CC pins. C1 is VBUS's bulk cap, at the connector where
     # the current enters.
-    "U1":  (35.56, 10.16, "B", 0),
-    "R1":  (28.575, 10.16, "B", 0),
-    "R2":  (31.75, 10.16, "B", 0),
-    "C1":  (40.005, 10.16, "B", 0),
+    #
+    # All nine moved with the top-edge parts on 24 September 2026, keeping the
+    # part each one serves directly in front of it. They are back on their grids
+    # afterwards -- 1.27 mm for U1, 0.635 for the passives -- which is why the
+    # shifts are not exactly the shifts above.
+    "U1":  (38.1, 10.16, "B", 0),
+    "R1":  (31.115, 10.16, "B", 0),
+    "R2":  (34.29, 10.16, "B", 0),
+    "C1":  (42.545, 10.16, "B", 0),
     # The IR emitter's driver, behind D4.
-    "Q2":  (22.86, 8.89, "B", 0),
-    "R18": (20.955, 4.445, "B", 0),
-    "R19": (18.415, 8.89, "B", 0),
+    "Q2":  (25.4, 8.89, "B", 0),
+    "R18": (24.13, 4.445, "B", 0),
+    "R19": (20.955, 8.89, "B", 0),
     # The status LED's two ballast resistors, behind D5.
-    "R20": (49.53, 4.445, "B", 0),
-    "R21": (46.355, 4.445, "B", 0),
+    "R20": (52.07, 4.445, "B", 0),
+    "R21": (48.895, 4.445, "B", 0),
 
     # -- FRONT, Y 48.3..57 ---------------------------------------------------
     # TP1 and TP2 are the frontlight sliver's solder lands, 60 mm apart

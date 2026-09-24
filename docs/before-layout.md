@@ -50,6 +50,13 @@ nothing in the netlist changed, and GCT's mouth sits at the same 3.675 mm from
 the footprint origin, so the placement constant did not change either. Its
 courtyard reaches 8.44 mm in rather than 8.83.
 
+A **Same Sky UJC-HP-G-5-SMT-TR** was put up against it on 24 September 2026 and
+turned down. Six contacts, `CC`/`VBUS`/`GND` only, no `D+`/`D-`: a charge-only
+receptacle. It is smaller and it is fully SMD, which is genuinely attractive
+after the paragraph above, but this board transfers files over USB and, with no
+USB-UART bridge on it, the S3's own USB is the only way a bricked board ever
+gets reflashed. See `docs/top-edge.md`.
+
 **`L2`, the panel's 47 µH → Bourns SRN4018-470M.** 47 µH ±20%, 600 mA,
 semi-shielded, 4.0 × 4.0 × 1.8 mm, on KiCad's `L_Bourns-SRN4018` drawn from
 Bourns' own drawing. This closes the oldest open item on the board. It beats

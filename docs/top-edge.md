@@ -169,6 +169,17 @@ comes out of the *end* of the body, in the plane of the board.
   which is what the placement is set from — the same number the Same Sky UJ20 it
   replaced on 22 September 2026 used, so the case cut-out line did not move.
 
+  **A Same Sky UJC-HP-G-5-SMT-TR was evaluated on 24 September 2026 and
+  rejected: it is power-only.** It has six contacts — A5/B5 `CC`, A9/B9 `VBUS`,
+  A12/B12 `GND` — and no `D+`/`D-` at all. That is a fine part for a charge-only
+  product and it is a smaller one, 11.54 x 7.14 x 3.21 mm from its STEP model,
+  but this board needs USB **data** twice over. Once because file transfer over
+  USB is a headline feature, the thing you plug in to load a program. And once
+  because the S3's own USB peripheral is the only flashing path that exists
+  here: there is no USB-UART bridge on the board (see "Why a BOOT button as well
+  as RESET" below), so with a power-only receptacle a bricked board could not be
+  reflashed at all, by anyone, ever. Keep the USB4105-GF-A.
+
 ## Reset
 
 A plain button from the module's `EN` to ground. It is a hardware reset of the
@@ -244,23 +255,44 @@ lens wants a diffused window rather than the clear one the IR needs.
 `tools/place_board.py` places all five, on the back. Y is depth from the board's
 top edge, and each part is pushed out until its own pads stop it.
 
-| part | x | y | courtyard reaches | protrudes past the edge |
-|------|---|---|---|---|
-| IR emitter | 22.0 | 0.900 | y = 2.34 | 0.73 mm |
-| USB-C | 36.0 | 2.475 | y = 7.24 | 1.71 mm |
-| status LED | 48.0 | 1.050 | y = 2.45 | 0.77 mm |
-| BOOT | 57.0 | 1.800 | y = 3.85 | 0.50 mm |
-| RESET | 66.0 | 1.800 | y = 3.85 | 0.50 mm |
+| part | x | y | courtyard across x | courtyard reaches | protrudes past the edge |
+|------|---|---|---|---|---|
+| IR emitter | 25.33 | 0.900 | 22.98 .. 27.68 | y = 2.34 | 0.73 mm |
+| USB-C | 38.00 | 2.475 | 32.68 .. 43.32 | y = 7.23 | 1.70 mm |
+| status LED | 50.57 | 1.050 | 48.32 .. 52.82 | y = 2.45 | 0.77 mm |
+| BOOT | 60.65 | 1.800 | 57.82 .. 63.48 | y = 3.85 | 0.50 mm |
+| RESET | 71.31 | 1.800 | 68.48 .. 74.14 | y = 3.85 | 0.50 mm |
 
-X is unchanged from when they were on the front. The case's x mapping does not
-depend on which side a part is soldered to — `x_case = x_board + 2` either way —
-so every hole already drawn for them stays where it is. Only their depth in the
-15 mm wall changes, by 4.16 mm.
+**Two rules fix every x on this edge**, and they were applied on 24 September
+2026 in place of the older hand-chosen numbers:
 
-Courtyard to courtyard along the edge: 6.33 mm IR to USB-C, 3.43 mm USB-C to the
-status LED, 3.92 mm status LED to BOOT, and 3.34 mm BOOT to RESET, which is the
-tightest. There is 19.65 mm of board left of the IR emitter, where the slider
-used to be, and 7.2 mm right of RESET.
+1. **The USB-C sits on the board's centreline.** The board is 76 mm wide, so
+   `J1` is at x = 38.00 and the plug goes into the middle of the case's top
+   face. That is the one number a user looks at, so it is the one that gets the
+   symmetry.
+2. **Every adjacent pair is 5.00 mm courtyard to courtyard.** Not centre to
+   centre: these five parts are wildly different widths (the USB-C is
+   10.64 mm across, the status LED 4.50 mm), so equal centre spacing would look
+   crowded at the USB-C and empty at the LED. Equal *gaps* is what the eye
+   reads as even, and it is also what matters for a stencil and for a fat
+   thumb on a button.
+
+The two indicators therefore straddle the USB-C — the IR emitter to its left,
+the status LED to its right — and the status LED shares its side with the two
+buttons, which is what Barnaby asked for: BOOT and RESET at 60.65 and 71.31,
+each 5.00 mm clear of its neighbour.
+
+What the rules cost: 22.98 mm of empty board left of the IR emitter, where the
+slider used to be, and only **1.86 mm** right of RESET before the board edge.
+That is the tightest number on the edge and it is the reason the chain cannot
+grow: one more 5 mm gap and RESET would hang off the board. If anything else
+ever has to go on this edge it displaces the chain leftwards, it does not
+extend it.
+
+X changed for all five when they were centred, so **any case hole drawn against
+the old numbers moves**. The mapping itself is unchanged and does not depend on
+which side a part is soldered to: `x_case = x_board + 2` either way. Depth in
+the 15 mm wall also changed when they went to the back, by 4.16 mm.
 
 **The rotations are not the front's rotations.** Turning a footprint over negates
 every child y, so an actuator that pointed at -Y on the front points at +Y once
@@ -295,6 +327,6 @@ Two numbers for the case:
 - The dome tip does not stop short of the board edge: it reaches 1.35 mm from the
   part's origin, and with D4 at board Y 0.900 that puts the tip at board
   **Y -0.45**, so it overhangs the edge by 0.45 mm. The lens is 1.8 mm across, so
-  a 2.5 mm window centred on x = 22.0 clears the beam without vignetting the
+  a 2.5 mm window centred on x = 25.33 clears the beam without vignetting the
   +/- 25 degrees — but the wall has to be relieved for the dome rather than
   merely windowed.
