@@ -416,6 +416,11 @@ component CapBoost:
 # Both mount on the FRONT of the board, above the panel -- they moved there
 # with the 14 mm bezel on 21 September 2026. See docs/top-edge.md.
 
+# NOT USED SINCE 24 September 2026. The power slider is gone -- on/off is the
+# EXIT/ON key now, the way it is on a real 42S, and docs/power-control.md has
+# how. The component is kept because the land pattern and the part number are
+# the expensive part of this block and nothing is saved by deleting them; it is
+# simply not instantiated anywhere. Nothing in the netlist refers to it.
 component SlideSwitch:
     # C&K JS102011SAQN, SPDT, ON-ON, side-actuated, gull-wing SMD with two
     # 0.9 mm locating bosses. 9.0 x 3.6 x 3.5 mm body, 0.3 A at 6 V DC.

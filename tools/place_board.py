@@ -23,7 +23,7 @@ place_keypad.py, which stays the reference for where every key goes.
 
 WHAT IT SETS
 ------------
-Every footprint's position, and its rotation: the 38 dome sites, the six
+Every footprint's position, and its rotation: the 38 dome sites, the five
 top-edge parts and the panel FPC at the positions docs/keypad-geometry.md and
 docs/display-mounting.md give, and all 74 of the rest from the table below.
 docs/placement.md explains the table.
@@ -81,51 +81,30 @@ def to_board(x_case, y_case):
 # --- everything, in board coordinates --------------------------------------
 TARGETS = {ref: to_board(*xy) for ref, xy in KEYS.items()}
 
-# Top-edge parts and the panel FPC. Y is depth from the board's top edge.
+# The five top-edge parts are NOT here any more. They are in FIRST_PASS below,
+# because they now need a layer as well as an x and a y: on 24 September 2026
+# they moved to the BACK of the board, and the power slider was deleted
+# outright. docs/top-edge.md has both arguments; the short versions are that a
+# part on the front sits so close to the case's front face that its aperture
+# breaks out of it, and that the on/off switch is the EXIT/ON key now, the way
+# it is on a real 42S.
 #
-# Y is depth from the board's top edge, and each of the six is pushed out as
-# far as its own pads allow, so its knob, mouth or lens gets as close to the
-# outside of the case as it can. The board edge is 2.00 mm inside the case's
-# outer surface: 0.80 mm of assembly clearance to the wall, then the 1.20 mm
-# wall itself. Reach, and what limits it:
-#
-#   part          Y      protrudes   limited by
-#   slider      1.500      2.30 mm   nothing; set to stand 0.3 mm proud
-#   USB-C       2.475      1.20 mm   through-hole shield legs, 0.5 mm to edge
-#   IR emitter  0.900      1.08 mm   pads, 0.3 mm to edge
-#   status LED  1.050      1.12 mm   pads, 0.3 mm to edge
-#   tact x2     1.800      0.24 mm   pads, 0.3 mm to edge
-#
-# Only the slider reaches the outside. The other five need the case to come to
-# them: a recessed, chamfered mouth for USB-C, clear holes for the two LEDs,
-# and pinholes for the recovery buttons, which is what recovery buttons want
-# anyway.
-#
-# THE TACT SWITCHES MOVED INWARD, from 1.50 to 1.80. At 1.50 their pads sat
-# exactly on the board outline with no copper-to-edge clearance at all.
-TARGETS.update({
-    "SW39": (11.0, 1.500),     # C&K power slider
-    "D4":   (22.0, 0.900),     # IR emitter
-    "J1":   (36.0, 2.475),     # USB-C
-    "D5":   (48.0, 1.050),     # status LED
-    "SW41": (57.0, 1.800),     # boot
-    "SW40": (66.0, 1.800),     # reset
-})
-
 # ---------------------------------------------------------------------------
 # PLACEMENT OF EVERYTHING ELSE, 23 September 2026
 #
 # (x, y, layer, rotation), board coordinates, Y down from the top edge.
 # docs/placement.md has the reasoning. In short:
 #
-#   FRONT  Y 0..5      the six top-edge parts, set by the case
-#          Y 5..11.6   the USB, IR and indicator parts that serve them
-#          Y 12..48.3  the panel's glass
-#          Y 48.3..57  the frontlight sliver's two lands and a ground point
-#          Y 57..137   the keyboard
-#   BACK   Y 5..59     the battery bay, full width but for the FPC in the
-#                      left 10 mm. Nothing else goes there. Ever.
-#          Y 59..144   every IC and every passive
+#   FRONT  nothing that the fab house solders, since 24 September 2026. The
+#          USB-C's four through-hole shield fillets come through at Y 0..5, the
+#          panel's glass covers Y 12..48.3, the frontlight sliver's two lands
+#          and a ground point sit at Y 48.3..57, and the 38 dome sites fill
+#          Y 57..137. Panel, sliver and domes all go on after the board comes
+#          back from the fab, which is the whole point of the arrangement.
+#   BACK   Y 0..8      the five top-edge parts, set by the case
+#          Y 4..11.7   the nine parts that serve them, interleaved with those
+#          Y 13..58    the battery bay, X 14..69. Nothing else goes there. Ever.
+#          Y 59..144   every other IC and every other passive
 #
 # Placement order was fixed parts, then the ICs, then the passives around
 # them, following the guidelines Barnaby sent on 23 September:
@@ -155,22 +134,79 @@ TARGETS.update({
 #
 # Nothing is routed yet, and routing will move things.
 FIRST_PASS = {
-    # -- FRONT, Y 5..11.6: what the six top-edge parts need ------------------
+    # -- BACK, Y 0..8: the five top-edge parts --------------------------------
+    #
+    # Y is depth from the board's top edge, and each part is pushed out as far
+    # as its own pads allow, so its mouth or lens gets as close to the outside
+    # of the case as it can. The board edge is 2.00 mm inside the case's outer
+    # surface: 0.80 mm of assembly clearance to the wall, then the 1.20 mm wall
+    # itself. Reach, and what limits it:
+    #
+    #   part          Y      protrudes   limited by
+    #   USB-C       2.475      1.71 mm   through-hole shield legs, 0.5 mm to edge
+    #   IR emitter  0.900      0.73 mm   pads, 0.3 mm to edge
+    #   status LED  1.050      0.77 mm   pads, 0.3 mm to edge
+    #   tact x2     1.800      0.50 mm   pads, 0.3 mm to edge
+    #
+    # None of the four reaches the outside on its own, so the case has to come
+    # to them: a recessed, chamfered mouth for USB-C, relief pockets for the
+    # two lenses -- both are proud of the board edge, see docs/top-edge.md --
+    # and pinholes for the recovery buttons, which is what recovery buttons
+    # want anyway.
+    #
+    # THE ROTATIONS ARE NOT THE FRONT'S ROTATIONS. A flip to the back negates
+    # every child y, so a part whose actuator pointed at -Y on the front points
+    # at +Y once it is turned over, and the 180 has to come off rather than go
+    # on. The two LEDs are the other way round: their lenses are already at the
+    # -y end of the body, so they wanted 0 on the front and want 180 here.
+    # Getting this wrong aims the IR beam and the button plungers into the
+    # middle of the board, which is why check_placement.py prints each of these
+    # five with its courtyard: every one must reach past y = 0.
+    #
+    # X is unchanged from when they were on the front, deliberately. The case's
+    # x mapping does not depend on which side a part is soldered to
+    # (x_case = x_board + 2 either way), so every hole Barnaby has already
+    # drawn stays where it is. Only their depth in the 15 mm wall changes.
+    # The slider's 6..16 mm of edge is now free; nothing has claimed it.
+    "D4":   (22.0, 0.900, "B", 180),   # IR emitter
+    "J1":   (36.0, 2.475, "B", 0),     # USB-C
+    "D5":   (48.0, 1.050, "B", 180),   # status LED
+    "SW41": (57.0, 1.800, "B", 0),     # BOOT
+    "SW40": (66.0, 1.800, "B", 0),     # RESET
+
+    # -- BACK, Y 4..11.7: what the five top-edge parts need -------------------
+    #
+    # These nine were on the FRONT until 24 September 2026, at exactly these x
+    # and y. Barnaby asked for every reflowed part on one side so the board
+    # takes a single-sided assembly, which is the cheaper build, and the front
+    # now carries nothing the fab house solders. So they crossed over to sit
+    # directly behind where they were, keeping every distance to the part each
+    # one serves. What paid for it is the battery bay: it starts at Y 13 now
+    # rather than 8.5, which is what makes the cell 6 x 45 x 55 mm instead of
+    # 5 x 50 x 60 -- the same capacity, one millimetre deeper. See
+    # docs/top-edge.md.
+    #
+    # Turning them over mirrors each footprint in y, so pin 1 of U1 and of Q2
+    # moves from the -y end of the body to the +y end. Neither matters: the
+    # ESD array's four channels are interchangeable, the SOT-23 is a single
+    # transistor, and nothing is routed yet.
+    #
     # U1 is the USB ESD array; it sits directly under J1's D+/D- pins so the
-    # pair is protected before it goes anywhere. R1/R2 are the CC pulldowns,
-    # at U1's CC pins. C1 is VBUS's bulk cap, at the connector where the
-    # current enters.
-    "U1":  (35.56, 10.16, "F", 0),
-    "R1":  (28.575, 10.16, "F", 0),
-    "R2":  (31.75, 10.16, "F", 0),
-    "C1":  (40.005, 10.16, "F", 0),
-    # The IR emitter's driver, under D4.
-    "Q2":  (22.86, 8.89, "F", 0),
-    "R18": (20.955, 4.445, "F", 0),
-    "R19": (18.415, 8.89, "F", 0),
-    # The status LED's two ballast resistors, under D5.
-    "R20": (49.53, 4.445, "F", 0),
-    "R21": (46.355, 4.445, "F", 0),
+    # pair is protected before it goes anywhere, and it is on the connector's
+    # own side of the board now rather than across two vias. R1/R2 are the CC
+    # pulldowns, at U1's CC pins. C1 is VBUS's bulk cap, at the connector where
+    # the current enters.
+    "U1":  (35.56, 10.16, "B", 0),
+    "R1":  (28.575, 10.16, "B", 0),
+    "R2":  (31.75, 10.16, "B", 0),
+    "C1":  (40.005, 10.16, "B", 0),
+    # The IR emitter's driver, behind D4.
+    "Q2":  (22.86, 8.89, "B", 0),
+    "R18": (20.955, 4.445, "B", 0),
+    "R19": (18.415, 8.89, "B", 0),
+    # The status LED's two ballast resistors, behind D5.
+    "R20": (49.53, 4.445, "B", 0),
+    "R21": (46.355, 4.445, "B", 0),
 
     # -- FRONT, Y 48.3..57 ---------------------------------------------------
     # TP1 and TP2 are the frontlight sliver's solder lands, 60 mm apart
@@ -426,6 +462,13 @@ def flip(block):
     else:
         rest = re.sub(r'\n\t+\(justify mirror\)', '', rest)
 
+    def turn_one_pad(g):
+        ang = (-float(g.group(4) or 0.0)) % 360
+        return (f"{g.group(1)}{g.group(2)} {g.group(3)}"
+                f"{f' {ang:g}' if ang else ''}{g.group(5)}")
+
+    rest = PAD_AT_RE.sub(turn_one_pad, rest)
+
     return head + own_at + rest + tail
 
 
@@ -460,19 +503,22 @@ def main():
         m = AT_RE.search(block)
         rot = m.group(4)
         was = float(rot.strip(" )") or 0.0)
+        want = FIRST_PASS[ref][2] if ref in FIRST_PASS else side_of(block)
+        turning_over = side_of(block) != want
         if ref in TARGETS:
             x, y = TARGETS[ref]
         elif ref in FIRST_PASS:
             x, y, _layer, r = FIRST_PASS[ref]
             rot = f" {r})" if r else ")"
-            block = turn_pads(block, r - was)
+            # A mirror reverses the rotation the part is coming FROM, so the
+            # delta is r + was going over and r - was staying put. See flip().
+            block = turn_pads(block, r + was if turning_over else r - was)
             m = AT_RE.search(block)
         else:
             x, y = float(m.group(2)) + dx, float(m.group(3)) + dy
         new = f"{m.group(1)}{x:g} {y:g}{rot}"
         block = block[:m.start()] + new + block[m.end():]
-        want = FIRST_PASS[ref][2] if ref in FIRST_PASS else side_of(block)
-        if side_of(block) != want:
+        if turning_over:
             block = flip(block)
             flipped += 1
         out.append(block)

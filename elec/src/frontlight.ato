@@ -45,7 +45,7 @@ from "parts.ato" import FrontlightLED, Resistor, Capacitor, TestPad
 
 module Frontlight:
     # --- interface ----------------------------------------------------------
-    signal sys      # the cell, 3.0 to 4.2 V, upstream of the power slider
+    signal sys      # the cell, 3.0 to 4.2 V, ahead of the buck-boost
     signal gnd
     signal pwm      # from a GPIO. Low or high impedance = off.
 

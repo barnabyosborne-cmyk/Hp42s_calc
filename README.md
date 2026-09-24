@@ -62,14 +62,20 @@ place or route. Layout stays in KiCad.
   no scanner IC and no standing current. The physical grid is measured off a
   real 42S and is not uniform: 12.5 mm columns on the function rows, 15 mm
   across the numeric block.
-- **Battery life** — roughly **15 months** on the 1650 mAh cell that fits, at
-  2 h/day and 1500 keystrokes. About 33 hours of continuous execution.
+- **On and off are keys, not a switch.** `EXIT/ON` wakes it and shift-`EXIT`
+  sleeps it, the way a real 42S works. There is no power slider: the 3.3 V rail
+  is always up and "off" is deep sleep at about 21 µA. Driving row 6 alone and
+  arming `ext1` on column 0 alone makes `EXIT/ON` the only key that can wake it.
+  `docs/power-control.md`.
+- **Single-sided assembly.** Every part the fab house solders is on the back of
+  the board. The front carries the panel, the 38 dome sites and the frontlight
+  sliver's lands, all fitted afterwards. `docs/top-edge.md`.
+- **Battery life** — roughly **15 months** on the 1600 mAh cell that fits, at
+  2 h/day and 1500 keystrokes. About 33 hours of continuous execution. The cell
+  is 6 × 45 × 55 mm, in board X 14–69 and Y 13–58 on the back.
 
 ## What is not settled
 
-- **Which power slider leg is the wiper.** The Shouhan drawing does not say.
-  The circuit is wired so that it does not matter — see `elec/src/power.ato` —
-  at the cost of 4 µA. Buzz it out with a meter and that comes back.
 - **The panel's 47 µH inductor.** Named (Sumida CDRH2D18) but still on a
   stand-in land pattern, because the drawing has not turned up.
 

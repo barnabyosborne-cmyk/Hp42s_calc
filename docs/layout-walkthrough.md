@@ -556,12 +556,11 @@ here is the most common reason this step appears to do nothing.
 
 ```
 top edge:
-  SW39  power slider  -> front, (11.0, 3.0)
-  D4    IR emitter    -> front, (22.0, 1.6)
-  J1    USB-C         -> front, (36.0, 3.675)
-  D5    status LED    -> front, (48.0, 1.8)
-  SW40  reset         -> front, (66.0, 1.5)
-  SW41  boot          -> front, (57.0, 1.5)
+  D4    IR emitter    -> back, (22.0, 0.9)
+  J1    USB-C         -> back, (36.0, 2.475)
+  D5    status LED    -> back, (48.0, 1.05)
+  SW40  reset         -> back, (66.0, 1.8)
+  SW41  boot          -> back, (57.0, 1.8)
 panel:
   J2    panel FPC     -> back, (9.0, 30.15), 90 deg -- check the mouth faces the left edge
   drew glass 71.82 x 36.30 on Cmts.User
@@ -911,9 +910,18 @@ straddling the board edge, the module overlapping the cell, silkscreen where
 the faceplate has to sit flat. Spin it, look at the back, look along the top
 edge.
 
-Specifically, on this board: check that the six top-edge parts all face *out*,
+Specifically, on this board: check that the five top-edge parts all face *out*,
 that `J2`'s mouth faces the notch, and that nothing on the front is tall enough
-to hit the faceplate — there is about 1.7 mm of air up there now.
+to hit the faceplate. Since 24 September 2026 the only things on the front are
+the panel, the dome sites and the frontlight sliver's lands, so the last of those
+is easier than it was — but the USB-C's four through-hole shield legs come
+through the front, so check the light guide clears board Y 0 to 5.
+
+The five are on the BACK and they are the one place a rotation is easy to get
+wrong, because turning a footprint over reverses which way its actuator points:
+the USB-C and the two buttons sit at 0 degrees and the two LEDs at 180, the
+opposite of what each wanted on the front. `tools/check_placement.py` prints all
+five with their courtyards, and every one must reach past y = 0.
 
 ---
 

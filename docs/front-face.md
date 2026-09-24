@@ -51,7 +51,12 @@ Three things follow that are not obvious:
   path straight onto the board. One bond, near the USB-C shield's ground
   stitch rather than near the module, gives the charge somewhere to go that is
   not through the MCU. A pad and a spring finger or a screw boss is enough.
-- **It now has live parts underneath it at the top.** The six top-edge parts
+- **~~It now has live parts underneath it at the top.~~ Not any more, as of
+  24 September 2026: every part the fab house solders is on the BACK of the
+  board, so there is nothing under the plate at the top but the USB-C's four
+  through-hole shield fillets. Keep the light guide clear of board Y 0 to 5 and
+  the question goes away. What follows was written when they were on the front
+  and is kept in case they ever go back.** The six top-edge parts
   moved to the front of the board with the 14 mm bezel, and the tallest of
   them — the Alps buttons at 3.3 mm and the USB-C shell at 3.2 — stand in a
   bay that is about 5 mm deep, so there is roughly 1.7 mm between them and a
@@ -307,13 +312,16 @@ Two soldered wires to the sliver rather than a connector: a connector inside a
 case that is never opened is a part that can work loose, and it would have to
 be under 1 mm tall to fit beside the guide.
 
-**What it costs when it is off.** `SYS` is upstream of the power slider, so the
-driver is live whenever there is a cell in the case: the TPS61165's shutdown
-current plus 4.2 µA through the 1 MΩ comes to about **5 µA**. Against a board
-that otherwise sits at 10 µA switched off, that turns six years in a drawer
-into about four. It is a real cost and it is the reason the whole block is
-fitted per unit: a calculator built without a light guide has none of these
-parts on it and none of the 5 µA.
+**What it costs when it is off.** `SYS` is the cell, so the driver is live
+whenever there is a cell in the case: the TPS61165's shutdown current plus 4.2 µA
+through the 1 MΩ comes to about **5 µA**. Against a board that otherwise sits at
+21 µA asleep — there is no switched-off state since the slider went on
+24 September 2026, see `docs/power-control.md` — that is a quarter on top. It is
+a real cost and it is the reason the whole block is fitted per unit: a calculator
+built without a light guide has none of these parts on it and none of the 5 µA.
+
+Both numbers are far below what the cell loses to self-discharge, which is the
+thing that actually empties a calculator left in a drawer.
 
 ### Bonding
 

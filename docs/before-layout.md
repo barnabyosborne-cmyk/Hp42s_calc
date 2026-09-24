@@ -96,12 +96,10 @@ connector's pad row has to land inside the last 3 mm of what is left. There is
 no slack at all: 0.3 mm short and the flex does not reach the contacts. Measure
 a real panel before you commit the board.
 
-**Which leg of the power slider is the wiper.** Still needs a meter, even with
-the C&K. Its three pads are on a clean 2.5 mm pitch and on every conventional
-SPDT slide switch the centre terminal is the common, but C&K's drawing is on a
-host this session cannot reach, so it is not confirmed. The wiring in
-`power.ato` is deliberately agnostic and costs 4 µA for the privilege; buzz it
-out and you get those back.
+**~~Which leg of the power slider is the wiper.~~ CLOSED 2026-09-24 by deleting
+the slider.** On/off is the `EXIT/ON` key now, the way it is on a real 42S, so
+there is no switch to buzz out and no 4 µA of agnostic wiring to pay for. See
+`docs/power-control.md`.
 
 **The C&K's knob protrusion.** KiCad's Fab outline puts the actuator tip
 3.80 mm from the footprint origin and its courtyard 4.25 mm, and those two

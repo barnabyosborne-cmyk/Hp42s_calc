@@ -101,72 +101,51 @@ def mm(v):
 # ---------------------------------------------------------------------------
 # TOP-EDGE CONTROLS
 #
-# The six top-edge parts live on the FRONT of the board, above the panel.
+# The five top-edge parts live on the BACK of the board, below the battery bay.
 # They are found by footprint rather than by reference designator: atopile
 # assigns SW39/SW40 automatically and those numbers move whenever a part is
 # added.
 #
-# THEY USED TO BE ON THE BACK. Barnaby chose the 14 mm top bezel on
-# 21 September 2026, which leaves 12 mm of board above the panel -- enough for
-# the USB-C receptacle's 8.83 mm, which was the part that forced the back in
-# the first place. See docs/top-edge.md.
+# THERE ARE FIVE, NOT SIX, AND THEY ARE ON THE BACK AGAIN. Both changes are
+# from 24 September 2026:
 #
-# Two things get simpler by moving them. Nothing is flipped any more, so the
-# 180 degree rotations below are the whole of the orientation story rather
-# than a rotation composed with a mirror. And the battery bay on the back is
-# no longer cut short by the USB-C: it goes from about 49 mm to about 54,
-# which is what lets a 1600 mAh cell fit without spilling past the keyboard
-# line.
+#   - The power slider is gone. On/off is the EXIT/ON key, the way it is on a
+#     real 42S. See docs/power-control.md.
+#   - They went back to the back. A part on the FRONT sits with its aperture
+#     1.6 to 2.9 mm from the case's outer front face, which leaves under half a
+#     millimetre of resin between the USB cut-out and the front surface. On the
+#     back the same mouth lands 7.1 mm into a 15 mm wall -- near enough dead
+#     centre -- with 4.6 mm of material above it and 5.4 below. That is the
+#     whole argument, and docs/top-edge.md has the stack-up it comes from.
 #
-# Y here is depth into the board from its top edge. Each part except the two
-# LEDs is rotated 180 degrees so its mouth, knob or plunger faces the edge,
-# and each sits far enough in that the actuator clears the board by a little
-# under a millimetre and pokes into the case wall.
+# What it costs is 3.5 mm of battery bay, which the 50 mm cell still fits in.
+# What it gives back is the USB-C's four through-hole shield fillets, which
+# land on the FRONT now, under the bezel where nothing touches them, instead of
+# in the bay under the cell.
+#
+# THE ROTATIONS ARE NOT THE FRONT'S ROTATIONS. Turning a footprint over negates
+# every child y, so an actuator that pointed at -Y on the front points at +Y
+# once it is flipped, and the 180 comes off rather than goes on. The two LEDs
+# are the other way round -- see LENS_PARTS below.
+#
+# Y here is depth into the board from its top edge. Each part sits far enough
+# in that its actuator clears the board by a little under a millimetre and
+# pokes into the case wall.
 #
 #   part            x     y      actuator reaches   courtyard reaches
-#   slide switch   11.0   3.00    y = -0.80          y = 7.50
-#   USB-C          36.0   3.675   y =  0.00          y = 8.44
-#   reset button   66.0   1.50    y = -0.54          y = 3.55
+#   USB-C          36.0   2.475   y = -1.71          y = 7.24
+#   IR emitter     22.0   0.900   y = -0.73          y = 2.34
+#   status LED     48.0   1.050   y = -0.77          y = 2.45
+#   BOOT           57.0   1.800   y = -0.50          y = 3.85
+#   RESET          66.0   1.800   y = -0.50          y = 3.85
 #
-# TWO PARTS CHANGED ON 22 September 2026 and their numbers with them. The
-# slider is a C&K JS102011SAQN instead of a Shouhan MSK-12C02, and the USB-C
-# is a GCT USB4105-GF-A instead of a Same Sky UJ20. Both swaps were made to
-# get off a land pattern that was hand-made or doubtful and onto one drawn
-# from the vendor's own document; see parts.ato for the reasoning.
+# THE USB-C CHANGED ON 22 September 2026, to a GCT USB4105-GF-A from a Same Sky
+# UJ20, to get off a doubtful land pattern and onto one drawn from the vendor's
+# own document; see parts.ato. Its y did not change with the swap: GCT's mouth
+# sits at 3.675 mm from the origin, the same as the Same Sky "PRODUCT EDGE"
+# line did.
 #
-# The slider's y went 2.30 -> 3.00 because the C&K is a deeper part: its
-# courtyard is 10.00 x 8.75 against the Shouhan's 8.90 x 5.95. At y = 3.00
-# the knob still lands 0.80 mm proud of the board edge, which is the same
-# convention as before, and the courtyard reaches 7.50 mm in against the
-# 12 mm available. CHECK THE KNOB PROTRUSION against C&K's drawing when you
-# have it: KiCad's Fab outline puts the actuator tip 3.80 mm from the
-# origin and its courtyard 4.25 mm, and those two cannot both be the knob.
-#
-# The USB-C y did not change. GCT's mouth sits at 3.675 mm from the origin,
-# the same as the Same Sky "PRODUCT EDGE" line did, so it still lands
-# exactly on the board edge.
-#
-# The one thing to look at has swapped sides with them. This USB-C receptacle
-# anchors with through-hole shield legs, so its solder fillets are now on the
-# BACK, which is the battery bay. Keep the cell clear of board Y 0..5 in that
-# region, or find a receptacle with SMD-only shell tabs. A pouch cell resting
-# on four solder fillets is not a risk worth taking.
-# ---------------------------------------------------------------------------
-
-# Six parts share the 76 mm top edge, left to right: the power slider you use
-# every day, the IR window, USB-C roughly centred, the status LED, then the
-# two recovery buttons together in the right-hand corner. Widths are the
-# footprints' own courtyards, and the tightest gap between any two of them is
-# 2.4 mm.
-#
-# There are TWO Alps tact switches now, RESET and BOOT, and they share a
-# footprint -- so those two are placed by reference designator after the
-# others, not by footprint name like the rest.
-# Revised 23 September 2026: each part pushed out until its own pads stop it,
-# so its actuator gets as near the outside of the case as the board allows.
-# The table in tools/place_board.py has the reach and the limit for each.
 EDGE_PARTS = {
-    "SW_SPDT_CK_JS102011SAQN": (11.0, 1.500, "power slider"),
     "Vishay_VSMB2943SLX01_SideView": (22.0, 0.900, "IR emitter"),
     "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (36.0, 2.475, "USB-C"),
     "Dialight_599_BiColor_1208_RA": (48.0, 1.050, "status LED"),
@@ -179,31 +158,34 @@ EDGE_PARTS = {
 TACT_FOOTPRINT = "Alps_SKRTLAE010_SidePush"
 TACT_ORDER = [(66.0, 1.800, "reset"), (57.0, 1.800, "boot")]
 
-# Both LEDs are the edge parts that are NOT rotated 180. Their lens faces are
-# the -y end of the body, so at 0 degrees they already look at the top edge;
-# turning them round would aim them into the middle of the board. Both origins
-# are the pad centreline rather than the lens, so both y values are the lens
-# depth plus that offset: the IR dome tip lands 0.22 mm inside the board edge
-# and the status LED's lens 0.23 mm.
-NO_FLIP = {
+# Both LEDs are the edge parts that ARE rotated 180 -- the opposite of the
+# other three, and the opposite of what they wanted on the front. Their lens
+# faces are the -y end of the body, so on the front 0 degrees already aimed
+# them at the top edge; turning the part over aims that face into the middle of
+# the board, and 180 brings it back. Both origins are the pad centreline rather
+# than the lens, so both y values are the lens depth plus that offset. Neither
+# lens stops short of the board edge: the IR dome reaches 0.45 mm past it and
+# the status LED's lens 0.475, so each needs a relief pocket in the case wall
+# and not merely a hole.
+LENS_PARTS = {
     "Vishay_VSMB2943SLX01_SideView",
     "Dialight_599_BiColor_1208_RA",
 }
 
 
 def place_edge(board):
-    """Put the six top-edge parts on the top edge, on the front."""
+    """Put the five top-edge parts on the top edge, on the back."""
     found = 0
     for fp in board.GetFootprints():
         name = str(fp.GetFPID().GetLibItemName())
         if name not in EDGE_PARTS:
             continue
         x, y, label = EDGE_PARTS[name]
-        if fp.GetLayer() != pcbnew.F_Cu:
-            fp.SetLayerAndFlip(pcbnew.F_Cu)
+        if fp.GetLayer() != pcbnew.B_Cu:
+            fp.SetLayerAndFlip(pcbnew.B_Cu)
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
-        fp.SetOrientationDegrees(0 if name in NO_FLIP else 180)
-        print(f"  {fp.GetReference():5s} {label:13s} -> front, ({x}, {y})")
+        fp.SetOrientationDegrees(180 if name in LENS_PARTS else 0)
+        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
         found += 1
     # The two tact switches share a footprint, so they go by reference order
     # rather than by name: lowest number is RESET, see TACT_ORDER above.
@@ -213,11 +195,11 @@ def place_edge(board):
         key=lambda fp: int("".join(c for c in fp.GetReference() if c.isdigit()) or 0),
     )
     for fp, (x, y, label) in zip(tacts, TACT_ORDER):
-        if fp.GetLayer() != pcbnew.F_Cu:
-            fp.SetLayerAndFlip(pcbnew.F_Cu)
+        if fp.GetLayer() != pcbnew.B_Cu:
+            fp.SetLayerAndFlip(pcbnew.B_Cu)
         fp.SetPosition(pcbnew.VECTOR2I(mm(x), mm(y)))
-        fp.SetOrientationDegrees(180)
-        print(f"  {fp.GetReference():5s} {label:13s} -> front, ({x}, {y})")
+        fp.SetOrientationDegrees(0)
+        print(f"  {fp.GetReference():5s} {label:13s} -> back, ({x}, {y})")
         found += 1
 
     expected = len(EDGE_PARTS) + len(TACT_ORDER)

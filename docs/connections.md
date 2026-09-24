@@ -151,6 +151,14 @@ GPIOs are inputs with internal pull-ups, armed as `ext1` wake sources on
 `ANY_LOW`. Any keypress shorts a column to a row and pulls that column down.
 No scanner IC, no external pull-ups, no standing current.
 
+**Switching the calculator off narrows that.** Drive row 6 alone and arm `ext1`
+on column 0 alone, and the only key that can wake the chip is the one at that
+crossing — `EXIT/ON`. That is how a real 42S behaves, and it needs no part this
+board does not already have. `docs/power-control.md` has the code, including the
+two things that will bite: `ext1` is level-triggered, so wait for the key to be
+released first, and row 6 needs `rtc_gpio_hold_en()` to keep driving through the
+sleep.
+
 ---
 
 ## 4. Display — GDEY0266T90, 24-pin 0.5 mm FPC
@@ -186,7 +194,7 @@ off-centre active area and where the cell can go.
 | Buzzer | `BUZZER` → 1 kΩ → piezo sounder → `GND`. Murata figure A. It is a ~10 nF capacitor, not a coil, so there is no FET and no flyback diode |
 | IR LED | `+3V3` → LED → 22 Ω → 2N7002 drain; gate from `IR_LED` via 1 kΩ |
 | Status LED | `+3V3` → common anode; each die → 1 kΩ → its GPIO. Red and green together read as amber |
-| Power slider | Wiper → `REG_EN`, one throw → `SYS`, **other throw deliberately unconnected**; 1 MΩ from `REG_EN` to `GND` holds it off |
+| Regulator enable | TPS63900 `EN` → `SYS`, tied hard on. There is no power switch: off is the ESP32 in deep sleep, woken by the `EXIT/ON` key. See `docs/power-control.md` |
 | Test pads | `BAT`, `SYS`, `+3V3`, `GND`, `UART0_TX`, `UART0_RX`, `EN`, `GPIO0` (BOOT) |
 | `EN` | 10 kΩ to `+3V3`, 1 µF to `GND`. This is the MCU's reset, not the regulator's enable |
 
@@ -248,7 +256,11 @@ The 22 µF beside the module's pin 3 is what rides these bursts — it is
 Espressif's own figure 9-1 value, and the regulator's own 22 µF is too far away
 to do the job.
 
-Deep sleep, for contrast, is about 25 µA all in: 8 µA for the chip with RTC
-memory up, 4 µA for the charger, 4 µA for the fuel gauge in hibernate, 4 µA
-down the slider's 1 MΩ pull-down, and the rest in leakage. That is the number
-the fifteen-month figure comes from.
+Deep sleep, for contrast, is about **21 µA** all in: 8 µA for the chip with RTC
+memory up, 4 µA for the charger, 4 µA for the fuel gauge in hibernate, and the
+rest in leakage. That is the number the fifteen-month figure comes from.
+
+It was 25 µA until 24 September 2026, the extra 4 being the 1 MΩ that held the
+power slider's `EN` pin down. The slider is gone and so is the resistor, and deep
+sleep is now the only "off" there is — `docs/power-control.md` has what that
+costs and what it buys. Add about 5 µA on units built with the frontlight.

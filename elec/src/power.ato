@@ -1,5 +1,5 @@
 from "parts.ato" import BQ25185, TPS63900, MAX17048, USBCReceptacle, TPD4E05U06
-from "parts.ato" import Battery, Resistor, Capacitor, Inductor, SlideSwitch
+from "parts.ato" import Battery, Resistor, Capacitor, Inductor
 
 # ---------------------------------------------------------------------------
 # power.ato -- USB-C in, linear charger with power path, buck-boost to 3V3.
@@ -29,7 +29,6 @@ module Power:
     signal chg_stat2
     signal i2c_sda
     signal i2c_scl
-    signal reg_en
 
     # --- USB-C inlet ---------------------------------------------------------
     # On the TOP EDGE of the case, mouth flush with the board edge, mounted on
@@ -162,8 +161,20 @@ module Power:
     # --- buck-boost ----------------------------------------------------------
     reg = new TPS63900
     reg.VIN ~ sys
+    # EN IS TIED HARD ON, and that is the whole of the power switch now.
+    # There is no slider: the rail is up whenever there is a charged cell in
+    # the case, and "off" is the ESP32 in deep sleep waiting for the EXIT/ON
+    # key. docs/power-control.md has the argument and the arithmetic; the short
+    # version is that deep sleep costs about 21 uA against the slider's 10, and
+    # both are far below what the cell loses to self-discharge anyway.
+    #
+    # EN must never float -- the TPS63900's pin description says so in as many
+    # words -- and tying it to SYS rather than to the regulator's own output is
+    # the other half of a bug this file used to have: VOUT cannot exist until
+    # EN is already high, so a regulator enabled from its own output never
+    # starts.
     reg.VOUT ~ v3v3
-    reg.EN ~ reg_en
+    reg.EN ~ sys
     reg.GND ~ gnd
     reg.PAD ~ gnd
 
@@ -230,26 +241,29 @@ module Power:
     # independently of VDD. So 3.3 V pull-ups drive a 4.2 V part correctly and
     # nothing is stressed. That closes the open question that used to be here.
     #
-    # WHAT DOES HAPPEN, and it is worth knowing: the pull-ups are on the
-    # SWITCHED 3.3 V rail, so with the power slider off the bus sits at ground.
-    # Datasheet note 6 -- SCL and SDA both below VIL for 2.5 s puts the part
-    # into shutdown. So the gauge does NOT keep counting through a long off
-    # period, whatever powers it. It restarts when the slider goes back on and
-    # the bus rises.
+    # WHAT USED TO HAPPEN HERE HAS STOPPED HAPPENING, and it is worth knowing.
+    # The pull-ups are on the 3.3 V rail, and that rail used to be switched: a
+    # slider took it away, both lines sat at ground, and datasheet note 6 --
+    # SCL and SDA both below VIL for 2.5 s -- put the gauge into shutdown. So
+    # the gauge did not count through a long off period, and its 4 uA came off
+    # the drawer budget for free.
     #
-    # That is acceptable, and arguably right. ModelGauge is voltage-based with
-    # no coulomb counting, so a restart re-reads the cell's open-circuit
-    # voltage -- and a calculator that has been switched off is a cell that has
-    # been resting, which is exactly when that reading is accurate. The case it
-    # gets wrong is flicking the slider off and on mid-use, where the state of
-    # charge will be out by a few percent until the cell settles. Shutdown also
-    # takes the gauge's 4 uA off the drawer budget.
+    # The slider went on 24 September 2026 and the rail is always up now, so
+    # the bus is always pulled high and the gauge never shuts down. Two
+    # consequences, one good and one to pay for:
     #
-    # If that is ever not good enough, the fix is a two-FET bidirectional
-    # level shifter on SDA and SCL with the high side pulled up to BAT: with
-    # the 3.3 V rail down the gates sit at 0 V, the FETs are off, the body
-    # diodes are reverse-biased, and the gauge's side of the bus stays high.
-    # Three extra parts. Not worth it unless the battery reading misbehaves.
+    #   - GOOD: ModelGauge learns the cell, and it now keeps what it learns
+    #     across an off period instead of restarting cold. A calculator coming
+    #     out of a drawer reports its charge correctly on the first reading
+    #     rather than after a cycle or two.
+    #   - PAID FOR: about 3 uA in hibernate, standing, for the life of the
+    #     cell. It is part of the 21 uA in docs/power-control.md.
+    #
+    # If the gauge ever needs to be shut down deliberately -- for shipping, say
+    # -- the command is in software: it has a SLEEP bit in the MODE register.
+    # No hardware is needed for that, which is another reason the slider was
+    # never earning its place.
+
     gauge.VDD ~ bat
     gauge.SDA ~ i2c_sda
     gauge.SCL ~ i2c_scl
@@ -270,53 +284,26 @@ module Power:
     c_gauge.p1 ~ bat
     c_gauge.p2 ~ gnd
 
-    # --- power slider --------------------------------------------------------
-    # The slider does NOT carry the load. It sets the buck-boost's enable pin
-    # and nothing else, so it switches microamps: no arcing, no contact
-    # resistance in the supply path, and a 2.8 mm switch is plenty.
+    # --- there is no power switch, and that is deliberate --------------------
+    # Until 24 September 2026 a C&K JS102011SAQN slider on the top edge drove
+    # the regulator's EN pin. Barnaby pointed out that a real HP-42S has no
+    # such thing: ON is a key, and OFF is shift-EXIT. So the slider is gone,
+    # EN is tied to SYS above, and the 1 M pull-down that used to hold EN low
+    # went with it -- worth 4 uA of the 25 uA sleep budget.
     #
-    # (This fixes a real bug: EN used to be tied to the regulator's own 3.3 V
-    # output, which is a rail that cannot exist until EN is already high. As
-    # drawn before, it could never have started.)
+    # What replaces it is entirely in firmware, on hardware that was already
+    # here. The keypad's six columns sit on RTC-capable GPIOs and were already
+    # armed as ext1 wake sources; the trick is to drive ROW6 low on its own and
+    # arm ext1 on COL0 alone, because EXIT/ON is the only key at that crossing.
+    # Every other key leaves both nets where they were. See
+    # docs/power-control.md for the mask, the hold and the one ghost path.
     #
-    # ONE THROW IS DELIBERATELY UNCONNECTED, and the pull-down does the other
-    # half. The earlier version drove both throws, EN to SYS one way and EN to
-    # ground the other, which is better on paper -- EN is then hard-driven and
-    # never floating. The problem is which leg is the common one.
-    #
-    # The switch is now a C&K JS102011SAQN, whose three pads sit on a clean
-    # 2.5 mm pitch, and on every conventional SPDT slide switch the centre
-    # terminal is the common. But C&K's drawing is on a host this session
-    # cannot reach, so it is still not CONFIRMED. Get it wrong with both
-    # throws driven and one slider position shorts SYS to ground through the
-    # switch, which on a lithium cell is not a bug you debug twice.
-    #
-    # Wired this way it does not matter. Whichever leg is the wiper, one
-    # position connects EN to SYS and the other connects it to an unused leg,
-    # where the pull-down holds it at ground. The cost is r_reg_en's standing
-    # current, SYS over 1M, about 4 uA while the calculator is switched on.
-    # Buzz the switch out with a meter when the parts arrive: if the wiper is
-    # the middle leg as expected, tie sw_power.b to ground, delete r_reg_en
-    # and get those 4 uA back.
-    #
-    # 1M rather than 10M because the TPS63900's EN must sit below 0.4 V to
-    # count as low (datasheet section 6.5) and it must never float -- the
-    # pin description says so in as many words. 100 nA of input leakage into
-    # 1M is 0.1 V; into 10M it would be 1 V, which is not low.
-    #
-    # Charging is deliberately upstream of this. With the slider off, USB
-    # still charges the cell and the fuel gauge still counts.
-    sw_power = new SlideSwitch
-    sw_power.common ~ reg_en
-    sw_power.a ~ sys
-    # sw_power.b is intentionally left unconnected -- see above.
-    # There is no shield pad any more: the C&K part's two locating bosses are
-    # non-plated holes, unlike the Shouhan's plated SH tab.
-
-    r_reg_en = new Resistor
-    r_reg_en.value = "1M"
-    r_reg_en.p1 ~ reg_en
-    r_reg_en.p2 ~ gnd
+    # Three things this costs, all of them written up in that file: the rail
+    # never collapses, so there is no longer any way to stop firmware that has
+    # hung past what RESET can reach; the fuel gauge no longer shuts itself
+    # down (see the note above it); and a cell left in a drawer now drains at
+    # 21 uA rather than 10. Against roughly 2 %/month of self-discharge on a
+    # lithium pouch cell, the last of those is not a real number.
 
     r_sda = new Resistor
     r_sda.value = "4.7k"

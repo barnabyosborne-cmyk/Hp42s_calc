@@ -299,10 +299,12 @@ module HP42S:
     # want about 13.6 V and the part is 3.4 V typical forward -- there is no
     # headroom to ballast them off a rail at all. See frontlight.ato.
     #
-    # SYS is upstream of the power slider, so the driver is live whenever
-    # there is a cell in the case. Its shutdown current plus the 1 M holding
-    # CTRL down is about 5 uA. That is real against a 10 uA switched-off
-    # board, and it is the price of the feature on the units that have it.
+    # SYS is the cell, so the driver is live whenever there is a cell in the
+    # case. Its shutdown current plus the 1 M holding CTRL down is about 5 uA.
+    # There is no switched-off state to compare that against any more -- the
+    # slider went on 24 September 2026 -- so it is 5 uA on top of the 21 uA
+    # standing draw in docs/power-control.md, and it is the price of the
+    # feature on the units that have it.
     mcu.IO41 ~ frontlight_pwm
 
     frontlight = new Frontlight

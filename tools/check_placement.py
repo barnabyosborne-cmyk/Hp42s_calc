@@ -40,9 +40,18 @@ PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kica
 BOARD_W, BOARD_H = 76.0, 144.0
 GAP = 1.0                 # between courtyards, same side
 EDGE = 0.5                # courtyard to board outline
-BAY = (13.0, 5.0, 76.0, 59.0)        # back only: the cell. It used to start at
-                                     # X 10; J2 turned the right way round needs
-                                     # to X 12.50, and 60 mm of cell still fits.
+BAY = (14.0, 13.0, 69.0, 58.0)       # back only: the cell, 6 x 45 x 55 mm.
+                                     # X used to start at 10; J2 turned the
+                                     # right way round reaches X 12.50, so 14.
+                                     # Y used to start at 5, bounded by the
+                                     # USB-C's through-hole fillets. Since
+                                     # 24 September 2026 every reflowed part is
+                                     # on the back, the deepest of them (U1)
+                                     # reaches Y 11.66, and the bay starts at
+                                     # 13. 45 mm of cell at 6 mm thick is the
+                                     # same 1600 mAh as 50 x 60 at 5 mm, and
+                                     # the Z budget has 2 mm spare for it.
+                                     # docs/top-edge.md has the arithmetic.
 GLASS = (12.0, 48.3)                  # front only, full width
 KEYS_TOP = 57.0                       # front only, below this the domes live
 # The ESP32 module's antenna keepout is worked out from the module's own
@@ -58,7 +67,7 @@ ANTENNA_PAD_ALLOWANCE = 0.3
 GRID_IC = 1.27
 GRID_PASSIVE = 0.635
 # Positions that come from the case, the panel or the antenna, not the grid.
-OFF_GRID = {"J2", "U5", "TP1", "TP2", "SW39", "SW40", "SW41", "J1", "D4", "D5"}
+OFF_GRID = {"J2", "U5", "TP1", "TP2", "SW40", "SW41", "J1", "D4", "D5"}
 
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
 FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')
@@ -187,7 +196,7 @@ def main():
             n += 1
             print(f"  {r}: ({x0:.2f},{y0:.2f})-({x1:.2f},{y1:.2f})")
     print("  none" if not n else f"  {n} parts  "
-          "(the top-edge six are meant to: they reach into the case wall)")
+          "(the top-edge five are meant to: they reach into the case wall)")
 
     print("\n--- on the back, inside the battery bay ---")
     n = 0

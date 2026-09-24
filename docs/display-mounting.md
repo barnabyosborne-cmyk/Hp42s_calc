@@ -265,14 +265,15 @@ Barnaby asked for it on 2026-09-20. The layout as drawn had it behind the
 keyboard. What that costs is below, and the short version is that the top of
 the back is currently the electronics bay, so the electronics move.
 
-**Settled the same day: the bezel went to 14 mm and the six top-edge parts
-moved to the front**, which is what makes the cell fit. The bay used to be
-about 49 mm tall because the USB-C receptacle reached 8.83 mm into the board
-from the top edge, against a 1600 mAh cell that wants 50. With the receptacle
-on the front the bay is about 54 mm — 54 rather than 57 because the
-receptacle's through-hole shield legs now leave their fillets on the back, and
-the cell has to stay clear of board Y 0 to 5 in that region. See
-`docs/top-edge.md`.
+**Settled 2026-09-21: the bezel went to 14 mm**, which leaves 12 mm of board
+above the panel. That is what made the top-edge parts placeable at all, and for
+three days it put them on the front.
+
+**Changed 2026-09-24: they are on the back again, and so is everything else the
+fab house solders.** Barnaby asked for both — the parts centred in the top wall
+rather than pressed against the case's front face, and a single-sided assembly.
+The full argument, with the stack-up it comes from, is in `docs/top-edge.md`.
+What it does to the cell is the section below.
 
 **The ribbon can never reach the cell.** At 14.30 mm it is spent before it
 clears the connector. So "short ribbon stopping before the battery" is not a
@@ -284,23 +285,29 @@ short in a LiPo is a fire. Nothing goes under the cell.
 
 ### What actually fits up there
 
-**As the board now stands**, the top of the back is bounded by the USB-C
-receptacle's through-hole shield fillets, which land in about board Y 0 to 5,
-and by the keyboard, which starts at board Y 59. That leaves a bay **about
-54 mm tall**, full width apart from the FPC connector in the left 13 mm. A
-50 × 60 × 5 mm cell fits, and the three ways out below are no longer needed —
-they are kept because they are the fallbacks if the cell you can actually buy
-is a different shape.
+**As the board now stands, the bay is board X 14 to 69 and Y 13 to 58 — 55 x
+45 mm — and the cell is 6 mm thick.** That is a 1600 mAh cell, the same capacity
+as the 5 x 50 x 60 it replaces, and `docs/front-face.md` budgeted 6 mm from the
+start, so the case does not grow. Three numbers for the case model, and all
+three moved on 2026-09-24:
 
-**The cell's X moved on 23 September 2026.** It was drawn at X 10 → 70. The
-FPC connector, turned the right way round, reaches X 12.50, so the cell now
-starts at **X 14** and runs to **X 74** — still 60 mm, with 1.5 mm to the
-connector and 2 mm to the board's right edge. `check_placement.py` has the bay
-starting at X 13 to match. This is a number for the case model: the cell
-pocket is not centred on the board.
+- **X 14**, not 10, because the FPC connector turned the right way round reaches
+  X 12.50. That was already true on 23 September. X 69 rather than 74 is the new
+  part: the cell is 55 mm wide now, not 60.
+- **Y 13**, because every part the fab house solders is on the back and the
+  deepest of them, U1, reaches Y 11.66.
+- **45 mm tall**, from Y 13 to the keyboard line at 58.
 
-What follows was written when the six top-edge parts were on the back and the
-bay was 49 mm:
+The cell pocket is not centred on the board in either axis. `check_placement.py`
+holds the same rectangle and fails if anything strays into it.
+
+This is the second of the three fallbacks below, taken deliberately. It was
+always the cheapest of them: same capacity, one millimetre of depth, and the
+depth was already in the budget.
+
+What follows was written when the top-edge parts were first on the back and the
+bay was 49 mm. The arithmetic is the reason fallback 2 is what the board now
+does:
 
 A 1600 mAh cell at 5 mm thick is about 50 × 60 mm — a 505060. Turned on its
 side it is 60 wide × 50 tall, and 50 does not fit in 49. It misses by a
@@ -316,8 +323,11 @@ Three ways out, in the order I would try them:
    the back cavity at the top can be deeper than it can be behind the
    keyboard. A 6 mm cell in 45 × 55 mm is about the same 1600 mAh. Whether
    6 mm is there is a question for the case model, not for me.
-3. **Accept about 1400 mAh** in a 5 × 48 × 60 cell. On the earlier estimate
+3. **Accept about 1400 mAh** in a 5 × 48 × 55 cell. On the earlier estimate
    that is roughly 13 months rather than 15, which is not a real loss.
+
+**Fallback 2 is what was taken, on 24 September 2026.** 1 and 3 are still open
+if a 6 mm cell in 45 × 55 turns out to be hard to buy.
 
 ### What moving the cell up costs
 

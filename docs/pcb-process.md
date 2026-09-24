@@ -17,9 +17,8 @@ does not route; it is the schematic, written as text.
 and every pin in the netlist lands on a real pad, checked mechanically against
 the `.kicad_mod` files rather than by eye.
 
-What is still open is in **`docs/before-layout.md`**, and as of 22 September
-2026 it is short: measure the real panel's tail, buzz out which leg of the
-slider is the wiper, check the C&K's knob protrusion and `FPC_ANGLE` in the
+What is still open is in **`docs/before-layout.md`**, and as of 24 September
+2026 it is short: measure the real panel's tail, check `FPC_ANGLE` in the
 viewer, and read the MAX17048's DC table for its I²C thresholds. Every pin
 number on the board is now confirmed against a datasheet table.
 
@@ -75,7 +74,11 @@ File → Fabrication Outputs:
 - **Gerbers** — all copper, mask, silk, paste, Edge.Cuts. Protel extensions off,
   X2 on.
 - **Drill files** — Excellon, PTH and NPTH in one file, absolute, mm.
-- **Position file** — CSV, mm, both sides. This is the assembly file.
+- **Position file** — CSV, mm. **Every part the assembler places is on the BACK
+  (`B.Cu`)**, since 24 September 2026: the front carries only the panel, the 38
+  dome sites and the frontlight sliver's lands, and all of those go on afterwards
+  by hand. Export both sides anyway, so the file is self-evidently complete, but
+  expect the front side to be empty.
 - **BOM** — `build/default.csv` from atopile is the starting point, but it does
   not carry manufacturer part numbers. You will fill those in by hand once,
   and it is worth doing properly because you will reorder.
@@ -90,15 +93,21 @@ missing outlines.
 
 - **5 boards**, 1.6 mm, 4 layer, ENIG, black or white soldermask to taste.
   Roughly £40 for the batch.
-- **A stencil** for the top side. The module, the WSON parts and the USON ESD
-  array are not hand-solderable without one; the 0402s are not fun without one
-  either.
+- **A stencil for the BOTTOM side, not the top.** That is where every reflowed
+  part is. The module, the WSON parts and the USON ESD array are not
+  hand-solderable without one; the 0402s are not fun without one either. Order
+  one stencil, not two — that is the point of putting everything on one side.
 - **Assembly** is a real choice. The BQ25185, TPS63900, MAX17048 and the ESD
   array are all leadless packages with thermal pads. If you have not reflowed
   those before, having the fab place them and hand-soldering the rest is money
   well spent.
 - **Not the domes.** Those go on last, by hand, with the Peel-N-Place array, on
   a clean board. Do not let an assembler near them.
+- **The four USB-C shield legs are the one through-hole joint**, and they
+  protrude through the front. They are a second operation whichever side the
+  receptacle is on; a receptacle with SMD-only shell tabs would remove it
+  entirely, and it is worth looking for one before rev B. See
+  `docs/top-edge.md`.
 
 ---
 
@@ -109,8 +118,9 @@ Never power a new board fully populated and hope.
 1. **Bare board** — continuity check 3.3 V to ground and BAT to ground. Should
    read open.
 2. **Power section only** — charger, buck-boost, passives. Apply USB. Measure
-   SYS and 3.3 V. Nothing else fitted, so nothing else can be damaged. Check
-   the slider actually switches the rail.
+   SYS and 3.3 V. Nothing else fitted, so nothing else can be damaged. There is
+   no slider to check: `EN` is tied to `SYS`, so the rail should come up as soon
+   as there is a cell or a USB cable.
 3. **Module** — fit it, check it enumerates over USB, flash a blink.
 4. **Panel** — fit the connector and the booster. Before running any graphics,
    measure VGH and VGL at the connector: about +22 V and −20 V. If those are

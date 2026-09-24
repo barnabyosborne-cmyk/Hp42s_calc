@@ -11,7 +11,7 @@ that bite on a board this size.
 
 | Rule | How it is applied here |
 |---|---|
-| Fixed parts first | The keys, the six top-edge parts, the FPC, the sliver lands and the ESP32 were placed by the case, the panel and the antenna before anything else moved. None of them is on a grid, and none of them should be. |
+| Fixed parts first | The keys, the five top-edge parts, the FPC, the sliver lands and the ESP32 were placed by the case, the panel and the antenna before anything else moved. None of them is on a grid, and none of them should be. |
 | Then the ICs, then the passives | Each supply is a block built outwards from its own IC. |
 | Decoupling at the pin | Every bypass capacitor is beside the pin it serves, and the comment beside it in `place_board.py` names that pin. |
 | Zoning | The two boosts are at opposite corners. The fuel gauge, the only analogue part, is 14 mm from the display inductor and 45 mm from the frontlight's. |
@@ -19,7 +19,7 @@ that bite on a board this size.
 | Grid | ICs and connectors on 1.27 mm (50 mil), passives on 0.635 mm (25 mil). |
 | Clearance | At least 1.0 mm between courtyards — near enough the 40 mil asked for, and the courtyards already carry the manufacturer's own handling allowance. |
 | Uniform orientation | Every two-terminal passive is at 0°, so the board is one pick-and-place orientation. |
-| One side if possible | Not possible: see below. |
+| One side if possible | **Met, since 24 September 2026.** Everything the fab house solders is on the back. See below. |
 
 Two rules cannot be met and are not:
 
@@ -29,43 +29,65 @@ Two rules cannot be met and are not:
   a sealed resin case with no edge rails or board guides, so the reason for
   the rule — handling damage and depanelling — is weaker here than the space
   is scarce.
-- **All on one side.** The keys own the front and the cell owns the top of the
-  back, so the electronics go on the back below the keyboard, which is the
-  only place left. Barnaby had already spotted this one.
+- ~~**All on one side.**~~ **Met on 24 September 2026, at the cost of a
+  millimetre of cell thickness.** Barnaby asked for it, because a single-sided
+  assembly is the cheaper build: one stencil, one paste print, one reflow. The
+  last nine parts on the front — the USB front end, the IR driver and the status
+  LED's ballasts — crossed to the back at exactly the same x and y, and the
+  battery bay gave up the 4.5 mm they needed. A 6 × 45 × 55 cell is the same
+  1600 mAh as the 5 × 50 × 60 it replaces.
+
+  What is still on the front is the panel, the 38 dome sites and the frontlight
+  sliver's lands, none of which the fab house solders. The one blemish is the
+  USB-C's four through-hole shield legs, which are a second operation whichever
+  side they protrude from; a receptacle with SMD-only shell tabs would remove it.
+  See `docs/top-edge.md`.
 
 ## What was already spoken for
 
 | | |
 |---|---|
-| FRONT Y 0–5 | the six top-edge parts, pushed out towards the case wall |
+| BACK Y 0–8 | the five top-edge parts, pushed out towards the case wall |
+| BACK Y 4–11.7 | the nine parts that serve them, interleaved with those |
+| BACK Y 13–58, X 14–69 | the battery bay |
+| FRONT Y 0–5 | nothing but the USB-C's four through-hole shield fillets |
 | FRONT Y 12–48.3 | the panel's glass |
+| FRONT Y 48.3–57 | the frontlight sliver's two lands and a ground point |
 | FRONT Y 57–137 | the keyboard, on Barnaby's measured grid |
-| BACK Y 5–59 | the battery bay, full width but for the FPC in the left 10 mm |
 
 The battery bay is the hard one. `docs/display-mounting.md` settled the cell
 on the back at the top, which evicted the electronics to **behind the
 keyboard**, and nothing may go under a pouch cell — it grows over its life and
 its case is soft aluminium laminate.
 
-## The two front slivers
+## The band that serves the top edge
 
-**Y 5–11.6, between the top-edge parts and the glass.** The USB front end
-lives here — the ESD array under J1's own D+/D− pins, the two CC resistors at
-U1's CC pins, the VBUS capacitor at the connector where the current enters.
-The alternative is 60 mm of unprotected D+/D− running the length of the board
-to the only other free space. The IR transistor and its two resistors are here
-too, under the emitter they drive, and so are the status LED's two ballast
-resistors, under it.
+**BACK Y 4–11.7, between the top-edge parts and the battery bay.** The USB front
+end lives here — the ESD array behind J1's own D+/D− pins, the two CC resistors
+at U1's CC pins, the VBUS capacitor at the connector where the current enters.
+The alternative is 60 mm of unprotected D+/D− running the length of the board to
+the only other free space. The IR transistor and its two resistors are here too,
+behind the emitter they drive, and so are the status LED's two ballast resistors,
+behind it.
 
-Nothing in this band can go above Y 11.6: the glass starts at 12. And nothing
-can sit directly under J1's body, which reaches Y 7.24, or the slider's, which
-reaches Y 6.0.
+**This band was on the FRONT until 24 September 2026**, at exactly these x and y.
+Moving it over cost the battery bay 4.5 mm and gained a single-sided assembly and
+a USB pair that reaches its ESD array without crossing the board.
+
+Nothing in the band can go past Y 11.7: the bay starts at 13. And the nine parts
+have to thread between the five above them, none of which can move — J1's body
+reaches Y 7.24, the two buttons 3.85, and the two LEDs about 2.4.
+
+## The one remaining front sliver
 
 **Y 48.3–57, between the glass and the keys.** `TP1` and `TP2` are the
 frontlight sliver's two solder lands, 60 mm apart because that is the sliver's
 length, with the sliver spanning between them along the guide's injection
 edge. `TP3` is a ground point to clip a scope to while the frontlight is being
 set up; it is on the front because that is where the frontlight is.
+
+All three go on after the board comes back from the fab, along with the panel and
+the domes, which is what lets the front carry nothing the fab house solders.
 
 ## The back, below Y 59
 
@@ -116,7 +138,7 @@ in that rectangle.** C8 and C9 bypass 3V3 at pin 3, C7 and R14 hold EN at pin
 than 1.0 mm on the same side, anything crossing the outline, anything on the
 back inside the battery bay, anything inside the antenna keepout, anything on
 the front under the glass or the keys, and anything off its grid. It is clean
-apart from the six top-edge parts, which are meant to overhang.
+apart from the five top-edge parts, which are meant to overhang.
 
 `tools/fix_pads.py --check` is the other half: it compares every pad on the
 board against the library footprint it came from — mirrored in y for the
