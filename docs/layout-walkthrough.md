@@ -793,6 +793,98 @@ clicks place corners, double-click or `Enter` ends it, `Esc` abandons it,
 While routing, **`V` places a via and switches layer** in one action — this is
 how you get from front to back mid-track. `+` and `-` step through layers.
 
+### Step 9a — Freerouting, and what not to give it
+
+Barnaby asked on 24 September 2026 whether an autorouter could do a first pass.
+**Yes, and it is worth doing twice, for two different reasons** — but not as a
+substitute for the order below.
+
+`tools/autoroute.sh` runs Freerouting 2.4.1 with no display at all, so the whole
+loop works on a machine with no GUI. The script itself was tested end to end on
+24 September 2026 — a small two-layer test board in as `.dsn`, fanout and routing
+and optimisation, a `.ses` out — so the plumbing is known to work. This board has
+not been through it yet, because only KiCad can write the `.dsn` and the export
+is step 1 below.
+
+```sh
+bash tools/autoroute.sh elec/layout/default/default.dsn 100
+```
+
+It needs **Java 25 or newer** — Freerouting 2.x is compiled to class file
+version 69, and a Java 21 runtime fails with `UnsupportedClassVersionError`. On
+macOS, `brew install openjdk`. The script fetches Freerouting itself from Maven
+Central on first run and caches it in `~/.freerouting-cli`.
+
+#### The two runs
+
+**Run 1, before you route anything by hand: a throwaway routability check.**
+Let it loose on the whole board and read two numbers — **unrouted** and
+**violations**. Then delete the result. What you are asking is not "route this
+for me", it is "is this placement routable on four layers, and where is it
+tight". Nothing else answers that, and `docs/placement.md` still lists the
+placement as unproven. A run that ends with unrouted nets is telling you
+something about where things sit, not about the router. Fifteen minutes, and it
+is the cheapest information you will get about the placement.
+
+**Run 2, after 9.1 to 9.4 below are routed by hand and locked: the keypad
+matrix.** 13 nets and about 80 connections, slow, forgiving, and most of the
+copper on the board. This is the part an autorouter is genuinely good at and the
+part you will least enjoy doing by hand.
+
+#### What it cannot know about this board
+
+None of these is the router being bad. They are things that are not in a `.dsn`
+at all:
+
+- **The three switching loops.** The panel's booster, the buck-boost and the
+  frontlight's boost each have a loop whose *area* sets how much it radiates.
+  Freerouting optimises total length and via count; loop area is not in its
+  model. These are 9.1 and they are yours.
+- **The USB pair.** It will route `usb_dp` and `usb_dm` as two unrelated nets,
+  because to a `.dsn` that is what they are.
+- **Which layer things belong on.** `In1.Cu` is a solid ground plane and the
+  matrix is meant to go on `In2.Cu`.
+- **That a via under a metal dome is a short.** See the prep below. This is the
+  one autorouter mistake on this board that would quietly destroy a key.
+- **The fuel gauge.** The only analogue part, and it should not run beside a
+  switcher.
+
+#### Prep, and two things I checked rather than assumed
+
+Both of these are from KiCad 10's own `specctra_export.cpp`, because getting
+them the wrong way round wastes an afternoon:
+
+- **You do not need to unfill the zones first.** A copper zone exports as a
+  Specctra `plane` built from its *outline*, and the fill state is never
+  consulted. So pour the planes in step 8 as normal and export afterwards: the
+  router then knows `gnd` and `+3V3` exist as planes rather than trying to route
+  them as nets.
+- **Board-level rule areas do export, as real keepouts**, per copper layer, and
+  the type follows what the rule area disallows: vias and tracks both → a full
+  `keepout`, vias only → a `via_keepout`, tracks only → a `wire_keepout`. So the
+  antenna rule area from step 8.4 is honoured, and a via keepout over a dome
+  would be too.
+
+**The one thing that has to be added before run 2: 38 via keepouts, one over
+each dome site.** A via inside a dome's courtyard fouls the dome — it is a metal
+disc that has to sit flat on its ring — and there is nothing in the board today
+that says so. Step 9.5 below already routes the matrix that way by hand, from
+the same reasoning, but a rule from a walkthrough is not a rule an autorouter can
+read. Allow tracks, disallow vias, and leave the pour alone.
+
+#### The mechanics
+
+1. **File → Export → Specctra DSN…** Write it next to the board, as
+   `elec/layout/default/default.dsn`.
+2. Run `tools/autoroute.sh` on it. It writes `default.ses` and
+   `default.autoroute.log` beside it, and prints the two numbers at the end.
+3. **File → Import → Specctra Session…** and pick the `.ses`.
+4. **Fill All Zones** (`B`) — the import does not refill them — then DRC.
+
+The `.dsn` is worth committing while you are experimenting, because it is the
+input both of us work from, and a routing run is reproducible from it. The
+`.ses` is not: it is an output, and a big one.
+
 ### The order
 
 **9.1 — The two switching loops, first.** The panel booster (`L2`/`Q1`) and the
