@@ -186,7 +186,8 @@ def main():
 
     text, removed = strip_old(text)
     if removed:
-        print(f"removed {removed} keepout(s) from a previous run")
+        print(f"{removed} keepout(s) from a previous run "
+              f"{'would be replaced' if check else 'replaced'}")
 
     sizes = {}
     for ref, library, *_ in domes:

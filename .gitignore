@@ -36,3 +36,9 @@ firmware/dependencies.lock
 # Intel decimal library, laid out by firmware/vendor/setup.sh
 firmware/components/libbid/src/
 firmware/components/libbid/float128/
+
+# Autorouter. The .dsn is the input and is committed -- a routing run is
+# reproducible from it. The .ses is an output, and a big one, and the log is
+# per-run.
+*.ses
+*.autoroute.log
