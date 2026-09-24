@@ -922,7 +922,81 @@ by 0.25 mm the stricter rule is the one that applies.
 
 The `.dsn` is worth committing while you are experimenting, because it is the
 input both of us work from, and a routing run is reproducible from it. The
-`.ses` is not: it is an output, and a big one.
+`.ses` is not: it is an output, and a big one. Both are settled now: the
+`.dsn` is committed and `*.ses` and `*.autoroute.log` are in `.gitignore`.
+
+#### What the first run actually found, 24 September 2026
+
+Barnaby exported the `.dsn` from `c99aa9a` and it carried **152 `via_keepout`
+entries** — 38 dome sites on four copper layers each — which confirms from the
+other end what KiCad's exporter source said: a rule area disallowing vias alone
+becomes a `via_keepout`, not a blanket `keepout`.
+
+| stage | time | result |
+|---|---|---|
+| fanout | 77 s, 10 passes | 302 of 369 pads escaped (81.8%), 56 gave up |
+| auto-routing | 1080 s, 3 passes | started 194 unrouted nets, ended 62 unrouted and 91 violations |
+| optimisation | 192 s, 1 pass | score 727.51 in, 727.51 out — no improvement at all |
+
+335 wire paths and 150 vias. 65 of the 81 nets carry some copper; 36 carry none.
+
+**First: the keepouts work.** Not one of the 150 vias landed inside a dome
+keepout, and the closest came 5.003 mm from a dome centre — outside the 4.50 mm
+octagon, in the lane where it belongs. That was the thing most worth checking and
+it needs no further thought.
+
+**Second: the 56 fanout failures are correct behaviour, not a fault.** Every dome
+pad sits *inside* its own keepout — the pads reach ±1.74 mm on the 8.5 mm domes
+against a keepout at ±4.50 — so no via can be placed at a keypad pad, by
+construction. Those nets have to leave on front copper and drop through in the
+lanes between domes. Measured from the key geometry, the lanes are:
+
+| | tightest | widest |
+|---|---|---|
+| across a row | 3.500 mm | 6.500 mm |
+| down a column | 1.500 mm | 3.000 mm |
+
+A 0.6 mm via at 0.2 mm clearance needs 1.00 mm of clear lane, so even the
+tightest takes one with 0.25 mm each side. **The keypad is routable.** It was
+worth establishing, because it could have come back the other way.
+
+**Third, and the useful part: every column routed and almost no row did.**
+
+    col0  9 pins ->  19 paths,  9 vias        row0  7 pins -> 0 paths, 0 vias
+    col1  7 pins ->  15 paths,  7 vias        row1  7 pins -> 0 paths, 0 vias
+    col2  8 pins ->  16 paths,  8 vias        row2  7 pins -> 0 paths, 0 vias
+    col3  8 pins ->  17 paths,  8 vias        row3  6 pins -> 0 paths, 0 vias
+    col4  8 pins ->  17 paths,  8 vias        row4  6 pins -> 1 path,   1 via
+    col5  4 pins ->   7 paths,  4 vias        row5  6 pins -> 2 paths,  1 via
+                                              row6  6 pins -> 1 path,   1 via
+
+The columns went first and **put a via at every dome pad** — 47 vias across the
+matrix. Those vias sit in the lanes, which are the only way through. By the time
+the rows wanted to cross, the corridors were full. Nothing was short of room in
+principle; the room was spent.
+
+The same thing happened to the nets that were never the router's business.
+`epd_sck`, `epd_mosi`, `epd_cs`, `epd_dc`, `epd_rst`, `epd_busy`, `usb_dp`,
+`usb_dm`, `i2c_scl`, `i2c_sda`, `uart0_tx` and `uart0_rx` all came back with no
+copper. Those are steps 9.3 and 9.4, the hand-routed ones. **So the order in
+this walkthrough is not a preference, it is what makes the autorouter useful:**
+route and lock 9.1 to 9.4 first, or the router spends their corridors on the
+matrix and neither gets through.
+
+#### The matrix wants one via per net, not one per pad
+
+The front copper carries **only the 38 dome sites and three test pads** —
+everything the fab house solders is on the back, so `F.Cu` is very nearly an
+empty layer. Both of a dome's pads are on it. So the matrix can run its rows and
+columns as front-side copper between the domes and drop through **once per net**,
+near the module: **13 vias rather than 47.**
+
+That is worth insisting on, and not only for the via count. Every via the matrix
+does not place is a via left in a 1.5 mm lane for something else, and the lanes
+are the scarce thing on this board. Freerouting will not find this on its own —
+fanout is a per-pad strategy and it has no reason to prefer the empty layer — so
+either route the matrix by hand on `F.Cu`, or give the router the matrix with
+9.1 to 9.4 already locked and the vias it wants confined to the corridors.
 
 ### The order
 
