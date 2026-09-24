@@ -925,6 +925,62 @@ five with their courtyards, and every one must reach past y = 0.
 
 ---
 
+## Re-importing after a source change
+
+Four changes are sitting in `elec/src` waiting for one re-import, as of
+24 September 2026. Nothing in the board file reflects them yet, and
+`tools/place_board.py` prints a warning about `J2` until it does.
+
+| | change | why |
+|---|---|---|
+| `BT1` | JST `B2B-PH-K` → `S2B-PH-SM4-TB` | SMD rather than through-hole |
+| `J2` | Hirose `FH12-24S` → Amphenol `F32Q` | the panel's contacts are on its viewing face, so the connector has to be top contact. `docs/display-mounting.md` |
+| `SW39` | deleted | there is no power slider. `docs/power-control.md` |
+| `TP1`, `TP2` | 1.5 mm round → 2.0 × 2.0 mm | they are wire lands, not test points. `docs/front-face.md` |
+
+Do it in this order:
+
+```sh
+conda activate ato
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
+git pull origin main
+ato --non-interactive build
+```
+
+`ato build` takes two to four minutes and should end in `Build complete!`. Then:
+
+```sh
+python3 tools/check_netlist.py
+```
+
+which must say **"every pin lands on a real pad"**. If it names a pin, stop and
+send the output — a pin whose name matches no pad in the footprint imports
+*silently unconnected*, with no error and no ratsnest, and it is the easiest
+fault on this board to miss.
+
+Then, in KiCad, with the board open: **File → Import → Netlist**, exactly as
+step 5 above describes it. The two settings that matter are unchanged: **Link
+Method "Link footprints using component tstamps (unique ids)"**, and **"Delete
+footprints with no components in netlist" ticked** — that last one is what
+removes `SW39`. Everything you have placed stays placed, because tstamps do not
+move when designators do.
+
+Afterwards, from the repo root:
+
+```sh
+python3 tools/place_board.py
+python3 tools/fix_pads.py
+python3 tools/check_placement.py
+```
+
+`place_board.py` should no longer warn about `J2`, `fix_pads.py` should report
+nothing out of place, and `check_placement.py` should end in **"all clear"** with
+`SW39` gone from its board-outline list. If the imported `J2` still has the
+Hirose footprint, the netlist did not rebuild — check that `ato build` really
+finished.
+
+---
+
 ## Then what
 
 Go back to **`docs/pcb-process.md`, step 8**, for the fabrication outputs, what
