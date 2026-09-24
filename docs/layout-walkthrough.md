@@ -1046,7 +1046,7 @@ Four changes are sitting in `elec/src` waiting for one re-import, as of
 |---|---|---|
 | `BT1` | JST `B2B-PH-K` → `S2B-PH-SM4-TB` | SMD rather than through-hole |
 | `J2` | Hirose `FH12-24S` → Amphenol `F32Q` | the panel's contacts are on its viewing face, so the connector has to be top contact. `docs/display-mounting.md` |
-| `SW39` | deleted | there is no power slider. `docs/power-control.md` |
+| `SW39` | deleted | there is no power slider. `docs/power-control.md`. **Already removed from the board file** in commit `0507bfd`, so the import has nothing to do here — it is listed only so the netlist and the board agree on the count |
 | `TP1`, `TP2` | 1.5 mm round → 2.0 × 2.0 mm | they are wire lands, not test points. `docs/front-face.md` |
 
 Do it in this order:
@@ -1071,10 +1071,12 @@ fault on this board to miss.
 
 Then, in KiCad, with the board open: **File → Import → Netlist**, exactly as
 step 5 above describes it. The two settings that matter are unchanged: **Link
-Method "Link footprints using component tstamps (unique ids)"**, and **"Delete
-footprints with no components in netlist" ticked** — that last one is what
-removes `SW39`. Everything you have placed stays placed, because tstamps do not
-move when designators do.
+Method "Link footprints using component tstamps (unique ids)"**, and
+**"Replace footprints with those specified in netlist" ticked** — that second
+one is the one doing the work this time, because three of the four changes are
+footprint swaps on parts that already exist. Without it the netlist updates and
+the footprints do not, which looks exactly like nothing happening. Everything
+you have placed stays placed, because tstamps do not move when designators do.
 
 Afterwards, from the repo root:
 
@@ -1087,8 +1089,9 @@ python3 tools/check_placement.py
 `place_board.py` should no longer warn about `J2`, `fix_pads.py` should report
 nothing out of place, and `check_placement.py` should end in **"all clear"** with
 `SW39` gone from its board-outline list. If the imported `J2` still has the
-Hirose footprint, the netlist did not rebuild — check that `ato build` really
-finished.
+Hirose footprint, either the netlist did not rebuild — check that `ato build`
+really finished — or **"Replace footprints with those specified in netlist" was
+unticked**, which is the quieter of the two failures.
 
 ---
 
