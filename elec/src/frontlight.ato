@@ -1,5 +1,5 @@
 from "parts.ato" import TPS61165, FrontlightInductor, SchottkyDiode
-from "parts.ato" import FrontlightLED, Resistor, Capacitor, TestPad
+from "parts.ato" import FrontlightLED, Resistor, Capacitor, SliverLand
 
 # ---------------------------------------------------------------------------
 # frontlight.ato -- the optional edge-lit reading light.
@@ -167,11 +167,19 @@ module Frontlight:
     # Two soldered wires, not a connector: a connector inside a resin case
     # that is never opened is a part that can work loose, and it would have
     # to be shorter than 1 mm to fit under the guide.
-    pad_a = new TestPad
+    # 2.0 x 2.0 mm lands, not the 1.5 mm round test points these were until
+    # 24 September 2026. See SliverLand in parts.ato: nothing probes these, a
+    # wire carrying about 88 mA is soldered to them, and the joint has to stay
+    # under 1.1 mm tall because the light guide's edge starts there.
+    #
+    # The instance names are kept so the re-import matches them by tstamp and
+    # the placement survives. The designator prefix is kept at TP for the same
+    # reason: it is still TP1 and TP2, and place_board.py knows them by name.
+    pad_a = new SliverLand
     pad_a.value = "FL+"
     pad_a.p ~ vled
 
-    pad_k = new TestPad
+    pad_k = new SliverLand
     pad_k.value = "FL-"
     pad_k.p ~ fb
 

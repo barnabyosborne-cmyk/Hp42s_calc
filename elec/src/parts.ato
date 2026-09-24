@@ -98,6 +98,31 @@ component TestPad:
     value = "test pad"
     signal p ~ pin 1
 
+component SliverLand:
+    # Where a wire to the frontlight sliver is soldered. Two of them, 60 mm
+    # apart in the strip between the panel and the keyboard.
+    #
+    # 2.0 x 2.0 mm square, not the 1.5 mm round TestPad these used to be.
+    # Nothing probes these: a hand-soldered wire lands on them and stays, and
+    # it carries about 88 mA off the cell when the light is at full. A round
+    # 1.5 mm pad is a probe target. A 2 mm square gives an iron somewhere to
+    # sit, takes the wire flat rather than end-on, and is four times the area
+    # for a joint that has to survive a case being closed on it.
+    #
+    # KEEP THE JOINT UNDER 1.1 mm TALL. The light guide lies on the panel and
+    # its edge runs from 1.1 to 2.1 mm above the board's top copper, which is
+    # the window the LEDs themselves sit in. A blob taller than that fouls the
+    # guide. 30 AWG tinned wire laid flat plus a fillet is about 0.6 mm; a
+    # loop of stranded wire standing up is not.
+    #
+    # Square rather than round is also the orientation cue: there is no
+    # polarity marking on a wire, so FL+ and FL- are told apart by the
+    # silkscreen and by which end of the sliver they reach.
+    footprint = "TestPoint:TestPoint_Pad_2.0x2.0mm"
+    designator_prefix = "TP"
+    value = "sliver land"
+    signal p ~ pin 1
+
 # --- keypad ----------------------------------------------------------------
 
 component DomeKey10:

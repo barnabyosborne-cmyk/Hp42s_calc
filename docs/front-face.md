@@ -312,6 +312,34 @@ Two soldered wires to the sliver rather than a connector: a connector inside a
 case that is never opened is a part that can work loose, and it would have to
 be under 1 mm tall to fit beside the guide.
 
+**The two lands on the main board are now 2.0 x 2.0 mm** (`TP1` and `TP2`,
+`SliverLand` in `parts.ato`), changed on 24 September 2026 from the 1.5 mm round
+test-point pads they had been. Nothing probes them: a wire carrying about 88 mA
+is soldered to them once and stays. A square gives an iron somewhere to sit and
+takes the wire laid flat.
+
+**How the wires join the sliver is still open, and it is a height problem.** The
+guide's edge runs from 1.1 to 2.1 mm above the board's top copper, and that is
+the window the LEDs sit in — a 1.0 mm sliver with a 1208 part on top reaches
+2.0 mm. So a wire soldered to a pad on the sliver's *top* face, at about 1.4 mm,
+lands in the same window and fouls the guide. Three ways out, in the order I
+would try them:
+
+1. **Castellated half-holes at the two ends of the sliver.** The wire solders
+   into a plated notch in the edge and adds nothing above the sliver's own
+   1.0 mm. It is the clean answer and it costs a fab option and a footprint this
+   repo would have to draw.
+2. **Make the sliver longer than the guide is wide** — say 64 mm against 60 mm
+   of LEDs — and put plain top-face pads on the 2 mm that stick out at each end.
+   No new footprint, no fab option. Whether the overhang is there is a question
+   for the guide's width, which the case model owns.
+3. **Bottom-face pads reflowed straight onto `TP1` and `TP2`.** Lowest of all,
+   and it throws away the strain relief the wires were chosen for, over a 60 mm
+   span between two different boards.
+
+This is the thing to settle before the sliver gets drawn, and (2) needs one
+number from the case model: how wide the guide actually is.
+
 **What it costs when it is off.** `SYS` is the cell, so the driver is live
 whenever there is a cell in the case: the TPS61165's shutdown current plus 4.2 µA
 through the 1 MΩ comes to about **5 µA**. Against a board that otherwise sits at
