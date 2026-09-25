@@ -642,6 +642,32 @@ git add -A && git commit -m "layout: placed and repaired" && git push origin mai
 
 ---
 
+### Step 6c — check the footprints we drew ourselves
+
+```bash
+python3 tools/check_footprints.py
+```
+
+It compares every pair of pads in every footprint in
+`elec/footprints/hp42s.pretty` and reports any that overlap or come closer than
+0.2 mm. Expect `all 11 footprints clear at 0.2 mm`.
+
+This exists because on 25 September 2026 it turned out the TPS63900's footprint
+**shorted all ten of its pins to ground**. Its exposed pad was drawn 1.2 mm wide,
+so it reached ±0.600 from the centre, while the signal lands start at ±0.550. The
+netlist checker could not see it, because it asks whether a pin lands on a pad.
+`check_placement.py` could not see it, because it measures courtyards between
+parts and never looks inside one. And you cannot see it at any zoom where the
+whole part is on screen. The land is now 0.700 mm wide — **that number wants
+checking against TI drawing 4218903/C before anything is fabricated**, because
+the drawing's own dimensions do not reconcile with each other.
+
+It compares polygons rather than bounding boxes, which is not fussiness: a dome's
+outer ring is a C, an octagonal annulus with a slot for the centre tab to escape
+through, and its bounding box contains the tab entirely. A box comparison calls
+every dome on the board a short, and a tool that cries wolf on 38 parts is a tool
+nobody runs.
+
 ## Step 7 — Read the placement, and change what you disagree with
 
 Every part is now placed. `docs/placement.md` says where each block went and
@@ -1010,6 +1036,45 @@ through the buzzer and see it on the panel.
 **9.2 — Power distribution.** `sys`, `bat`, `v3v3`. Fat tracks, short paths.
 `vbus` from the USB connector to the charger.
 
+**Both of these are already drawn.** `tools/route_power.py` writes them into the
+board, and it is the same argument as `place_board.py`: every co-ordinate ends up
+in `git diff` where it can be read and argued with, and the routes can be
+re-derived after a part moves rather than re-drawn. Run it with KiCad closed:
+
+```bash
+conda activate ato
+cd "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1"
+python3 tools/route_power.py --check     # validate, write nothing
+python3 tools/route_power.py             # write the tracks
+```
+
+It refuses to write if anything fails: ends that do not land in a pad of their
+own net, a track within 0.2 mm of a foreign pad or a foreign track, a via inside
+a dome keepout or off the board. The arithmetic is real rectangle-to-capsule
+distance, because most of these routes pass within half a millimetre of
+something and a bounding box would either reject them all or miss a short. It is
+idempotent — it removes its own tracks first, and leaves anything you draw by
+hand alone, because it knows its own tracks by their uuid.
+
+It is a first pass. Read it, move what you do not like, and re-run it.
+
+**`gnd` and `v3v3` need almost no tracks.** Every pad on this board is on B.Cu
+and the B.Cu pour is ground, so `gnd` is done by the pour. `In2.Cu` is a `v3v3`
+plane, so each `v3v3` pad gets a short stub to a via that drops into it — 19 of
+them, placed by a search rather than by hand, because each has to miss 38 dome
+keepouts as well as every pad and every track. The stub exists so the via is not
+*in* the pad: via-in-pad needs the fab to fill and cap it, and there is no
+reason to pay for that here.
+
+**There are two places where B.Cu will not do, and both are honest.** `sys` runs
+north-south down the 1.62 mm corridor between C2/C3 and U2/U3 while `bat` runs
+east-west from the cell to the charger and the gauge, so they have to cross;
+`bat` crosses on 2.6 mm of `F.Cu` in the 3 mm gap between the dome rows at y 74
+and y 86, where the front layer is empty. And the USB receptacle is a mid-mount
+part, so its four VBUS contacts land as two pads with CC1, CC2, D+, D− and SBU
+between them and only 2.15 mm below the connector, which is where D+ and D− have
+to run — so the two VBUS pads are joined on `F.Cu` too.
+
 **9.3 — The panel's SPI** — `epd_sck`, `epd_mosi`, `epd_cs`, `epd_dc`,
 `epd_rst`, `epd_busy`. Keep them away from both switch nodes. They are the only
 fast signals on the board.
@@ -1033,13 +1098,24 @@ the differential pair router would have done for you anyway.
 They carry full-speed USB here, 12 Mbit/s over about 30 mm, so the length
 matching is a formality. Keeping them together over solid ground is not.
 
-**9.5 — The keypad matrix, last, on `In2.Cu`.** 13 nets, `row0`–`row6` and
+**9.5 — The keypad matrix, last, on `F.Cu`.** 13 nets, `row0`–`row6` and
 `col0`–`col5`. It is slow, it is forgiving, and it is most of the copper on the
 board.
 
-Each dome ring gets a via placed **outside its courtyard** — there is 0.6 mm of
-clearance between adjacent numeric domes' courtyards and nothing at all routes
-between them on the front — and drops to `In2.Cu`, where there is room.
+This step used to say `In2.Cu`, and one via per dome pad. The first Freerouting
+pass on 24 September 2026 showed why that is the expensive way round — see
+"The matrix wants one via per net, not one per pad" above. `F.Cu` carries only
+the 38 dome sites and three test pads, and **both** of a dome's pads are on it,
+so rows and columns can run as front copper between the domes and drop through
+once per net near the module: 13 vias rather than 47.
+
+There is more room between the courtyards than this step used to claim. Measured
+off the board rather than estimated: **1.500 mm at the tightest down a column
+and 3.500 mm across a row** (3.000 and 6.500 at the widest). A 0.6 mm via at
+0.2 mm clearance needs 1.00 mm, so even the tightest lane takes one — but only
+one, which is the whole argument for spending them once per net. What a via may
+not do is land *inside* a ring: `tools/dome_keepouts.py` writes a via keepout
+over every dome site so neither you nor a router can.
 
 Keep matrix tracks out of the three rectangles in step 8.3b if you can. A
 matrix line is slow and high impedance, which makes it a good aerial for

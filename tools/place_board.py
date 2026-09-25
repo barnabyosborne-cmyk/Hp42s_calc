@@ -346,7 +346,14 @@ FIRST_PASS = {
     # capacitors, at the VOUT pin; the three CFG resistors are on the left
     # where their pins are.
     "U3":  (33.02, 88.9, "B", 0),
-    "L1":  (38.735, 88.9, "B", 0),
+    # L1 is turned a QUARTER TURN, 25 September 2026, and it is the turn
+    # that makes the buck-boost's switch nodes short. With its pads along x,
+    # U3's two switch pins both faced pad 1 and `lx2` had to detour around
+    # the inductor's body to reach pad 2 -- about 12 mm for a node that
+    # should be 4. Turned, each switch pin faces a pad of its own and they
+    # diverge rather than cross. The part is 4 x 4 mm, so the courtyard is
+    # unchanged and the turn costs nothing at all. See tools/route_power.py.
+    "L1":  (38.735, 88.9, "B", 90),
     "C4":  (33.02, 92.71, "B", 0),    # 3V3 out, at U3 pin 6
     "C5":  (36.83, 92.71, "B", 0),
     # There was an R11 here, the 1 M that held EN down. EN is tied to SYS now

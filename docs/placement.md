@@ -173,5 +173,36 @@ graphic by graphic against those libraries, mirrored where they should be.
   reach Y 139.0; the keepout starts at Y 138.75. A 0.25 mm sliver of dome pad
   is not going to detune a 2.4 GHz antenna, but the ground pour must stop at
   the keepout regardless.
-- Nothing is routed. Expect the switchers' loops in particular to want
-  rearranging once their current paths are real.
+- ~~Nothing is routed.~~ **Steps 9.1 and 9.2 are routed, 25 September 2026**,
+  by `tools/route_power.py`. Routing them found four things the eye did not.
+
+### What routing 9.1 and 9.2 found
+
+**The panel booster's three parts are in the wrong order, and it is the worst
+place on the board for that.** `display-sw` is the switch node and its pads sit
+at x 9.777 (Q1's drain), x 15.495 (L2's output) and x 21.970 (D1's anode) — so
+the inductor is *between* the transistor and the diode. In a boost converter the
+fast loop is drain → anode → output cap → ground → source; the inductor carries
+continuous current and matters much less. So the node that should be shortest is
+forced to 12 mm and has to detour around L2's own input pad. Swapping L2 and D1
+would put the fast loop at about 4 mm. It is routed as it stands, at 15.9 mm
+including the stub, and it works; it is simply paying for the order.
+
+**C4 and C5 are on the wrong side of U3.** They are the buck-boost's 3.3 V output
+caps and they sit at y 92.71, below it. U3's 3.3 V pin is pin 6 at y 87.900,
+which is the *top* of its right-hand column, and the two switch nodes fence it in
+below — so the output pin cannot reach its own output caps, and its drop into the
+3.3 V plane ends up 3.1 mm away on a 0.2 mm stub. Move C5, the small one, into
+the gap at y 86.0–86.5 just above U3 and the whole thing shortens.
+
+**U3 sits under dome SW14, so its exposed pad gets no thermal vias.** The keepout
+runs x 27.25–36.25, y 81.5–90.5 and U3's pad is at (33.02, 88.9), well inside it.
+Not fatal — the pad is on B.Cu and the B.Cu pour is ground, so it conducts into
+the pour directly — but there is no via stitching to be had, and if the
+buck-boost ever runs warm that is the reason.
+
+**BT1 is on the far side of the keypad from the charger.** The cell's positive
+terminal is at x 52 and U2's BAT pin is at x 32, with the whole keypad and the
+`vbus` descent between them, so `bat` runs 52 mm round by y 80.5 to get there.
+At 500 mA of charge current on 0.5 mm copper that is about 30 mV, which is fine;
+it is noted because it is not obvious from looking at the board.
