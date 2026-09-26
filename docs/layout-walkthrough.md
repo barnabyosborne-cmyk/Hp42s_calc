@@ -668,6 +668,31 @@ through, and its bounding box contains the tab entirely. A box comparison calls
 every dome on the board a short, and a tool that cries wolf on 38 parts is a tool
 nobody runs.
 
+### Step 6d — check that the rule areas came with their footprints
+
+```bash
+python3 tools/fix_footprint_zones.py --check
+```
+
+Three of our footprints carry a rule area of their own: the two Alps side-push
+switches have the prohibited-copper box from the Alps catalogue, and the ESP
+module has its antenna keepout. A zone drawn inside a footprint is the one thing
+KiCad stores in **board** co-ordinates rather than in the footprint's own frame,
+so when `place_board.py` moves a footprint by rewriting its `(at ...)`, the pads
+and the silkscreen follow and the rule area does not. On this board all three
+had been left about 900 mm off the south-west corner, forbidding nothing, since
+the first netlist import. Run without `--check` it reads the library footprint,
+rotates the polygon into place and writes it back.
+
+It can only do that for our own `hp42s` library, which is the one we carry in
+this repo. U5's antenna keepout comes from KiCad's stock `RF_Module` library, so
+the script reports it and leaves it — and it is the reason U5 shows up as a
+`lib_footprint_mismatch`. It does no harm where it is: the real antenna keepout
+on this board is the hand-drawn one from step 8.4, which is on the board and is
+enforced.
+
+---
+
 ## Step 7 — Read the placement, and change what you disagree with
 
 Every part is now placed. `docs/placement.md` says where each block went and
@@ -721,7 +746,7 @@ on bare board.
 2. Press **`Alt+Z`**, or **Place → Draw Filled Zones**.
 3. Click once on the board — a dialog opens.
 4. Set **Net:** `gnd`. Layer should already be `In1.Cu`.
-5. Leave **Pad Connections: Thermal reliefs** for now.
+5. Set **Pad Connections: Solid**.
 6. **OK**, then draw a rectangle a little *outside* the board outline by
    clicking each corner and double-clicking to finish. KiCad clips zones to the
    board edge automatically, so overshooting is correct.
@@ -735,6 +760,20 @@ trapezoid — and Barnaby asked for the zones to line up. Nothing about the fill
 changes, because KiCad clips all three to the board edge anyway; what changes is
 that the outlines now say what they mean. If you redraw one, type the corners in
 rather than clicking: select the zone, press **`E`**, and use the Corners tab.
+
+**All six pours on this board use Solid pad connections, not thermal
+reliefs.** Thermal reliefs exist so that a big pour cannot steal the heat from
+an iron or a wave-solder bath while you are trying to wet a through-hole joint.
+Nothing on this board is soldered that way: every reflowed part is on the back
+and goes through an oven (`docs/power-control.md`, one-sided assembly), and the
+parts that are finished by hand — the panel, the domes, the
+LED sliver — are not in a pour. So the reliefs bought nothing and cost
+something. KiCad's own rule check asks for at least two spokes per relieved
+pad, and on 26 September 2026 the power routing left six ground pads (C2, C3,
+C4, R3 and two pins of U4) with one spoke each, because a track had taken the
+room the second spoke needed. Solid connections make the question go away and
+give the switchers a better ground at the same time. If you ever want them
+back: select the zone, **`E`**, **Pad Connections**.
 
 `In1.Cu` should go solid copper. **Leave it that way.** Every signal on this
 board returns through it, and a slot cut in it forces a return current to go
@@ -1179,6 +1218,45 @@ The two categories that are always real:
 - **Unconnected items.** A connection in the netlist with no copper. This is
   the one that costs you a board, and it is why the number has to be zero and
   not nearly zero.
+
+### What the first real run returned, and what each thing was
+
+Barnaby ran it on 26 September 2026 against the routing from steps 9.1 and 9.2:
+**102 violations and 175 unconnected items.** Worth writing down, because the
+shape of that list is what you should expect and most of it was not a mistake.
+
+**Not one clearance violation.** The routing script measures the same distances
+KiCad does and agreed with it everywhere. What it got wrong, it got wrong by not
+knowing something was there at all — which is the failure mode to watch for in
+any checker you write.
+
+| What | How many | Whose |
+| --- | --- | --- |
+| `unconnected_items` | 175 | expected — steps 9.3, 9.4 and 9.5 are not routed |
+| `solder_mask_bridge` | 38 | by design — a dome's two pads share one mask aperture, because the dome sits on both |
+| `silk_over_copper`, `silk_overlap`, `silk_edge_clearance` | 37 | cosmetic, from the library footprints' own reference text |
+| `copper_edge_clearance` | 8 | deliberate — the side-view LEDs and side-push switches have to reach the edge |
+| `starved_thermal` | 6 | the routing's, fixed in step 8 by pouring solid |
+| `items_not_allowed` | 4 | the routing's, fixed |
+| `isolated_copper` | 3 | real, still open — the three ground islands from 8.3b have no via to the plane |
+| `lib_footprint_mismatch` | 3 | the stale rule areas from step 6d |
+| `shorting_items`, `hole_clearance` | 2 | the routing's, and the serious one — see below |
+
+**The one that would have cost a board.** A 3.3 V via beside U3 pin 6 landed
+inside SW14's `row2` pad. The script had been reading each pad as its
+`(size w h)` rectangle, and a KiCad custom pad is that rectangle **unioned with
+its primitives**: the dome's centre pad is a 3.48 mm square *plus* a tab that
+reaches 5.0002 mm east of it to escape the ring. Read as a rectangle the tab
+does not exist, and the only thing at that spot was empty board. Both
+`route_power.py` and `check_footprints.py` now build a pad's copper out of both
+halves. `check_footprints.py` had the mirror-image bug — it took the primitives
+and dropped the rectangle — and got away with it only because the square hides
+inside the ring's hole.
+
+**The other one.** Two 3.3 V tracks and two vias sat inside the antenna keepout
+from step 8.4, because the script was matching rule areas by name and only knew
+the 38 it had written itself. It now reads every rule area on the board and reads
+what each one forbids, the footprints' own included.
 
 ---
 

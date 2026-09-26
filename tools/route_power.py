@@ -359,8 +359,57 @@ def block_at(text, start):
     raise ValueError("unbalanced parentheses")
 
 
+def pad_shapes(pad, px, py, pr):
+    """A pad's copper as a list of polygons, in the pad's own board position.
+
+    A pad is NOT a rectangle. KiCad's custom pads are an anchor shape UNIONED
+    with a list of primitives, and on this board that matters twice over:
+
+      - a dome's ring (pad 1) is a C, an octagonal annulus with a slot in it,
+        drawn as a primitive while its anchor is a 0.3 mm dot 3.5 mm away;
+      - a dome's centre contact (pad 2) is a 3.48 mm square anchor PLUS a tab
+        primitive running 5.0 mm out of the +x side.
+
+    Reading only the `(size ...)` rectangle, which this script did until
+    26 September 2026, made that tab invisible -- and put U3's 3.3 V via
+    straight through SW14's `row2` pad. KiCad's DRC found it; nothing here did.
+    Reading only the primitives, which check_footprints.py did, drops the
+    3.48 mm square instead. It has to be both.
+    """
+    polys = []
+    prim = pad.split("(primitives", 1)
+    if len(prim) > 1:
+        for g in re.finditer(r'\(gr_poly\s*\(pts ((?:\(xy -?[\d.]+ -?[\d.]+\) ?)+)\)',
+                             prim[1]):
+            polys.append([(float(a), float(b)) for a, b in
+                          re.findall(r'\(xy (-?[\d.]+) (-?[\d.]+)\)', g.group(1))])
+        for cxs, cys, exs, eys in re.findall(
+                r'\(gr_circle\s*\(center (-?[\d.]+) (-?[\d.]+)\)'
+                r'\s*\(end (-?[\d.]+) (-?[\d.]+)\)', prim[1]):
+            cx, cy = float(cxs), float(cys)
+            r = math.dist((cx, cy), (float(exs), float(eys)))
+            polys.append([(cx + r * math.cos(a), cy + r * math.sin(a))
+                          for a in [i * math.pi / 12 for i in range(24)]])
+    siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
+    if siz:
+        w, h = float(siz.group(1)) / 2, float(siz.group(2)) / 2
+        polys.append([(-w, -h), (w, -h), (w, h), (-w, h)])
+    # A pad's angle in the board file is ABSOLUTE -- it already includes the
+    # footprint's rotation -- so turn the shapes by it alone, not by its angle
+    # relative to the footprint. L1 is the part that proves it: turned a quarter
+    # turn, its footprint is at 90 and its pads are at 90, so the relative angle
+    # is 0 while the pad is very much turned. check_placement.py subtracts the
+    # footprint's rotation here; it gets away with it because it measures
+    # courtyards from CrtYd lines rather than from pads.
+    out = []
+    for poly in polys:
+        turned = [rot(x, y, pr) for x, y in poly]
+        out.append([(px + x, py + y) for x, y in turned])
+    return out
+
+
 def read_pads(text):
-    """Every pad on the board, as a dict with an absolute rectangle."""
+    """Every pad on the board, as polygons in board co-ordinates."""
     out = []
     for m in re.finditer(r'\n\t\(footprint "', text):
         blk = block_at(text, m.start() + 1)
@@ -371,30 +420,22 @@ def read_pads(text):
         for pm in re.finditer(r'\n\t\t\(pad "', blk):
             pad = block_at(blk, pm.start() + 2)
             pat = re.search(r'\(at (-?[\d.]+) (-?[\d.]+)(?: (-?[\d.]+))?\)', pad)
-            siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
-            if not (pat and siz):
+            if not pat:
                 continue
             net = re.search(r'\(net "([^"]+)"\)', pad)
             lay = re.search(r'\(layers ([^)]*)\)', pad)
             px, py = float(pat.group(1)), float(pat.group(2))
-            w, h = float(siz.group(1)), float(siz.group(2))
-            # A pad's angle in the board file is ABSOLUTE -- it already
-            # includes the footprint's rotation -- so the question of whether
-            # this pad's width and height are swapped is answered by that angle
-            # alone, NOT by its angle relative to the footprint. L1 is the part
-            # that proves it: turned a quarter turn, its footprint is at 90 and
-            # its pads are at 90, so the relative angle is 0 while the pad is
-            # very much turned. check_placement.py subtracts the footprint's
-            # rotation here; it gets away with it because it measures courtyards
-            # from CrtYd lines rather than from pads.
-            pr = float(pat.group(3) or 0.0) % 180
-            if abs(pr - 90) < 1:
-                w, h = h, w
+            pr = float(pat.group(3) or 0.0)
             rx, ry = rot(px, py, fr)
-            x, y = fx + rx, fy + ry
+            polys = pad_shapes(pad, fx + rx, fy + ry, pr)
+            if not polys:
+                continue
+            xs = [x for poly in polys for x, _y in poly]
+            ys = [y for poly in polys for _x, y in poly]
             out.append(dict(ref=ref, pad=pad.split('"')[1],
                             net=net.group(1) if net else None,
-                            rect=(x - w / 2, y - h / 2, x + w / 2, y + h / 2),
+                            polys=polys,
+                            bbox=(min(xs), min(ys), max(xs), max(ys)),
                             layers=lay.group(1) if lay else ""))
     return out
 
@@ -402,19 +443,6 @@ def read_pads(text):
 def on_layer(pad, layer):
     ls = pad["layers"]
     return layer in ls or "*.Cu" in ls
-
-
-def seg_rect_gap(p, q, rect):
-    """Shortest distance from the segment p-q to an axis-aligned rectangle."""
-    x0, y0, x1, y1 = rect
-
-    def inside(pt):
-        return x0 <= pt[0] <= x1 and y0 <= pt[1] <= y1
-    if inside(p) or inside(q):
-        return 0.0
-    edges = [((x0, y0), (x1, y0)), ((x1, y0), (x1, y1)),
-             ((x1, y1), (x0, y1)), ((x0, y1), (x0, y0))]
-    return min(seg_seg_gap(p, q, a, b) for a, b in edges)
 
 
 def seg_seg_gap(p1, p2, p3, p4):
@@ -446,34 +474,96 @@ def pt_seg_gap(pt, a, b):
     return math.dist(pt, (ax + t * dx, ay + t * dy))
 
 
-def pt_in_rect(pt, rect):
-    x0, y0, x1, y1 = rect
-    return x0 <= pt[0] <= x1 and y0 <= pt[1] <= y1
+def pt_in_poly(pt, poly):
+    inside = False
+    n = len(poly)
+    for i in range(n):
+        x0, y0 = poly[i]
+        x1, y1 = poly[(i + 1) % n]
+        if (y0 > pt[1]) != (y1 > pt[1]):
+            xi = x0 + (pt[1] - y0) * (x1 - x0) / (y1 - y0)
+            if pt[0] < xi:
+                inside = not inside
+    return inside
 
 
-# --- the dome keepouts, so a via is not put in one ----------------------------
+def poly_seg_gap(poly, p, q):
+    """Shortest distance from the segment p-q to a polygon, 0 if it is inside."""
+    if pt_in_poly(p, poly) or pt_in_poly(q, poly):
+        return 0.0
+    best = float("inf")
+    n = len(poly)
+    for i in range(n):
+        g = seg_seg_gap(p, q, poly[i], poly[(i + 1) % n])
+        if g == 0.0:
+            return 0.0
+        best = min(best, g)
+    return best
 
-def read_dome_keepouts(text):
-    """(ref, centre_x, centre_y, half_width) for every dome via keepout."""
+
+def pad_gap(p, q, pad, cutoff=None):
+    """Shortest distance from the segment p-q to a pad's copper.
+
+    `cutoff` is a bounding-box early exit: if the pad cannot possibly be within
+    it, return something larger rather than walking every polygon edge. With
+    433 pads and 66 legs that is the difference between a second and a minute.
+    """
+    if cutoff is not None:
+        x0, y0, x1, y1 = pad["bbox"]
+        if (min(p[0], q[0]) - cutoff > x1 or max(p[0], q[0]) + cutoff < x0
+                or min(p[1], q[1]) - cutoff > y1 or max(p[1], q[1]) + cutoff < y0):
+            return cutoff * 2 + 1
+    return min(poly_seg_gap(poly, p, q) for poly in pad["polys"])
+
+
+def pt_in_pad(pt, pad):
+    return any(pt_in_poly(pt, poly) for poly in pad["polys"])
+
+
+def read_keepouts(text):
+    """Every rule area on the board: (name, polygon, tracks_ok, vias_ok).
+
+    This used to read only the zones named `dome via keepout`, on the grounds
+    that they were the ones this script wrote. That missed the `antenna
+    keepout` -- 15.3 to 60.7 mm across the bottom of the board, and the only
+    area here that bars tracks as well as vias -- and two 3.3 V vias went
+    straight into it, and it missed the two `Alps prohibited copper` areas
+    drawn inside the tact switches' own footprints, which is why the pattern
+    allows any depth of indentation. Read them all, and read what each one
+    actually forbids.
+    """
     out = []
-    for m in re.finditer(r'\(name "dome via keepout ([^"]+)"\)', text):
-        start = text.rfind("(zone", 0, m.start())
-        blk = block_at(text, start)
+    for m in re.finditer(r'\n\t+\(zone\n', text):
+        blk = block_at(text, m.start() + 1)
+        ko = re.search(r'\(keepout\s(.*?)\n\t\t\)', blk, re.S)
+        if not ko:
+            continue
+        name = re.search(r'\(name "([^"]*)"\)', blk)
         pts = [(float(a), float(b))
                for a, b in re.findall(r'\(xy (-?[\d.]+) (-?[\d.]+)\)', blk)]
-        xs = [p[0] for p in pts]
-        ys = [p[1] for p in pts]
-        cx, cy = (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
-        out.append((m.group(1), cx, cy, (max(xs) - min(xs)) / 2))
+        if len(pts) < 3:
+            continue
+        flags = ko.group(1)
+        out.append((name.group(1) if name else "unnamed rule area", pts,
+                    "(tracks allowed)" in flags, "(vias allowed)" in flags))
     return out
 
 
-def in_dome_keepout(x, y, keepouts, margin=0.0):
-    for ref, cx, cy, h in keepouts:
-        dx, dy = abs(x - cx), abs(y - cy)
-        h += margin
-        if dx <= h and dy <= h and dx + dy <= h * 1.414216:
-            return ref
+def in_keepout(polys_or_pt, keepouts, margin, what):
+    """The name of the first rule area this thing is not allowed in, or None.
+
+    `polys_or_pt` is either a point (a via centre) or a two-point segment.
+    `margin` is how far its own copper reaches from that centreline.
+    """
+    for name, poly, tracks_ok, vias_ok in keepouts:
+        if (vias_ok if what == "via" else tracks_ok):
+            continue
+        if what == "via":
+            p = q = polys_or_pt
+        else:
+            p, q = polys_or_pt
+        if poly_seg_gap(poly, p, q) <= margin:
+            return name
     return None
 
 
@@ -519,7 +609,7 @@ def validate(pads, keepouts, vias, box):
         own = [(r["path"][i], r["path"][i + 1]) for i in range(len(r["path"]) - 1)]
         for pt, which in ((r["path"][0], "start"), (r["path"][-1], "end")):
             if any(p["net"] == r["net"] and on_layer(p, r["layer"])
-                   and pt_in_rect(pt, p["rect"]) for p in pads):
+                   and pt_in_pad(pt, p) for p in pads):
                 continue
             if (r["net"], pt) in starts | ends and \
                     pt != r["path"][0 if which == "end" else -1]:
@@ -541,11 +631,18 @@ def validate(pads, keepouts, vias, box):
         for pad in pads:
             if pad["net"] == net or not on_layer(pad, layer):
                 continue
-            gap = seg_rect_gap(p, q, pad["rect"])
+            gap = pad_gap(p, q, pad, cutoff=need)
             if gap < need - EPS:
                 problems.append(
                     f"{net} {p}->{q} w{w}: {gap:.3f} mm to {pad['ref']} pad "
                     f"{pad['pad']} ({pad['net']}), needs {need:.3f}  [{why}]")
+
+    # 2b. Track inside a rule area that bars tracks.
+    for net, layer, p, q, w, why in all_legs:
+        name = in_keepout((p, q), keepouts, w / 2, "track")
+        if name:
+            problems.append(f"{net} {p}->{q} w{w} is inside the rule area "
+                            f"{name!r}, which does not allow tracks  [{why}]")
 
     # 3. Track to foreign track.
     for i, (n1, l1, p1, q1, w1, y1) in enumerate(all_legs):
@@ -562,10 +659,10 @@ def validate(pads, keepouts, vias, box):
     # 4. Vias: keepouts, the board edge, foreign pads, foreign tracks on any
     #    layer (a via is on all of them), and foreign vias.
     for i, (net, x, y) in enumerate(vias):
-        ref = in_dome_keepout(x, y, keepouts, VIA_D / 2)
-        if ref:
-            problems.append(f"{net} via at ({x:.3f}, {y:.3f}) is inside "
-                            f"{ref}'s keepout")
+        name = in_keepout((x, y), keepouts, VIA_D / 2, "via")
+        if name:
+            problems.append(f"{net} via at ({x:.3f}, {y:.3f}) is inside the "
+                            f"rule area {name!r}, which does not allow vias")
         if box:
             bx0, by0, bx1, by1 = box
             if not (bx0 + EDGE_KEEP + VIA_D / 2 <= x <= bx1 - EDGE_KEEP - VIA_D / 2
@@ -575,7 +672,7 @@ def validate(pads, keepouts, vias, box):
         for pad in pads:
             if pad["net"] == net:
                 continue
-            gap = seg_rect_gap((x, y), (x, y), pad["rect"])
+            gap = pad_gap((x, y), (x, y), pad, cutoff=CLEARANCE + VIA_D / 2)
             if gap < CLEARANCE + VIA_D / 2 - EPS:
                 problems.append(
                     f"{net} via at ({x:.3f}, {y:.3f}): {gap:.3f} mm to "
@@ -616,7 +713,7 @@ def plane_vias(pads, keepouts, box, fixed_vias):
     placed, stubs, failed, tight = list(fixed_vias), [], [], []
 
     for pad in sorted(targets, key=lambda p: p["ref"]):
-        x0, y0, x1, y1 = pad["rect"]
+        x0, y0, x1, y1 = pad["bbox"]
         cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
         # A stub as wide as the pad will fit where the pad fits; anything wider
         # will not. 0.5 mm on the big pads, 0.2 mm on the fine-pitch ones.
@@ -629,14 +726,20 @@ def plane_vias(pads, keepouts, box, fixed_vias):
         # J2's two 3V3 pins, which are 0.3 mm tall on a 0.5 mm pitch with a
         # ground pin next door, and U3's own 3V3 output, which is boxed in by
         # the dome above it and by its two switch nodes.
+        # The via may touch its own pad -- same net -- so the only thing the
+        # starting radius has to guarantee is that the DRILL lands outside the
+        # pad, which is what makes it a via beside a pad rather than a via in
+        # one. Starting a whole clearance further out costs C9 its only legal
+        # position: it is wedged between dome SW34's keepout and the antenna
+        # keepout, with about 0.25 mm of usable window between them.
         best = None
         for margin in (MARGIN, 0.0):
-            r = max(x1 - x0, y1 - y0) / 2 + CLEARANCE + VIA_D / 2
+            r = max(x1 - x0, y1 - y0) / 2 + VIA_DRILL / 2 + 0.02
             while r < 6.0 and best is None:
-                for step in range(72):
-                    a = math.radians(step * 5)
+                for step in range(180):
+                    a = math.radians(step * 2)
                     vx, vy = cx + r * math.cos(a), cy + r * math.sin(a)
-                    if in_dome_keepout(vx, vy, keepouts, VIA_D / 2 + margin):
+                    if in_keepout((vx, vy), keepouts, VIA_D / 2 + margin, "via"):
                         continue
                     if box:
                         bx0, by0, bx1, by1 = box
@@ -644,7 +747,8 @@ def plane_vias(pads, keepouts, box, fixed_vias):
                         if not (bx0 + edge <= vx <= bx1 - edge
                                 and by0 + edge <= vy <= by1 - edge):
                             continue
-                    if not clear(start, (vx, vy), w, pads, base, placed, margin):
+                    if not clear(start, (vx, vy), w, pads, base, placed,
+                                 keepouts, margin):
                         continue
                     best = (round(vx, 3), round(vy, 3))
                     break
@@ -664,14 +768,18 @@ def plane_vias(pads, keepouts, box, fixed_vias):
     return placed, stubs, failed, tight
 
 
-def clear(start, via, w, pads, base, placed, margin=MARGIN):
+def clear(start, via, w, pads, base, placed, keepouts, margin=MARGIN):
     """Is a via here, reached by a stub from `start`, legal?"""
+    if in_keepout((start, via), keepouts, w / 2 + margin, "track"):
+        return False
     for pad in pads:
         if pad["net"] == VIA_TO_PLANE:
             continue
-        if seg_rect_gap(via, via, pad["rect"]) < CLEARANCE + VIA_D / 2 + margin:
+        need = CLEARANCE + VIA_D / 2 + margin
+        if pad_gap(via, via, pad, cutoff=need) < need:
             return False
-        if seg_rect_gap(start, via, pad["rect"]) < CLEARANCE + w / 2 + margin:
+        need = CLEARANCE + w / 2 + margin
+        if pad_gap(start, via, pad, cutoff=need) < need:
             return False
     for n, _l, p, q, tw, _y in base:
         if n == VIA_TO_PLANE:
@@ -749,7 +857,7 @@ def main():
     check = "--check" in sys.argv
     text = PCB.read_text()
     pads = read_pads(text)
-    keepouts = read_dome_keepouts(text)
+    keepouts = read_keepouts(text)
     box = board_box(text)
 
     vias, stubs, failed, tight = plane_vias(pads, keepouts, box, VIAS)

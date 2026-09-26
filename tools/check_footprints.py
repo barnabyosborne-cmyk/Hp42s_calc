@@ -105,7 +105,11 @@ def pads_of(path):
         if abs((float(at.group(3) or 0.0) % 180) - 90) < 1:
             w, h = h, w
         # A pad is one or more polygons. A plain pad is its rectangle; a custom
-        # pad is whatever its primitives say, which for a dome ring is a C.
+        # pad is its `(size)` rectangle *unioned with* its primitives -- the
+        # anchor shape is copper too. Taking the primitives instead of the
+        # rectangle, which this script did until 26 September 2026, drops the
+        # 3.48 mm square at the centre of a dome pad. It reached the right
+        # verdict anyway only because that square hides inside the ring's hole.
         polys = []
         prim = pad.split("(primitives", 1)
         if len(prim) > 1:
@@ -120,9 +124,8 @@ def pads_of(path):
                 r = math.dist((float(cxs), float(cys)), (float(exs), float(eys)))
                 polys.append([(cx + r * math.cos(t), cy + r * math.sin(t))
                               for t in [i * math.pi / 12 for i in range(24)]])
-        if not polys:
-            polys = [[(x - w / 2, y - h / 2), (x + w / 2, y - h / 2),
-                      (x + w / 2, y + h / 2), (x - w / 2, y + h / 2)]]
+        polys.append([(x - w / 2, y - h / 2), (x + w / 2, y - h / 2),
+                      (x + w / 2, y + h / 2), (x - w / 2, y + h / 2)])
         out.append(dict(name=m.group(1), cu=cu, polys=polys))
     return out
 
