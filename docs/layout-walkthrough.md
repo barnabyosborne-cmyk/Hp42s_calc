@@ -1258,6 +1258,28 @@ from step 8.4, because the script was matching rule areas by name and only knew
 the 38 it had written itself. It now reads every rule area on the board and reads
 what each one forbids, the footprints' own included.
 
+**Three more bugs came out of fixing the first one**, all of the same shape — a
+checker that quietly believed something was somewhere it was not.
+
+- The first attempt at reading pad primitives matched `(gr_poly (pts (xy ...)`
+  on one line, which is how a `.kicad_mod` in the library is written. The board
+  file writes the same primitive over six indented lines, so on the board it
+  matched nothing, every pad fell back to its rectangle, and the fix changed
+  nothing at all. It was committed before that was noticed. Read s-expressions
+  with balanced brackets, never with a line-shaped regex.
+- Each dome has a third pad on `F.Mask` alone: a 9 mm octagon that opens the
+  solder mask over both copper pads at once, which is what lets one dome sit on
+  both. It is an aperture, not metal. Counting it as copper puts a 4.5 mm wall
+  around all 38 keys and took away every via position five of the 3.3 V pads
+  had.
+- A through via is drilled through the whole stack, so it has to miss copper on
+  every layer; a track is copper on one layer and cannot foul another. The via
+  search was applying the via's rule to its own stub, so the dome rings on
+  `F.Cu` were blocking `B.Cu` stubs 1.6 mm underneath them.
+
+The lesson each time is the same: when a checker and KiCad disagree, the checker
+is usually not measuring wrongly, it is measuring something that is not there.
+
 ---
 
 ## Step 12 — Look at it in 3D

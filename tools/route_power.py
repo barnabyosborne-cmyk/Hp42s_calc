@@ -375,21 +375,39 @@ def pad_shapes(pad, px, py, pr):
     straight through SW14's `row2` pad. KiCad's DRC found it; nothing here did.
     Reading only the primitives, which check_footprints.py did, drops the
     3.48 mm square instead. It has to be both.
+
+    And read them with balanced brackets, not a line-shaped regex. The first
+    attempt at this matched `(gr_poly (pts (xy ...) ...)`, which is how a
+    `.kicad_mod` in the library is written -- one line. The board file writes
+    the same primitive over six indented lines, so the pattern matched nothing
+    at all on the board, the fallback rectangle was the only shape left, and the
+    fix silently did not fix anything. Hence the hard error below on a primitive
+    this cannot measure: a checker that shrugs is worse than no checker.
     """
     polys = []
-    prim = pad.split("(primitives", 1)
-    if len(prim) > 1:
-        for g in re.finditer(r'\(gr_poly\s*\(pts ((?:\(xy -?[\d.]+ -?[\d.]+\) ?)+)\)',
-                             prim[1]):
-            polys.append([(float(a), float(b)) for a, b in
-                          re.findall(r'\(xy (-?[\d.]+) (-?[\d.]+)\)', g.group(1))])
-        for cxs, cys, exs, eys in re.findall(
-                r'\(gr_circle\s*\(center (-?[\d.]+) (-?[\d.]+)\)'
-                r'\s*\(end (-?[\d.]+) (-?[\d.]+)\)', prim[1]):
-            cx, cy = float(cxs), float(cys)
-            r = math.dist((cx, cy), (float(exs), float(eys)))
-            polys.append([(cx + r * math.cos(a), cy + r * math.sin(a))
-                          for a in [i * math.pi / 12 for i in range(24)]])
+    m = re.search(r"\(primitives\b", pad)
+    if m:
+        prim = block_at(pad, m.start())
+        for g in re.finditer(r"\((gr_[a-z]+)\b", prim):
+            kind = g.group(1)
+            blk = block_at(prim, g.start())
+            if kind == "gr_poly":
+                pts = [(float(a), float(b)) for a, b in
+                       re.findall(r"\(xy (-?[\d.]+) (-?[\d.]+)\)", blk)]
+                if len(pts) >= 3:
+                    polys.append(pts)
+            elif kind == "gr_circle":
+                c = re.search(r"\(center (-?[\d.]+) (-?[\d.]+)\)"
+                              r"\s*\(end (-?[\d.]+) (-?[\d.]+)\)", blk)
+                cx, cy = float(c.group(1)), float(c.group(2))
+                rad = math.dist((cx, cy), (float(c.group(3)), float(c.group(4))))
+                polys.append([(cx + rad * math.cos(a), cy + rad * math.sin(a))
+                              for a in [i * math.pi / 12 for i in range(24)]])
+            else:
+                raise SystemExit(
+                    f"pad primitive {kind!r} is not something this script can "
+                    f"measure; teach pad_shapes about it rather than letting it "
+                    f"be silently ignored")
     siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
     if siz:
         w, h = float(siz.group(1)) / 2, float(siz.group(2)) / 2
@@ -424,6 +442,15 @@ def read_pads(text):
                 continue
             net = re.search(r'\(net "([^"]+)"\)', pad)
             lay = re.search(r'\(layers ([^)]*)\)', pad)
+            layers = lay.group(1) if lay else ""
+            if ".Cu" not in layers:
+                # A pad on F.Mask alone is an aperture, not metal. Every dome
+                # has one: a 9 mm octagon that opens the mask over both its
+                # pads at once, which is what lets a dome sit on them. Counting
+                # it as copper walls off a 4.5 mm circle around all 38 keys,
+                # and on 26 September 2026 that cost six of the nineteen 3.3 V
+                # pads every via position they had.
+                continue
             px, py = float(pat.group(1)), float(pat.group(2))
             pr = float(pat.group(3) or 0.0)
             rx, ry = rot(px, py, fr)
@@ -436,7 +463,7 @@ def read_pads(text):
                             net=net.group(1) if net else None,
                             polys=polys,
                             bbox=(min(xs), min(ys), max(xs), max(ys)),
-                            layers=lay.group(1) if lay else ""))
+                            layers=layers))
     return out
 
 
@@ -768,8 +795,18 @@ def plane_vias(pads, keepouts, box, fixed_vias):
     return placed, stubs, failed, tight
 
 
-def clear(start, via, w, pads, base, placed, keepouts, margin=MARGIN):
-    """Is a via here, reached by a stub from `start`, legal?"""
+def clear(start, via, w, pads, base, placed, keepouts, margin=MARGIN,
+          layer="B.Cu"):
+    """Is a via here, reached by a stub from `start` on `layer`, legal?
+
+    The via and the stub answer to different obstacles and that distinction is
+    load-bearing. A through via is drilled through the whole stack, so it has to
+    miss copper on every layer. The stub is copper on one layer and cannot
+    possibly foul another. Checking the stub against all four layers, which this
+    did until 26 September 2026, walls off every B.Cu stub with the 38 dome
+    rings on F.Cu -- 8.5 mm octagons -- and left five of the nineteen 3.3 V pads
+    with nowhere to go.
+    """
     if in_keepout((start, via), keepouts, w / 2 + margin, "track"):
         return False
     for pad in pads:
@@ -778,15 +815,18 @@ def clear(start, via, w, pads, base, placed, keepouts, margin=MARGIN):
         need = CLEARANCE + VIA_D / 2 + margin
         if pad_gap(via, via, pad, cutoff=need) < need:
             return False
+        if not on_layer(pad, layer):
+            continue
         need = CLEARANCE + w / 2 + margin
         if pad_gap(start, via, pad, cutoff=need) < need:
             return False
-    for n, _l, p, q, tw, _y in base:
+    for n, l, p, q, tw, _y in base:
         if n == VIA_TO_PLANE:
             continue
         if pt_seg_gap(via, p, q) < CLEARANCE + VIA_D / 2 + tw / 2 + margin:
             return False
-        if seg_seg_gap(start, via, p, q) < CLEARANCE + w / 2 + tw / 2 + margin:
+        if l == layer and seg_seg_gap(start, via, p, q) < \
+                CLEARANCE + w / 2 + tw / 2 + margin:
             return False
     for n, px, py in placed:
         if n == VIA_TO_PLANE:
