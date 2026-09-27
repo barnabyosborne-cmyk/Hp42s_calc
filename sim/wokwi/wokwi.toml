@@ -1,0 +1,8 @@
+[wokwi]
+version = 1
+firmware = 'firmware/build/flasher_args.json'
+elf = 'firmware/build/hp42s_sim.elf'
+
+[[chip]]
+name = 'ssd1680'
+binary = 'chips/ssd1680.chip.wasm'

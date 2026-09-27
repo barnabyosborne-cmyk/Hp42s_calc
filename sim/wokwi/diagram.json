@@ -1,0 +1,898 @@
+{
+  "version": 1,
+  "author": "HP-42S clone",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "chip-ssd1680",
+      "id": "epd",
+      "top": -230,
+      "left": 250,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k1",
+      "top": 40,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "SUM+"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k2",
+      "top": 40,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "1/x"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k3",
+      "top": 40,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "SQRT"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k4",
+      "top": 40,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "LOG"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k5",
+      "top": 40,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "LN"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k6",
+      "top": 40,
+      "left": 700,
+      "attrs": {
+        "color": "grey",
+        "label": "XEQ"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k7",
+      "top": 100,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "STO"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k8",
+      "top": 100,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "RCL"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k9",
+      "top": 100,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "RDN"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k10",
+      "top": 100,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "SIN"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k11",
+      "top": 100,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "COS"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k12",
+      "top": 100,
+      "left": 700,
+      "attrs": {
+        "color": "grey",
+        "label": "TAN"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k13",
+      "top": 160,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "ENTER"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k14",
+      "top": 160,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "X<>Y"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k15",
+      "top": 160,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "+/-"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k16",
+      "top": 160,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "E"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k17",
+      "top": 160,
+      "left": 700,
+      "attrs": {
+        "color": "grey",
+        "label": "BKSP"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k18",
+      "top": 220,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "UP"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k19",
+      "top": 220,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "7"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k20",
+      "top": 220,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "8"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k21",
+      "top": 220,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "9"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k22",
+      "top": 220,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "DIV"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k23",
+      "top": 280,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "DOWN"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k24",
+      "top": 280,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "4"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k25",
+      "top": 280,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "5"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k26",
+      "top": 280,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "6"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k27",
+      "top": 280,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "MUL"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k28",
+      "top": 340,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "SHIFT"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k29",
+      "top": 340,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "1"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k30",
+      "top": 340,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "2"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k31",
+      "top": 340,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "3"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k32",
+      "top": 340,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "SUB"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k33",
+      "top": 400,
+      "left": 300,
+      "attrs": {
+        "color": "grey",
+        "label": "EXIT"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k34",
+      "top": 400,
+      "left": 380,
+      "attrs": {
+        "color": "grey",
+        "label": "0"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k35",
+      "top": 400,
+      "left": 460,
+      "attrs": {
+        "color": "grey",
+        "label": "."
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k36",
+      "top": 400,
+      "left": 540,
+      "attrs": {
+        "color": "grey",
+        "label": "R/S"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "k37",
+      "top": 400,
+      "left": 620,
+      "attrs": {
+        "color": "grey",
+        "label": "ADD"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:TX",
+      "$serialMonitor:RX",
+      "",
+      []
+    ],
+    [
+      "esp:RX",
+      "$serialMonitor:TX",
+      "",
+      []
+    ],
+    [
+      "epd:VCC",
+      "esp:3V3.1",
+      "red",
+      []
+    ],
+    [
+      "epd:GND",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "epd:CS",
+      "esp:40",
+      "green",
+      []
+    ],
+    [
+      "epd:DC",
+      "esp:42",
+      "green",
+      []
+    ],
+    [
+      "epd:RST",
+      "esp:35",
+      "green",
+      []
+    ],
+    [
+      "epd:BUSY",
+      "esp:36",
+      "green",
+      []
+    ],
+    [
+      "epd:SCK",
+      "esp:37",
+      "green",
+      []
+    ],
+    [
+      "epd:SDI",
+      "esp:38",
+      "green",
+      []
+    ],
+    [
+      "k1:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k1:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k2:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k2:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k3:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k3:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k4:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k4:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k5:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k5:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k6:1.l",
+      "esp:8",
+      "blue",
+      []
+    ],
+    [
+      "k6:2.r",
+      "esp:7",
+      "orange",
+      []
+    ],
+    [
+      "k7:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k7:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k8:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k8:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k9:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k9:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k10:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k10:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k11:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k11:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k12:1.l",
+      "esp:9",
+      "blue",
+      []
+    ],
+    [
+      "k12:2.r",
+      "esp:7",
+      "orange",
+      []
+    ],
+    [
+      "k13:1.l",
+      "esp:10",
+      "blue",
+      []
+    ],
+    [
+      "k13:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k14:1.l",
+      "esp:10",
+      "blue",
+      []
+    ],
+    [
+      "k14:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k15:1.l",
+      "esp:10",
+      "blue",
+      []
+    ],
+    [
+      "k15:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k16:1.l",
+      "esp:10",
+      "blue",
+      []
+    ],
+    [
+      "k16:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k17:1.l",
+      "esp:10",
+      "blue",
+      []
+    ],
+    [
+      "k17:2.r",
+      "esp:7",
+      "orange",
+      []
+    ],
+    [
+      "k18:1.l",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "k18:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k19:1.l",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "k19:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k20:1.l",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "k20:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k21:1.l",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "k21:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k22:1.l",
+      "esp:11",
+      "blue",
+      []
+    ],
+    [
+      "k22:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k23:1.l",
+      "esp:12",
+      "blue",
+      []
+    ],
+    [
+      "k23:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k24:1.l",
+      "esp:12",
+      "blue",
+      []
+    ],
+    [
+      "k24:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k25:1.l",
+      "esp:12",
+      "blue",
+      []
+    ],
+    [
+      "k25:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k26:1.l",
+      "esp:12",
+      "blue",
+      []
+    ],
+    [
+      "k26:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k27:1.l",
+      "esp:12",
+      "blue",
+      []
+    ],
+    [
+      "k27:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k28:1.l",
+      "esp:13",
+      "blue",
+      []
+    ],
+    [
+      "k28:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k29:1.l",
+      "esp:13",
+      "blue",
+      []
+    ],
+    [
+      "k29:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k30:1.l",
+      "esp:13",
+      "blue",
+      []
+    ],
+    [
+      "k30:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k31:1.l",
+      "esp:13",
+      "blue",
+      []
+    ],
+    [
+      "k31:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k32:1.l",
+      "esp:13",
+      "blue",
+      []
+    ],
+    [
+      "k32:2.r",
+      "esp:6",
+      "orange",
+      []
+    ],
+    [
+      "k33:1.l",
+      "esp:14",
+      "blue",
+      []
+    ],
+    [
+      "k33:2.r",
+      "esp:1",
+      "orange",
+      []
+    ],
+    [
+      "k34:1.l",
+      "esp:14",
+      "blue",
+      []
+    ],
+    [
+      "k34:2.r",
+      "esp:2",
+      "orange",
+      []
+    ],
+    [
+      "k35:1.l",
+      "esp:14",
+      "blue",
+      []
+    ],
+    [
+      "k35:2.r",
+      "esp:4",
+      "orange",
+      []
+    ],
+    [
+      "k36:1.l",
+      "esp:14",
+      "blue",
+      []
+    ],
+    [
+      "k36:2.r",
+      "esp:5",
+      "orange",
+      []
+    ],
+    [
+      "k37:1.l",
+      "esp:14",
+      "blue",
+      []
+    ],
+    [
+      "k37:2.r",
+      "esp:6",
+      "orange",
+      []
+    ]
+  ],
+  "dependencies": {}
+}

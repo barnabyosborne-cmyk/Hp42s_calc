@@ -1,11 +1,18 @@
 {
   "name": "SSD1680 e-paper",
   "author": "HP-42S clone",
-  "pins": ["CS", "DC", "RST", "BUSY", "SCK", "SDI", "VCC", "GND"],
-  "attributes": [
-    { "name": "fullUpdateMs", "default": 2000 },
-    { "name": "partialUpdateMs", "default": 400 },
-    { "name": "debug", "default": 0 }
+  "pins": [
+    "CS",
+    "DC",
+    "RST",
+    "BUSY",
+    "SCK",
+    "SDI",
+    "VCC",
+    "GND"
   ],
-  "display": { "width": 296, "height": 152 }
+  "display": {
+    "width": 296,
+    "height": 152
+  }
 }
