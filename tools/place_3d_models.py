@@ -91,7 +91,61 @@ PLACEMENT = {
         "Already in KiCad's convention: centred, seating plane at 0, five "
         "pins down each side of Y. TI's exposed pad is 1.45 x 2.50 against "
         "the 1.20 x 2.00 land we draw, which is the safe way round."),
+
+    # --- KiCad's own footprints whose models KiCad does not ship ------------
+    # Barnaby found these six on 27 September 2026. The footprints are KiCad
+    # stock, so the courtyard check needs KiCad's footprint library: pass
+    # --stock with its path (the folder holding RF_Module.pretty and so on).
+    # A list of (axis, degrees) is applied in order.
+    # The board, not these footprints, points at the models, so KiCad's
+    # "Update Footprints from Library" puts back KiCad's missing path. After
+    # one, point the six back at hp42s.3dshapes (or re-run this and ask).
+    "ESP32-S2-MINI-1": (
+        "Espressif-ESP32-S3-MINI-1-N8.step", X, 90, (0, -2.5, 0),
+        "Espressif draw it standing on Y with the antenna at -Z. A quarter "
+        "turn about X lays it flat with the antenna at footprint -Y, where "
+        "KiCad's antenna keepout is. The 2.5 mm puts the centre of the 3 x 3 "
+        "ground grid on the footprint's (0, 2.55); the module is 20.5 long "
+        "against KiCad's 20.0 fab outline, the extra half millimetre at the "
+        "antenna end. The land is shared across the MINI-1 family."),
+    "TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm": (
+        "ADI-MAX17048GT10.step", Z, 0, (0, 0, 0),
+        "Already in KiCad's convention. The pin-1 mark is at model (-1, +1), "
+        "footprint (-1, -1), which is pin 1."),
+    "L_Coilcraft_XxL4020": (
+        "Coilcraft-XFL4020-222MEC.step", X, 90, (0, 0, 1.075),
+        "Coilcraft stand it on Y and centre it in all three axes. A quarter "
+        "turn about X and a 1.075 lift put the terminals on the board; they "
+        "land on KiCad's pads at x 0.70..1.68 either side."),
+    "Buzzer_Murata_PKLCS1212E": (
+        "Murata-PKLCS1212E4001-R1.step", X, 90, (0, 0, 0),
+        "Height along Y again; a quarter turn about X. Terminals at x +-5.6, "
+        "on KiCad's pads. The sound port ends up at footprint -Y."),
+    "JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal": (
+        "JST-S2B-PH-SM4-TB.step", Z, 0, (0, -4.4, 0.1),
+        "Right way up. JST put the body at y 0..7.6 with the two signal "
+        "leads running on to 8.6; moved 4.4 so the body fills KiCad's fab "
+        "outline (-3.2..4.4) and the leads land on pads 1 and 2. The leads "
+        "dip 0.1 below JST's zero, so the 0.1 lift seats them."),
+    "Amphenol_F32Q-1A7x1-11024_1x24-1MP_P0.5mm_Horizontal": (
+        "Amphenol-F32Q-1A7H1-11024.step", [(Y, -90), (Z, 180)], None,
+        (5.35, 2.25, 0),
+        "Amphenol's height is X and its length is Z. A quarter turn about Y "
+        "stands it up, a half turn about Z puts the tail leads at footprint "
+        "-Y where the pads are, and the move centres the 19.3 mm body and "
+        "puts the leads at y -3.25..-2.25 on 1.1 mm pads at -2.9."),
 }
+
+# Footprint library each stock footprint above comes from, for --stock.
+STOCK_LIB = {
+    "ESP32-S2-MINI-1": "RF_Module",
+    "TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm": "Package_DFN_QFN",
+    "L_Coilcraft_XxL4020": "Inductor_SMD",
+    "Buzzer_Murata_PKLCS1212E": "Buzzer_Beeper",
+    "JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal": "Connector_JST",
+    "Amphenol_F32Q-1A7x1-11024_1x24-1MP_P0.5mm_Horizontal": "Connector_FFC-FPC",
+}
+STOCK = None
 
 FAB = re.compile(r'\(fp_(?:rect|line|poly)[\s\S]*?"F\.Fab"')
 XY = re.compile(r'\((?:start|end|xy) (-?[\d.]+) (-?[\d.]+)\)')
@@ -100,7 +154,12 @@ XY = re.compile(r'\((?:start|end|xy) (-?[\d.]+) (-?[\d.]+)\)')
 def outline(name, layer):
     """The footprint's fab outline or courtyard, as a bounding box in
     FOOTPRINT coordinates."""
-    t = (PRETTY / f"{name}.kicad_mod").read_text()
+    path = PRETTY / f"{name}.kicad_mod"
+    if name in STOCK_LIB:
+        if STOCK is None:
+            return None
+        path = STOCK / f"{STOCK_LIB[name]}.pretty" / f"{name}.kicad_mod"
+    t = path.read_text()
     pts = []
     for m in re.finditer(r'\(fp_(line|rect|poly)([\s\S]*?)(?=\n\s*\(fp_|\n\s*\(pad|\n\)$)', t):
         if f'"{layer}"' not in m.group(2):
@@ -115,8 +174,9 @@ def outline(name, layer):
 def place(name):
     src, axis, deg, (dx, dy, dz), _why = PLACEMENT[name]
     s = cq.importers.importStep(str(VENDOR / src))
-    if deg:
-        s = s.rotate((0, 0, 0), axis, deg)
+    for ax, d in (axis if isinstance(axis, list) else [(axis, deg)]):
+        if d:
+            s = s.rotate((0, 0, 0), ax, d)
     return s.translate((dx, dy, dz))
 
 
@@ -124,7 +184,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true",
                     help="report the placements without writing them")
+    ap.add_argument("--stock", type=Path,
+                    help="KiCad's footprint library, to check the stock ones")
     args = ap.parse_args()
+    global STOCK
+    STOCK = args.stock
 
     SHAPES.mkdir(exist_ok=True)
     bad = 0
@@ -137,6 +201,8 @@ def main():
         print(f"\n{name}")
         print(f"   model      x {fx0:7.3f}..{fx1:7.3f}   "
               f"y {fy0:7.3f}..{fy1:7.3f}   z {bb.zmin:6.3f}..{bb.zmax:6.3f}")
+        if name in STOCK_LIB and STOCK is None:
+            print("   (KiCad stock footprint: pass --stock to check it)")
         for layer in ("F.Fab", "F.CrtYd"):
             o = outline(name, layer)
             if o:
