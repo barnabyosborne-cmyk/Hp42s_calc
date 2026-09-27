@@ -301,9 +301,12 @@ avoiding even though nothing on this board is drawn anywhere near these floors.
 **Leave every other field on the page alone.** KiCad's defaults are right for
 this board and several of them matter:
 
-- **Copper to edge clearance `0.5 mm`** keeps the pours back from the outline,
-  which matters here because the left edge is notched and the module's antenna
-  hangs off the bottom.
+- **Copper to edge clearance `0.25 mm`** (Barnaby, 27 September 2026; it was
+  0.5). The two LEDs and two buttons on the top edge have to reach the outline
+  to show through the case, and their pads sit about 0.3 mm from it, so 0.5 gave
+  eight deliberate DRC errors. 0.25 is still inside what any fab routes to. The
+  pours stay 0.5 mm back regardless, because the zones' own clearance is 0.5.
+  The scripts in `tools/` also keep new copper 0.5 mm from the edge.
 - **uVias** are microvias and there are none on this board.
 - **Silk minimum text height `0.8 mm`** is about the smallest a fab will print
   legibly, and you have 38 dome sites to label.
