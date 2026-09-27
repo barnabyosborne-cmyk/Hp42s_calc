@@ -839,6 +839,35 @@ zones exist to prevent. The other two were already right.
 Draw each roughly with the mouse and then fix the corners exactly: select the
 zone, press **`E`**, and the Corners tab lets you type them in.
 
+### 8.3c — Stitch the islands to the plane
+
+```bash
+python3 tools/stitch_zones.py --check   # report, write nothing
+python3 tools/stitch_zones.py           # place them
+```
+
+An island of copper on an inner layer can only be reached by a via, and when
+these three were first drawn they had none. KiCad called them `isolated_copper`
+and it was right: an island of metal with no connection is not a ground, it is
+an antenna. The three zones exist to give the switching nodes a return directly
+underneath them, and without a via they were giving them nothing.
+
+The script places plain vias on `gnd` with no track, which is all a zone needs —
+every pour of the net fills up to a via of its own net and bonds to it — and a
+through via passes through the `B.Cu` pour and the `In1.Cu` plane on the way, so
+one via ties all three layers together. It puts roughly one via per 30 mm² of
+island and spreads them out rather than taking the first legal spots, because
+vias clustered in the one roomy corner would satisfy the rule check and leave
+the far end of the island as badly bonded as it was. On 26 September 2026 that
+came to 19 vias: 4, 7 and 8.
+
+Run it after `route_power.py`, not before, so it can see where the tracks went.
+It is idempotent — it knows its own vias and replaces them — and it is safe to
+run alongside the router because the two scripts divide the board by **net**:
+this one owns `gnd` and the router owns the nets in its own table. That rule is
+load-bearing. The router used to claim every generated via on the board, and
+would have deleted all 19 the next time it ran.
+
 ### 8.4 — The antenna keepout
 
 **This one is already done — it is in the file. Nothing to draw.**
@@ -1238,7 +1267,7 @@ any checker you write.
 | `copper_edge_clearance` | 8 | deliberate — the side-view LEDs and side-push switches have to reach the edge |
 | `starved_thermal` | 6 | the routing's, fixed in step 8 by pouring solid |
 | `items_not_allowed` | 4 | the routing's, fixed |
-| `isolated_copper` | 3 | real, still open — the three ground islands from 8.3b have no via to the plane |
+| `isolated_copper` | 3 | real — the three ground islands from 8.3b had no via to the plane; fixed in step 8.3c |
 | `lib_footprint_mismatch` | 3 | the stale rule areas from step 6d |
 | `shorting_items`, `hole_clearance` | 2 | the routing's, and the serious one — see below |
 

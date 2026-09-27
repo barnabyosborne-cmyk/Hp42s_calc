@@ -939,11 +939,19 @@ def main():
         body.append(via(net, x, y))
 
     # Everything this run would write, so strip_old knows what is ours, plus
-    # everything any previous run wrote: a v5 uuid on a segment or via is one
-    # of ours, because KiCad's own are v4.
+    # everything any previous run wrote. A v5 uuid on a segment or via is
+    # generated copper, because KiCad's own are v4 -- but v5 alone is not
+    # enough to claim it. `stitch_zones.py` writes v5 vias too, and a rule of
+    # "every v5 is mine" would have this script delete them on its next run.
+    # The net is what says whose it is: this script owns the nets in ROUTES
+    # and nothing else, so a generated `gnd` via is somebody else's.
+    ours = {r["net"] for r in ROUTES} | {VIA_TO_PLANE}
     for chunk in body:
         KNOWN.add(re.search(r'\(uuid "([0-9a-f-]+)"\)', chunk).group(1))
     for m in OURS.finditer(text):
+        net = re.search(r'\(net "([^"]+)"\)', m.group(0))
+        if not net or net.group(1) not in ours:
+            continue
         try:
             if uuid.UUID(m.group(1)).version == 5:
                 KNOWN.add(m.group(1))
