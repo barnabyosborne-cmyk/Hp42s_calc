@@ -23,8 +23,17 @@ static const gpio_num_t kp_row[KP_ROWS] = {
 };
 
 // --- e-paper panel, GDEY0266T90 / SSD1680 ----------------------------------
+#ifndef HP42S_WOKWI
 #define EPD_CS   GPIO_NUM_33
 #define EPD_DC   GPIO_NUM_34
+#else
+// The Wokwi simulation runs on an ESP32-S3-DevKitC-1, whose headers do not
+// bring out GPIO 33 and 34 (the module uses them for octal PSRAM). Both are
+// free pins on the real board, so the simulation borrows 40 and 42 instead.
+// sim/wokwi/ builds with HP42S_WOKWI defined; nothing else ever should.
+#define EPD_CS   GPIO_NUM_40
+#define EPD_DC   GPIO_NUM_42
+#endif
 #define EPD_RST  GPIO_NUM_35
 #define EPD_BUSY GPIO_NUM_36
 #define EPD_SCK  GPIO_NUM_37

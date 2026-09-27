@@ -1,0 +1,3 @@
+chips/*.wasm
+firmware/build/
+firmware/sdkconfig

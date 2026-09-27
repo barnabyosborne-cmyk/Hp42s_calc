@@ -1,0 +1,7 @@
+CONFIG_IDF_TARGET="esp32s3"
+CONFIG_ESPTOOLPY_FLASHSIZE_8MB=y
+CONFIG_ESP_CONSOLE_UART_DEFAULT=y
+CONFIG_SPI_MASTER_ISR_IN_IRAM=y
+# Wokwi runs slower than real time; keep the task watchdog from firing while
+# the panel's BUSY is simulated.
+CONFIG_ESP_TASK_WDT_TIMEOUT_S=30
