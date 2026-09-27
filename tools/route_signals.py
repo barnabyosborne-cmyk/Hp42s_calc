@@ -455,7 +455,7 @@ PART_CENTRE = {}         # ref -> mean of its pad centres, for escape()
 
 
 def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
-              edge_ok_t, edge_ok_v, ko_t, ko_v, region):
+              edge_ok_t, edge_ok_v, ko_t, ko_v, region, pour_ctx):
     """Route every net, letting new tracks share space at a price.
 
     Routing one net at a time and never revisiting fails here the way the
@@ -486,6 +486,14 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
     hist = np.zeros((2, ny, nx), np.float32)
     state = {}                               # net -> dict(paths, stubs, ...)
     terms_cache = {}
+    # Ground tails, negotiated like everything else: "gnd~R9.2" is a track
+    # from R9's ground pad to a new via or a grounded pad, for a pad the pour
+    # cannot reach. They join once the signals are clash-free, because only
+    # then is it known which pads the signals have cut off.
+    special = {}                             # pseudo-net -> dict(pad, targets)
+
+    def base(net):
+        return net.split("~")[0]
 
     def centrelines(path, stubs):
         cells, vias, prev = [[], []], [], None
@@ -515,7 +523,7 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
         if net in terms_cache:
             return terms_cache[net]
         terms, stubs, opened = [], [], [[], []]
-        for p in pads_by_net[net]:
+        for p in ([special[net]["pad"]] if net in special else pads_by_net[net]):
             g = pad_geom(p)
             r = grid.cells(g)
             t = set()
@@ -528,8 +536,8 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
                 opened[li].append(idx)
                 t |= {li * N + int(c) for c in idx}
             if not t:
-                base = [~tb[L] & edge_ok_t & ~ko_t for L in LAYERS]
-                t, stub = escape(grid, copper, p, net, base)
+                open0 = [~tb[L] & edge_ok_t & ~ko_t for L in LAYERS]
+                t, stub = escape(grid, copper, p, base(net), open0)
                 if stub:
                     stubs.append(stub)
             terms.append((p, t))
@@ -540,7 +548,7 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
         is_m = bool(MATRIX.match(net))
         kind = net[:3] if is_m else "plain"
         noisy = is_m or net.startswith("epd_")
-        tb = {L: trackB.blocked(L, net) for L in LAYERS}
+        tb = {L: trackB.blocked(L, base(net)) for L in LAYERS}
         terms, stubs, opened = terminals(net, tb)
         if any(not t for _p, t in terms):
             return None, "no way into " + ", ".join(
@@ -575,7 +583,7 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
             m *= 1 + hist[li]
             m *= 1 + pres * ((dT[li] < TT - 1e-3) | (dV < TV - 1e-3))
             cost[li] = m
-        openV = (~viaB.blocked("B.Cu", net) & ~viaB.blocked("F.Cu", net)
+        openV = (~viaB.blocked("B.Cu", base(net)) & ~viaB.blocked("F.Cu", base(net))
                  & edge_ok_v & ~ko_v)
         congV = (dT[0] < TV - 1e-3) | (dT[1] < TV - 1e-3) | (dV < VV - 1e-3)
         vcost = (COSTS[kind][2] * (1 + hist.max(axis=0))
@@ -584,6 +592,18 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
         tree = set(terms[0][1])
         rest = terms[1:]
         path_all = []
+        if net in special:
+            tgt = special[net]["targets"]
+            for L in (0, 1):
+                openT[L].reshape(-1)[[t % N for t in tgt if t // N == L]] = 1
+            path = search(grid, openT, openV, cost, vcost, tree, tgt,
+                          (0, 0, nx - 1, ny - 1))
+            if path is None:
+                return None, "no way to ground"
+            end = path[-1]
+            return dict(paths=[path], stubs=stubs,
+                        endvia=None if end in special[net]["onpad"]
+                        else end % N), None
         while rest:
             targets = set()
             for _p, t in rest:
@@ -614,14 +634,61 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
 
     def copper_of(net, st):
         net_segs, net_vias = [], []
+        name = base(net)
         for path in st["paths"]:
             runs, vs = simplify(grid, path)
             for L, pts in runs:
                 for a, b in zip(pts, pts[1:]):
-                    net_segs.append((net, L, a, b, W))
+                    net_segs.append((name, L, a, b, W))
             for v in vs:
-                net_vias.append((net, v))
-        return net_segs + st["stubs"], net_vias
+                net_vias.append((name, v))
+        if st.get("endvia") is not None:
+            c = st["endvia"]
+            net_vias.append((name, grid.xy(c % nx, c // nx)))
+        return ([(name,) + tuple(x[1:]) for x in net_segs + st["stubs"]],
+                net_vias)
+
+    def add_ground_tails():
+        """Pseudo-nets for the gnd pads the current copper strands."""
+        import check_pour
+        pads_, keep_segs, keep_vias, edge, keepouts = pour_ctx
+        segs = [dict(p=a, q=b, w=w, layer=L, net=n)
+                for st in state.values() for n, L, a, b, w in st["segs"]]
+        vias = [dict(at=v, d=VIA_D, net=n)
+                for st in state.values() for n, v in st["vs"]]
+        _n, shapes, stranded = check_pour.islands(
+            pads_, segs + keep_segs, vias + keep_vias, edge, keepouts)
+        by_label = {f"{p['ref']}.{p['pad']}": p for p in pads_
+                    if p["net"] == "gnd"}
+        new = [lab for lab, _g in stranded
+               if f"gnd~{lab}" not in special and lab in by_label]
+        if not new:
+            return []
+        tb = trackB.blocked("B.Cu", "gnd")
+        openV = (~viaB.blocked("B.Cu", "gnd") & ~viaB.blocked("F.Cu", "gnd")
+                 & edge_ok_v & ~ko_v & ~tb & ~trackB.blocked("F.Cu", "gnd"))
+        near_pad = np.zeros((ny, nx), bool)
+        for q in pads_:
+            if q["net"] == "gnd" and rp.on_layer(q, "B.Cu"):
+                rq = grid.cells(pad_geom(q).buffer(VIA_D / 2 + 0.05))
+                if rq:
+                    near_pad[rq[0], rq[1]] |= rq[2]
+        tgt = set(np.flatnonzero(openV & ~near_pad).tolist())
+        onpad = set()
+        for lab, g2, ok in shapes:
+            if ok and not lab.startswith("gnd track") \
+                    and not lab.startswith("gnd via"):
+                r2 = grid.cells(g2)
+                if r2:
+                    m2 = np.zeros((ny, nx), bool)
+                    m2[r2[0], r2[1]] = r2[2]
+                    onpad |= set(np.flatnonzero(m2 & ~tb).tolist())
+        added = []
+        for lab in dict.fromkeys(new):
+            special[f"gnd~{lab}"] = dict(pad=by_label[lab],
+                                         targets=tgt | onpad, onpad=onpad)
+            added.append(f"gnd~{lab}")
+        return added
 
     def new_clashes():
         """(net, net, layer, where) for every real clearance breach between
@@ -641,7 +708,7 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
             for k, (n1, g1) in enumerate(items[L]):
                 for m in tree.query(g1.buffer(CLEAR - 1e-6)):
                     n2, g2 = items[L][m]
-                    if n2 == n1 or m <= k:
+                    if base(n2) == base(n1) or m <= k:
                         continue
                     if g1.distance(g2) < CLEAR - 1e-6:
                         pa, pb = shapely.ops.nearest_points(g1, g2)
@@ -673,6 +740,8 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
             # centrelines() finds vias from consecutive states, so feed it
             # each path on its own for the via cells.
             vc = [centrelines(pth, [])[1] for pth in res["paths"]]
+            if res.get("endvia") is not None:
+                vc.append(np.array([res["endvia"]], np.int64))
             res["vias"] = np.unique(np.concatenate(vc)) if vc else res["vias"]
             res["segs"], res["vs"] = copper_of(net, res)
             state[net] = res
@@ -692,13 +761,22 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
         if best is None or len(clashes) < best[0]:
             best = (len(clashes), {k: dict(v) for k, v in state.items()})
         if not clashes:
-            break
+            added = add_ground_tails()
+            if not added:
+                break
+            print(f"   {len(added)} gnd pad(s) cut off from the pour: "
+                  f"{', '.join(a.split('~')[1] for a in added)}", flush=True)
+            order = list(order) + added
+            todo = added
+            seen_sig = []
+            continue
         seen_sig.append((frozenset(hot), len(clashes)))
         if len(seen_sig) >= 12 and len(set(seen_sig[-12:])) == 1:
             break
         pres = min(pres * PRES_GROW, PRES_MAX)
         todo = [n for n in order if n in hot]
 
+    order = list(order) + [n for n in special if n not in order]
     if best is not None and best[0]:
         print(f"   keeping the best round: {best[0]} clashes left")
         state = best[1]
@@ -942,7 +1020,8 @@ def main():
     else:
         routed, failed, new_segs, new_vias = negotiate(
             grid, order, pads_by_net, copper, trackB, viaB,
-            edge_ok_t, edge_ok_v, ko_t, ko_v, region)
+            edge_ok_t, edge_ok_v, ko_t, ko_v, region,
+            (pads, keep_segs, keep_vias, edge, keepouts))
         cache.write_bytes(pickle.dumps((routed, failed, new_segs, new_vias)))
 
     # Put the new copper in with the fixed, for the tails and the audit.

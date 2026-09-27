@@ -1082,8 +1082,16 @@ matrix and neither gets through.
 The front copper carries **only the 38 dome sites and three test pads** —
 everything the fab house solders is on the back, so `F.Cu` is very nearly an
 empty layer. Both of a dome's pads are on it. So the matrix can run its rows and
-columns as front-side copper between the domes and drop through **once per net**,
-near the module: **13 vias rather than 47.**
+columns as front-side copper between the domes and drop through as seldom as
+possible.
+
+**Correction, 27 September 2026: one via per net is not possible.** Every row
+crosses every column, 42 crossings, and two nets cannot cross on one layer. So
+at each crossing one of them has to change layer. What `tools/route_signals.py`
+actually achieved is **107 vias across the 13 matrix nets**, mostly on the
+columns (rows 1 to 11 each, columns 9 to 17). That is still better than the
+47 *pad* vias Freerouting spent, because these sit in the open between rows,
+not in the lanes beside the pads.
 
 That is worth insisting on, and not only for the via count. Every via the matrix
 does not place is a via left in a 1.5 mm lane for something else, and the lanes
@@ -1143,6 +1151,30 @@ part, so its four VBUS contacts land as two pads with CC1, CC2, D+, D− and SBU
 between them and only 2.15 mm below the connector, which is where D+ and D− have
 to run — so the two VBUS pads are joined on `F.Cu` too.
 
+**Steps 9.3 to 9.5 are routed by `tools/route_signals.py`** (27 September
+2026). It routes every net that is not power: the panel SPI, USB, I2C, UART,
+the LEDs, the charger and regulator control lines and the matrix. That is 63
+nets, 4065 mm of track and 271 vias. It then gives a short tail and via to every
+ground pad the new tracks would cut off from the plane. There are 67 of those,
+because the back-layer pour is what grounds most pads and every back-layer track
+slices it. It checks itself against the real shapes rather than its grid, and
+refuses to write if anything is closer than the rules allow. Like `route_power.py`
+it knows its own copper by uuid, so re-running it replaces its own tracks and
+leaves yours alone.
+
+```bash
+python3 -m pip install numpy scipy shapely   # once; it also needs a C compiler
+python3 tools/route_signals.py --check       # route and report, write nothing
+python3 tools/route_signals.py               # route and write the board
+python3 tools/check_pour.py                  # every gnd pad still reaches the plane?
+```
+
+A full run takes a while the first time. It caches its result in your temp
+folder, keyed on the board, so an unchanged board writes in seconds. Treat it
+the same way as the power routes: a first pass to read, change and re-run, not a
+finished layout. What it does not know about is length matching on USB, so look
+at `usb_dp` and `usb_dm` by eye.
+
 **9.3 — The panel's SPI** — `epd_sck`, `epd_mosi`, `epd_cs`, `epd_dc`,
 `epd_rst`, `epd_busy`. Keep them away from both switch nodes. They are the only
 fast signals on the board.
@@ -1174,8 +1206,9 @@ This step used to say `In2.Cu`, and one via per dome pad. The first Freerouting
 pass on 24 September 2026 showed why that is the expensive way round — see
 "The matrix wants one via per net, not one per pad" above. `F.Cu` carries only
 the 38 dome sites and three test pads, and **both** of a dome's pads are on it,
-so rows and columns can run as front copper between the domes and drop through
-once per net near the module: 13 vias rather than 47.
+so rows mostly run as front copper between the domes and columns mostly on the
+back. They still need a via wherever one crosses another (see the correction
+above): 107 in the routed board, not the 13 this step once promised.
 
 There is more room between the courtyards than this step used to claim. Measured
 off the board rather than estimated: **1.500 mm at the tightest down a column
