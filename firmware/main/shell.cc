@@ -18,6 +18,10 @@ extern "C" {
 #include "epd.h"
 }
 
+static bool s_dirty;       // the core drew something since the last update
+static bool s_running;     // the core asked to be called again (a program runs)
+static bool s_enqueued;    // the core queued the last key; send it no keyup
+
 const char *shell_platform() { return "1.3.15 ESP32-S3"; }
 
 // The core hands us a 1-bit bitmap in its own logical pixels and a dirty
@@ -28,9 +32,10 @@ const char *shell_platform() { return "1.3.15 ESP32-S3"; }
 // fit there should never be one.
 void shell_blitter(const char *bits, int bytesperline, int x, int y,
                    int width, int height) {
+    s_dirty = true;
     for (int r = 0; r < height; r++) {
         int py = EPD_VIEW_Y + (y + r) * EPD_SCALE_Y;
-        if (py < EPD_VIEW_Y || py + EPD_SCALE_Y > EPD_VIEW_Y + EPD_VIEW_H)
+        if (y + r >= EPD_ROWS * 8)      // the strip below is the annunciators'
             continue;
         for (int c = 0; c < width; c++) {
             int sx = x + c, sy = y + r;
@@ -44,7 +49,29 @@ void shell_blitter(const char *bits, int bytesperline, int x, int y,
 }
 
 void shell_beeper(int tone)                 { (void) tone; }
-void shell_annunciators(int, int, int, int, int, int) { }
+// The core draws 6 rows of 8 logical pixels, which leaves the bottom 8 panel
+// rows for annunciators. Until there is a font for them each one is a mark in
+// a fixed place along that strip: a solid block for shift, an outline for
+// the rest. -1 means "unchanged", per shell.h.
+static void annunciator(int slot, int on, bool solid) {
+    if (on < 0) return;
+    int x = EPD_VIEW_X + 4 + slot * 20, y = EPD_VIEW_Y + EPD_VIEW_H - 7;
+    epd_fill_rect(x, y, 14, 6, false);
+    if (on) {
+        epd_fill_rect(x, y, 14, 6, true);
+        if (!solid) epd_fill_rect(x + 1, y + 1, 12, 4, false);
+    }
+    s_dirty = true;
+}
+
+void shell_annunciators(int updn, int shf, int prt, int run, int g, int rad) {
+    annunciator(0, shf, true);
+    annunciator(1, updn, false);
+    annunciator(2, prt, false);
+    annunciator(3, run, false);
+    annunciator(4, g, false);
+    annunciator(5, rad, false);
+}
 bool shell_wants_cpu()                      { return false; }
 void shell_delay(int duration)              { (void) duration; }
 void shell_request_timeout3(int delay)      { (void) delay; }
@@ -78,8 +105,48 @@ extern "C" void plus42_start(void) {
     core_init(&rows, &cols, 0, NULL);
     printf("plus42 core up, asked for %d x %d\n", EPD_COLS, EPD_ROWS);
 
+    // core_init has already drawn once at the saved state's size, and where
+    // that is taller than ours it leaves rows in the annunciator strip that
+    // nothing ever clears. Wipe them before the repaint at our size.
+    epd_clear(true);
+
     // core_init reports the size in the saved state, which on a first boot is
     // Plus42's own default rather than ours. Ask for the size the window can
     // actually show; the core resizes and repaints through shell_blitter.
     core_repaint_display(EPD_ROWS, EPD_COLS, 0);
 }
+
+// The key path. The core wants raw HP-42S key codes 1..37, which is what
+// keypad_scan() returns, a keydown on press and a keyup on release. While a
+// program runs, core_keydown(0) gives it another slice; the caller does that
+// between scans so a keypress can still stop it.
+extern "C" void plus42_keydown(int key) {
+    int repeat;
+    s_running = core_keydown(key, &s_enqueued, &repeat);
+}
+
+extern "C" void plus42_keyup(void) {
+    if (!s_enqueued)
+        s_running = core_keyup();
+    s_enqueued = false;
+}
+
+extern "C" bool plus42_running(void) { return s_running; }
+
+extern "C" void plus42_step(void) {
+    bool enqueued;
+    int repeat;
+    s_running = core_keydown(0, &enqueued, &repeat);
+}
+
+// True once per batch of drawing, so the caller refreshes the panel only when
+// the picture changed.
+extern "C" bool plus42_take_dirty(void) {
+    bool d = s_dirty;
+    s_dirty = false;
+    return d;
+}
+
+// The X register as the core would copy it to the clipboard, for logs and
+// tests. Returns a malloc'd string, or NULL.
+extern "C" char *plus42_x(void) { return core_copy(); }

@@ -44,3 +44,24 @@ simulated panel refreshes. Set the chip's `debug` attribute to `"1"` in
 `wokwi-cli --screenshot-part` does not work on a custom chip ("Part does not
 have a valid framebuffer"), so the panel image is only visible in the VS Code
 extension or on wokwi.com.
+
+## The calculator: `calc/`
+
+`calc/` is Plus42 itself in the simulator: the real `shell.cc`, `keypad.c` and
+`epd.c` under `calc/main/calc_main.c`, which prints `x <value>` after every key.
+The panel chip in `calc/diagram.json` has `dumpFrames` on, so each frame it
+shows is printed as `EPDFRAME` lines. `gen_diagram.py` writes both diagrams.
+
+```bash
+cd sim/wokwi/calc
+idf.py set-target esp32s3 && idf.py build     # needs ../../../firmware/vendor/setup.sh run once
+wokwi-cli --timeout 300000 --scenario add.test.yaml . | tee run.log
+python3 ../../host/frames.py run.log frames/   # one PNG per frame, plus sheet.png
+```
+
+`add.test.yaml` presses 2 ENTER 3 + and waits for `x 5`. It builds (3.1 MB,
+26% of the app partition free). It **has not run in Wokwi yet**: on
+27 September 2026 the account's free monthly CI minutes were used up.
+
+For what the screen looks like without spending Wokwi minutes, `sim/host/`
+runs the same core and `shell.cc` on a PC.

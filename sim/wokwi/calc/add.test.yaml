@@ -1,0 +1,22 @@
+name: 2 ENTER 3 + gives 5
+version: 1
+author: HP-42S clone
+steps:
+  - {"wait-serial": "hp42s calc ready"}
+  - {"set-control": {"part-id": "k30", "control": "pressed", "value": 1}}
+  - {"wait-serial": "key 30"}
+  - {"set-control": {"part-id": "k30", "control": "pressed", "value": 0}}
+  - {"wait-serial": "up 30"}
+  - {"set-control": {"part-id": "k13", "control": "pressed", "value": 1}}
+  - {"wait-serial": "key 13"}
+  - {"set-control": {"part-id": "k13", "control": "pressed", "value": 0}}
+  - {"wait-serial": "up 13"}
+  - {"set-control": {"part-id": "k31", "control": "pressed", "value": 1}}
+  - {"wait-serial": "key 31"}
+  - {"set-control": {"part-id": "k31", "control": "pressed", "value": 0}}
+  - {"wait-serial": "up 31"}
+  - {"set-control": {"part-id": "k37", "control": "pressed", "value": 1}}
+  - {"wait-serial": "key 37"}
+  - {"set-control": {"part-id": "k37", "control": "pressed", "value": 0}}
+  - {"wait-serial": "up 37"}
+  - {"wait-serial": "x 5"}

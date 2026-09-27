@@ -1,3 +1,6 @@
 chips/*.wasm
 firmware/build/
+calc/build/
 firmware/sdkconfig
+calc/sdkconfig
+calc/sdkconfig.old

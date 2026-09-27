@@ -19,7 +19,8 @@
 // bench; the test pattern's corner block is there to show it.
 //
 // Attributes (set in diagram.json): fullUpdateMs (default 2000),
-// partialUpdateMs (default 400), debug (default 0; 1 logs every command).
+// partialUpdateMs (default 400), debug (default 0; 1 logs every command),
+// dumpFrames (default 0; 1 prints every frame shown, for frames.py).
 
 #include "wokwi-api.h"
 
@@ -65,6 +66,7 @@ typedef struct {
   uint32_t fb_w, fb_h;
   uint32_t full_ms, partial_ms;
   bool debug;
+  bool dump;
   uint32_t updates;
 } chip_t;
 
@@ -103,6 +105,28 @@ static void render(chip_t *c)
   }
 }
 
+// Prints the black/white RAM as it is shown, 8 gate lines to a console line:
+// "EPDFRAME <update> <first gate> <hex>", each gate line being SOURCES/8
+// bytes, bit 7 of the first byte at source 0, a set bit paper. Short lines,
+// because the CLI interleaves chip output with the serial port and a long one
+// is likelier to be split.
+static void dump_frame(chip_t *c)
+{
+  static const char HEX[] = "0123456789abcdef";
+  char line[40 + 8 * (SOURCES / 8) * 2];
+  for (int g0 = 0; g0 < GATES; g0 += 8) {
+    int n = snprintf(line, 40, "EPDFRAME %u %d ", (unsigned)c->updates, g0);
+    for (int g = g0; g < g0 + 8 && g < GATES; g++)
+      for (int b = 0; b < SOURCES / 8; b++) {
+        uint8_t v = c->bw[g * RAM_XBYTES + b];
+        line[n++] = HEX[v >> 4];
+        line[n++] = HEX[v & 15];
+      }
+    line[n] = 0;
+    printf("%s\n", line);
+  }
+}
+
 static void busy_done(void *user_data)
 {
   chip_t *c = user_data;
@@ -111,6 +135,7 @@ static void busy_done(void *user_data)
     c->pending_display = false;
     c->updates++;
     if (c->debug) printf("ssd1680: update %u shown\n", (unsigned)c->updates);
+    if (c->dump) dump_frame(c);
   }
   set_busy(c, false, 0);
 }
@@ -287,6 +312,7 @@ void chip_init(void)
   c->full_ms = attr_read(attr_init("fullUpdateMs", 2000));
   c->partial_ms = attr_read(attr_init("partialUpdateMs", 400));
   c->debug = attr_read(attr_init("debug", 0)) != 0;
+  c->dump = attr_read(attr_init("dumpFrames", 0)) != 0;
 
   memset(c->bw, 0xFF, sizeof(c->bw));
   memset(c->red, 0xFF, sizeof(c->red));
