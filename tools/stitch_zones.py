@@ -15,9 +15,10 @@ via of its own net and bonds to it. A through via also passes through the
     python3 tools/stitch_zones.py --check   # report, write nothing
     python3 tools/stitch_zones.py           # place them
 
-Ownership: a v5 uuid marks generated copper, because KiCad's own are v4, and
-the NET says which script generated it. This one owns `gnd` and touches
-nothing else; `route_power.py` owns the nets in its own table. Getting that
+Ownership: a via is this script's if its uuid is the one this script would
+generate for that net at that spot, so it removes its own stitching vias and
+nothing else -- not the gnd tails route_signals.py writes, not a via drawn by
+hand; `route_power.py` owns the nets in its own table. Getting that
 wrong once would have had each script quietly delete the other's work.
 """
 
@@ -181,12 +182,14 @@ def strip_ours(text):
                 continue
             if "(via" not in m.group(0):
                 continue
-            try:
-                if uuid.UUID(m.group(1)).version == 5:
-                    hit = m
-                    break
-            except ValueError:
-                pass
+            # Ours only if the uuid is the one via() would give this very
+            # via. A v5 uuid on a gnd via is not enough: route_signals.py
+            # writes gnd vias too, for the pads the pour cannot reach.
+            at = re.search(r'\(at (\S+) (\S+)\)', m.group(0))
+            x, y = float(at.group(1)), float(at.group(2))
+            if m.group(1) == str(uuid.uuid5(NS, f"stitch {NET} {x} {y}")):
+                hit = m
+                break
         if not hit:
             return text, removed
         text = text[:hit.start()] + text[hit.end():]

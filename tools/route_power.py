@@ -210,9 +210,21 @@ ROUTES += [
          why="the turn south, still 0.2 mm while bat's exit is 0.4 mm away"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(31.200, 74.000), (31.200, 91.400)],
+         path=[(31.200, 74.000), (31.200, 81.500)],
          widths=[POWER_W],
-         why="down the corridor between C2/C3 and U2/U3 to beneath U3"),
+         why="down the corridor between C2/C3 and U2/U3, under bat's jumper"),
+
+    # Round the west of R8, R9 and R10, not straight down x 31.2 to beneath
+    # U3. U3's three CFG pins face west at x 31.9, and their resistors sit at
+    # x 28; a rail straight down x 31.2 passes between every one of them and
+    # its resistor, so two of the three could never be routed. Found by
+    # route_signals.py on 27 September 2026. Going round costs about 20 mm of
+    # 0.5 mm copper, a few milliohms.
+    dict(net="sys", layer="B.Cu",
+         path=[(31.200, 81.500), (26.800, 81.500), (26.800, 97.000),
+               (31.100, 97.000), (31.100, 91.400)],
+         widths=[POWER_W, POWER_W, POWER_W, POWER_W],
+         why="round the west and south of U3's CFG resistors to beneath U3"),
 
     dict(net="sys", layer="B.Cu",
          path=[(31.200, 76.800), (27.625, 76.800), (27.625, 75.400)],
@@ -220,7 +232,7 @@ ROUTES += [
          why="round the underside of C3's ground pad into C3, the SYS bypass"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(31.200, 91.400), (56.000, 91.400)],
+         path=[(31.100, 91.400), (56.000, 91.400)],
          widths=[POWER_W],
          why="east beneath U3 and L1, in the gap under the dome row at y 86"),
 
