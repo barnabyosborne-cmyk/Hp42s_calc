@@ -340,6 +340,18 @@ would try them:
 This is the thing to settle before the sliver gets drawn, and (2) needs one
 number from the case model: how wide the guide actually is.
 
+**Settled 27 September 2026: option 2.** Barnaby's guide is an acrylic
+rectangle about the size of the display window, so at most 60 mm across the
+injection edge. A 64 mm sliver therefore overhangs it by 2 mm or more at each
+end, and plain top-face pads go there. No castellations are needed.
+
+Cut the guide a little bigger than the window rather than exactly to it. The
+extra is about 3 mm on the LED edge, to the glass edge, plus a millimetre on
+the other three sides. The LED edge then sits in the 2.8 mm of dead glass,
+where the hot spots can mix before the first visible pixel. The faceplate
+clamps the margin, and a cut edge never shows in the window. That gives
+roughly 60 x 34 mm, still inside the 64 mm sliver.
+
 **What it costs when it is off.** `SYS` is the cell, so the driver is live
 whenever there is a cell in the case: the TPS61165's shutdown current plus 4.2 µA
 through the 1 MΩ comes to about **5 µA**. Against a board that otherwise sits at

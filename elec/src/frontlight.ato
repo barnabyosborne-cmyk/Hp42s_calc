@@ -185,7 +185,7 @@ module Frontlight:
 
 
 module FrontlightStrip:
-    # The 1.0 mm FR4 sliver. Its own little board, about 60 x 4 mm, lying on
+    # The 1.0 mm FR4 sliver. Its own little board, 64 x 4 mm, lying on
     # the main board in the strip between the panel and the keyboard, with
     # the four LEDs looking up the short axis of the display.
     #
