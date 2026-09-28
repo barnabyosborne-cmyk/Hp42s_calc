@@ -87,13 +87,18 @@ PASSIVE_LCSC = {
     "1uF 25V* X7R/X5R": "C15849", "10uF 10V* X7R/X5R": "C15850",
     "22uF 10V* X7R/X5R": "C45783", "100nF 16V* X7R/X5R": "C1525",
     "1uF 10V* X7R/X5R": "C52923", "1uF 25V X7R/X5R": "C15849",
-    "4.7uF 25V X7R/X5R": "C69335", "1uF 50V X7R/X5R": "C28323",
+    "4.7uF 16V X7R/X5R": "C19666", "1uF 50V X7R/X5R": "C28323",
     "4.7uF 10V* X7R/X5R": "C19666", "220nF 16V* X7R/X5R": "C16772",
-    "5.1k 5%": "C25905", "18k 1%": "C25762", "750R 1%": "C25132",
-    "10k 5%": "C25744", "100k 5%": "C25741", "16.2k 1%": "C49196904",
+    "5.1k 5%": "C25905", "18k 1%": "C25762",
+    "10k 5%": "C25744", "100k 5%": "C25741", "15k 1%": "C25756",
+    "1.2k 1%": "C22765", "820R 1%": "C23253",
     "4.7k 5%": "C25900",
-    "1M 5%": "C26083", "2R2 1%": "C327251", "1k 5%": "C11702",
+    "1M 5%": "C26083", "2R2 1%": "C22939", "1k 5%": "C11702",
     "22R 5%": "C25092", "10R 5%": "C25077", "0R 5%": "C17168",
+}
+# where the Basic part is one size only, by (Comment, footprint)
+PASSIVE_FP_LCSC = {
+    ("4.7uF 25V X7R/X5R", "C_0805_2012Metric"): "C1779",
 }
 
 # values not given a voltage in the source get the * rating
@@ -133,12 +138,14 @@ def main():
     text = rp.PCB.read_text()
     vals = source_values()
     groups = OrderedDict()
+    on_board = set()
     for m in re.finditer(r'\n\t\(footprint "([^"]+)"', text):
         blk = rp.block_at(text, m.start() + 1)
         ref = re.search(r'\(property "Reference" "([^"]*)"', blk).group(1)
         path = re.search(r'\(sheetname "[^"]*::([^"]*)"', blk)
         path = path.group(1) if path else ""
         fp = m.group(1).split(":")[-1]
+        on_board.add(path)
         if ref.startswith("TP"):
             continue
         if ref.startswith(SKIP_PREFIX) and path not in PARTS:
@@ -165,9 +172,16 @@ def main():
             comment, mpn = f"{ohms} {tol}", ""
         else:
             raise SystemExit(f"{ref} ({path}) has no BOM entry")
-        lcsc = lcsc or PASSIVE_LCSC.get(comment, "")
+        lcsc = lcsc or PASSIVE_FP_LCSC.get((comment, fp)) or PASSIVE_LCSC.get(comment, "")
         key = (comment, fp, lcsc, mpn)
         groups.setdefault(key, []).append(ref)
+
+    # FrontlightStrip is in frontlight.ato but built as its own board
+    sliver = {"frontlight.wire_a", "frontlight.wire_k"}
+    missing = sorted(p for p in vals if p not in on_board | sliver)
+    if missing:
+        raise SystemExit("in the source but not on the board, so re-import the "
+                         "netlist first: " + ", ".join(missing))
 
     def refkey(r):
         return (re.sub(r"\d", "", r), int(re.sub(r"\D", "", r)))

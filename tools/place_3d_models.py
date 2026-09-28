@@ -67,6 +67,11 @@ PLACEMENT = {
         "part standing with the lens along +Z, and the face that solders "
         "down is y = 1.0. A quarter turn back about X lays it down, which "
         "leaves the lens firing along footprint -Y and the part 1.0 tall."),
+    "LiteOn_LTST-S326_BiColor_RA": (
+        "Dialight-599-0Q70-247F.step", X, -90, (-1.5, 0.475, 1.0),
+        "Stand-in: Lite-On publish no model for the LTST-S326 here, and the "
+        "Dialight's is the same 3.0 x 2.0 x 1.0 side-looker with its lens "
+        "on the same face, which is all the case check needs."),
     "Dialight_599_White_1208_RA": (
         "Dialight-599-0Q70-247F.step", X, -90, (-1.5, 0.475, 1.0),
         "Same package as the bi-colour, same land, different dice. Dialight "

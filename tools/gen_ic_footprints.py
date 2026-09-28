@@ -187,6 +187,53 @@ def bicolor_ra(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def liteon_s326(name, descr, tags):
+    """Lite-On LTST-S326 side-looking bi-colour, 3.0 x 2.0 x 1.0 mm. The land
+    is section 6.2 of Lite-On spec DS22-2000-287 rev E: two 0.75 x 1.5 end
+    pads 3.5 outer, 2.0 inner, and a 0.9 x 0.9 centre pad whose front edge
+    sits 0.20 behind the end pads' centreline.
+
+    Pin numbers are the Dialight's, so the StatusLED component is unchanged:
+    2 = common anode on +x, 3 = red (Lite-On C1) on -x, 1 = green (C2, the
+    reinforcing pin) in the middle. Lite-On's tape drawing puts the cathode
+    mark on the end that comes out at -x once the lens faces -y. That is
+    read off a drawing, not stated: confirm it in JLC's placement preview."""
+    out = [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        '\t(fp_text reference "REF**" (at 0 2.60) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 3.80) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        # body in plan: 3.0 x 1.0, centred on the end pads
+        '\t(fp_rect (start -1.500 -0.500) (end 1.500 0.500) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))',
+        # lens: R 1.0 dome out of the front face (2.00 overall, 1.00 body)
+        '\t(fp_arc (start 1.000 -0.500) (mid 0 -1.500) (end -1.000 -0.500) '
+        '(stroke (width 0.1) (type solid)) (layer "F.Fab"))',
+        '\t(fp_line (start 0 -2.100) (end 0 0.500) '
+        '(stroke (width 0.05) (type dot)) (layer "F.Fab"))',
+        '\t(fp_rect (start -2.000 -1.750) (end 2.000 1.350) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))',
+        # cathode mark: a bar outboard of pin 3, the red die
+        '\t(fp_line (start -1.950 -0.750) (end -1.950 0.750) '
+        '(stroke (width 0.15) (type solid)) (layer "F.SilkS"))',
+        '\t(pad "3" smd roundrect (at -1.375 0) (size 0.750 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "2" smd roundrect (at 1.375 0) (size 0.750 1.500) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        '\t(pad "1" smd roundrect (at 0 0.650) (size 0.900 0.900) '
+        '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))',
+        ')',
+    ]
+    return "\n".join(out) + "\n"
+
+
 def single_ra(name, descr, tags):
     """Dialight 599 single-colour 1208 right angle. Same land pattern as the
     bi-colour above -- two 1.0 x 1.5 end pads 2.0 apart and a 0.9 x 0.65 pad
@@ -529,6 +576,14 @@ def main():
             tags="LED IR 940nm side-view sidelooker VSMB2943SLX01",
             pad_w=0.9, pad_h=1.2, span=4.2, body_w=2.2,
             back=1.19, front=0.43, dome=0.95, lens_d=1.8,
+        ),
+        "LiteOn_LTST-S326_BiColor_RA": liteon_s326(
+            name="LiteOn_LTST-S326_BiColor_RA",
+            descr="Lite-On LTST-S326KGJRKT side-looking red + yellow-green LED, "
+                  "common anode, 3.0x2.0x1.0 mm. Pads per section 6.2 of Lite-On "
+                  "spec DS22-2000-287. Lens faces -y. Pad 2 = common anode, "
+                  "pad 3 = red, pad 1 = green.",
+            tags="LED bicolor side-view right-angle Lite-On LTST-S326",
         ),
         "Dialight_599_BiColor_1208_RA": bicolor_ra(
             name="Dialight_599_BiColor_1208_RA",

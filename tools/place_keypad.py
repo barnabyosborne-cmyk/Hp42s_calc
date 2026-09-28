@@ -161,7 +161,7 @@ def mm(v):
 EDGE_PARTS = {
     "Vishay_VSMB2943SLX01_SideView": (25.33, 0.900, "IR emitter"),
     "USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal": (38.00, 2.475, "USB-C"),
-    "Dialight_599_BiColor_1208_RA": (50.57, 1.050, "status LED"),
+    "LiteOn_LTST-S326_BiColor_RA": (50.57, 1.050, "status LED"),
 }
 
 # The two tact switches, by the net each one pulls down: BOOT sits inboard of
@@ -182,7 +182,7 @@ TACT_ORDER = [(71.31, 1.800, "reset"), (60.65, 1.800, "boot")]
 # and not merely a hole.
 LENS_PARTS = {
     "Vishay_VSMB2943SLX01_SideView",
-    "Dialight_599_BiColor_1208_RA",
+    "LiteOn_LTST-S326_BiColor_RA",
 }
 
 

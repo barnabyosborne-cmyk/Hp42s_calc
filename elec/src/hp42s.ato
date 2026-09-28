@@ -355,3 +355,15 @@ module HP42S:
     tp_boot = new TestPad
     tp_boot.value = "BOOT (IO0)"
     tp_boot.p ~ boot
+
+    # --- TPS63900 CFG3, the second half --------------------------------------
+    # The 1.2k that, with power.r_cfg3's 15k, makes the 16.2k that sets 3.3 V.
+    # It belongs in power.ato and lives here only so it is the last resistor
+    # declared: atopile hands out designators in source order, so this one
+    # becomes R24 and no existing resistor is renumbered. Place it against
+    # R8, on U3's CFG3 side.
+    r_cfg3_trim = new Resistor
+    r_cfg3_trim.value = "1.2k 1%"
+    r_cfg3_trim.footprint = "Resistor_SMD:R_0603_1608Metric"
+    r_cfg3_trim.p1 ~ power.cfg3_mid
+    r_cfg3_trim.p2 ~ gnd

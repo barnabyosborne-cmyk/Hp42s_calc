@@ -128,8 +128,11 @@ module DisplayDrive:
     # C4, the input reservoir. The inductor draws 500 mA peaks out of a 3.3 V
     # rail that is otherwise supplying a sleeping MCU, so this one carries the
     # switching current and wants to sit hard against L1.
+    #
+    # This one sits on 3.3 V, not on the pump, so it is a 16 V part: JLC's
+    # Basic 4.7 uF in 0603 is 16 V and their 25 V one is Extended.
     c_in = new CapBoost
-    c_in.value = "4u7 25V"
+    c_in.value = "4u7 16V"
     c_in.p1 ~ v3v3
     c_in.p2 ~ gnd
 
@@ -152,8 +155,11 @@ module DisplayDrive:
     # R2: the current sense. 2.2 ohm, and it is in the switching path, so it
     # is a real 1% part and not a 5% one -- the panel sets its peak current
     # from the voltage across it.
+    #
+    # 0603 since 28 September 2026: JLC's Basic 2.2 ohm 1% is 0603 only.
     r_sense = new Resistor
     r_sense.value = "2R2 1%"
+    r_sense.footprint = "Resistor_SMD:R_0603_1608Metric"
     r_sense.p1 ~ rese
     r_sense.p2 ~ gnd
 
@@ -173,8 +179,12 @@ module DisplayDrive:
     epd.VGH ~ prevgh
 
     # C3 + D2 + D1 + C11: the negative rail.
+    #
+    # 0805 since 28 September 2026: this one does need 25 V, and JLC's Basic
+    # 4.7 uF 25 V is 0805 (Samsung CL21A475KAQNNNE).
     c_pump = new CapBoost
     c_pump.value = "4u7 25V"
+    c_pump.footprint = "Capacitor_SMD:C_0805_2012Metric"
     c_pump.p1 ~ sw
     c_pump.p2 ~ pump
 

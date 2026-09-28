@@ -106,13 +106,17 @@ module Power:
     r_ilim_vset.p2 ~ gnd
 
     # ISET sets fast charge current: ICHG = K_ISET / R_ISET, K_ISET = 300 AOhm.
-    # 750 ohm gives 400 mA, deliberately BELOW the 500 mA input limit. If the
+    # 820 ohm gives 366 mA, deliberately BELOW the 500 mA input limit. If the
     # two were equal the input DPM loop would sit on its threshold and
-    # regulate continuously the moment the calculator drew anything. 400 mA
-    # is about 0.24 C on the 1650 mAh cell, so roughly four and a half hours
-    # from flat, which is fine for something that charges overnight.
+    # regulate continuously the moment the calculator drew anything. 366 mA
+    # is about 0.22 C on the 1650 mAh cell, so roughly five hours from flat,
+    # which is fine for something that charges overnight.
+    #
+    # It was 750 ohm (400 mA) until 28 September 2026. 820 ohm 0603 is a JLC
+    # Basic part and 750 ohm in any size is not.
     r_iset = new Resistor
-    r_iset.value = "750R 1%"
+    r_iset.value = "820R 1%"
+    r_iset.footprint = "Resistor_SMD:R_0603_1608Metric"
     r_iset.p1 ~ chg.ISET
     r_iset.p2 ~ gnd
 
@@ -197,10 +201,18 @@ module Power:
     #
     # CFG3 = 16.2k -> VO(1) = 3.3 V, which is what SEL low selects.
     # Datasheet table 7-3, and 1% is a requirement there, not a preference.
+    #
+    # Since 28 September 2026 the 16.2k is 15k here in series with 1.2k,
+    # both 1% and both JLC Basic parts; 16.2k is not one. Two 1% parts in
+    # series stay inside 1% of the sum, and both are 100 ppm, inside TI's
+    # 200. The 1.2k is r_cfg3_trim at the very end of hp42s.ato, not here:
+    # atopile numbers parts in source order, and a resistor added here would
+    # renumber every resistor after it (see docs/layout-walkthrough.md).
+    signal cfg3_mid
     r_cfg3 = new Resistor
-    r_cfg3.value = "16.2k 1%"
+    r_cfg3.value = "15k 1%"
     r_cfg3.p1 ~ reg.CFG3
-    r_cfg3.p2 ~ gnd
+    r_cfg3.p2 ~ cfg3_mid
 
     # CFG1 and CFG2 set VO(2) and the input current limit. We never select
     # VO(2), but the pins still have to be defined, so both are 0 ohm: that
