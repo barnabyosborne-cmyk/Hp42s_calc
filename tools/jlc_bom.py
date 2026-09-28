@@ -10,7 +10,7 @@ the comments in elec/src/parts.ato.
 
 LCSC numbers were chosen on 28 September 2026 from JLC's own parts search
 (the endpoint behind jlcpcb.com/parts), preferring Basic parts; stock moves,
-so re-check anything JLC flags. D5 has no LCSC number: JLC does not carry it.
+so re-check anything JLC flags.
 
 Left out: the 38 domes (attr exclude_from_pos_files, fitted by hand), the
 test pads and the two sliver lands (bare copper, nothing to place).
@@ -60,8 +60,14 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 #       Different maker's land: check it sits on the pads in JLC's preview.
 #   L3  NR3015T220M had 30. ANR3015T220M is the APV part the footprint is
 #       named after.
-#   D5  The Dialight 599-0Q70-247F is not in JLC's catalogue at all.
+#   D5  The Dialight 599-0Q70-247F is not in JLC's catalogue at all. The
+#       Lite-On LTST-S326KGJRKT is the same thing: side-looking, 3.0 x 2.0 x
+#       1.0 mm, red + yellow-green on a common anode, anode and red on the end
+#       pads and green on the back one. Its land (datasheet section 6.2) sits
+#       inside the Dialight pads; a footprint of its own waits for the next
+#       netlist re-import. Check its polarity in JLC's preview.
 SUBS = {
+    "led_status": ("Red/green LED side view, common anode", "Lite-On LTST-S326KGJRKT"),
     "power.l_sw": ("2.2uH XEL4020", "Coilcraft XEL4020-222MEC"),
     "display.l_boost": ("47uH 4018 shielded", "Sunlord SWPA4018S470MT"),
     "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
@@ -74,7 +80,7 @@ LCSC = {
     "sw_boot": "C110293", "display.epd": "C3168917",
     "display.l_boost": "C83445", "display.q_boost": "C469327", "ls": "C113159",
     "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
-    "frontlight.l_fl": "C6364792", "diode": "C8598",
+    "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C125116",
 }
 # by Comment; Basic parts where JLC has one, else the best-stocked Extended
 PASSIVE_LCSC = {
@@ -142,8 +148,6 @@ def main():
             comment, mpn = SUBS[path]
         elif path in PARTS:
             comment, mpn = PARTS[path]
-            if path == "led_status":
-                comment += " (not stocked by JLC: hand fit)"
         elif ref.startswith("D"):
             comment, mpn = DIODE
             lcsc = LCSC["diode"]
