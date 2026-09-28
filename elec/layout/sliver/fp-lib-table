@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "hp42s") (type "KiCad") (uri "${KIPRJMOD}/../../footprints/hp42s.pretty") (options "") (descr ""))
+)

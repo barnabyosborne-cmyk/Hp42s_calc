@@ -123,6 +123,16 @@ component SliverLand:
     value = "sliver land"
     signal p ~ pin 1
 
+component SliverWirePad:
+    # The other end of that wire, on the sliver itself: a 1.5 x 3.0 mm pad on
+    # the 2 mm of sliver that overhangs the light guide at each end, so the
+    # joint sits clear of the guide's edge. Hand soldered, so no paste.
+    # Laid out by tools/make_sliver.py, not by a netlist import.
+    footprint = "hp42s:Frontlight_SliverWirePad"
+    designator_prefix = "TP"
+    value = "sliver wire pad"
+    signal p ~ pin 1
+
 # --- keypad ----------------------------------------------------------------
 
 component DomeKey10:

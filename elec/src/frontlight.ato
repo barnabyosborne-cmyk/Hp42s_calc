@@ -1,5 +1,6 @@
 from "parts.ato" import TPS61165, FrontlightInductor, SchottkyDiode
 from "parts.ato" import FrontlightLED, Resistor, Capacitor, SliverLand
+from "parts.ato" import SliverWirePad
 
 # ---------------------------------------------------------------------------
 # frontlight.ato -- the optional edge-lit reading light.
@@ -219,3 +220,13 @@ module FrontlightStrip:
     d3.cathode ~ n3
     d4.anode ~ n3
     d4.cathode ~ cathode
+
+    # The two wires from TP1 (FL+) and TP2 (FL-) on the main board land here,
+    # one at each end. The board is tools/make_sliver.py.
+    wire_a = new SliverWirePad
+    wire_a.value = "FL+"
+    wire_a.p ~ anode
+
+    wire_k = new SliverWirePad
+    wire_k.value = "FL-"
+    wire_k.p ~ cathode

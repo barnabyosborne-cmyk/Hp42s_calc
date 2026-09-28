@@ -352,6 +352,14 @@ where the hot spots can mix before the first visible pixel. The faceplate
 clamps the margin, and a cut edge never shows in the window. That gives
 roughly 60 x 34 mm, still inside the 64 mm sliver.
 
+**The sliver is drawn (28 September 2026):** `elec/layout/sliver/sliver.kicad_pcb`,
+written by `tools/make_sliver.py`. It is its own board, not a second outline on
+the main one: it is 1.0 mm with copper on one face and the main board is 1.6 mm
+with four layers, and a fab builds each order to one thickness and stack-up. 64 x
+4 mm; LEDs at 9.5, 24.5, 39.5 and 54.5 mm with their lenses flush with the top
+edge (`LED EDGE` on the silk); `FL+` and `FL-` are 1.5 x 3.0 mm pads 0.25 mm in
+from each end. Order it as 1.0 mm FR4, 1 or 2 layers (B.Cu is empty).
+
 **What it costs when it is off.** `SYS` is the cell, so the driver is live
 whenever there is a cell in the case: the TPS61165's shutdown current plus 4.2 µA
 through the 1 MΩ comes to about **5 µA**. Against a board that otherwise sits at

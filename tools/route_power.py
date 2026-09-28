@@ -474,7 +474,7 @@ def pad_shapes(pad, px, py, pr):
     siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
     if siz:
         w, h = float(siz.group(1)) / 2, float(siz.group(2)) / 2
-        head = re.match(r'\(pad "[^"]*" \S+ (\S+)', pad)
+        head = re.search(r'\(pad "[^"]*" \S+ (\S+)', pad)
         shape = head.group(1) if head else "rect"
         if shape == "custom":
             anc = re.search(r"\(anchor (\w+)\)", pad)
