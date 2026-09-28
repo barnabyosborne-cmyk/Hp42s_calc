@@ -8,10 +8,9 @@ file carries no values (atopile writes "?"), so the values come from the
 source, keyed by each footprint's instance path, and the part numbers from
 the comments in elec/src/parts.ato.
 
-The LCSC column is left empty on purpose: LCSC is not reachable from where
-this was written, and a wrong LCSC number places the wrong part without
-complaint. JLC's BOM step matches on Comment and the manufacturer part and
-offers candidates; pick them there.
+LCSC numbers were chosen on 28 September 2026 from JLC's own parts search
+(the endpoint behind jlcpcb.com/parts), preferring Basic parts; stock moves,
+so re-check anything JLC flags. D5 has no LCSC number: JLC does not carry it.
 
 Left out: the 38 domes (attr exclude_from_pos_files, fitted by hand), the
 test pads and the two sliver lands (bare copper, nothing to place).
@@ -50,7 +49,46 @@ PARTS = {
     "frontlight.u": ("TPS61165 LED driver", "TPS61165DBVR"),
     "frontlight.l_fl": ("22uH NR3015", "Taiyo Yuden NR3015T220M"),
 }
-DIODE = ("1N5819HW Schottky 40V 1A", "1N5819HW")
+DIODE = ("1N5819HW Schottky 40V 1A", "Diodes 1N5819HW-7-F")
+
+# JLC's substitutes, 28 September 2026, from JLC's own parts search. The
+# design's part is kept in the source; these are what JLC can place.
+#   L1  XFL4020-222MEC had 1 in stock. XEL4020-222MEC is the same Coilcraft
+#       4020 family on the same XxL4020 land: 2.2 uH, 35 mOhm, 4 A.
+#   L2  SRN4018-470M had none. Sunlord SWPA4018S470MT is 47 uH in the same
+#       4 x 4 x 1.8 body, 845 mOhm, 420 mA -- the panel boost draws tens of mA.
+#       Different maker's land: check it sits on the pads in JLC's preview.
+#   L3  NR3015T220M had 30. ANR3015T220M is the APV part the footprint is
+#       named after.
+#   D5  The Dialight 599-0Q70-247F is not in JLC's catalogue at all.
+SUBS = {
+    "power.l_sw": ("2.2uH XEL4020", "Coilcraft XEL4020-222MEC"),
+    "display.l_boost": ("47uH 4018 shielded", "Sunlord SWPA4018S470MT"),
+    "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
+    "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB(LF)(SN)"),
+}
+LCSC = {
+    "power.usb": "C3020560", "power.esd": "C138714", "power.chg": "C19725033",
+    "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5369025",
+    "power.cell": "C295747", "mcu": "C2913206", "sw_reset": "C110293",
+    "sw_boot": "C110293", "display.epd": "C3168917",
+    "display.l_boost": "C83445", "display.q_boost": "C469327", "ls": "C113159",
+    "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
+    "frontlight.l_fl": "C6364792", "diode": "C82544",
+}
+# by Comment; Basic parts where JLC has one, else the best-stocked Extended
+PASSIVE_LCSC = {
+    "1uF 25V* X7R/X5R": "C15849", "10uF 10V* X7R/X5R": "C15850",
+    "22uF 10V* X7R/X5R": "C45783", "100nF 16V* X7R/X5R": "C1525",
+    "1uF 10V* X7R/X5R": "C52923", "1uF 25V X7R/X5R": "C15849",
+    "4.7uF 25V X7R/X5R": "C69335", "1uF 50V X7R/X5R": "C28323",
+    "4.7uF 10V* X7R/X5R": "C19666", "220nF 16V* X7R/X5R": "C16772",
+    "5.1k 5%": "C25905", "18k 1%": "C25762", "750R 1%": "C25132",
+    "10k 5%": "C25744", "100k 5%": "C25741", "16.2k 1%": "C49196904",
+    "1.15k 1%": "C5159680", "8.25k 1%": "C185389", "4.7k 5%": "C25900",
+    "1M 5%": "C26083", "2R2 1%": "C327251", "1k 5%": "C11702",
+    "22R 5%": "C25092", "10R 5%": "C25077",
+}
 
 # values not given a voltage in the source get the * rating
 CAP_V = {
@@ -99,10 +137,16 @@ def main():
             continue
         if ref.startswith(SKIP_PREFIX) and path not in PARTS:
             continue
-        if path in PARTS:
+        lcsc = LCSC.get(path, "")
+        if path in SUBS:
+            comment, mpn = SUBS[path]
+        elif path in PARTS:
             comment, mpn = PARTS[path]
+            if path == "led_status":
+                comment += " (not stocked by JLC: hand fit)"
         elif ref.startswith("D"):
             comment, mpn = DIODE
+            lcsc = LCSC["diode"]
         elif ref.startswith("C"):
             v = CAP_V.get(path) or pretty(vals[path])
             if "V" not in v:
@@ -117,7 +161,8 @@ def main():
             comment, mpn = f"{ohms} {tol}", ""
         else:
             raise SystemExit(f"{ref} ({path}) has no BOM entry")
-        key = (comment, fp, mpn)
+        lcsc = lcsc or PASSIVE_LCSC.get(comment, "")
+        key = (comment, fp, lcsc, mpn)
         groups.setdefault(key, []).append(ref)
 
     def refkey(r):
@@ -127,10 +172,10 @@ def main():
         w = csv.writer(fh)
         w.writerow(["Comment", "Designator", "Footprint", "LCSC Part #",
                     "Manufacturer Part", "Qty"])
-        for (comment, fp, mpn), refs in sorted(
+        for (comment, fp, lcsc, mpn), refs in sorted(
                 groups.items(), key=lambda kv: refkey(min(kv[1], key=refkey))):
             refs.sort(key=refkey)
-            w.writerow([comment, ",".join(refs), fp, "", mpn, len(refs)])
+            w.writerow([comment, ",".join(refs), fp, lcsc, mpn, len(refs)])
     n = sum(len(r) for r in groups.values())
     print(f"wrote {out}: {len(groups)} lines, {n} parts")
 
