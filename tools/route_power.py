@@ -146,6 +146,16 @@ ROUTES = [
          path=[(15.495, 68.500), (15.495, 70.000)],
          widths=[POWER_W],
          why="the stub down into L2's output pad"),
+
+    # The fourth display-sw pad, missed until Barnaby's ratsnest showed it on
+    # 28 September 2026: C18, the charge pump's flying cap, whose other side
+    # is `pump`. It carries only the pump's small current, so 0.3 mm, up past
+    # Q1's gate pad and into the drain from below.
+    dict(net="display-sw", layer="B.Cu",
+         path=[(7.480, 75.570), (7.480, 74.800), (8.900, 73.380), (8.900, 72.400),
+               (9.777, 71.523), (9.777, 71.120)],
+         widths=[0.3] * 5,
+         why="C18's switch-node side into Q1's drain"),
 ]
 
 # 9.2 -- POWER DISTRIBUTION, AND HOW THE CORRIDOR IS SHARED
