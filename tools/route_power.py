@@ -90,6 +90,7 @@ EDGE_KEEP = 0.5                  # copper to board edge
 # diagonal corner, or 21 microns clear of a test pad: legal, and no use to anyone
 # who then nudges a part. The validator still tests the real rule.
 MARGIN = 0.1
+ISLAND_CLEAR = 0.75              # zone clearance 0.5 plus a fillable neck
 
 # Deterministic uuids so a re-run is byte-identical and git diff stays readable,
 # and so the tracks this script wrote can be told from ones drawn by hand.
@@ -156,7 +157,38 @@ ROUTES = [
                (9.777, 71.523), (9.777, 71.120)],
          widths=[0.3] * 5,
          why="C18's switch-node side into Q1's drain"),
+
+    # L2's input is 3.3 V, but it sits in the middle of the display boost's
+    # ground island on In2.Cu (step 8.3b), so there is no plane under it to
+    # drop into, and on B.Cu it is fenced in by the switch-node spine above
+    # and the Q1 and L2 stubs either side. So it hops over the spine on F.Cu,
+    # which carries nothing in the left lane, into its own input cap C16, and
+    # shares C16's via to the plane. Found by Barnaby's DRC, 28 September 2026.
+    dict(net="v3v3", layer="B.Cu",
+         path=[(12.445, 72.500), (12.445, 73.700)],
+         widths=[POWER_W],
+         why="L2's input pad down to its jumper via"),
+    dict(net="v3v3", layer="F.Cu",
+         path=[(12.445, 73.700), (12.445, 67.450), (13.195, 66.700)],
+         widths=[POWER_W, POWER_W],
+         why="L2's input over the display-sw spine on F.Cu"),
+    dict(net="v3v3", layer="B.Cu",
+         path=[(13.195, 66.700), (13.195, 65.405)],
+         widths=[POWER_W],
+         why="into C16, L2's input cap"),
 ]
+
+# TP3 is the one ground pad on F.Cu alone -- the big square the cell's
+# mechanical model hangs off -- and F.Cu has no pour, so nothing reached it.
+# check_pour.py only looks at B.Cu and never asked. One via straight down.
+ROUTES.append(dict(net="gnd", layer="F.Cu",
+                   path=[(3.810, 54.500), (3.810, 55.600)],
+                   widths=[POWER_W],
+                   why="TP3 down to a via into the ground plane"))
+
+# Pads joined to another 3.3 V pad by the routes above, so they need no via
+# of their own.
+SHARES_PLANE_VIA = {("L2", "1")}
 
 # 9.2 -- POWER DISTRIBUTION, AND HOW THE CORRIDOR IS SHARED
 #
@@ -355,6 +387,9 @@ VIAS = [
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),
     ("bat", 29.900, 80.500),
+    ("v3v3", 12.445, 73.700),
+    ("v3v3", 13.195, 66.700),
+    ("gnd", 3.810, 55.600),
 ]
 
 # Every v3v3 pad gets a stub to a via that drops into the In2.Cu plane. The
@@ -432,10 +467,40 @@ def pad_shapes(pad, px, py, pr):
                     f"pad primitive {kind!r} is not something this script can "
                     f"measure; teach pad_shapes about it rather than letting it "
                     f"be silently ignored")
+    # And the anchor is its declared shape, not its bounding box. Reading every
+    # pad as a rectangle let route_signals end the TP10 and TP11 tracks in the
+    # corners of their 1.5 mm squares, which are 1.0 mm from the centre of a
+    # 0.75 mm radius circle: KiCad called both unconnected (28 Sep 2026).
     siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
     if siz:
         w, h = float(siz.group(1)) / 2, float(siz.group(2)) / 2
-        polys.append([(-w, -h), (w, -h), (w, h), (-w, h)])
+        head = re.match(r'\(pad "[^"]*" \S+ (\S+)', pad)
+        shape = head.group(1) if head else "rect"
+        if shape == "custom":
+            anc = re.search(r"\(anchor (\w+)\)", pad)
+            shape = anc.group(1) if anc else "rect"
+        if shape in ("circle", "oval"):
+            r = min(w, h)
+            ax, ay = w - r, h - r          # half-length of the stadium's spine
+            pts = []
+            for i in range(32):
+                a = i * math.pi / 16
+                cx = ax if math.cos(a) >= 0 else -ax
+                cy = ay if math.sin(a) >= 0 else -ay
+                pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+            polys.append(pts)
+        elif shape == "roundrect":
+            rr = re.search(r"\(roundrect_rratio ([\d.]+)\)", pad)
+            r = min(w, h) * 2 * (float(rr.group(1)) if rr else 0.25)
+            pts = []
+            for (cx, cy, a0) in ((w - r, h - r, 0), (-w + r, h - r, 90),
+                                 (-w + r, -h + r, 180), (w - r, -h + r, 270)):
+                for k in range(7):
+                    a = math.radians(a0 + k * 15)
+                    pts.append((cx + r * math.cos(a), cy + r * math.sin(a)))
+            polys.append(pts)
+        else:
+            polys.append([(-w, -h), (w, -h), (w, h), (-w, h)])
     # A pad's angle in the board file is ABSOLUTE -- it already includes the
     # footprint's rotation -- so turn the shapes by it alone, not by its angle
     # relative to the footprint. L1 is the part that proves it: turned a quarter
@@ -761,14 +826,52 @@ def validate(pads, keepouts, vias, box):
 
 # --- placing the v3v3 vias ----------------------------------------------------
 
-def plane_vias(pads, keepouts, box, fixed_vias):
+def plane_islands(text):
+    """Outlines of the other-net zones cut into the In2.Cu plane.
+
+    Step 8.3b puts three ground islands inside the 3.3 V plane, one under each
+    switching node, at a higher priority. A v3v3 via dropped inside one lands
+    in ground copper, which pulls back from it: the via reaches no 3.3 V at
+    all. Five of the nineteen did exactly that until 28 September 2026, and
+    KiCad reported them as a 3.3 V net in five unconnected pieces."""
+    out = []
+    for m in re.finditer(r"\n\t\(zone\n", text):
+        blk = block_at(text, m.start() + 1)
+        if "(keepout" in blk or '(layer "In2.Cu")' not in blk:
+            continue
+        net = re.search(r'\(net "([^"]+)"\)', blk)
+        if not net or net.group(1) == VIA_TO_PLANE:
+            continue
+        outline = blk[blk.find("(polygon"):]
+        outline = outline[:outline.find("(filled_polygon")] \
+            if "(filled_polygon" in outline else outline
+        pts = [(float(a), float(b)) for a, b in
+               re.findall(r"\(xy (-?[\d.]+) (-?[\d.]+)\)", outline)]
+        if len(pts) >= 3:
+            out.append(pts)
+    return out
+
+
+def in_island(pt, islands, keep):
+    """Is `pt` inside an island, or within `keep` of one?"""
+    for poly in islands:
+        if pt_in_poly(pt, poly):
+            return True
+        edges = zip(poly, poly[1:] + poly[:1])
+        if min(pt_seg_gap(pt, a, b) for a, b in edges) < keep:
+            return True
+    return False
+
+
+def plane_vias(pads, keepouts, box, fixed_vias, islands=()):
     """One via per v3v3 pad, with a stub from the pad, searched for rather than
     written down. The rule is the same as the validator's: clear of every dome
     keepout, every foreign pad, every foreign track and the board edge, and so
     is the stub that reaches it. Nearest legal position wins, which keeps the
     stub short; a via on the pad itself would be shorter still and would need
     the fab to fill and cap it, so the search starts outside the pad."""
-    targets = [p for p in pads if p["net"] == VIA_TO_PLANE]
+    targets = [p for p in pads if p["net"] == VIA_TO_PLANE
+               and (p["ref"], p["pad"]) not in SHARES_PLANE_VIA]
     base = legs()
     placed, stubs, failed, tight = list(fixed_vias), [], [], []
 
@@ -795,11 +898,16 @@ def plane_vias(pads, keepouts, box, fixed_vias):
         best = None
         for margin in (MARGIN, 0.0):
             r = max(x1 - x0, y1 - y0) / 2 + VIA_DRILL / 2 + 0.02
-            while r < 6.0 and best is None:
+            # A pad inside one of the step 8.3b ground islands has no plane
+            # under it, so its via has to go out past the island's edge.
+            reach = 6.0 if not in_island((cx, cy), islands, 0.0) else 14.0
+            while r < reach and best is None:
                 for step in range(180):
                     a = math.radians(step * 2)
                     vx, vy = cx + r * math.cos(a), cy + r * math.sin(a)
                     if in_keepout((vx, vy), keepouts, VIA_D / 2 + margin, "via"):
+                        continue
+                    if in_island((vx, vy), islands, VIA_D / 2 + ISLAND_CLEAR):
                         continue
                     if box:
                         bx0, by0, bx1, by1 = box
@@ -933,12 +1041,13 @@ def main():
     keepouts = read_keepouts(text)
     box = board_box(text)
 
-    vias, stubs, failed, tight = plane_vias(pads, keepouts, box, VIAS)
+    vias, stubs, failed, tight = plane_vias(pads, keepouts, box, VIAS,
+                                            plane_islands(text))
     ROUTES.extend(stubs)
 
     problems = validate(pads, keepouts, vias, box)
     for pad in failed:
-        problems.append(f"{VIA_TO_PLANE}: no legal via position within 6 mm of "
+        problems.append(f"{VIA_TO_PLANE}: no legal via position near "
                         f"{pad['ref']} pad {pad['pad']}")
 
     nets = sorted({r["net"] for r in ROUTES})
@@ -978,7 +1087,9 @@ def main():
     # "every v5 is mine" would have this script delete them on its next run.
     # The net is what says whose it is: this script owns the nets in ROUTES
     # and nothing else, so a generated `gnd` via is somebody else's.
-    ours = {r["net"] for r in ROUTES} | {VIA_TO_PLANE}
+    # Except `gnd`: its one leg here (TP3) shares the net with stitch_zones.py
+    # and route_signals.py, so this claims only its own exact uuids on it.
+    ours = ({r["net"] for r in ROUTES} - {"gnd"}) | {VIA_TO_PLANE}
     for chunk in body:
         KNOWN.add(re.search(r'\(uuid "([0-9a-f-]+)"\)', chunk).group(1))
     for m in OURS.finditer(text):

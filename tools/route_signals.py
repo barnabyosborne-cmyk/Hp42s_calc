@@ -1043,6 +1043,9 @@ def main():
     new_vias += tail_vias
     for label, _g in stranded:
         failed.append(("gnd", f"{label} still has no way to the plane"))
+    new_segs, new_vias, merged = merge_vias(new_segs, new_vias, keep_vias)
+    if merged:
+        print(f"   {merged} via(s) merged into a neighbour of the same net")
 
     # --- the audit: real geometry, not the grid -------------------------------
     problems = audit(copper, new_segs, new_vias, edge, ko_geoms_t, ko_geoms_v)
@@ -1086,6 +1089,34 @@ def main():
     PCB.write_text(text[:end] + "\n" + "".join(body).rstrip("\n") + text[end:])
     print(f"wrote {PCB.relative_to(ROOT)}")
     return 0 if not failed else 1
+
+
+HOLE_GAP = 0.25          # board setup: minimum hole to hole
+
+
+def merge_vias(new_segs, new_vias, keep_vias):
+    """Drop every new via that sits on or beside another via of its net.
+
+    Each stranded ground pad is its own pseudo-net during negotiation, and
+    several of them would pick the same free cell for their via: KiCad found
+    eleven vias drilled on top of each other at (33.35, 137.25) and two more
+    closer than the 0.25 mm hole-to-hole rule (28 September 2026). A via too
+    close to one of its own net is replaced by a short B.Cu track into that
+    one, which keeps whatever it connected connected."""
+    kept = [(v["net"], v["at"], v["d"] / 2) for v in keep_vias]   # drill ~ d/2
+    out_v, extra, merged = [], [], 0
+    for n, v in new_vias:
+        near = [(math.dist(v, a), a) for n2, a, dr in kept
+                if n2 == n and math.dist(v, a) < dr / 2 + VIA_DRILL / 2 + HOLE_GAP]
+        if near:
+            d, a = min(near)
+            if d > 1e-6:
+                extra.append((n, "B.Cu", v, a, W))
+            merged += 1
+            continue
+        kept.append((n, v, VIA_DRILL))
+        out_v.append((n, v))
+    return new_segs + extra, out_v, merged
 
 
 def _our_uuids(text):

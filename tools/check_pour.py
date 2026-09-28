@@ -114,17 +114,53 @@ def islands(pads, segs, vias, edge, keepouts):
     return len(pieces), shapes, stranded
 
 
+def plane_misses(text, pads, vias, edge, keepouts):
+    """v3v3 vias that land on no In2.Cu 3.3 V copper.
+
+    The plane is the board minus the step 8.3b ground islands (which win on
+    priority), minus every other net's through via and pad grown by the zone
+    clearance, minus the rule areas that forbid pour. A plane via inside an
+    island is drilled through ground and reaches no 3.3 V at all; KiCad
+    found five like that on 28 September 2026. The F.Cu jumper vias in
+    route_power.VIAS are not plane vias and are left out."""
+    from shapely.geometry import Polygon
+    cut = [Polygon(p).buffer(ZONE_CLEAR) for p in rp.plane_islands(text)]
+    for v in vias:
+        if v["net"] != rp.VIA_TO_PLANE:
+            cut.append(Point(v["at"]).buffer(v["d"] / 2 + ZONE_CLEAR, quad_segs=8))
+    for p in pads:
+        if "*.Cu" in p["layers"] and p["net"] != rp.VIA_TO_PLANE:
+            cut.append(rs.pad_geom(p).buffer(ZONE_CLEAR))
+    for area in keepouts:
+        if not area[2] and not getattr(area, "pour_ok", False):
+            cut.append(Polygon(area[1]).buffer(0))
+    plane = edge.buffer(-EDGE).difference(unary_union(cut))
+    plane = plane.buffer(-MIN_THICK / 2).buffer(MIN_THICK / 2)
+    jumpers = {(x, y) for n, x, y in rp.VIAS if n == rp.VIA_TO_PLANE}
+    return [v["at"] for v in vias if v["net"] == rp.VIA_TO_PLANE
+            and tuple(v["at"]) not in jumpers
+            and not Point(v["at"]).buffer(v["d"] / 2).intersects(plane)]
+
+
 def main():
     text = rp.PCB.read_text()
     pads = rp.read_pads(text)
     segs, vias = rs.read_tracks(text)
     edge = rs.outline(text)
-    n, shapes, stranded = islands(pads, segs, vias, edge, rp.read_keepouts(text))
+    keepouts = rp.read_keepouts(text)
+    misses = plane_misses(text, pads, vias, edge, keepouts)
+    if misses:
+        print(f"{len(misses)} v3v3 via(s) reach no In2.Cu 3.3 V copper:")
+        for at in misses:
+            print(f"   {at}")
+    else:
+        print("every v3v3 plane via lands in the In2.Cu 3.3 V plane")
+    n, shapes, stranded = islands(pads, segs, vias, edge, keepouts)
     print(f"B.Cu pour predicted as {n} pieces; "
           f"{len(shapes)} gnd pads, tracks and vias on it")
     if not stranded:
         print("every gnd pad reaches the In1.Cu plane")
-        return 0
+        return 1 if misses else 0
     print(f"{len(stranded)} gnd pad(s) with no way to the plane:")
     for label, g in stranded:
         c = g.centroid
