@@ -292,9 +292,11 @@ ROUTES += [
          why="the branch into TP4, the bat test point"),
 
     dict(net="bat", layer="B.Cu",
-         path=[(52.070, 80.500), (32.500, 80.500)],
-         widths=[POWER_W],
-         why="west along the empty band at y 80.5 to the sys crossing"),
+         path=[(52.070, 80.500), (41.500, 80.500), (41.500, 83.000),
+               (35.000, 83.000), (35.000, 80.500), (32.500, 80.500)],
+         widths=[POWER_W] * 5,
+         why="west along the empty band at y 80.5 to the sys crossing, "
+             "ducking 2.5 mm south round mounting hole G at (38.25, 80)"),
 
     dict(net="bat", layer="F.Cu",
          path=[(32.500, 80.500), (29.900, 80.500)],
@@ -583,9 +585,18 @@ def read_keepouts(text):
         if len(pts) < 3:
             continue
         flags = ko.group(1)
-        out.append((name.group(1) if name else "unnamed rule area", pts,
-                    "(tracks allowed)" in flags, "(vias allowed)" in flags))
+        area = RuleArea((name.group(1) if name else "unnamed rule area", pts,
+                         "(tracks allowed)" in flags, "(vias allowed)" in flags))
+        area.pour_ok = "(copperpour allowed)" in flags
+        out.append(area)
     return out
+
+
+class RuleArea(tuple):
+    """(name, polygon, tracks_ok, vias_ok), unpacked as a 4-tuple everywhere,
+    plus .pour_ok: whether the ground pour may fill it. The case-post pads
+    forbid tracks and vias but keep their pour."""
+    pour_ok = False
 
 
 def in_keepout(polys_or_pt, keepouts, margin, what):

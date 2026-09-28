@@ -69,10 +69,12 @@ def islands(pads, segs, vias, edge, keepouts):
             gnd_shapes.append((f"gnd via {v['at']}", g, True))
         else:
             cut.append(g.buffer(ZONE_CLEAR, quad_segs=4))
-    for name, poly, tracks_ok, vias_ok in keepouts:
-        # Rule areas that forbid pour: every one on this board that forbids
-        # tracks (the dome keepouts forbid vias only).
-        if not tracks_ok:
+    for area in keepouts:
+        name, poly, tracks_ok, vias_ok = area
+        # Rule areas that forbid pour. The dome keepouts forbid vias only and
+        # the case-post pads keep their pour; every other one that forbids
+        # tracks forbids pour too.
+        if not tracks_ok and not getattr(area, "pour_ok", False):
             cut.append(Polygon(poly).buffer(0))
 
     pour = edge.buffer(-EDGE).difference(unary_union(cut))

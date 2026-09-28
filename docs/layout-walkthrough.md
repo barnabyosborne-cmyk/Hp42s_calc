@@ -1178,6 +1178,15 @@ the same way as the power routes: a first pass to read, change and re-run, not a
 finished layout. What it does not know about is length matching on USB, so look
 at `usb_dp` and `usb_dm` by eye.
 
+**Mounting holes (27 September 2026).** Five unplated holes, written by
+`tools/mounting.py` as Edge.Cuts circles with a copper-free rule area round
+each: A (4.5, 7.5), B (71.5, 7.5), C (6.0, 141.5) and D (70.0, 141.5) are M2
+and mirror about the case centreline (board x 38), level in pairs, so rubber
+feet in the rear case line up; G (38.25, 80.0) is an M1.6 in the four-key gap
+at the centre of the keypad. `bat` dips 2.5 mm south round G on B.Cu. They are
+board items, not footprints, so a netlist re-import leaves them alone. Run
+`route_power.py`, `stitch_zones.py` and `route_signals.py` after moving one.
+
 **9.3 — The panel's SPI** — `epd_sck`, `epd_mosi`, `epd_cs`, `epd_dc`,
 `epd_rst`, `epd_busy`. Keep them away from both switch nodes. They are the only
 fast signals on the board.

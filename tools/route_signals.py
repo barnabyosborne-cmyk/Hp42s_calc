@@ -943,8 +943,12 @@ def main():
     order = net_order(pads_by_net, nets)
 
     # Everything that stays: all pads, and every track and via we did not write.
-    keep_segs = [s for s in segs if s["net"] not in nets or s["uuid"] not in mine]
-    keep_vias = [v for v in vias if v["net"] not in nets or v["uuid"] not in mine]
+    # Our gnd copper (the ground tails) is ours too: the write strips it, so it
+    # must not stand in for the plane while routing, or the new layout leans
+    # on tails that are about to be deleted.
+    ours = set(nets) | {"gnd"}
+    keep_segs = [s for s in segs if s["net"] not in ours or s["uuid"] not in mine]
+    keep_vias = [v for v in vias if v["net"] not in ours or v["uuid"] not in mine]
 
     grid = Grid((0, 0, 76, 144))
     # Static blocks: the board edge and the rule areas.
@@ -1010,7 +1014,7 @@ def main():
     h = hashlib.sha1()
     h.update(strip_ours(text, set(nets) | {"gnd"}).encode())
     src = Path(__file__).read_text()
-    h.update(src[:src.index("# --- ground " + "tails")].encode())
+    h.update(src.encode())
     h.update((Path(__file__).parent / "astar.c").read_bytes())
     h.update(repr(order).encode())
     cache = Path(tempfile.gettempdir()) / f"hp42s-route-{h.hexdigest()[:16]}.pkl"
