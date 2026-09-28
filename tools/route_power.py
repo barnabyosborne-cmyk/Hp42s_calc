@@ -261,10 +261,11 @@ ROUTES += [
     # x 28; a rail straight down x 31.2 passes between every one of them and
     # its resistor, so two of the three could never be routed. Found by
     # route_signals.py on 27 September 2026. Going round costs about 20 mm of
-    # 0.5 mm copper, a few milliohms.
+    # 0.5 mm copper, a few milliohms. The south leg is at y 99.2, not 97,
+    # since R24 went in under R8 on 28 September 2026.
     dict(net="sys", layer="B.Cu",
-         path=[(31.200, 81.500), (26.800, 81.500), (26.800, 97.000),
-               (31.100, 97.000), (31.100, 91.400)],
+         path=[(31.200, 81.500), (26.800, 81.500), (26.800, 99.200),
+               (31.100, 99.200), (31.100, 91.400)],
          widths=[POWER_W, POWER_W, POWER_W, POWER_W],
          why="round the west and south of U3's CFG resistors to beneath U3"),
 

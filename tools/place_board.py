@@ -302,10 +302,10 @@ FIRST_PASS = {
     "L2":  (13.97, 71.12, "B", 0),
     "C16": (13.97, 65.405, "B", 0),   # 3V3 into L2
     "R14": (5.08, 70.485, "B", 0),    # gate pulldown, at Q1 pin 1
-    "R15": (5.08, 73.025, "B", 0),    # RESE, at Q1 pin 2
+    "R15": (4.445, 73.025, "B", 0),   # RESE, at Q1 pin 2; 0603 since 28 Sep, so 0.635 west to clear Q1
     "D1":  (20.32, 69.85, "B", 0),
     "C17": (20.32, 73.025, "B", 0),   # PREVGH reservoir, after D1
-    "C18": (8.255, 75.565, "B", 0),   # the pump capacitor
+    "C18": (8.255, 76.2, "B", 0),     # the pump capacitor; 0805 since 28 Sep, so 0.635 south
     "D2":  (6.35, 79.375, "B", 0),
     "D3":  (12.7, 79.375, "B", 0),
     "C19": (19.05, 79.375, "B", 0),   # PREVGL reservoir, after D3
@@ -362,6 +362,11 @@ FIRST_PASS = {
     "R9":  (28.575, 90.17, "B", 0),   # CFG1
     "R10": (28.575, 92.71, "B", 0),   # CFG2
     "R8":  (28.575, 95.25, "B", 0),   # CFG3
+    # R24 is the 1.2k in series with R8 that makes CFG3's 16.2k out of two
+    # JLC Basic parts (28 September 2026). Turned 180 so its pad 1, the
+    # cfg3_mid end, faces R8's pad 2. route_power.py's SYS loop runs 2.2 mm
+    # further south than it did to make room.
+    "R24": (28.575, 97.79, "B", 180), # CFG3, second half
 
     # -- BACK, Y 87..91, left: the fuel gauge --------------------------------
     # The one analogue part on the board, so it is kept away from both
