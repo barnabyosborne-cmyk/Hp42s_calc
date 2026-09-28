@@ -203,17 +203,21 @@ module Power:
     r_cfg3.p2 ~ gnd
 
     # CFG1 and CFG2 set VO(2) and the input current limit. We never select
-    # VO(2), but the pins still have to be defined, so: 1.15k puts VO(2) at
-    # its lowest setting and 8.25k sets the input current limit to
-    # unlimited, which is the setting that cannot surprise us whichever
-    # configuration the part reads. Datasheet table 7-2.
+    # VO(2), but the pins still have to be defined, so both are 0 ohm: that
+    # is table 7-2's first row, VO(2) = 1.8 V (its lowest) with the input
+    # current limit unlimited, which is the setting that cannot surprise us
+    # whichever configuration the part reads.
+    #
+    # They were 1.15k and 8.25k until 28 September 2026, which is the 3.6 V
+    # row, not the lowest one. 0 ohm is a JLC Basic part and those two E96
+    # values were not, so the change also saves two feeder fees.
     r_cfg1 = new Resistor
-    r_cfg1.value = "1.15k 1%"
+    r_cfg1.value = "0R"
     r_cfg1.p1 ~ reg.CFG1
     r_cfg1.p2 ~ gnd
 
     r_cfg2 = new Resistor
-    r_cfg2.value = "8.25k 1%"
+    r_cfg2.value = "0R"
     r_cfg2.p1 ~ reg.CFG2
     r_cfg2.p2 ~ gnd
 

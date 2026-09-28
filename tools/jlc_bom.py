@@ -49,7 +49,7 @@ PARTS = {
     "frontlight.u": ("TPS61165 LED driver", "TPS61165DBVR"),
     "frontlight.l_fl": ("22uH NR3015", "Taiyo Yuden NR3015T220M"),
 }
-DIODE = ("1N5819HW Schottky 40V 1A", "Diodes 1N5819HW-7-F")
+DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 
 # JLC's substitutes, 28 September 2026, from JLC's own parts search. The
 # design's part is kept in the source; these are what JLC can place.
@@ -74,7 +74,7 @@ LCSC = {
     "sw_boot": "C110293", "display.epd": "C3168917",
     "display.l_boost": "C83445", "display.q_boost": "C469327", "ls": "C113159",
     "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
-    "frontlight.l_fl": "C6364792", "diode": "C82544",
+    "frontlight.l_fl": "C6364792", "diode": "C8598",
 }
 # by Comment; Basic parts where JLC has one, else the best-stocked Extended
 PASSIVE_LCSC = {
@@ -85,9 +85,9 @@ PASSIVE_LCSC = {
     "4.7uF 10V* X7R/X5R": "C19666", "220nF 16V* X7R/X5R": "C16772",
     "5.1k 5%": "C25905", "18k 1%": "C25762", "750R 1%": "C25132",
     "10k 5%": "C25744", "100k 5%": "C25741", "16.2k 1%": "C49196904",
-    "1.15k 1%": "C5159680", "8.25k 1%": "C185389", "4.7k 5%": "C25900",
+    "4.7k 5%": "C25900",
     "1M 5%": "C26083", "2R2 1%": "C327251", "1k 5%": "C11702",
-    "22R 5%": "C25092", "10R 5%": "C25077",
+    "22R 5%": "C25092", "10R 5%": "C25077", "0R 5%": "C17168",
 }
 
 # values not given a voltage in the source get the * rating

@@ -379,10 +379,14 @@ component SchottkyDiode:
     # is the better class of part. Send me the datasheet for whichever PMEG
     # your supplier stocks in SOD-123 and I will check it and swap it in.
     #
+    # For assembly at JLCPCB this is the CJ B5819W (marked SL), their Basic
+    # part in the same SOD-123: 40 V, 1 A, 1 mA leakage at 40 V like the
+    # 1N5819HW, so the same argument holds. Either fits this land.
+    #
     # Pad 1 is the cathode.
     footprint = "Diode_SMD:D_SOD-123"
     designator_prefix = "D"
-    value = "1N5819HW"
+    value = "B5819W"
     signal cathode ~ pin 1
     signal anode ~ pin 2
 
