@@ -117,15 +117,16 @@ FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')
 #
 # U3's pads are 0.6 x 0.25 mm on a 0.5 mm pitch, so a 0.5 mm track would bridge
 # to the neighbour. Each leaves on a 0.25 mm neck until it is clear of the pad
-# field at x 34.27, then widens.
+# field at x 34.47, then widens. (The lands moved out 0.3 mm to TI's
+# drawing on 29 September 2026; see gen_ic_footprints.py.)
 ROUTES = [
     dict(net="lx1", layer="B.Cu",
-         path=[(34.000, 89.400), (34.600, 89.400), (37.300, 89.400), (38.300, 90.085)],
+         path=[(34.300, 89.400), (35.200, 89.400), (37.300, 89.400), (38.300, 90.085)],
          widths=[NECK_W, POWER_W, POWER_W],
          why="U3 pin 9 to L1 pad 1, the buck-boost's first switch node"),
 
     dict(net="lx2", layer="B.Cu",
-         path=[(34.000, 88.400), (34.600, 88.400), (37.300, 88.400), (38.300, 87.715)],
+         path=[(34.300, 88.400), (35.200, 88.400), (37.300, 88.400), (38.300, 87.715)],
          widths=[NECK_W, POWER_W, POWER_W],
          why="U3 pin 7 to L1 pad 2, the buck-boost's second switch node"),
 
@@ -280,12 +281,12 @@ ROUTES += [
          why="east beneath U3 and L1, in the gap under the dome row at y 86"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(32.170, 91.400), (32.170, 89.950)],
+         path=[(31.870, 91.400), (31.870, 89.950)],
          widths=[NECK_W],
          why="up into U3 pin 1"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(33.870, 91.400), (33.870, 89.950)],
+         path=[(34.170, 91.400), (34.170, 89.950)],
          widths=[NECK_W],
          why="up into U3 pin 10"),
 

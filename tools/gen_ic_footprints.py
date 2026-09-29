@@ -9,12 +9,15 @@ gen_dome_footprints.py: the numbers live here, in one place, next to the
 drawing they came from, rather than being clicked into a footprint editor
 where nobody can check them afterwards.
 
-TPS63900, DSK0010A -- WSON-10, TI drawing 4218903/C, "EXAMPLE BOARD LAYOUT":
+TPS63900, DSK0010A -- WSON-10, TI drawing 4218903/B, "EXAMPLE BOARD LAYOUT":
 
     8X (0.5)      pad pitch, five a side
     10X (0.6)     pad length, outward
     10X (0.25)    pad width
-    (2.3)         outer edge to outer edge across the two rows
+    (2.3)         centre to centre of the two pad columns: its extension
+                  lines sit on the pads' centrelines. Read until 29 September
+                  2026 as outer edge to outer edge, which put every signal
+                  land under the package's own thermal pad.
     (2) x (1.2)   thermal pad
     0.07 min      solder mask relief, non-solder-mask-defined (TI's preference)
 
@@ -45,7 +48,7 @@ def wson(name, descr, tags, pins, pitch, pad_l, pad_w, span, body, ep_w, ep_h):
     """A two-row leadless package. pins must be even; numbering runs down the
     left column then back up the right, which is what every DFN/WSON does."""
     per = pins // 2
-    x = (span - pad_l) / 2.0
+    x = span / 2.0            # span is centre to centre, as TI dimension it
     y0 = -(per - 1) * pitch / 2.0
 
     out = [
