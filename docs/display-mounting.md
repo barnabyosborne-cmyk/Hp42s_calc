@@ -82,10 +82,15 @@ eats 3.3 mm of tail. That leaves:
 ```
 
 Eleven millimetres of back leg, of which the last 4 mm sits inside the
-connector. **So the FPC connector goes on the back with its pad row about 7 mm in from
-the notched edge**, which is where the last 3 mm of flex lands. That is a firm
-constraint, not a preference: there is no slack to move it. The connector body
-can extend as far right as it likes.
+connector. **So the FPC connector goes on the back with its pad row about 5 mm in from
+the notched edge.** The connector body can extend as far right as it likes.
+
+**2 mm of slack, 29 September 2026.** The connector first sat where the flex
+ends pulled flat (back wall X 10.50), which gave the tail no give at all. It now
+sits 2.00 mm nearer the edge, back wall X 8.50, so the tail's last 2 mm is
+spare and forms a loose curve in the space under the board. That relieves the
+strain on the connector and on the fold, and absorbs case tolerance. At the
+tail's −0.3 mm tolerance there is still 1.7 mm of slack.
 
 A 1.05 mm radius on a 0.3 mm FPC is tight — about 3.5× thickness. It is
 normal practice for this class of part, but it is a fold you make **once**, on
@@ -222,16 +227,17 @@ on the board. See `docs/top-edge.md`.
 | Image centre | X 39.52 against a board centre of 38.00 |
 | Tail, unfolded | X −13.75 → 0.55, Y 23.90 → 36.40 |
 | Fold apex | X −0.50, which is 0.30 mm clear of the case wall |
-| Back leg ends | X 10.50 |
-| FPC connector | origin X 9.75, Y 30.15, 270°, on the back, mouth facing the left edge |
-| Connector body | X 7.50 → 10.50, courtyard X 5.80 → 12.50, Y 20.00 → 40.30 |
-| Solder pad row | X 6.85, pin 1 at Y 24.40, pin 24 at Y 35.90 |
+| Back leg ends | X 10.50 pulled flat; the connector takes it at X 8.50, leaving a 2.00 mm slack loop |
+| FPC connector | origin X 7.75, Y 30.15, 270°, on the back, mouth facing the left edge |
+| Connector body | X 5.50 → 8.50, courtyard X 3.80 → 10.50, Y 20.00 → 40.30 |
+| Solder pad row | X 4.85, pin 1 at Y 24.40, pin 24 at Y 35.90 |
 
 The connector is an Amphenol F32Q-1A7H1-11024. Its body is 3.00 mm deep, and
-the back wall of that body goes at X 10.50 — where the flex ends — so the flex
-bottoms out against it and its own 3.00 mm of exposed finger fills the body
-exactly. Wherever inside that body the contact point actually is, it is on
-copper. The solder pads stand 0.65 mm proud of the mouth and land at X 6.85.
+the back wall of that body goes at X 8.50, 2.00 mm short of where the flex
+would end pulled flat, so the flex bottoms out against it with 2 mm to spare
+and its own 3.00 mm of exposed finger fills the body exactly. Wherever inside
+that body the contact point actually is, it is on copper. The solder pads
+stand 0.65 mm proud of the mouth and land at X 4.85.
 
 **Corrected 23 September 2026.** The board file had this at 90° rather than
 270°, which is a single error that showed up twice: the mouth pointed right,
@@ -245,8 +251,9 @@ the board. The fold is about the board's left edge, a vertical axis, so it
 mirrors X and leaves Y alone. Pin 1 therefore arrives at Y 24.40 and pin 24 at
 Y 35.90, which is what 270° gives.
 
-The cost of turning it round is that the body now runs right, into the battery
-bay, as far as X 12.50. See below.
+The cost of turning it round is that the body runs right, towards the battery
+bay. Since the 2 mm move it stops at X 10.50 (courtyard), which gives the cell
+at X 14 more room than before. See below.
 
 There is still 3.63 mm of board to the right of the glass, so nothing on that
 side is tight.

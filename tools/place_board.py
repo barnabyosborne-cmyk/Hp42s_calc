@@ -257,8 +257,15 @@ FIRST_PASS = {
     # bottoms out against it: mouth at X 7.50, and the flex's own 3.00 mm of
     # exposed finger runs X 7.50..10.50, which is exactly the body. Wherever
     # inside that body the contact point actually is, it is on copper.
-    # X 9.75 is what puts the back wall there, and the solder pads, which
-    # stand 0.65 mm proud of the mouth, land at X 6.85.
+    # X 9.75 is what put the back wall there, with the solder pads, which
+    # stand 0.65 mm proud of the mouth, at X 6.85.
+    #
+    # 2 MM OF SLACK (Barnaby, 2026-09-29). A tail cut to end exactly at the
+    # back wall has no give: any case tolerance pulls on the connector. So
+    # J2 sits 2.00 mm further left, at X 7.75: back wall X 8.50, mouth
+    # X 5.50, pads X 4.85, and the 2 mm the tail no longer needs to reach
+    # becomes a loose curve in the space under the board. At the tail's
+    # -0.3 mm tolerance there is still 1.7 mm of slack.
     #
     # Y 30.15 is the tail's own centreline: the tail is centred on the
     # panel's 36.30 mm edge, 11.90 + 12.50 + 11.90, and the glass spans
@@ -277,7 +284,7 @@ FIRST_PASS = {
     # has to start at X 14 rather than the 10 the bay was drawn at. It has
     # the room -- 60 mm of cell in a 62 mm bay -- but it is a note for the
     # case model, and it is why BAY in check_placement.py now starts at 13.
-    "J2": (9.75, 30.15, "B", 270),
+    "J2": (7.75, 30.15, "B", 270),
 
     # -- BACK, Y 59.5..64: the panel's own rail capacitors -------------------
     # These six belong at J2's pins. They cannot get there: the battery bay
@@ -728,13 +735,13 @@ def main():
     # J2's X is the one number on the board that is set by a part's internal
     # geometry rather than by where it should sit, so it is worth saying out
     # loud when the part in the file is not the part the number was worked
-    # out for. 10.05 assumes the Amphenol F32Q's 2.90 mm pad offset; the
+    # out for. 7.75 assumes the Amphenol F32Q's 2.90 mm pad offset; the
     # Hirose FH12 it replaced had 1.85 and wanted 9.00.
     if "J2" in refs:
         lib = blocks[refs.index("J2")].split('"', 2)[1]
         if "F32Q" not in lib:
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         X 9.75 is worked out from the Amphenol F32Q's "
+                  "         X 7.75 is worked out from the Amphenol F32Q's "
                   "own depth, so the mouth\n"
                   "         has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"
