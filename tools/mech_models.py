@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Put the cell and the e-paper panel into the board's 3D view.
+"""Put the cell and the panel (the LS032 on this branch) into the board's 3D view.
 
     python3 tools/mech_models.py            # write the models and the board
     python3 tools/mech_models.py --check    # print where they go, write nothing
@@ -38,13 +38,20 @@ ANCHOR = "TP3"
 BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
-GLASS = (0.55, 72.37, 12.00, 48.30)          # X0, X1, Y0, Y1, board mm
-ACTIVE = (9.48, 69.57, 14.80, 45.50)
-ADHESIVE, GLASS_T = 0.1, 1.0
-TAIL_Y = (23.90, 36.40)
+# MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
+# tail to the left. Glass 76.00 x 47.02 x 0.705 at X 0.80..76.80 (0.8 over the
+# board's right edge; the case is 82 wide), Y 12.00..59.02. Active area
+# 68.072 x 42.672, centred 39.784 from the tail-end edge and on the glass's
+# height. Tail 9.47 wide on Y 35.51; Sharp's bend zone starts 0.8 beyond the
+# glass, so the half turn is centred on X 0.00 and its outside is at X -1.15.
+# Back leg ends 2.9 inside J2's mouth at X 4.50. (main: the e-paper's.)
+GLASS = (0.80, 76.80, 12.00, 59.02)          # X0, X1, Y0, Y1, board mm
+ACTIVE = (6.548, 74.620, 14.174, 56.846)
+ADHESIVE, GLASS_T = 0.1, 0.705
+TAIL_Y = (30.775, 40.245)
 TAIL_T = 0.30
-TAIL_END_X = 10.50                            # back leg ends here, in J2
-FOLD_APEX_X = -0.50                           # 0.30 clear of a 1.2 mm case wall
+TAIL_END_X = 7.40                             # back leg ends here, in J2
+FOLD_APEX_X = -1.15                           # 0.65 clear of an 82 mm case's 1.2 mm wall
 CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
 
 
@@ -147,6 +154,12 @@ def main():
               f"z {bb.zmin:6.2f}..{bb.zmax:6.2f}")
         if not args.check:
             asm.save(str(SHAPES / f"{name}.step"))
+    if not args.check:
+        # The same panel in the board's own frame, for the case model: origin
+        # at the board's top-left corner on its front face, X right, Y up
+        # (so board Y 35 is model Y -35), Z out of the front.
+        build((0.0, 0.0))["Mech_Panel"].save(
+            str(ROOT / "hardware" / "LS032B7DD02_on_board.step"))
     if args.check:
         print("--check: nothing written")
         return 0
