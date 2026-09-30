@@ -1102,6 +1102,11 @@ def main():
     if merged:
         print(f"   {merged} via(s) merged into a neighbour of the same net")
 
+    new_segs, new_vias, nudged = nudge_vias(copper, new_segs, new_vias, edge,
+                                            ko_geoms_t, ko_geoms_v)
+    if nudged:
+        print(f"   {nudged} via(s) nudged clear of a neighbour the grid missed")
+
     # --- the audit: real geometry, not the grid -------------------------------
     problems = audit(copper, new_segs, new_vias, edge, ko_geoms_t, ko_geoms_v,
                      apertures)
@@ -1148,6 +1153,65 @@ def main():
 
 
 HOLE_GAP = 0.25          # board setup: minimum hole to hole
+
+
+def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
+    """Move a new via that the grid let sit a hair under the clearance rule.
+
+    The 0.05 mm grid rounds, so now and then a via lands 0.01-0.02 mm short
+    of CLEAR from a foreign track (usb_dm on the MIP board, 30 September
+    2026). Rather than re-route, try spots up to 0.3 mm away, keep the first
+    where the via and a short track back to the old spot, on every layer
+    the via's own tracks arrive on, clear everything exactly."""
+    boundary = edge.exterior
+
+    def clear(g, layers, net):
+        for L in layers:
+            for n, other in copper.items[L]:
+                if n != net and g.distance(other) < CLEAR - 1e-6:
+                    return False
+        return True
+
+    out_v, extra, count = [], [], 0
+    for net, v in new_vias:
+        g = Point(v).buffer(VIA_D / 2, quad_segs=16)
+        if clear(g, LAYERS, net):
+            out_v.append((net, v))
+            continue
+        arrive = sorted({L for n, L, a, b, w in new_segs
+                         if n == net and (a == v or b == v)}) or ["B.Cu"]
+        best = None
+        for r in (0.02, 0.04, 0.06, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3):
+            for k in range(24):
+                t = 2 * math.pi * k / 24
+                q = (round(v[0] + r * math.cos(t), 4),
+                     round(v[1] + r * math.sin(t), 4))
+                gq = Point(q).buffer(VIA_D / 2, quad_segs=16)
+                link = LineString([v, q]).buffer(W / 2, quad_segs=16)
+                if (clear(gq, LAYERS, net) and clear(link, arrive, net)
+                        and gq.distance(boundary) >= EDGE
+                        and not any(gq.intersects(pg) for _n, pg in ko_v + ko_t)
+                        and not any(link.intersects(pg) for _n, pg in ko_t)):
+                    best = q
+                    break
+            if best:
+                break
+        if best is None:
+            out_v.append((net, v))      # the audit will say so
+            continue
+        count += 1
+        out_v.append((net, best))
+        # The copper the audit reads still has the via where it was.
+        for L in LAYERS:
+            copper.items[L] = [(n, o) for n, o in copper.items[L]
+                               if not (n == net and o.geom_type == "Polygon"
+                                       and abs(o.bounds[2] - o.bounds[0] - VIA_D) < 0.01
+                                       and o.centroid.distance(Point(v)) < 1e-6)]
+            copper.add(L, net, Point(best).buffer(VIA_D / 2, quad_segs=8))
+        for L in arrive:
+            extra.append((net, L, v, best, W))
+            copper.add(L, net, LineString([v, best]).buffer(W / 2, quad_segs=8))
+    return new_segs + extra, out_v, count
 
 
 def merge_vias(new_segs, new_vias, keep_vias):

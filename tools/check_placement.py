@@ -72,7 +72,8 @@ GRID_PASSIVE = 0.635
 # The two tact switches are named by whatever place_board.py resolved them to:
 # their designators shift whenever a part before them in the source is added or
 # removed, so naming them literally here goes stale silently. See BY_NET there.
-OFF_GRID = {"J2", "U5", "TP1", "TP2", "J1", "D1", "D2"}   # D4, D5 on main | set(pb.RESOLVED.values())
+# D1, D2 are D4, D5 on main
+OFF_GRID = {"J2", "U5", "TP1", "TP2", "J1", "D1", "D2"} | set(pb.RESOLVED.values())
 
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
 FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')
@@ -271,7 +272,12 @@ def main():
         if r in OFF_GRID or r not in pb.FIRST_PASS:
             continue
         g = GRID_PASSIVE if r[0] in "RCLDT" else GRID_IC
-        for v in (parts[r]["x"], parts[r]["y"]):
+        # The grid is the e-paper board's; on the MIP board everything below
+        # the panel sits variant.DROP lower, so take that back off first.
+        y = parts[r]["y"]
+        if y > variant.drop(variant.DROP_FROM) + 1e-9:
+            y -= variant.DROP
+        for v in (parts[r]["x"], y):
             if abs(v / g - round(v / g)) > 1e-6:
                 n += 1
                 print(f"  {r}: ({parts[r]['x']:g}, {parts[r]['y']:g}) "

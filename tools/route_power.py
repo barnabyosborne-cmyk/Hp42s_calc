@@ -234,6 +234,43 @@ ROUTES += [
          widths=[POWER_W, POWER_W],
          why="round the underside of C3's ground pad into C3, the SYS bypass"),
 
+    # MIP branch only: the panel's 5 V boost U6 runs off sys, a few mA. C3
+    # sits inside a loop of bat (x 24.5, y 70 and y 80.5), so the branch hops
+    # bat's y 70 run on F.Cu in the gap between the SW8 and SW9 dome keepouts,
+    # then goes west along y 68.3, between dome rows, taps south into C11 (the
+    # boost's input cap) and runs up into L2. U6's VIN is ball A1, beside A2 (gnd), so it
+    # leaves south at 0.15 mm, the net class minimum, until clear of A2.
+    dict(net="sys", layer="B.Cu",
+         path=[(27.625, 74.900), (25.800, 74.900), (25.800, 71.000)],
+         widths=[NECK_W, NECK_W],
+         why="out of C3 west and north, inside bat's loop"),
+
+    dict(net="sys", layer="F.Cu",
+         path=[(25.800, 71.000), (25.800, 68.900)],
+         widths=[NECK_W],
+         why="over bat's y 70 run, between the SW8 and SW9 keepouts"),
+
+    dict(net="sys", layer="B.Cu",
+         path=[(25.800, 68.900), (25.800, 68.300), (11.950, 68.300),
+               (11.950, 66.500)],
+         widths=[NECK_W, NECK_W, NECK_W],
+         why="west between dome rows, north of C11, up into L2"),
+
+    dict(net="sys", layer="B.Cu",
+         path=[(11.950, 68.300), (11.950, 69.200)],
+         widths=[NECK_W],
+         why="south into C11, the MIP boost's input cap"),
+
+    dict(net="sys", layer="B.Cu",
+         path=[(8.690, 66.440), (8.690, 66.950)],
+         widths=[0.15],
+         why="out of U6 ball A1, narrow beside its gnd ball A2"),
+
+    dict(net="sys", layer="B.Cu",
+         path=[(8.690, 66.950), (11.950, 66.950)],
+         widths=[NECK_W],
+         why="east under U6 to the C11-L2 run"),
+
     dict(net="sys", layer="B.Cu",
          path=[(31.100, 91.400), (56.000, 91.400)],
          widths=[POWER_W],
@@ -344,6 +381,8 @@ ROUTES += [
 
 # Vias placed by hand: the two ends of each F.Cu jumper above.
 VIAS = [
+    ("sys", 25.800, 71.000),     # MIP: the hop over bat, both ends
+    ("sys", 25.800, 68.900),
     ("vbus", 35.600, 7.400),
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),

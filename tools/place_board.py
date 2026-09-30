@@ -747,9 +747,9 @@ def main():
     # Hirose FH12 it replaced had 1.85 and wanted 9.00.
     if "J2" in refs:
         lib = blocks[refs.index("J2")].split('"', 2)[1]
-        if "F32Q" not in lib:
+        if "FH34SRJ" not in lib:     # "F32Q" on main
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         X 7.75 is worked out from the Amphenol F32Q's "
+                  "         X 8.20 is worked out from the Hirose FH34SRJ's "
                   "own depth, so the mouth\n"
                   "         has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"
