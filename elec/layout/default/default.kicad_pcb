@@ -471,7 +471,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW1"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "3f61638a-f86d-481b-b8a2-abd55d27528f")
 			(effects
@@ -626,7 +626,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW38"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "5317a644-4b42-485c-aeb4-0cd6bddec68c")
 			(effects
@@ -781,7 +781,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW5"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "90c237b7-6b54-4917-a367-b0b18069931e")
 			(effects
@@ -936,7 +936,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW3"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "6556dad4-e7a5-4414-979f-3452d98dc173")
 			(effects
@@ -1271,7 +1271,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW17"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "dc72fcce-264a-4e25-a3f1-c79f98c8e40d")
 			(effects
@@ -1426,7 +1426,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW31"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "a6f3ee07-c3c0-4a1e-be21-9d64bbbd2081")
 			(effects
@@ -1581,7 +1581,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW6"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "4eb40600-72ff-48b6-b4b8-e3f7dea0d910")
 			(effects
@@ -1736,7 +1736,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW25"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "66857b79-d0ae-4962-b4e4-0238ab3680fe")
 			(effects
@@ -1891,7 +1891,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW35"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "74a1ab1c-5adc-4f78-9141-371962ecd09a")
 			(effects
@@ -2046,7 +2046,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW23"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "f928416f-1cca-4e05-974a-f1f220662b2c")
 			(effects
@@ -2201,7 +2201,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW26"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "770ccde4-97f3-47e3-87b2-0384cda581b0")
 			(effects
@@ -2356,7 +2356,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW27"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "a29fc2ab-7121-4e91-9631-9c1ec21abd59")
 			(effects
@@ -2511,7 +2511,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW30"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "7e23c31e-d35e-407d-9cf6-a9d9b7836a42")
 			(effects
@@ -2666,7 +2666,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW11"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "6c5cc95f-8a23-46b0-af84-fe5c70d7506a")
 			(effects
@@ -2821,7 +2821,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW34"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "41257660-1d2c-4f0d-90f1-975bb6fbb338")
 			(effects
@@ -2976,7 +2976,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW2"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "358abc07-86ae-4650-bb95-0461bddbe30b")
 			(effects
@@ -3131,7 +3131,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW32"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "2f04c534-d204-4461-ab3d-047185d5ca0f")
 			(effects
@@ -3286,7 +3286,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW15"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "bae68a78-ee60-48e1-8e01-eb65efe03fad")
 			(effects
@@ -3441,7 +3441,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW36"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "d812601e-d095-4f0f-8a4e-b9fcd128523b")
 			(effects
@@ -3596,7 +3596,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW12"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "a3788777-985b-44ee-a524-b7f617190f40")
 			(effects
@@ -3751,7 +3751,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW10"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "c8607b22-1cd4-487b-b045-9e24cbc36d06")
 			(effects
@@ -3906,7 +3906,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW13"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "8d54918e-75ec-4c80-b305-ca6ef68e13f3")
 			(effects
@@ -4061,7 +4061,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW29"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "a18a42fd-bd0e-4cbb-9359-ff50a69970eb")
 			(effects
@@ -4216,7 +4216,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW22"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "dfb1a99e-99e0-4368-ac58-2b13701c7b82")
 			(effects
@@ -4371,7 +4371,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW9"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "0caf6390-a827-4fba-b44e-16b7837194cf")
 			(effects
@@ -4526,7 +4526,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW33"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "4e282b5f-4ed3-4dd8-8d72-6614fa42f1d7")
 			(effects
@@ -4681,7 +4681,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW16"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "4f3fccc2-6405-408c-af1e-73dfd47c3a62")
 			(effects
@@ -4836,7 +4836,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW37"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "363978cf-1fc1-400a-b3d0-86231e61be0f")
 			(effects
@@ -4991,7 +4991,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW7"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "0a6f0679-1206-4a73-a560-24f1037b3d6e")
 			(effects
@@ -5146,7 +5146,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW4"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "9cfaa2db-a2ae-40db-a189-ae9563368d09")
 			(effects
@@ -5301,7 +5301,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW14"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "e5815c53-43ee-4d26-9ccb-af8faa352bac")
 			(effects
@@ -5456,7 +5456,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW28"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "44d9a684-6c62-45f4-b0ea-830484f5091f")
 			(effects
@@ -5611,7 +5611,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW21"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "81444b4c-c076-4c98-8f22-cdfc52235c34")
 			(effects
@@ -5924,7 +5924,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW18"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "f2d20c73-a482-4ab4-a522-b87ed3a02ad0")
 			(effects
@@ -6079,7 +6079,7 @@
 		(descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW8"
-			(at 0 -6.071 0)
+			(at 0 -5.285 0)
 			(layer "F.SilkS")
 			(uuid "cce44401-ee6a-4733-93aa-8200fa2b9170")
 			(effects
@@ -6234,7 +6234,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW20"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "8581ea42-8577-4e58-9116-dc640d814818")
 			(effects
@@ -6389,7 +6389,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW19"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "6fd86586-0040-480b-898d-ec66a3412491")
 			(effects
@@ -6544,7 +6544,7 @@
 		(descr "Snaptron metal dome site -- 10 mm, 260 gf, 0.56 mm high -- numeric and operator keys. Snaptron F10260 or Keystone 5154TR. Ring 10.00 mm across the flats, centre pad 4.08 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 4.08 N1 5.0 T1 3.15 W1 1.55 S 1.1.")
 		(tags "snaptron dome tactile keypad")
 		(property "Reference" "SW24"
-			(at 0 -6.883 0)
+			(at -6.035 0 90)
 			(layer "F.SilkS")
 			(uuid "d4bae0cc-cf4b-4af3-8c49-c073800efb59")
 			(effects
