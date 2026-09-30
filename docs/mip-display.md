@@ -10,66 +10,130 @@ Barnaby's reasons: the LS032's active area is wider than the 2.66" e-paper's,
 closer to the original HP-42S display, and he accepts a taller board and case
 to get it.
 
-## What is known, and what is waiting on the datasheet
+## The panel, from Sharp's datasheet
 
-The datasheet could not be fetched from this environment (Sharp's site and
-the distributors are outside its network policy), so everything below marked
-**to confirm** is from memory and must be checked against it before any
-footprint or outline is drawn.
+Confirmed against Sharp's LS032B7DD02 specification (Barnaby's copy,
+30 September 2026). Page numbers are the PDF's.
 
-| | value | status |
+| | value | page |
 |---|---|---|
-| Type | reflective memory-in-pixel LCD, monochrome, 1 bit per pixel | known |
-| Resolution | 336 × 536 | to confirm |
-| Interface | 3-wire SPI (SCLK, SI, SCS), plus DISP and EXTCOMIN | to confirm |
-| Supply | VDD / VDDA, 3 V or 5 V class | **to confirm, it decides the power tree** |
-| Glass outline and active area | roughly 67 × 42 mm active, landscape | **to confirm** |
-| FPC | pitch, pin count, contact side, tail length | **to confirm** |
+| Type | reflective memory-in-pixel LCD, 1 bit, normally white | 15 |
+| Resolution | 336 (H) × 536 (V), native portrait, 0.127 mm pitch | 15 |
+| Active area | 42.672 × 68.072 mm | 15 |
+| Glass outline | 47.02 × 76.00 × 0.705 mm, 5.5 g max | 60 |
+| Active-area centre | 39.784 mm from the FPC-end glass edge | 60 |
+| Reflectivity | 14 % typical, 10 % minimum (e-paper is about 35-40 %) | 45 |
+| Viewing angle | 60° typical, all four directions, at CR ≥ 2 | 45 |
+| Interface | SCLK, SI, SCS (active **high**), DISP, EXTCOMIN, EXTMODE | 16 |
+| VDD, VDDA | **4.8-5.5 V**, 5.0 typical, VDD ≥ VDDA | 25 |
+| Logic inputs | VIH 2.7 V to VDD, so 3.3 V logic drives it directly | 25 |
+| EXTCOMIN | 1-10 Hz, edges under 50 ns; EXTMODE tied to VDD | 25 |
+| Power | hold 30 µW typical (330 max); 1 Hz update 250 µW typical | 26 |
+| Sequencing | on: VDD before or with VDDA; off: VDDA first; no floating inputs | 26 |
+
+FPC, pages 51-52 and 60: 10 pins at 0.5 mm, 9.47 mm wide, leaving the
+centre of a **short** (47.02 mm) edge, tail 13.63 ± 0.5 mm beyond the glass
+with a 3.5 mm stiffener. It bends to the rear only, at most three bends,
+between 0.8 and 6.0 mm from the glass edge, inner radius 0.45 mm minimum.
+
+| pin | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| | SCLK | SI | SCS | EXTCOMIN | DISP | VDDA | VDD | EXTMODE | VSS | VSSA |
+
+Sharp's recommended connectors are all stocked at JLC: **Hirose
+FH34SRJ-10S-0.5SH (C324723)**, the choice here, dual contact and 53k in
+stock; Molex 503480-1000 (C127355); Panasonic AYF531035 (C425133).
+
+## Width: the case wants to be 82 mm
+
+In landscape the glass is 76.00 mm wide and the FPC leaves one end of it.
+The fold beyond the glass is the 0.8 mm straight run, about 0.95 mm of bend
+and the 0.3 mm FPC, so about 2.05 mm. Fold apex to far glass edge is
+**78.1-78.25 mm**. The 80 mm case has 77.6 mm inside, which does not fit;
+**82 mm** does, with room for the 1.2 mm wall beside the fold that Barnaby
+already accepted.
+
+The board stays 76 mm wide, with the glass at X 0.8 to 76.8 and the tail
+wrapping the left edge to J2 on the back, as the e-paper's does. The active
+area then sits about 2.6 mm off the case centreline. That follows from the
+FPC being at one end and cannot be designed out; centre the window on the
+image, as on the e-paper (`docs/display-mounting.md`).
+
+## Height: board 155 mm, case 159 mm
+
+The glass is 47.02 mm tall against the e-paper's 36.30, 10.72 mm more.
+Everything from the display's lower edge down moves by **11.0 mm** as one
+block: keypad, domes, mounting holes F and G, the cell and the bottom
+chamfers. **Board 144 → 155 mm; case 148 → 159 mm.** The keypad geometry is
+untouched.
 
 ## What changes on the board
 
-1. **The e-paper booster goes.** Q1, L2, D1–D3 and the ±20 V capacitors exist
-   only to make the SSD1680's gate rails. A memory LCD needs none of that.
-2. **J2 becomes the LS032's FPC connector**, with its own fold and slack
-   worked out the way `docs/display-mounting.md` did for the e-paper tail.
-3. **EXTCOMIN.** The panel needs its common electrode toggled, typically at
-   about 1 Hz while static. That is one GPIO driven by the ESP32's RTC or LEDC
-   so it keeps running in light sleep. Its cost is a few microamps, which goes
-   into the battery estimate.
-4. **The board and case get taller.** How much is set by the glass outline;
-   the keyboard, its 12 mm row pitch and everything below it move down as one
-   block, so the keypad geometry is untouched.
-5. **The frontlight grows** (below).
+1. **The e-paper booster goes.** Q1, L2, D1-D3 and the ±20 V capacitors exist
+   only for the SSD1680's gate rails.
+2. **A 5 V rail arrives**: TI **TPS610997YFFR** (C2072359), a fixed 5 V
+   boost with 1.1 µA quiescent current in a 6-ball DSBGA, fed from SYS and
+   switched off with the panel. VDD and VDDA both come from it, VDDA through
+   a small RC so it follows VDD up and, with the boost's enable, can be
+   brought down first. (TPS61099DRVR, C2842395, is the adjustable WSON
+   fallback.)
+3. **J2 becomes the FH34SRJ-10S**, with the fold and slack worked out the way
+   `docs/display-mounting.md` did for the e-paper tail.
+4. **EXTCOMIN comes from an RTC**: Micro Crystal **RV-8263-C8** (C24955829)
+   on the existing I2C bus, crystal inside, 190 nA, with a push-pull CLKOUT
+   programmed to 1 Hz. It keeps toggling while the ESP32 is in deep sleep and
+   gives a proper clock, which the ESP32's own RTC does badly. The fallback
+   is an RTC GPIO driven by the ULP.
+5. **The board and case get taller** (above); the display area is re-placed
+   and the keypad block moves down.
+6. **The frontlight grows** (below).
 
-Everything else carries over: the ESP32-S3 module, the power chain, the
+Everything else carries over: the ESP32-S3 module, BQ25185, TPS63900, the
 gauge, the keypad and its scan, USB-C and the top-edge parts.
 
-## The frontlight: five LEDs
+## The frontlight: six LEDs
 
-A memory LCD is reflective, like e-paper, so it still needs the edge-lit
-guide in `docs/front-face.md`, and the same Dialight 599-2Q01-147F LEDs on a
-sliver under the guide's edge.
+A memory LCD is reflective, like e-paper, so it keeps the edge-lit guide in
+`docs/front-face.md` and the Dialight 599-2Q01-147F LEDs on the sliver.
 
-The e-paper design uses four LEDs on a 15 mm pitch across a 60 mm edge. On a
-guide about 67 mm wide, keeping the pitch at or under 15 mm needs **five**,
-at about 13.5 mm. The lit area also grows by about half (roughly 67 × 42
-against 60 × 31), so to keep the same brightness the string needs about half
-as much light again: five LEDs at about 24 mA instead of 20, or six at 20 mA.
-The power is the same either way, about 0.4 W while lit, so **five** is the
-recommendation: one fewer part and a tighter pitch than today. Five in series
-is about 17 V, well inside the TPS61165, whose open-LED protection is 37 V.
-Its set resistor goes from 10 Ω to 8.2 Ω for 24 mA.
+The lit area is 68 × 42.7 mm against 60 × 30.7, 1.57 times larger. The
+Dialight part's rated maximum is 20 mA, which the e-paper design already
+runs at, so the extra light has to come from more LEDs, not more current:
+**six at 20 mA**, about 11.3 mm apart. The string is about 20.4 V, well
+inside the TPS61165's 37 V open-LED limit, and the set resistor stays 10 Ω.
+(An earlier draft of this note said five at 24 mA; that would overdrive the
+LED.)
 
-This gets confirmed once the active area is known. MIP panels also reflect
-somewhat less light than e-paper, so the current may want trimming on the
-bench.
+The LS032 reflects about 14 % against e-paper's 35-40 %, so under the same
+light it looks darker, and the bench may call for seven or eight. The sliver
+is its own board, so that costs nothing on the main board.
+
+## Battery
+
+`tools/battery_life.py` with the panel's figures
+(`--set panel_sleep_uA=16 --set partial_s=0.03 --set full_s=0.03 --set
+panel_refresh_mA=1`): the 16 µA is the panel holding its image, the 5 V
+boost and the RTC together. Unlike e-paper, the MIP needs power to keep its
+picture, so "off" costs twice as much, while each keystroke costs half.
+
+| profile | e-paper | MIP |
+|---|---|---|
+| drawer | 30.0 months | 24.5 months |
+| light | 26.7 | 23.3 |
+| daily | 20.2 | 20.2 |
+| heavy | 14.1 | 16.5 |
+| exam day | 9.2 | 12.4 |
+
+If the display is blanked when switched off (DISP low, 5 V off), the drawer
+figure goes back to the e-paper's, at the cost of a blank screen when off.
 
 ## Firmware
 
 A new panel driver replaces `epd.c`: the MIP line-write command over SPI, and
 EXTCOMIN. It is much simpler and much faster. A full frame is 336 × 536 / 8 =
 22.5 KB and writes in tens of milliseconds, against the e-paper's 0.4 s
-partial refresh, so the per-keystroke delay goes away.
+partial refresh, so the per-keystroke delay goes away. The panel's lines run
+along its 42.67 mm side, so in landscape the framebuffer is written rotated.
 
 The HP-42S screen is 131 × 16 pixels. 536 / 131 is 4.09, so **Plus42 scales
 by exactly 4 across the width**: 524 pixels, leaving 6 either side. That
@@ -77,10 +141,10 @@ leaves plenty of height for Plus42's taller layouts.
 
 ## Order of work
 
-1. Get the datasheet and fill in the table above.
-2. Draw the panel's outline and FPC, and work out the fold and the new board
-   height.
-3. Rewrite `display.ato` without the booster, re-home J2, rebuild, re-import.
-4. Re-place the display area, move the keypad block down, lengthen the
-   frontlight sliver to five LEDs, reroute with the same tools.
-5. Firmware: the MIP driver and the ×4 Plus42 blitter, in `sim/host` first.
+1. ~~Get the datasheet and fill in the table above.~~ Done 30 September.
+2. Rewrite `display.ato` without the booster, with the FH34SRJ, the
+   TPS610997 and the RV-8263; rebuild; re-import.
+3. Extend the outline to 155 mm, re-place the display area, move the keypad
+   block down 11 mm, lengthen the frontlight sliver to six LEDs, reroute
+   with the same tools.
+4. Firmware: the MIP driver and the ×4 Plus42 blitter, in `sim/host` first.
