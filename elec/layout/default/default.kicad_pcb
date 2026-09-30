@@ -157,7 +157,7 @@
 		(descr "Resistor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R24"
-			(at 0 1.43 0)
+			(at 2.8 -0 0)
 			(layer "B.SilkS")
 			(uuid "42fad5b4-7897-481a-9e2d-12f46c2803cc")
 			(effects
@@ -1091,7 +1091,7 @@
 		(descr "SMD rectangular pad as test Point, square 3.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP3"
-			(at 0 -2.398 0)
+			(at 3.3 0 0)
 			(layer "F.SilkS")
 			(uuid "d88c8373-5181-4f59-8d6d-26b90f60f3ba")
 			(effects
@@ -7011,7 +7011,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP4"
-			(at 0 1.648 0)
+			(at -1.9 -1.6 0)
 			(layer "B.SilkS")
 			(uuid "5158338c-2266-42b8-a717-bc14e33f67cb")
 			(effects
@@ -7116,7 +7116,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C2"
-			(at 0 1.68 0)
+			(at -2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "56e16ad0-585f-4e7e-830b-a9fa47f8ca88")
 			(effects
@@ -7272,7 +7272,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP11"
-			(at 0 1.648 0)
+			(at -2.6 1.4 0)
 			(layer "B.SilkS")
 			(uuid "60bce211-36b8-4228-8984-5700161a5a3e")
 			(effects
@@ -8239,7 +8239,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP5"
-			(at 0 1.648 0)
+			(at 2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "0865cb51-9f27-45d2-9f9f-b76358c194c0")
 			(effects
@@ -8344,7 +8344,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C8"
-			(at 0 1.68 0)
+			(at -2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "3c69e15e-761c-43a3-b40b-67b17658326e")
 			(effects
@@ -8500,7 +8500,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C16"
-			(at 0 1.43 0)
+			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "47d6eb32-98d0-40e4-84f0-c6e535847383")
 			(effects
@@ -9919,7 +9919,7 @@
 		(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 		(tags "capacitor")
 		(property "Reference" "C18"
-			(at 0 1.68 180)
+			(at 3 0 180)
 			(layer "B.SilkS")
 			(uuid "b16e1b97-e25c-4601-a89d-85c0da5dbfa9")
 			(effects
@@ -10590,7 +10590,7 @@
 		(descr "L_Coilcraft_XxL4020 https://www.coilcraft.com/pdfs/xfl4020.pdf")
 		(tags "L Coilcraft XxL4020")
 		(property "Reference" "L1"
-			(at 0 3 0)
+			(at 2.4 -0 0)
 			(layer "B.SilkS")
 			(uuid "77c178a3-e5c5-4c43-9f90-88796061bd88")
 			(effects
@@ -12334,7 +12334,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C12"
-			(at 0 1.43 0)
+			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "896eedb9-adf7-4f32-8428-b6a377115ad8")
 			(effects
@@ -12958,7 +12958,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C11"
-			(at 0 1.43 0)
+			(at 0 -1.3 0)
 			(layer "B.SilkS")
 			(uuid "632ecd00-664f-48df-bacf-69d9c4287b44")
 			(effects
@@ -13867,7 +13867,7 @@
 		(descr "Vishay VSMB2943SLX01, 940 nm side-looking IR emitter, 2.3x2.55x2.3 mm. Pads per the IPC 7351 solder pad proposal in Vishay document 83479 rev 1.2. Lens faces -y; optical axis sits 1.2 mm above the board face the part is soldered to. Pad 1 = cathode.")
 		(tags "LED IR 940nm side-view sidelooker VSMB2943SLX01")
 		(property "Reference" "D4"
-			(at 0 -2.49 0)
+			(at -0 0 0)
 			(layer "B.SilkS")
 			(uuid "98489eae-4cf7-49f9-adf4-476156df758c")
 			(effects
@@ -15044,7 +15044,7 @@
 		(descr "SOD-123")
 		(tags "SOD-123")
 		(property "Reference" "D1"
-			(at 0 2 0)
+			(at 0 0 0)
 			(layer "B.SilkS")
 			(uuid "7f15abc7-9c8a-4b7e-82e7-cfabe37172d3")
 			(effects
@@ -15485,7 +15485,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP6"
-			(at 0 1.648 0)
+			(at -1.9 1.6 0)
 			(layer "B.SilkS")
 			(uuid "c5d83f07-062f-4091-b4ac-c29f03b65b91")
 			(effects
@@ -16245,7 +16245,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP7"
-			(at 0 1.648 0)
+			(at 2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "81ba7b3e-3384-4e2b-bf52-453b8fb5fce6")
 			(effects
@@ -16662,7 +16662,7 @@
 		(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "resistor")
 		(property "Reference" "R8"
-			(at 0 1.17 0)
+			(at -2.5 0 0)
 			(layer "B.SilkS")
 			(uuid "f018cba7-c619-4a39-8564-ad41cac46ec0")
 			(effects
@@ -17130,7 +17130,7 @@
 		(descr "TDFN, 8 Pin (https://pdfserv.maximintegrated.com/package_dwgs/21-0168.PDF)")
 		(tags "TDFN NoLead")
 		(property "Reference" "U4"
-			(at 0 1.95 0)
+			(at -2.5 -0.5 0)
 			(layer "B.SilkS")
 			(uuid "9e682878-d025-4977-a910-1d694fd4a578")
 			(effects
@@ -17763,7 +17763,7 @@
 		(descr "SOT, 3 Pin (https://home.jeita.or.jp/tsc/std-pdf/ED-7500A.pdf#page=148)")
 		(tags "SOT TO_SOT_SMD SC-70 SOT-323")
 		(property "Reference" "Q1"
-			(at 0 1.8 0)
+			(at -1.9 -1.6 0)
 			(layer "B.SilkS")
 			(uuid "faf69ae0-f22c-42ce-96af-cb8b7fcf39dc")
 			(effects
@@ -18539,7 +18539,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP10"
-			(at 0 1.648 0)
+			(at 3 0 0)
 			(layer "B.SilkS")
 			(uuid "8f8e90ac-2f7e-44c3-bb9d-f6a173708f8e")
 			(effects
@@ -18644,7 +18644,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C10"
-			(at 0 1.43 0)
+			(at 0 -1.3 0)
 			(layer "B.SilkS")
 			(uuid "f5668953-e663-44ff-9b42-98d342e9d5ca")
 			(effects
@@ -19157,7 +19157,7 @@
 		(descr "Capacitor SMD 0603 (1608 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 		(tags "capacitor")
 		(property "Reference" "C15"
-			(at 0 1.43 0)
+			(at 2.8 0 0)
 			(layer "B.SilkS")
 			(uuid "a93f72c6-d182-4422-90aa-5c5ebebc550e")
 			(effects
@@ -19313,7 +19313,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP8"
-			(at 0 1.648 0)
+			(at 2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "1e685dfd-e7b6-4f16-8d2d-b09126d49127")
 			(effects
@@ -20419,7 +20419,7 @@
 		(descr "Lite-On LTST-S326KGJRKT side-looking red + yellow-green LED, common anode, 3.0x2.0x1.0 mm. Pads per section 6.2 of Lite-On spec DS22-2000-287. Lens faces -y. Pad 2 = common anode, pad 3 = red, pad 1 = green.")
 		(tags "LED bicolor side-view right-angle Lite-On LTST-S326")
 		(property "Reference" "D5"
-			(at 0 -2.6 0)
+			(at 2.9 -0 0)
 			(layer "B.SilkS")
 			(uuid "a753edb3-5fe2-405e-aa36-7e0ffde000cb")
 			(effects
@@ -20726,7 +20726,7 @@
 		(descr "Texas DSQ0010A WSON, 10 Pin (https://www.ti.com/lit/pdf/mpds335b)")
 		(tags "Texas WSON NoLead")
 		(property "Reference" "U2"
-			(at 0 1.95 0)
+			(at 0 -2 0)
 			(layer "B.SilkS")
 			(uuid "a891eb11-a907-4f5d-972c-cf6d8120b67e")
 			(effects
@@ -21093,7 +21093,7 @@
 		(descr "SMD pad as test Point, diameter 1.5mm")
 		(tags "test point SMD pad")
 		(property "Reference" "TP9"
-			(at 0 1.648 0)
+			(at 2.6 0 0)
 			(layer "B.SilkS")
 			(uuid "767285ca-66e9-4d4d-8678-77e9c765e00f")
 			(effects
@@ -22105,7 +22105,7 @@
 		(descr "TI DQA0010A, USON-10 2.5x1.0mm, 0.5mm pitch. From TI drawing 4220328/A example board layout. Pins 3 and 8, the grounds, get the wider 0.4mm pads TI draws for them. Used by TPD4E05U06.")
 		(tags "USON DFN TPD4E05U06 DQA0010A ESD")
 		(property "Reference" "U1"
-			(at 0 1.6 0)
+			(at 0.2 1.9 0)
 			(layer "B.SilkS")
 			(uuid "7883696f-fa63-4dba-a617-259ec713f943")
 			(effects
