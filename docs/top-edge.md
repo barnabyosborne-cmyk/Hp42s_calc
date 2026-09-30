@@ -330,3 +330,21 @@ Two numbers for the case:
   a 2.5 mm window centred on x = 25.33 clears the beam without vignetting the
   +/- 25 degrees — but the wall has to be relieved for the dome rather than
   merely windowed.
+
+## Chamfered corners (30 September 2026)
+
+Barnaby asked for 45° chamfers so the board clears the case's inside fillets:
+**2 mm on the two top corners, 4 mm on the two bottom corners.** The outline is
+now (2,0)–(74,0)–(76,2)–(76,140)–(72,144)–(4,144)–(0,140)–(0,2), with the FPC
+notch on the left edge unchanged.
+
+Only RESET (SW39) comes near a chamfer. Its right-hand mounting pad is 0.44 mm
+from the top-right chamfer, inside the board's 0.25 mm copper-to-edge rule with
+room to spare, and its courtyard just touches the cut line. Its body (fab
+outline, X 69.06–73.56) stays clear of the cut, which starts at X 74. If the
+case needs more room in that corner, the right-hand chain above can close its
+5.00 mm gaps a little.
+
+The bottom chamfers pass 2.5 mm from the SW33 and SW37 domes and about 2 mm
+from mounting holes C and D. Nothing else on the board is within 3 mm of any
+chamfer.
