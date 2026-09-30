@@ -4,7 +4,7 @@
   (layer "F.Cu")
   (descr "Snaptron metal dome site -- 8.5 mm, 210/280 gf, 0.48 mm high -- function rows and ENTER. Snaptron F08210 or Keystone 5134TR. Ring 8.50 mm across the flats, centre pad 3.48 mm, tab 1.55 mm out of the +x side. From Snaptron pad table P1 3.48 N1 4.25 T1 2.77 W1 1.55 S 0.92.")
   (tags "snaptron dome tactile keypad")
-  (attr smd exclude_from_pos_files)
+  (attr smd exclude_from_pos_files allow_soldermask_bridges)
   (fp_text reference "SW**" (at 0 -6.071) (layer "F.SilkS")
     (effects (font (size 1 1) (thickness 0.15))))
   (fp_text value "Dome_4Leg_8.5mm" (at 0 6.071) (layer "F.Fab")

@@ -77,6 +77,8 @@ CLEAR = 0.2
 EDGE = 0.5
 VIA_D, VIA_DRILL = 0.6, 0.3
 SLACK = 0.01             # grid rasterisation margin, on top of the rule
+MASK_GAP = 0.05          # foreign F.Cu copper stays this far outside a dome's
+                         # mask aperture (see mask_apertures)
 LAYERS = ("B.Cu", "F.Cu")
 
 MATRIX = re.compile(r"^(row|col)\d$")
@@ -214,6 +216,16 @@ class Blocks:
         js, is_, m = r
         self.count[layer][js, is_] += m
         self.own.setdefault(net, []).append((layer, js, is_, m))
+
+    def add_shared(self, layer, nets, geom):
+        """One block that every net in `nets` may cross, and no other net."""
+        r = self.g.cells(geom.buffer(self.grow, quad_segs=4))
+        if r is None:
+            return
+        js, is_, m = r
+        self.count[layer][js, is_] += m
+        for net in nets:
+            self.own.setdefault(net, []).append((layer, js, is_, m))
 
     def blocked(self, layer, net):
         b = self.count[layer].copy()
@@ -433,6 +445,39 @@ def net_order(pads_by_net, nets):
     rows = sorted((n for n in nets if n.startswith("row")), key=hpwl)
     cols = sorted((n for n in nets if n.startswith("col")), key=hpwl)
     return first + plain + rows + cols
+
+
+def mask_apertures(text, pads):
+    """Every dome's F.Mask-only aperture, with the nets of its own pads.
+
+    The aperture is not copper, so it is not in `pads`, but any copper of
+    another net inside it is bare metal beside the dome: KiCad reports it as a
+    solder_mask_bridge, and a bare row track next to a column ring is one
+    stray contact away from a phantom key. Found on 30 September 2026, when
+    row0 cut 0.12 mm into the corners of SW25's and SW30's apertures.
+    """
+    nets = {}
+    for p in pads:
+        if p["net"] and "F.Cu" in p["layers"]:
+            nets.setdefault(p["ref"], set()).add(p["net"])
+    out = []
+    for m in re.finditer(r'\n\t\(footprint "', text):
+        blk = rp.block_at(text, m.start() + 1)
+        ref = rp.REF_RE.search(blk).group(1)
+        at = rp.FP_AT.search(blk)
+        fx, fy = float(at.group(1)), float(at.group(2))
+        fr = float(at.group(3)) if at.group(3).strip() else 0.0
+        for pm in re.finditer(r'\n\t\t\(pad "', blk):
+            pad = rp.block_at(blk, pm.start() + 2)
+            if '(layers "F.Mask")' not in pad:
+                continue
+            pat = re.search(r'\(at (-?[\d.]+) (-?[\d.]+)(?: (-?[\d.]+))?\)', pad)
+            rx, ry = rp.rot(float(pat.group(1)), float(pat.group(2)), fr)
+            polys = rp.pad_shapes(pad, fx + rx, fy + ry,
+                                  float(pat.group(3) or 0.0))
+            g = unary_union([Polygon(q).buffer(0) for q in polys])
+            out.append((ref, nets.get(ref, set()), g))
+    return out
 
 
 def pad_geom(p):
@@ -996,6 +1041,12 @@ def main():
         g = pad_geom(p)
         for L in pad_layers(p):
             add_fixed(L, p["net"] or f"~{p['ref']}.{p['pad']}", g)
+    # The dome apertures block tracks of every net but the dome's own. trackB
+    # grows everything by W/2 + CLEAR; shrinking the aperture by CLEAR - MASK_GAP
+    # first makes that W/2 + MASK_GAP. Vias are kept out by the dome keepouts.
+    apertures = mask_apertures(text, pads)
+    for _ref, own_nets, g in apertures:
+        trackB.add_shared("F.Cu", own_nets, g.buffer(MASK_GAP - CLEAR))
     for s_ in keep_segs:
         if s_["layer"] in LAYERS:
             add_fixed(s_["layer"], s_["net"],
@@ -1048,7 +1099,8 @@ def main():
         print(f"   {merged} via(s) merged into a neighbour of the same net")
 
     # --- the audit: real geometry, not the grid -------------------------------
-    problems = audit(copper, new_segs, new_vias, edge, ko_geoms_t, ko_geoms_v)
+    problems = audit(copper, new_segs, new_vias, edge, ko_geoms_t, ko_geoms_v,
+                     apertures)
 
     print(f"\n{len(routed)} nets routed, {len(failed)} failed, "
           f"{len(new_segs)} segments, {len(new_vias)} vias, "
@@ -1209,8 +1261,15 @@ def escape(grid, copper, p, net, openT):
     return set(), None
 
 
-def audit(copper, new_segs, new_vias, edge, ko_t, ko_v):
+def audit(copper, new_segs, new_vias, edge, ko_t, ko_v, apertures=()):
     probs = []
+    for net, L, a, b, w in new_segs:
+        if L != "F.Cu":
+            continue
+        g = LineString([a, b]).buffer(w / 2, quad_segs=16)
+        for ref, own_nets, ap in apertures:
+            if net not in own_nets and g.distance(ap) < MASK_GAP - 1e-6:
+                probs.append(f"{net} {L} {a}-{b}: in {ref}'s mask aperture")
     idx = {}
     for L in LAYERS:
         items = copper.items[L]

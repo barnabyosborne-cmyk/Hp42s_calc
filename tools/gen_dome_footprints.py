@@ -190,7 +190,7 @@ def footprint(name, dome_dia, p1, n1, t1, w1, s, foot_dia, note):
       f'the flats, centre pad {p1:.2f} mm, tab {w1:.2f} mm out of the +x side. '
       f'From Snaptron pad table P1 {p1} N1 {n1} T1 {t1} W1 {w1} S {s}.")')
     a('  (tags "snaptron dome tactile keypad")')
-    a('  (attr smd exclude_from_pos_files)')
+    a('  (attr smd exclude_from_pos_files allow_soldermask_bridges)')
     a(f'  (fp_text reference "SW**" (at 0 {-label_y:.3f}) (layer "F.SilkS")')
     a('    (effects (font (size 1 1) (thickness 0.15))))')
     a(f'  (fp_text value "{name}" (at 0 {label_y:.3f}) (layer "F.Fab")')
