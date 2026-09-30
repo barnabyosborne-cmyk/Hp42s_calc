@@ -68,6 +68,9 @@ import sys
 import uuid
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from variant import drop, drop_pt    # noqa: E402  the MIP branch's taller board
+
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec/layout/default/default.kicad_pcb"
 
@@ -393,6 +396,12 @@ VIAS = [
     ("v3v3", 13.195, 66.700),
     ("gnd", 3.810, 55.600),
 ]
+
+# The MIP branch's board is taller below the panel; see variant.py. A no-op on
+# the e-paper board.
+for _r in ROUTES:
+    _r["path"] = [drop_pt(p) for p in _r["path"]]
+VIAS = [(n, x, drop(y)) for n, x, y in VIAS]
 
 # Every v3v3 pad gets a stub to a via that drops into the In2.Cu plane. The
 # buck-boost's own output pin is the source, so it gets one too; the plane does

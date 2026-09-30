@@ -46,6 +46,9 @@ import re
 import sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).parent))
+from variant import drop    # noqa: E402  the MIP branch's taller board
+
 PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kicad_pcb"
 
 CASE_H = 148.0
@@ -76,7 +79,7 @@ for _row, _refs in enumerate([
 
 
 def to_board(x_case, y_case):
-    return x_case - INSET, (CASE_H - y_case) - INSET
+    return x_case - INSET, drop((CASE_H - y_case) - INSET)
 
 
 # --- everything, in board coordinates --------------------------------------
@@ -699,6 +702,7 @@ def main():
             x, y = TARGETS[ref]
         elif ref in FIRST_PASS:
             x, y, _layer, r = FIRST_PASS[ref]
+            y = drop(y)
             rot = f" {r})" if r else ")"
             # A mirror reverses the rotation the part is coming FROM, so the
             # delta is r + was going over and r - was staying put. See flip().
