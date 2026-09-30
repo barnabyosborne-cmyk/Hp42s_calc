@@ -34,10 +34,11 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import place_board as pb
+import variant                      # noqa: E402
 
 PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kicad_pcb"
 
-BOARD_W, BOARD_H = 76.0, 144.0
+BOARD_W, BOARD_H = variant.BOARD_W, variant.BOARD_H
 GAP = 1.0                 # between courtyards, same side
 EDGE = 0.5                # courtyard to board outline
 BAY = (14.0, 13.0, 69.0, 58.0)       # back only: the cell, 6 x 45 x 55 mm.
@@ -52,8 +53,9 @@ BAY = (14.0, 13.0, 69.0, 58.0)       # back only: the cell, 6 x 45 x 55 mm.
                                      # same 1600 mAh as 50 x 60 at 5 mm, and
                                      # the Z budget has 2 mm spare for it.
                                      # docs/top-edge.md has the arithmetic.
-GLASS = (12.0, 48.3)                  # front only, full width
-KEYS_TOP = 57.0                       # front only, below this the domes live
+GLASS = variant.GLASS_Y               # front only, full width
+KEYS_TOP = variant.drop(57.0)         # front only, below this the domes live
+BAY = BAY[:3] + (variant.drop(BAY[3]),)   # taller on the MIP board
 # The ESP32 module's antenna keepout is worked out from the module's own
 # courtyard in the board file, not typed in here: it is the wing of that
 # courtyard that sticks out past the module body, and it moves whenever the

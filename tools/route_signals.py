@@ -65,6 +65,8 @@ from shapely.ops import unary_union
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import route_power as rp            # noqa: E402  the board reader lives there
+import variant                      # noqa: E402  the MIP branch's taller board
+from variant import drop            # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec/layout/default/default.kicad_pcb"
@@ -85,6 +87,7 @@ MATRIX = re.compile(r"^(row|col)\d$")
 SWITCHERS = [(0.5, 61.0, 24.0, 82.0),      # step 8.3b's three rectangles
              (57.5, 59.0, 74.0, 72.0),
              (30.0, 85.5, 42.0, 95.0)]
+SWITCHERS = [(x0, drop(y0), x1, drop(y1)) for x0, y0, x1, y1 in SWITCHERS]
 
 SKIP = {"gnd"}
 
@@ -995,7 +998,7 @@ def main():
     keep_segs = [s for s in segs if s["net"] not in ours or s["uuid"] not in mine]
     keep_vias = [v for v in vias if v["net"] not in ours or v["uuid"] not in mine]
 
-    grid = Grid((0, 0, 76, 144))
+    grid = Grid((0, 0, variant.BOARD_W, variant.BOARD_H))
     # Static blocks: the board edge and the rule areas.
     inner_t = edge.buffer(-(W / 2 + EDGE + SLACK))
     inner_v = edge.buffer(-(VIA_D / 2 + EDGE + SLACK))

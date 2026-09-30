@@ -29,6 +29,9 @@ import sys
 import uuid
 from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from variant import drop    # noqa: E402  the MIP branch's taller board
+
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec" / "layout" / "default" / "default.kicad_pcb"
 NS = uuid.UUID("5c1e4a9e-8d37-4f0b-9a55-2b1d0a7c6e42")
@@ -48,6 +51,7 @@ HOLES = {
     "D": (70.0, 141.5, 2.2, 4.5),    # bottom right, the tightest corner
     "G": (38.25, 80.0, 1.7, 4.0),    # centre of the keypad, where four keys meet
 }
+HOLES = {k: (x, drop(y), d, keep) for k, (x, y, d, keep) in HOLES.items()}
 POSTS = {}
 POST_D = 4.0
 
