@@ -190,9 +190,9 @@ FIRST_PASS = {
     # the status LED, so everything that blinks or gets pressed is in the
     # right-hand half and the IR window is on its own. That is Barnaby's
     # arrangement, not a derived one.
-    "D4":   (25.33, 0.900, "B", 180),  # IR emitter
+    "D1":   (25.33, 0.900, "B", 180),  # IR emitter (D4 on main)
     "J1":   (38.00, 2.475, "B", 0),    # USB-C, on the board's centreline
-    "D5":   (50.57, 1.050, "B", 180),  # status LED
+    "D2":   (50.57, 1.050, "B", 180),  # status LED (D5 on main)
     # The two tact switches are NOT here. Their designators move, so they are
     # resolved by net below -- see BY_NET.
 
@@ -228,7 +228,7 @@ FIRST_PASS = {
     "R2":  (34.29, 10.16, "B", 0),
     "C1":  (42.545, 10.16, "B", 0),
     # The IR emitter's driver, behind D4.
-    "Q2":  (25.4, 8.89, "B", 0),
+    "Q1":  (25.4, 8.89, "B", 0),     # Q2 on main
     "R17": (24.13, 4.445, "B", 0),
     "R18": (20.955, 8.89, "B", 0),
     # The status LED's two ballast resistors, behind D5.
@@ -287,49 +287,53 @@ FIRST_PASS = {
     # has to start at X 14 rather than the 10 the bay was drawn at. It has
     # the room -- 60 mm of cell in a 62 mm bay -- but it is a note for the
     # case model, and it is why BAY in check_placement.py now starts at 13.
-    "J2": (7.75, 30.15, "B", 270),
+    # THE MIP BRANCH'S J2 is the Hirose FH34SRJ-10S, and everything above
+    # about the F32Q is the e-paper's. The same reasoning, redone for the
+    # LS032B7DD02 (docs/mip-display.md):
+    #
+    #   At 90 degrees on the back its mouth faces -X and its pad 1 is the
+    #   low-Y end, which is where the panel's pin 1 arrives (parts.ato,
+    #   MIPConnector).
+    #   The tail is 13.63 beyond the glass. 0.8 straight, then a half turn of
+    #   about 1.1 mm radius round the left edge, 3.5 mm of flex, leaves about
+    #   9.4 mm on the back; the stiffener seats about 2.9 mm inside the
+    #   mouth. Mouth at X 4.50, with 2 mm left over as the same slack loop
+    #   the e-paper tail has (1.5 mm at the -0.5 tolerance). The footprint's
+    #   front face is 3.70 from its pad row, so the pads are at X 8.20.
+    #   Y 35.51 is the glass's centre, 12.00 + 47.02 / 2, and the tail is
+    #   centred on it.
+    "J2": (8.2, 35.51, "B", 90),
 
-    # -- BACK, Y 59.5..64: the panel's own rail capacitors -------------------
-    # These six belong at J2's pins. They cannot get there: the battery bay
-    # is in the way and nothing goes under a pouch cell. So they sit in the
-    # first two rows below the bay, directly under the connector, which is
-    # the closest the geometry allows. C10 v3v3, C11 VDD, C12 VSH1,
-    # C13 VSH2, C14 VSL, C15 VCOM.
-    "C10": (3.175, 60.325, "B", 0),
-    "C11": (7.62, 60.325, "B", 0),
-    "C12": (12.065, 60.325, "B", 0),
-    "C13": (3.175, 62.865, "B", 0),
-    "C14": (7.62, 62.865, "B", 0),
-    "C15": (12.065, 62.865, "B", 0),
-
-    # -- BACK, Y 65..81, left: the display boost -----------------------------
-    # The noisiest block on the board. Q1 switches L2 against the 3V3 rail;
-    # D1 rectifies PREVGH into C17; D2/D3 and C18 are the inverting charge
-    # pump that makes PREVGL into C19. The inductor is hard against Q1's
-    # drain so the switching loop stays small, and the whole block sits
-    # under the FPC connector, away from the fuel gauge.
-    "Q1":  (8.89, 71.12, "B", 0),
-    "L2":  (13.97, 71.12, "B", 0),
-    "C16": (13.97, 65.405, "B", 0),   # 3V3 into L2
-    "R14": (5.08, 70.485, "B", 0),    # gate pulldown, at Q1 pin 1
-    "R15": (4.445, 73.025, "B", 0),   # RESE, at Q1 pin 2; 0603 since 28 Sep, so 0.635 west to clear Q1
-    "D1":  (20.32, 69.85, "B", 0),
-    "C17": (20.32, 73.025, "B", 0),   # PREVGH reservoir, after D1
-    "C18": (8.255, 76.2, "B", 0),     # the pump capacitor; 0805 since 28 Sep, so 0.635 south
-    "D2":  (6.35, 79.375, "B", 0),
-    "D3":  (12.7, 79.375, "B", 0),
-    "C19": (19.05, 79.375, "B", 0),   # PREVGL reservoir, after D3
+    # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
+    # MIP branch. Where the e-paper's gate booster was, in the same corner
+    # under J2, and like it kept out of the battery bay. (Y here is the
+    # e-paper table's; drop() moves it down with everything else.)
+    # U6 is the TPS610997, L2 its inductor, C11 its input off SYS and
+    # C12/C13 the 20 uF on its output; C10 is the panel's own 5 V bypass,
+    # as near J2's VDD pins as the bay lets it get. R14 holds EN low.
+    "U6":  (8.89, 66.04, "B", 0),
+    "L2":  (12.7, 66.04, "B", 0),
+    "C11": (12.7, 69.215, "B", 0),    # SYS into L2
+    "C12": (5.08, 65.405, "B", 0),    # 5 V out
+    "C13": (5.08, 67.945, "B", 0),
+    "C10": (7.62, 60.325, "B", 0),    # at the panel
+    "R14": (8.89, 69.85, "B", 0),     # EN pulldown
+    # U7, the RV-8263: its CLKOUT is the panel's EXTCOMIN, its I2C is the
+    # gauge's bus. C14 is its bypass, R15 holds CLKOE low.
+    "U7":  (19.05, 64.77, "B", 0),
+    "C14": (19.05, 61.595, "B", 0),
+    "R15": (22.86, 61.595, "B", 0),
 
     # -- BACK, Y 59.5..72, right: the frontlight boost -----------------------
     # U6 sits at the sliver's FB end, so the high-impedance feedback trace is
     # short and the 38 V rail is what takes the long way to TP1. L3, D6 and
     # C20 close the switching loop in that order.
-    "U6":  (66.04, 66.04, "B", 0),
+    "U8":  (66.04, 66.04, "B", 0),    # U6 on main
     "L3":  (60.325, 66.04, "B", 0),
-    "C21": (60.325, 61.595, "B", 0),  # SYS into L3
-    "D6":  (66.04, 61.595, "B", 0),
-    "C20": (71.12, 61.595, "B", 0),   # VLED reservoir, after D6
-    "C22": (71.12, 65.405, "B", 0),   # COMP, at U6 pin 5
+    "C16": (60.325, 61.595, "B", 0),  # SYS into L3 (C21 on main)
+    "D3":  (66.04, 61.595, "B", 0),    # D6 on main
+    "C15": (71.12, 61.595, "B", 0),   # VLED reservoir, after D3 (C20 on main)
+    "C17": (71.12, 65.405, "B", 0),   # COMP, at U8 pin 5 (C22 on main)
     "R21": (71.12, 67.945, "B", 0),   # FB sense, at U6 pin 6
     "R22": (63.5, 70.485, "B", 0),    # CTRL divider, at U6 pin 2
     "R23": (66.675, 70.485, "B", 0),

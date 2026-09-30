@@ -133,53 +133,9 @@ ROUTES = [
          widths=[NECK_W, POWER_W, POWER_W],
          why="U3 pin 7 to L1 pad 2, the buck-boost's second switch node"),
 
-    # The panel booster. THIS ONE IS COMPROMISED AND THE REASON IS PLACEMENT.
-    # `display-sw` is the switch node and it has three pads: Q1's drain at
-    # x 9.777, L2's output at x 15.495 and D1's anode at x 21.970. So the
-    # inductor sits between the transistor and the diode, and the node that
-    # wants to be shortest is forced to 12 mm and to detour around L2's own
-    # input pad. In a boost converter the fast loop is drain to anode and back
-    # through the output cap, so this is the worst place on the board to spend
-    # 12 mm. Routed anyway, as one spine at y 68.5 clear of every pad in the
-    # way, with a stub down into L2. It works and it is honest about the cost.
-    dict(net="display-sw", layer="B.Cu",
-         path=[(9.777, 71.120), (9.777, 68.500), (21.970, 68.500), (21.970, 69.600)],
-         widths=[POWER_W, POWER_W, POWER_W],
-         why="Q1 drain to D1 anode, the panel boost's switch node"),
-
-    dict(net="display-sw", layer="B.Cu",
-         path=[(15.495, 68.500), (15.495, 70.000)],
-         widths=[POWER_W],
-         why="the stub down into L2's output pad"),
-
-    # The fourth display-sw pad, missed until Barnaby's ratsnest showed it on
-    # 28 September 2026: C18, the charge pump's flying cap, whose other side
-    # is `pump`. It carries only the pump's small current, so 0.3 mm, up past
-    # Q1's gate pad and into the drain from below.
-    dict(net="display-sw", layer="B.Cu",
-         path=[(7.480, 75.570), (7.480, 74.800), (8.900, 73.380), (8.900, 72.400),
-               (9.777, 71.523), (9.777, 71.120)],
-         widths=[0.3] * 5,
-         why="C18's switch-node side into Q1's drain"),
-
-    # L2's input is 3.3 V, but it sits in the middle of the display boost's
-    # ground island on In2.Cu (step 8.3b), so there is no plane under it to
-    # drop into, and on B.Cu it is fenced in by the switch-node spine above
-    # and the Q1 and L2 stubs either side. So it hops over the spine on F.Cu,
-    # which carries nothing in the left lane, into its own input cap C16, and
-    # shares C16's via to the plane. Found by Barnaby's DRC, 28 September 2026.
-    dict(net="v3v3", layer="B.Cu",
-         path=[(12.445, 72.500), (12.445, 73.700)],
-         widths=[POWER_W],
-         why="L2's input pad down to its jumper via"),
-    dict(net="v3v3", layer="F.Cu",
-         path=[(12.445, 73.700), (12.445, 67.450), (13.195, 66.700)],
-         widths=[POWER_W, POWER_W],
-         why="L2's input over the display-sw spine on F.Cu"),
-    dict(net="v3v3", layer="B.Cu",
-         path=[(13.195, 66.700), (13.195, 65.405)],
-         widths=[POWER_W],
-         why="into C16, L2's input cap"),
+    # The e-paper booster's routes (display-sw, and v3v3 hopping over it into
+    # L2) are on `main`. The MIP branch has no such booster; its 5 V boost is
+    # small enough for route_signals.py.
 ]
 
 # TP3 is the one ground pad on F.Cu alone -- the big square the cell's
@@ -192,7 +148,7 @@ ROUTES.append(dict(net="gnd", layer="F.Cu",
 
 # Pads joined to another 3.3 V pad by the routes above, so they need no via
 # of their own.
-SHARES_PLANE_VIA = {("L2", "1")}
+SHARES_PLANE_VIA = set()      # {("L2", "1")} on main, for the e-paper booster
 
 # 9.2 -- POWER DISTRIBUTION, AND HOW THE CORRIDOR IS SHARED
 #
@@ -392,8 +348,6 @@ VIAS = [
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),
     ("bat", 29.900, 80.500),
-    ("v3v3", 12.445, 73.700),
-    ("v3v3", 13.195, 66.700),
     ("gnd", 3.810, 55.600),
 ]
 

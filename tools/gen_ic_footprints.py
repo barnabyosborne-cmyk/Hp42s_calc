@@ -556,6 +556,154 @@ def side_push(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def _head(name, descr, tags, ref_y, val_y):
+    return [
+        f'(footprint "{name}"',
+        '\t(version 20221018)',
+        '\t(generator "gen_ic_footprints.py")',
+        '\t(layer "F.Cu")',
+        f'\t(descr "{descr}")',
+        f'\t(tags "{tags}")',
+        '\t(attr smd)',
+        f'\t(fp_text reference "REF**" (at 0 {ref_y:.2f}) (layer "F.SilkS")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+        f'\t(fp_text value "{name}" (at 0 {val_y:.2f}) (layer "F.Fab")'
+        ' (effects (font (size 1 1) (thickness 0.15))))',
+    ]
+
+
+def dsbga_yff(name, descr, tags):
+    """TI YFF0006, DSBGA-6, drawing 4223785/A (TPS61099 datasheet SLVSD88M
+    pages 31-32). Top view, ball A1 at top left:
+
+        D 1.196..1.256, E 0.854..0.914   body; D runs down the rows A..C
+        0.4 TYP                          ball pitch, both ways
+        6X (0.23)                        land, non-solder-mask-defined
+        0.05 max                         mask opening beyond the land
+
+    Pads are named A1..C2 so the netlist names them the way TI does. The
+    0.07 mm mask web between neighbours is below what a fab keeps, so the
+    six openings are allowed to merge.
+    """
+    D, E = 1.226, 0.884
+    out = _head(name, descr, tags, -D / 2 - 1.0, D / 2 + 1.0)
+    h, w = D / 2, E / 2
+    c = 0.2
+    out.append(
+        f'\t(fp_poly (pts (xy {-w:.3f} {-h + c:.3f}) (xy {-w + c:.3f} {-h:.3f}) '
+        f'(xy {w:.3f} {-h:.3f}) (xy {w:.3f} {h:.3f}) (xy {-w:.3f} {h:.3f})) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    cx, cy = w + 0.25, h + 0.25
+    out.append(
+        f'\t(fp_rect (start {-cx:.3f} {-cy:.3f}) (end {cx:.3f} {cy:.3f}) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(
+        f'\t(fp_circle (center {-w - 0.3:.3f} {-0.4:.3f}) (end {-w - 0.2:.3f} {-0.4:.3f}) '
+        '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
+    for r, row in enumerate("ABC"):
+        for col in (1, 2):
+            x = (col - 1.5) * 0.4
+            y = (r - 1) * 0.4
+            out.append(
+                f'\t(pad "{row}{col}" smd circle (at {x:.3f} {y:.3f}) (size 0.23 0.23) '
+                '(layers "F.Cu" "F.Paste" "F.Mask") (solder_mask_margin 0.05))')
+    out[6] = '\t(attr smd allow_soldermask_bridges)'
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
+def microcrystal_c7(name, descr, tags):
+    """Micro Crystal C7 package, 3.2 x 1.5 x 0.8 mm, eight pads. Land from
+    the "Recommended Solder Pad" drawing in the RV-8263-C7 datasheet (Micro
+    Crystal, version 1.1/09.2026):
+
+        0.5 x 0.8   pads
+        0.9         pitch along the 3.2 mm side
+        0.4         gap between the two rows, so centres 1.2 apart
+
+    Laid with the long side along x, as the drawing is: pins 1..4 left to
+    right along the top row, 5..8 right to left along the bottom. The lid is
+    on pin 2, VSS.
+    """
+    L, W = 3.2, 1.5
+    out = _head(name, descr, tags, -W / 2 - 1.2, W / 2 + 1.2)
+    h, w = W / 2, L / 2
+    c = 0.3
+    out.append(
+        f'\t(fp_poly (pts (xy {-w:.3f} {-h + c:.3f}) (xy {-w + c:.3f} {-h:.3f}) '
+        f'(xy {w:.3f} {-h:.3f}) (xy {w:.3f} {h:.3f}) (xy {-w:.3f} {h:.3f})) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    py = 0.6
+    cx, cy = w + 0.25, max(h, py + 0.4) + 0.25
+    out.append(
+        f'\t(fp_rect (start {-cx:.3f} {-cy:.3f}) (end {cx:.3f} {cy:.3f}) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(
+        f'\t(fp_circle (center {-w - 0.35:.3f} {-py:.3f}) (end {-w - 0.2:.3f} {-py:.3f}) '
+        '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
+    xs = [-1.35, -0.45, 0.45, 1.35]
+    for i, x in enumerate(xs):
+        out.append(
+            f'\t(pad "{i + 1}" smd roundrect (at {x:.3f} {-py:.3f}) (size 0.5 0.8) '
+            '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    for i, x in enumerate(reversed(xs)):
+        out.append(
+            f'\t(pad "{i + 5}" smd roundrect (at {x:.3f} {py:.3f}) (size 0.5 0.8) '
+            '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
+def hirose_fh34srj(name, descr, tags, n):
+    """Hirose FH34SRJ-nS-0.5SH, 0.5 mm pitch back-flip FPC connector, top and
+    bottom contact. From the FH34 series catalogue (Hirose, Sep 2020), page 5
+    "Recommended PCB Mounting Pattern" and page 3 "Connector Dimensions":
+
+        0.3 x 0.8     signal lands, 0.5 pitch, B = 0.5(n-1) centre to centre
+        E / F         inner / outer edges of the two fitting lands, so the
+                      fittings are (F-E)/2 = 0.4 wide and 0.8 tall
+        3.3           signal land centreline to fitting land centreline
+        A             body width; 3.8 deep including the 0.5 of lead
+
+    Origin is the middle of the signal lands. Contact 1 is at +x, as the
+    drawing has it. The FPC goes in from +y, the fitting side: the back-flip
+    actuator hinges over the leads at -y. The body outline on F.Fab is read
+    off the drawing's side view, lead tip at y -0.1, front face at y 3.7;
+    the lands are the dimensioned numbers.
+    """
+    B = 0.5 * (n - 1)
+    A = 0.5 * (n - 1) + 2.5
+    E = B + 1.6
+    F = E + 0.8
+    mx = (E + F) / 4
+    out = _head(name, descr, tags, -1.6, 5.0)
+    out.append(
+        f'\t(fp_rect (start {-A/2:.3f} -0.100) (end {A/2:.3f} 3.700) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    # where the flex goes in
+    out.append(
+        f'\t(fp_line (start {-B/2 - 0.25:.3f} 3.700) (end {B/2 + 0.25:.3f} 3.700) '
+        '(stroke (width 0.3) (type solid)) (layer "F.Fab"))')
+    cx = max(A / 2, F / 2) + 0.25
+    out.append(
+        f'\t(fp_rect (start {-cx:.3f} -0.650) (end {cx:.3f} 3.950) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(
+        f'\t(fp_circle (center {B/2 + 0.55:.3f} -0.550) (end {B/2 + 0.7:.3f} -0.550) '
+        '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
+    for i in range(n):
+        x = B / 2 - i * 0.5
+        out.append(
+            f'\t(pad "{i + 1}" smd rect (at {x:.3f} 0) (size 0.3 0.8) '
+            '(layers "F.Cu" "F.Paste" "F.Mask"))')
+    for x in (-mx, mx):
+        out.append(
+            f'\t(pad "MP" smd rect (at {x:.3f} 3.300) (size 0.4 0.8) '
+            '(layers "F.Cu" "F.Paste" "F.Mask"))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -628,6 +776,29 @@ def main():
                   "3 are commoned inside the switch, so both are pad 1. MP is the "
                   "ground terminal. Plunger faces +y and stands 0.84 mm proud.",
             tags="tact switch side-push Alps SKRT SKRTLAE010",
+        ),
+        "TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm": dsbga_yff(
+            name="TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm",
+            descr="TI YFF0006 DSBGA-6, 0.4 mm pitch, 0.23 mm NSMD lands. From TI "
+                  "drawing 4223785/A example board layout. Used by TPS610997 "
+                  "(the MIP panel's 5 V rail).",
+            tags="DSBGA WCSP YFF TPS61099 TPS610997",
+        ),
+        "MicroCrystal_C7_3.2x1.5mm_RV-8263": microcrystal_c7(
+            name="MicroCrystal_C7_3.2x1.5mm_RV-8263",
+            descr="Micro Crystal C7 package, 3.2x1.5 mm, 8 pads 0.5x0.8 at 0.9 "
+                  "pitch, rows 1.2 apart. From the recommended solder pad drawing "
+                  "in the RV-8263-C7 datasheet. Pin 2 = VSS and the lid.",
+            tags="RTC Micro Crystal C7 RV-8263-C7",
+        ),
+        "Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal": hirose_fh34srj(
+            name="Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal",
+            descr="Hirose FH34SRJ-10S-0.5SH(50), 10 way 0.5 mm FPC, top and bottom "
+                  "contact, back-flip actuator, 1.0 mm high. Lands from the FH34 "
+                  "catalogue recommended PCB mounting pattern. FPC enters from +y; "
+                  "contact 1 at +x. The LS032B7DD02 MIP panel's connector.",
+            tags="FPC FFC connector Hirose FH34SRJ 0.5mm",
+            n=10,
         ),
     }
     for name, text in fps.items():

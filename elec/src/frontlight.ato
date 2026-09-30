@@ -19,7 +19,7 @@ from "parts.ato" import SliverWirePad
 #
 #   Frontlight       the driver. On the main board, in the strip between the
 #                    panel and the keyboard.
-#   FrontlightStrip  the four LEDs. NOT instantiated by hp42s.ato, because
+#   FrontlightStrip  the LEDs (six on the mip branch). NOT instantiated by hp42s.ato, because
 #                    they do not go on the main board at all.
 #
 # Why the LEDs are somewhere else: the guide sits on the panel, so its edge
@@ -128,7 +128,8 @@ module Frontlight:
     # below that is PWM duty on CTRL, which is how the part is meant to be
     # dimmed. At 20 mA the string is 13.8 V and pulls about 88 mA off the
     # cell -- roughly 18 hours from 1600 mAh. A 5 mA reading level is about
-    # 20 mA off the cell and 80 hours.
+    # 20 mA off the cell and 80 hours. (MIP branch, six LEDs: about 20.4 V
+    # and 130 mA at full, roughly 12 hours; about 30 mA and 50 hours at 5 mA.)
     r_set = new Resistor
     r_set.value = "10"
     r_set.p1 ~ fb
@@ -186,31 +187,36 @@ module Frontlight:
 
 
 module FrontlightStrip:
-    # The 1.0 mm FR4 sliver. Its own little board, 64 x 4 mm, lying on
-    # the main board in the strip between the panel and the keyboard, with
-    # the four LEDs looking up the short axis of the display.
+    # The 1.0 mm FR4 sliver. Its own little board, 72 x 4 mm on the MIP
+    # branch (64 on main), lying on the main board in the strip between the
+    # panel and the keyboard, with the LEDs looking up the short axis of the
+    # display.
     #
     # NOT instantiated by hp42s.ato. It is here so the string, its polarity
     # and its footprint are captured in one place with the driver that feeds
     # it, and so this file is what gets built when the sliver is laid out.
     #
-    # Spacing: four on a 15 mm pitch across the 60 mm injection edge, at 7.5,
-    # 22.5, 37.5 and 52.5 mm. Two things cover the ends and the near-edge hot
-    # spots for free -- the active area starts 2.798 mm in from the glass
-    # edge on this axis, so there is a mixing zone of dead glass before the
-    # first visible pixel, and the 56.00 mm aperture hides about 2 mm at each
-    # end of the 60.088 mm active area.
+    # MIP branch: SIX LEDs, at the centres of six 11.33 mm lanes across the
+    # LS032's 68 mm injection edge. The lit area is 1.57 times the e-paper's
+    # and the Dialight part is already at its 20 mA maximum, so the extra
+    # light comes from two more LEDs, not more current. The string is about
+    # 20 V, inside the TPS61165's 37 V open-LED limit, and r_set stays 10 R.
+    # docs/mip-display.md.
     signal anode    # to FL+ on the main board
     signal cathode  # to FL-
 
     signal n1
     signal n2
     signal n3
+    signal n4
+    signal n5
 
     d1 = new FrontlightLED
     d2 = new FrontlightLED
     d3 = new FrontlightLED
     d4 = new FrontlightLED
+    d5 = new FrontlightLED
+    d6 = new FrontlightLED
 
     d1.anode ~ anode
     d1.cathode ~ n1
@@ -219,7 +225,11 @@ module FrontlightStrip:
     d3.anode ~ n2
     d3.cathode ~ n3
     d4.anode ~ n3
-    d4.cathode ~ cathode
+    d4.cathode ~ n4
+    d5.anode ~ n4
+    d5.cathode ~ n5
+    d6.anode ~ n5
+    d6.cathode ~ cathode
 
     # The two wires from TP1 (FL+) and TP2 (FL-) on the main board land here,
     # one at each end. The board is tools/make_sliver.py.

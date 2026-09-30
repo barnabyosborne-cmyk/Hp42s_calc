@@ -40,8 +40,12 @@ PARTS = {
     "sw_reset": ("Side tact switch", "Alps SKRTLAE010"),
     "sw_boot": ("Side tact switch", "Alps SKRTLAE010"),
     "display.epd": ("24P 0.5mm FPC connector", "Amphenol F32Q-1A7H1-11024"),
-    "display.l_boost": ("47uH SRN4018", "Bourns SRN4018-470M"),
-    "display.q_boost": ("Si1308EDL N-MOSFET", "Si1308EDL-T1-GE3"),
+    # MIP branch: the panel, its 5 V boost and the clock (main has the
+    # e-paper's F32Q, SRN4018 and Si1308 here).
+    "display.panel": ("10P 0.5mm FPC connector, top+bottom contact", "Hirose FH34SRJ-10S-0.5SH(50)"),
+    "display.boost": ("TPS610997 5V boost", "TPS610997YFFR"),
+    "display.l_boost": ("2.2uH 2016", "Murata DFE201612P-2R2M=P2"),
+    "display.rtc": ("RV-8263-C7 RTC", "Micro Crystal RV-8263-C7-32.768KHZ-20PPM-TA-QA"),
     "ls": ("Piezo buzzer", "Murata PKLCS1212E4001-R1"),
     "ir": ("940nm IR LED side view", "Vishay VSMB2943SLX01"),
     "q_ir": ("2N7002 N-MOSFET", "2N7002"),
@@ -69,7 +73,6 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 SUBS = {
     "led_status": ("Red/green LED side view, common anode", "Lite-On LTST-S326KGJRKT"),
     "power.l_sw": ("2.2uH XEL4020", "Coilcraft XEL4020-222MEC"),
-    "display.l_boost": ("47uH 4018 shielded", "Sunlord SWPA4018S470MT"),
     "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB(LF)(SN)"),
 }
@@ -77,8 +80,9 @@ LCSC = {
     "power.usb": "C3020560", "power.esd": "C138714", "power.chg": "C19725033",
     "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5369025",
     "power.cell": "C295747", "mcu": "C2913206", "sw_reset": "C110293",
-    "sw_boot": "C110293", "display.epd": "C3168917",
-    "display.l_boost": "C83445", "display.q_boost": "C469327", "ls": "C113159",
+    "sw_boot": "C110293", "display.panel": "C324723",
+    "display.boost": "C2072359", "display.l_boost": "C79317",
+    "display.rtc": "C5137460", "ls": "C113159",
     "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
     "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C125116",
 }
@@ -95,6 +99,7 @@ PASSIVE_LCSC = {
     "4.7k 5%": "C25900",
     "1M 5%": "C26083", "2R2 1%": "C22939", "1k 5%": "C11702",
     "22R 5%": "C25092", "10R 5%": "C25077", "0R 5%": "C17168",
+    "10uF 10V X7R/X5R": "C19702",
 }
 # where the Basic part is one size only, by (Comment, footprint)
 PASSIVE_FP_LCSC = {
@@ -109,6 +114,7 @@ CAP_V = {
     "c_en": "1uF 10V*", "c_mcu_bulk": "22uF 10V*", "c_mcu": "100nF 16V*",
     "frontlight.c_out": "1uF 50V", "frontlight.c_in": "4.7uF 10V*",
     "frontlight.c_comp": "220nF 16V*",
+    "display.c_panel": "1uF 25V*", "display.c_rtc": "100nF 16V*",
 }
 SKIP_PREFIX = ("SW",)            # domes; the two tact switches are kept below
 

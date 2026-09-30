@@ -38,8 +38,13 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "elec/layout/sliver"
 NS = uuid.UUID("9a3c17be-0000-4000-8000-00000000511e")
 
-LENGTH, DEPTH = 64.0, 4.0
-LED_X = [9.5, 24.5, 39.5, 54.5]
+# MIP branch: six LEDs across the LS032's 68 mm guide edge (docs/mip-display.md).
+# The guide is the 68.07 mm active area, board X 6.58..74.65; the sliver runs
+# from board X 4.0 to the board's right edge at 76.0, so 2.58 mm of overhang
+# at the left end and 1.4 mm at the right, and the LEDs sit at the centres of
+# six equal 11.33 mm lanes of the guide. On main: 64 mm and four LEDs.
+LENGTH, DEPTH = 72.0, 4.0
+LED_X = [round(2.58 + 68.0 / 6 * (k + 0.5), 2) for k in range(6)]
 LENS = 1.57          # footprint origin to the front of the lens, in -y
 LED_Y = LENS         # so the lens sits on the top edge
 TRACK_W = 0.4        # 20 mA at most; 0.4 because there is room
@@ -201,7 +206,7 @@ HEADER = f'''(kicad_pcb
 
 
 def board():
-    nets = ["vled", "n1", "n2", "n3", "fb"]
+    nets = ["vled"] + [f"n{k + 1}" for k in range(len(LED_X) - 1)] + ["fb"]
     body = [HEADER]
     body.append(wire_pad("TP1", PAD_X[0], "vled", "FL+"))
     for k, x in enumerate(LED_X):
@@ -211,7 +216,7 @@ def board():
     # The string, along the LEDs' own pad line. Each hop goes from one LED's
     # cathode (x + 1.5) to the next one's anode (x - 1.5).
     ends = [PAD_X[0]] + [c for x in LED_X for c in (x - 1.5, x + 1.5)] + [PAD_X[1]]
-    for k in range(5):
+    for k in range(len(LED_X) + 1):
         body.append(segment(nets[k], (ends[2 * k], LED_Y), (ends[2 * k + 1], LED_Y)))
 
     corners = [(0, 0), (LENGTH, 0), (LENGTH, DEPTH), (0, DEPTH)]
@@ -221,7 +226,7 @@ def board():
     body.append(gr_text("FL+", (4.5, 3.1), 1))
     body.append(gr_text("FL-", (LENGTH - 4.5, 3.1), 2))
     body.append(gr_text("LED EDGE ^", (17.0, 3.1), 3))
-    body.append(gr_text("HP42S FL A", (47.0, 3.1), 4))
+    body.append(gr_text("HP42S FL MIP", (50.0, 3.1), 4))
     return "".join(body) + "\t(embedded_fonts no)\n)\n"
 
 

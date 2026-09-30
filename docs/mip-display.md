@@ -69,27 +69,37 @@ untouched.
 
 ## What changes on the board
 
-1. **The e-paper booster goes.** Q1, L2, D1-D3 and the ±20 V capacitors exist
-   only for the SSD1680's gate rails.
-2. **A 5 V rail arrives**: TI **TPS610997YFFR** (C2072359), a fixed 5 V
-   boost with 1.1 µA quiescent current in a 6-ball DSBGA, fed from SYS and
-   switched off with the panel. VDD and VDDA both come from it, VDDA through
-   a small RC so it follows VDD up and, with the boost's enable, can be
-   brought down first. (TPS61099DRVR, C2842395, is the adjustable WSON
-   fallback.)
-3. **J2 becomes the FH34SRJ-10S**, with the fold and slack worked out the way
-   `docs/display-mounting.md` did for the e-paper tail.
-4. **EXTCOMIN comes from an RTC**: Micro Crystal **RV-8263-C8** (C24955829)
-   on the existing I2C bus, crystal inside, 190 nA, with a push-pull CLKOUT
-   programmed to 1 Hz. It keeps toggling while the ESP32 is in deep sleep and
-   gives a proper clock, which the ESP32's own RTC does badly. The fallback
-   is an RTC GPIO driven by the ULP.
-5. **The board and case get taller** (above); the display area is re-placed
-   and the keypad block moves down.
-6. **The frontlight grows** (below).
+Done on 30 September 2026, in `elec/src/display.ato` and `parts.ato`:
 
-Everything else carries over: the ESP32-S3 module, BQ25185, TPS63900, the
-gauge, the keypad and its scan, USB-C and the top-edge parts.
+1. **The e-paper booster is gone.** Q1, L2, D1-D3 and the ±20 V capacitors.
+2. **5 V from a TPS610997YFFR** (C2072359), off SYS: 2.2 µH Murata
+   DFE201612P (C79317), 10 µF in, 2 × 10 µF out (C19702, Basic), as TI's
+   SLVSD88M asks. VDD and VDDA are one net: Sharp allows them to rise and
+   fall together (spec page 23), so there is no sequencing circuit. EN has a
+   1 M pulldown, so the panel is off while the ESP32 is in reset. The boost
+   disconnects its output when off.
+3. **J2 is the Hirose FH34SRJ-10S** (C324723), land from the FH34 catalogue.
+   Connector pin n is panel pin n; the reasoning is in `parts.ato`
+   (MIPConnector). J2 sits on the back at (8.20, 35.51), 90°, mouth at
+   X 4.50, which leaves the tail 2 mm of slack like the e-paper's.
+4. **EXTCOMIN from an RV-8263-C7** (C5137460, the C7 package so its land is
+   Micro Crystal's own drawing) on the gauge's I2C bus. CLKOUT is EXTCOMIN;
+   CLKOE comes from IO36 with a 1 M pulldown, because the RTC wakes up
+   giving 32.768 kHz and CLKOE low holds CLKOUT low until firmware has set
+   1 Hz. INT is not connected.
+5. **GPIOs**: the e-paper's six, reused. IO33 SCS, IO34 DISP, IO35 5 V
+   enable, IO36 CLKOE, IO37 SCLK, IO38 SI. DISP, the enable and CLKOE are
+   held through deep sleep with `gpio_hold_en`, because the picture stays up
+   while the calculator is off.
+6. **The board is 155 mm.** `tools/variant.py` moves everything below
+   Y 48.3 down 11.0 mm; `tools/mip_drop_board.py` did it once to the board
+   file, and the FPC notch is now Y 29.01..42.01. The battery bay grows with
+   it, to Y 13..69 on the back, so a 56 mm cell would fit where the 45 mm one
+   is.
+
+Designators moved with the change (atopile numbers in source order):
+D4, D5, D6 are now D1, D2, D3; Q2 is Q1; U6 (frontlight) is U8; C20, C21,
+C22 are C15, C16, C17. The placement table on this branch uses the new names.
 
 ## The frontlight: six LEDs
 
@@ -142,9 +152,10 @@ leaves plenty of height for Plus42's taller layouts.
 ## Order of work
 
 1. ~~Get the datasheet and fill in the table above.~~ Done 30 September.
-2. Rewrite `display.ato` without the booster, with the FH34SRJ, the
-   TPS610997 and the RV-8263; rebuild; re-import.
-3. Extend the outline to 155 mm, re-place the display area, move the keypad
-   block down 11 mm, lengthen the frontlight sliver to six LEDs, reroute
-   with the same tools.
+2. ~~Rewrite `display.ato` without the booster, with the FH34SRJ, the
+   TPS610997 and the RV-8263; rebuild.~~ Done. **Re-import in KiCad is
+   Barnaby's step.**
+3. ~~Extend the outline to 155 mm, move the keypad block down 11 mm,
+   lengthen the frontlight sliver to six LEDs.~~ Done. Then, after the
+   re-import: place the new parts, reroute with the same tools.
 4. Firmware: the MIP driver and the ×4 Plus42 blitter, in `sim/host` first.

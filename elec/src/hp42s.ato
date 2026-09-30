@@ -8,8 +8,8 @@ from "frontlight.ato" import Frontlight
 # ---------------------------------------------------------------------------
 # hp42s.ato -- top level.
 #
-# An HP-42S-shaped calculator running Plus42 on an ESP32-S3, with a 2.66 inch
-# e-paper panel and a 37-key metal dome keypad. Case 148 x 80 x 15 mm.
+# An HP-42S-shaped calculator running Plus42 on an ESP32-S3, with a 3.16 inch
+# Sharp memory LCD (branch `mip`; `main` has the 2.66 inch e-paper) and a 37-key metal dome keypad. Case 148 x 80 x 15 mm.
 #
 # The GPIO map below is not free choice. Three things pin it down:
 #   - IO19/IO20 are the USB PHY. Fixed in silicon, not reassignable.
@@ -43,12 +43,12 @@ module HP42S:
 
     # Named so the netlist carries readable net names into KiCad. Without
     # these the panel bus comes through as net, net-1, net-2 ...
-    signal epd_cs
-    signal epd_dc
-    signal epd_rst
-    signal epd_busy
-    signal epd_sck
-    signal epd_mosi
+    signal mip_cs
+    signal mip_disp
+    signal mip_pwr
+    signal mip_clkoe
+    signal mip_sck
+    signal mip_mosi
     signal buzzer
     signal ir_led
     signal uart0_tx
@@ -189,30 +189,32 @@ module HP42S:
     mcu.IO13 ~ keypad.row5
     mcu.IO14 ~ keypad.row6
 
-    # --- e-paper panel -------------------------------------------------------
-    # BUSY is an input and also the light-sleep wake source during a refresh.
-    # Sleeping on BUSY rather than spinning through the ~400 ms partial update
-    # is worth about 5x on the energy cost of a keystroke.
-    mcu.IO33 ~ epd_cs
-    mcu.IO34 ~ epd_dc
-    mcu.IO35 ~ epd_rst
-    mcu.IO36 ~ epd_busy
-    mcu.IO37 ~ epd_sck
-    mcu.IO38 ~ epd_mosi
+    # --- MIP panel ------------------------------------------------------------
+    # The same six pins the e-paper used, so nothing else on the board moves.
+    # DISP, the 5 V enable and CLKOE all have to hold their level through deep
+    # sleep, because the panel keeps its picture while the calculator is off:
+    # the firmware latches them with gpio_hold_en before sleeping.
+    mcu.IO33 ~ mip_cs
+    mcu.IO34 ~ mip_disp
+    mcu.IO35 ~ mip_pwr
+    mcu.IO36 ~ mip_clkoe
+    mcu.IO37 ~ mip_sck
+    mcu.IO38 ~ mip_mosi
 
-    # Everything the panel needs, including the boost converter that makes
-    # its +22 V and -20 V gate rails. See display.ato -- the short version is
-    # that the controller is bonded to the panel's own glass, so there is no
-    # driver board to buy, but there is a driver circuit to build.
+    # The panel, its 5 V boost and the clock that toggles its EXTCOMIN. See
+    # display.ato.
     display = new DisplayDrive
     display.v3v3 ~ v3v3
+    display.sys  ~ power.sys
     display.gnd  ~ gnd
-    display.cs   ~ epd_cs
-    display.dc   ~ epd_dc
-    display.rst  ~ epd_rst
-    display.busy ~ epd_busy
-    display.sck  ~ epd_sck
-    display.mosi ~ epd_mosi
+    display.cs   ~ mip_cs
+    display.disp ~ mip_disp
+    display.pwr_en ~ mip_pwr
+    display.clkoe ~ mip_clkoe
+    display.sck  ~ mip_sck
+    display.mosi ~ mip_mosi
+    display.i2c_sda ~ power.i2c_sda
+    display.i2c_scl ~ power.i2c_scl
 
     # --- buzzer --------------------------------------------------------------
     # Murata's own drive, figure A of the PKLCS1212E specification: the IC

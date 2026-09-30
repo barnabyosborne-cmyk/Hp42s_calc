@@ -1,204 +1,132 @@
-from "parts.ato" import EPDConnector, SchottkyDiode, BoostFET, BoostInductor
-from "parts.ato" import CapBoost, Resistor
+from "parts.ato" import MIPConnector, TPS610997, RV8263C7, MIPBoostInductor
+from "parts.ato" import Capacitor, CapBoost, Resistor
 
 # ---------------------------------------------------------------------------
-# display.ato -- the e-paper panel and everything that drives it.
+# display.ato -- the Sharp LS032B7DD02 memory LCD and what it needs.
 #
-# The answer to "is there a driver board as well as the panel?" is: there is a
-# driver *circuit*, and this is it. The controller itself (SSD1680) is
-# chip-on-glass, bonded to the panel's own tail, so there is no driver IC to
-# place. What the breakout boards carry, and what has to be on our board
-# instead, is the network below: a small boost converter and ten capacitors.
+# This is the `mip` branch. The e-paper version of this file, with its
+# +22/-20 V gate booster, is on `main`; see docs/mip-display.md for why the
+# two boards differ.
 #
-# An e-paper pixel is moved by pushing the ink particles with roughly +22 V
-# and -20 V. The SSD1680 makes those rails itself, but it cannot make them
-# out of nothing -- it needs an external inductor, a switch and a charge
-# pump, and it drives them through two pins:
+# A memory-in-pixel panel is much simpler to drive than e-paper. It wants:
 #
-#   GDR  (pin 2)  gate drive out. The controller switches Q1 with this.
-#   RESE (pin 3)  current sense in. The voltage across R2 tells the
-#                 controller how much current the inductor is drawing, and
-#                 it modulates GDR to hold the peak where it wants it.
+#   5 V.  VDD and VDDA are both 4.8-5.5 V (spec LD-2023X13 page 25). Sharp
+#         allows them to rise and fall together (page 23, notes 1 and 2), so
+#         they are one net here, fed by a TPS610997 boost from SYS. When the
+#         panel is off, EN is low and the boost disconnects its output
+#         completely, so the panel draws nothing.
 #
-# So the loop is closed inside the panel. No MCU pin goes near it, and there
-# is nothing for the firmware to do beyond the usual SSD1680 power-on
-# sequence. When the controller is in deep sleep it stops driving GDR, R1
-# holds the gate down, and the whole network draws nothing.
+#   A 1-10 Hz square wave on EXTCOMIN, with EXTMODE tied high, for as long as
+#         it shows a picture -- including while the calculator is "off" and
+#         the ESP32 is in deep sleep. The RV-8263's CLKOUT, set to 1 Hz,
+#         does that for 190 nA and no CPU time. CLKOE comes from a GPIO: the
+#         RTC powers up giving 32.768 kHz, and CLKOE low holds CLKOUT low, so
+#         nothing drives the panel until firmware has set 1 Hz and turned the
+#         5 V on. That matters twice: out-of-spec EXTCOMIN, and a 3.3 V edge
+#         pushed into an unpowered panel's input.
 #
-# D3 is the ordinary boost diode and makes the positive rail. D1 and D2 with
-# C3 are a charge pump hanging off the same switching node, and make the
-# negative one: D2 clamps the pump node to ground on the up-swing, and on the
-# down-swing the node goes below ground and pulls charge off VGL through D1.
-# One switch, two rails of opposite sign, which is why the parts count is
-# this low.
+#   3-wire SPI (SCLK, SI, SCS active high) and DISP. 3.3 V logic is inside
+#         their VIH (2.7 V min at VDD 5 V). All of them must be low whenever
+#         the 5 V is off, and never floating when it is on (page 16).
 #
-# Every value comes from the GDEY0266T90 specification (24.12.03) page 28.
-# Values differ between panels that share the SSD1680, so these are not
-# interchangeable with a 2.13 inch or 2.9 inch reference circuit.
-#
-# Reference designators in the comments (C2, C3, D1 ...) are Good Display's,
-# to make this file readable side by side with their schematic. atopile
-# assigns its own on the board.
+# The RTC also gives the calculator a clock that keeps time properly, which
+# the ESP32's own RC oscillator does not.
 # ---------------------------------------------------------------------------
 
 module DisplayDrive:
     # --- interface to the rest of the board ---------------------------------
     signal v3v3
+    signal sys
     signal gnd
-    signal cs
-    signal dc
-    signal rst
-    signal busy
+    signal cs          # SCS, active high
+    signal disp        # DISP, high = image shown
+    signal pwr_en      # high = 5 V on
+    signal clkoe       # high = EXTCOMIN running
     signal sck
     signal mosi
+    signal i2c_sda
+    signal i2c_scl
 
     # --- internal nodes -----------------------------------------------------
-    signal gdr      # panel's gate drive output -> Q1 gate
-    signal rese     # Q1 source, current sense back into the panel
-    signal sw       # inductor / drain / pump switching node
-    signal pump     # bottom plate of the pump cap
-    signal prevgh   # positive gate rail, about +22 V
-    signal prevgl   # negative gate rail, about -20 V
+    signal v5          # the panel's VDD and VDDA
+    signal sw5         # the boost's switch node
+    signal extcomin
 
-    epd = new EPDConnector
+    panel = new MIPConnector
+    panel.SCLK ~ sck
+    panel.SI ~ mosi
+    panel.SCS ~ cs
+    panel.DISP ~ disp
+    panel.EXTCOMIN ~ extcomin
+    panel.EXTMODE ~ v5
+    panel.VDD ~ v5
+    panel.VDDA ~ v5
+    panel.VSS ~ gnd
+    panel.VSSA ~ gnd
+    panel.MP ~ gnd
 
-    # --- logic and supply ---------------------------------------------------
-    epd.CS   ~ cs
-    epd.DC   ~ dc
-    epd.RES  ~ rst
-    epd.BUSY ~ busy
-    epd.SCL  ~ sck
-    epd.SDA  ~ mosi
+    # Sharp recommends a capacitor on VDD+VDDA at the panel (page 24), for
+    # the current peaks when COM inverts.
+    c_panel = new Capacitor
+    c_panel.value = "1u"
+    c_panel.footprint = "Capacitor_SMD:C_0603_1608Metric"
+    c_panel.p1 ~ v5
+    c_panel.p2 ~ gnd
 
-    # BS low selects 4-wire SPI. Tied hard to ground, not strapped through a
-    # resistor: there is no reason to ever run this panel in 3-wire mode.
-    epd.BS ~ gnd
+    # --- the 5 V rail -------------------------------------------------------
+    boost = new TPS610997
+    boost.VIN ~ sys
+    boost.SW ~ sw5
+    boost.VOUT ~ v5
+    boost.EN ~ pwr_en
+    boost.GND ~ gnd
+    boost.FB ~ gnd
 
-    epd.VCI   ~ v3v3
-    epd.VDDIO ~ v3v3
-    epd.VSS   ~ gnd
+    l_boost = new MIPBoostInductor
+    l_boost.p1 ~ sys
+    l_boost.p2 ~ sw5
 
-    # The connector's two metal hold-down fittings. Not electrical, but they
-    # are large pads right under a flex that gets folded on assembly, so they
-    # go to ground rather than being left as isolated copper.
-    epd.MP ~ gnd
-
-    # Pins 1, 4, 6, 7 and 19 are left unconnected on purpose. 6 and 7 are the
-    # touch-panel I2C on the touch variant of this glass; ours has no touch.
-    # 19 is VPP, the OTP programming supply, used at the factory only.
-
-    # --- the ten capacitors -------------------------------------------------
-    # C6 on VCI. The panel's own supply decoupling, right at the connector.
-    c_vci = new CapBoost
-    c_vci.value = "1u 25V"
-    c_vci.p1 ~ v3v3
-    c_vci.p2 ~ gnd
-
-    # C7 on VDD. This is the controller's internal 1.8 V regulator output, so
-    # it is a cap to ground and nothing else -- never drive this pin.
-    c_vdd = new CapBoost
-    c_vdd.value = "1u 25V"
-    c_vdd.p1 ~ epd.VDD
-    c_vdd.p2 ~ gnd
-
-    # C9 / C2 on VSH1 / VSH2, the positive source rails.
-    c_vsh1 = new CapBoost
-    c_vsh1.value = "1u 25V"
-    c_vsh1.p1 ~ epd.VSH1
-    c_vsh1.p2 ~ gnd
-
-    c_vsh2 = new CapBoost
-    c_vsh2.value = "1u 25V"
-    c_vsh2.p1 ~ epd.VSH2
-    c_vsh2.p2 ~ gnd
-
-    # C10 on VSL, the negative source rail.
-    c_vsl = new CapBoost
-    c_vsl.value = "1u 25V"
-    c_vsl.p1 ~ epd.VSL
-    c_vsl.p2 ~ gnd
-
-    # C12 on VCOM, the common electrode.
-    c_vcom = new CapBoost
-    c_vcom.value = "1u 25V"
-    c_vcom.p1 ~ epd.VCOM
-    c_vcom.p2 ~ gnd
-
-    # --- the booster --------------------------------------------------------
-    # C4, the input reservoir. The inductor draws 500 mA peaks out of a 3.3 V
-    # rail that is otherwise supplying a sleeping MCU, so this one carries the
-    # switching current and wants to sit hard against L1.
-    #
-    # This one sits on 3.3 V, not on the pump, so it is a 16 V part: JLC's
-    # Basic 4.7 uF in 0603 is 16 V and their 25 V one is Extended.
+    # 10 uF in, as TI recommends; 20 uF out, TI's stated minimum for a 1-2.2 uH
+    # inductor (8.2.2.5). CL10A106KP8NNNC, JLC Basic C19702.
     c_in = new CapBoost
-    c_in.value = "4u7 16V"
-    c_in.p1 ~ v3v3
+    c_in.value = "10u 10V"
+    c_in.p1 ~ sys
     c_in.p2 ~ gnd
 
-    l_boost = new BoostInductor
-    l_boost.p1 ~ v3v3
-    l_boost.p2 ~ sw
+    c_out1 = new CapBoost
+    c_out1.value = "10u 10V"
+    c_out1.p1 ~ v5
+    c_out1.p2 ~ gnd
 
-    q_boost = new BoostFET
-    q_boost.drain  ~ sw
-    q_boost.gate   ~ gdr
-    q_boost.source ~ rese
+    c_out2 = new CapBoost
+    c_out2.value = "10u 10V"
+    c_out2.p1 ~ v5
+    c_out2.p2 ~ gnd
 
-    # R1: holds the gate down whenever the panel is asleep and GDR is
-    # floating. Without it the FET can sit half on and cook the inductor.
-    r_gate = new Resistor
-    r_gate.value = "1M"
-    r_gate.p1 ~ gdr
-    r_gate.p2 ~ gnd
+    # EN must never float (TI table 5-1). While the ESP32 is in reset its
+    # pins are all inputs, so this holds the panel off.
+    r_en = new Resistor
+    r_en.value = "1M"
+    r_en.p1 ~ pwr_en
+    r_en.p2 ~ gnd
 
-    # R2: the current sense. 2.2 ohm, and it is in the switching path, so it
-    # is a real 1% part and not a 5% one -- the panel sets its peak current
-    # from the voltage across it.
-    #
-    # 0603 since 28 September 2026: JLC's Basic 2.2 ohm 1% is 0603 only.
-    r_sense = new Resistor
-    r_sense.value = "2R2 1%"
-    r_sense.footprint = "Resistor_SMD:R_0603_1608Metric"
-    r_sense.p1 ~ rese
-    r_sense.p2 ~ gnd
+    # --- the clock, and EXTCOMIN --------------------------------------------
+    rtc = new RV8263C7
+    rtc.VDD ~ v3v3
+    rtc.VSS ~ gnd
+    rtc.SCL ~ i2c_scl
+    rtc.SDA ~ i2c_sda
+    rtc.CLKOE ~ clkoe
+    rtc.CLKOUT ~ extcomin
 
-    epd.GDR  ~ gdr
-    epd.RESE ~ rese
+    c_rtc = new Capacitor
+    c_rtc.value = "100n"
+    c_rtc.p1 ~ v3v3
+    c_rtc.p2 ~ gnd
 
-    # D3 + C5: the positive rail.
-    d_pos = new SchottkyDiode
-    d_pos.anode   ~ sw
-    d_pos.cathode ~ prevgh
-
-    c_vgh = new CapBoost
-    c_vgh.value = "1u 25V"
-    c_vgh.p1 ~ prevgh
-    c_vgh.p2 ~ gnd
-
-    epd.VGH ~ prevgh
-
-    # C3 + D2 + D1 + C11: the negative rail.
-    #
-    # 0805 since 28 September 2026: this one does need 25 V, and JLC's Basic
-    # 4.7 uF 25 V is 0805 (Samsung CL21A475KAQNNNE).
-    c_pump = new CapBoost
-    c_pump.value = "4u7 25V"
-    c_pump.footprint = "Capacitor_SMD:C_0805_2012Metric"
-    c_pump.p1 ~ sw
-    c_pump.p2 ~ pump
-
-    d_clamp = new SchottkyDiode
-    d_clamp.anode   ~ pump
-    d_clamp.cathode ~ gnd
-
-    d_neg = new SchottkyDiode
-    d_neg.anode   ~ prevgl
-    d_neg.cathode ~ pump
-
-    c_vgl = new CapBoost
-    c_vgl.value = "1u 25V"
-    c_vgl.p1 ~ prevgl
-    c_vgl.p2 ~ gnd
-
-    epd.VGL ~ prevgl
+    # CLKOE low stops the square wave; hold it low through a reset for the
+    # same reason as EN.
+    r_clkoe = new Resistor
+    r_clkoe.value = "1M"
+    r_clkoe.p1 ~ clkoe
+    r_clkoe.p2 ~ gnd
