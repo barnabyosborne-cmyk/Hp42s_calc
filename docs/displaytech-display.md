@@ -66,12 +66,13 @@ turned 180°, glass below the pins; `place_board.py` puts it in at 180.
 
 ## Still to do
 
-1. Barnaby: re-import the netlist in KiCad, then `place_board.py`,
-   `fix_pads.py`, `check_placement.py`.
-2. Strip the stale copper, reroute (`route_power.py`, `route_signals.py`,
-   `stitch_zones.py`), then `check_ends.py` and DRC.
-3. `mech_models.py` now draws the 64128M (anchor TP1); run it after the
-   import to attach the models. `hardware/64128M_on_board.step` is the panel
-   alone in the board frame, for the case.
-4. Firmware: ST7565R driver and the Plus42 blitter at 1x, in `sim/host`
+Done: netlist imported, board placed and fully rerouted at 76 x 147
+(`fd24ffc`); `check_ends`, `check_pour`, `check_placement` clean;
+`mech_models.py` draws the 64128M (anchor TP1), and
+`hardware/64128M_on_board.step` is the panel alone in the board frame.
+
+1. Barnaby: KiCad DRC on `fd24ffc`. The 12 hole_clearance items inside the
+   J1, SW39 and SW40 vendor footprints are the same as on `main`.
+2. Regenerate the JLC BOM (`tools/jlc_bom.py`) for this branch.
+3. Firmware: ST7565R driver and the Plus42 blitter at 1x, in `sim/host`
    first.
