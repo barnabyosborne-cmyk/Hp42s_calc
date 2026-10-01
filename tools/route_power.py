@@ -189,18 +189,25 @@ SHARES_PLANE_VIA = set()      # {("L2", "1")} on main, for the e-paper booster
 # ground plane underneath, so nothing loses its return path. It descends at
 # x 38.420, which is the middle of the 1.615 mm gap between R3/R5 and R6 -- the
 # obvious x 38.000 is 0.39 mm from R5's ground pad and will not do.
-# dt: the 64128M's 28 clip pins are a wall across the board at y 60.75 (board),
+# dt: the 64128M's 28 clip pins are a wall across the board at y 57.75 (board),
 # x 20.4..54.6, on every layer. vbus goes round its right-hand end at x 56.2,
-# back west in the 1.65 mm between the pads and the ST7565R caps (board y
-# 62.6), and down between C13 and C14 at x 38.1.
+# back west in the 1.9 mm between the pads and the ST7565R caps (board y
+# 59.6), and down between C13 and C14 at x 38.1.
 ROUTES += [
     dict(net="vbus", layer="B.Cu",
-         path=[(40.400, 6.400), (40.400, 8.000), (41.770, 9.800)],
+         path=[(40.400, 6.400), (40.400, 8.000), (41.770, 9.370)],
          widths=[NECK_W, POWER_W],
-         why="J1 pins A9/B4 down to C1, the USB bulk cap"),
+         why="J1 pins A9/B4 down to the trunk"),
+
+    # dt: C1 moved up beside J1 (the cell starts at y 8.5 now), so it hangs
+    # off the trunk on a short spur clear of J1's shell legs.
+    dict(net="vbus", layer="B.Cu",
+         path=[(41.770, 9.370), (45.085, 9.370), (45.085, 6.000)],
+         widths=[POWER_W, POWER_W],
+         why="spur up into C1, the USB bulk cap"),
 
     dict(net="vbus", layer="B.Cu",
-         path=[(41.770, 10.160), (41.770, 14.000), (38.420, 20.000),
+         path=[(41.770, 9.370), (41.770, 14.000), (38.420, 20.000),
                (38.420, 47.000), (56.200, 47.000), (56.200, 56.600),
                (38.100, 56.600), (38.100, 74.500), (34.033, 74.500),
                (34.033, 73.250)],

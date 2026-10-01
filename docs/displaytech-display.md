@@ -25,12 +25,19 @@ The pins stick out about 6 mm behind the board (8.0 less 0.2 adhesive and
 ## Mounting
 
 **Upright** (pins at the bottom), the standard 6 o'clock part. Glass at board
-Y 10.5..60.5, X 0.5..75.5, so the image is centred and the seal bump stands
-0.5 mm past the left board edge. The pin row is at Y 60.75 and the first dome
+Y 7.5..57.5, X 0.5..75.5, so the image is centred and the seal bump stands
+0.5 mm past the left board edge. The pin row is at Y 57.75 and the first dome
 sites start 2 mm under its pads. Everything below the e-paper glass's old
-edge (Y 48.3) moves 6.0 (`tools/variant.py`), so the board is **76 x 150**.
-The cell stays 45 x 55 at Y 13..58; the pins' back-side joints sit just below
-it.
+edge (Y 48.3) moves 3.0 (`tools/variant.py`), so the board is **76 x 147**.
+
+Shortened on 1 October at Barnaby's suggestion (it was 76 x 150):
+- Mounting holes A and B moved up to (10, 3.5) and (66, 3.5) with 4.5 mm
+  rings, B between the two side buttons and A mirroring it.
+- The glass's top edge is set by J1's shell-leg pads, which reach Y 6.63 on
+  the front; 7.5 clears them.
+- U1, R1, R2, C1, Q1 and R18 moved out of the band under J1 into the top
+  band either side of it, so the cell bay starts at Y 8.5: **47 x 55 x 6**
+  at Y 8.75..55.75, ending above the pins' back-side joints.
 
 Turned 180° (pins at the top) was the first plan, but the pin row would hit
 the USB ESD array and its resistors on the back (Y 8.9..10.2), which pushes
@@ -43,14 +50,15 @@ turned 180°, glass below the pins; `place_board.py` puts it in at 180.
 
 ## Board changes from `mip`
 
-- `tools/dt_lift_board.py` (run once): everything below Y 59.3 up 5 mm,
-  outline to 150, the FPC notch on the left edge closed.
+- `tools/dt_lift_board.py`: from mip, everything below Y 59.3 up 5 mm,
+  outline to 150, the FPC notch closed; then `--from 6` and `--from 2` for
+  the shortening, ending at 147.
 - The faceplate bond pad (now TP1) moved from under the glass into the
-  keypad (Barnaby's choice): board (14.75, 109.855) on the front, in the gap
+  keypad (Barnaby's choice): board (14.75, 106.855) on the front, in the gap
   between the left column and the numeric block, between rows 5 and 6. Its
   ground via is in `route_power.py`.
 - The ST7565R's ten 1 uF caps and the /RES pull-up sit in a row on the back
-  under the pin row (board Y 64.42), in pin order.
+  under the pin row (board Y 61.42), in pin order.
 - Removed: the MIP 5 V boost, the frontlight boost and their power routes.
 - Designators after the re-import: `placement-ids.json` is re-recorded
   against the dt netlist (old U7 is U6, C14 is C20, R24 is R21, TP3..TP11

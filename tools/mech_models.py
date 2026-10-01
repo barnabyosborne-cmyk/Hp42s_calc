@@ -17,8 +17,8 @@ model's frame is simply the board's, moved to TP1 and with y turned over.
 Nothing about TP1's copper changes. If TP1 ever moves, re-run this and the
 models follow.
 
-  - the cell, 55 x 45 x 6 mm, board X 14..69, Y 13..58, on the back
-  - the 64128M, upright: glass 75 x 50 at X 0.5..75.5, Y 10.5..60.5 on
+  - the cell, 55 x 47 x 6 mm, board X 14..69, Y 8.75..55.75, on the back
+  - the 64128M, upright: glass 75 x 50 at X 0.5..75.5, Y 7.5..57.5 on
     0.2 mm of adhesive, the driver ledge at the bottom, 28 clip pins whose
     legs run 8.0 mm back from the glass, through the board
 
@@ -51,20 +51,20 @@ MODELS = ("Mech_Cell", "Mech_Panel")
 # back glass's rear face. Seal bump 10 x 1.0 on the left edge.
 # ADHESIVE is the allowance for a contact adhesive film between the back
 # polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
-GLASS = (0.50, 75.50, 10.50, 60.50)          # back glass: X0, X1, Y0, Y1, board mm
-FRONT_GLASS = (0.50, 75.50, 10.50, 53.50)
-POL = (1.00, 75.00, 11.00, 52.20)
-VIEW = (3.00, 73.00, 12.00, 52.00)
-ACTIVE = (4.74, 71.26, 15.38, 48.62)
-CHIP = (33.20, 42.80, 55.00, 56.40, 0.35)    # ST7565R on the ledge, centred
-BUMP = (-0.50, 0.50, 27.00, 37.00)
+GLASS = (0.50, 75.50, 7.50, 57.50)          # back glass: X0, X1, Y0, Y1, board mm
+FRONT_GLASS = (0.50, 75.50, 7.50, 50.50)
+POL = (1.00, 75.00, 8.00, 49.20)
+VIEW = (3.00, 73.00, 9.00, 49.00)
+ACTIVE = (4.74, 71.26, 12.38, 45.62)
+CHIP = (33.20, 42.80, 52.00, 53.40, 0.35)    # ST7565R on the ledge, centred
+BUMP = (-0.50, 0.50, 24.00, 34.00)
 ADHESIVE = 0.20
 BACK_POL_T, GLASS_T1, FRONT_POL_T = 0.40, 1.10, 0.35
 PIN_X = [54.645 - 1.27 * k for k in range(28)]   # pin 1 first, at the right
-PIN_Y = 60.75
+PIN_Y = 57.75
 LEG = 0.40
 LEG_BACK = 8.0
-CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
+CELL = (14.0, 69.0, 8.75, 55.75, 6.0)   # dt: 47 mm, between J1 and J2's pins
 
 
 def anchor(text):

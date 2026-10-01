@@ -15,7 +15,7 @@ when merging main or mip.
 """
 
 BOARD_W = 76.0
-BOARD_H = 150.0             # 144 on the e-paper board, 155 on mip
+BOARD_H = 147.0             # 144 on the e-paper board, 155 on mip
 
 # The 64128M's glass is 75 x 50, mounted upright (pins at the bottom, the
 # standard 6 o'clock part). Its top edge sits at Y 10.5, below mounting holes
@@ -23,13 +23,14 @@ BOARD_H = 150.0             # 144 on the e-paper board, 155 on mip
 # at Y 60.75, and the first dome sites start 2 mm under the pads. Everything
 # below the e-paper glass's old lower edge moves 6.0. 64128M COG series spec
 # v1.0, page 7; docs/displaytech-display.md.
-GLASS_Y = (10.5, 60.5)      # the panel glass, board Y, front
-PIN_ROW_Y = 60.75           # J2's pin row, footprint origin
+GLASS_Y = (7.5, 57.5)      # the panel glass, board Y, front
+PIN_ROW_Y = 57.75           # J2's pin row, footprint origin
 DROP_FROM = 48.3            # the e-paper glass's lower edge
-DROP = 6.0
-# The cell stays 45 mm long (Y 13..58): the pin row's back-side joints sit
-# just below it instead of the bay growing with DROP the way mip's does.
-BAY_BOTTOM = 58.0
+DROP = 3.0
+# The cell bay runs from Y 8.5 (the USB parts moved out of the band under J1)
+# to 0.75 mm above J2's pin pads: 47.5 mm, for a 47 x 55 cell.
+BAY_TOP = 8.5
+BAY_BOTTOM = 56.0
 
 
 def drop(y):

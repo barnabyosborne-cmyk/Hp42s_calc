@@ -223,14 +223,19 @@ FIRST_PASS = {
     # part each one serves directly in front of it. They are back on their grids
     # afterwards -- 1.27 mm for U1, 0.635 for the passives -- which is why the
     # shifts are not exactly the shifts above.
-    "U1":  (38.1, 10.16, "B", 0),
-    "R1":  (31.115, 10.16, "B", 0),
-    "R2":  (34.29, 10.16, "B", 0),
-    "C1":  (42.545, 10.16, "B", 0),
+    # dt (Barnaby, 1 October 2026): U1, R1, R2, C1, Q1 and R18 come out of
+    # the band under J1 into the top band either side of it, so nothing on
+    # the back reaches below Y 7.25 except J1 itself and the cell can start
+    # at Y 8.5 instead of 13. U1 sits just left of J1's D+/D- pins, C1 just
+    # right of its VBUS pins, the CC pulldowns one each side.
+    "U1":  (30.48, 5.08, "B", 0),
+    "R1":  (54.61, 5.08, "B", 90),
+    "R2":  (27.94, 5.08, "B", 90),
+    "C1":  (45.085, 5.08, "B", 90),
     # The IR emitter's driver, behind D4.
-    "Q1":  (25.4, 8.89, "B", 0),     # Q2 on main
+    "Q1":  (19.05, 5.08, "B", 0),    # Q2 on main
     "R17": (24.13, 4.445, "B", 0),
-    "R18": (20.955, 8.89, "B", 0),
+    "R18": (14.605, 5.08, "B", 0),
     # The status LED's two ballast resistors, behind D5.
     "R19": (52.07, 4.445, "B", 0),
     "R20": (48.895, 4.445, "B", 0),
@@ -243,7 +248,7 @@ FIRST_PASS = {
     # the numeric block, between rows 5 and 6: centred in that channel
     # (off the grid for it), its 4 mm courtyard 1.0 mm from the domes' either
     # side, nothing on the back under it, and well above the ESP32.
-    # Y 103.855 is board Y 109.855. It is also what mech_models.py hangs the
+    # Y 103.855 is board Y 106.855. It is also what mech_models.py hangs the
     # 3D models off.
     "TP1": (14.75, 103.855, "F", 0),
 
@@ -253,8 +258,8 @@ FIRST_PASS = {
     # is upright (pins at the bottom, the standard 6 o'clock part), so the
     # footprint, drawn for the panel turned over, goes in at 180: pin 1 ends
     # up on the right as the datasheet's front view has it. The origin is the
-    # middle of the pin row; Y 54.75 here is board Y 60.75 after drop(), the
-    # glass 10.5..60.5 (variant.GLASS_Y). X 38.0 centres the image on the
+    # middle of the pin row; Y 54.75 here is board Y 57.75 after drop(), the
+    # glass 7.5..57.5 (variant.GLASS_Y). X 38.0 centres the image on the
     # board; the glass's seal bump (10 x 1.0 max, left edge, Y 34..44) then
     # stands 0.5 mm past the board edge into the case wall.
     # 64128M COG series spec v1.0, page 7.
@@ -264,7 +269,7 @@ FIRST_PASS = {
     # dt branch. The four booster caps and the five bias caps, all 1 uF, in a
     # row in the order of the pins they serve (V0 at the left end, VDD at the
     # right), 1 mm below J2's back courtyard and clear of BT1 to the right.
-    # R14 is /RES's pull-up. Y 58.42 here is board Y 64.42.
+    # R14 is /RES's pull-up. Y 58.42 here is board Y 61.42.
     "R14": (16.51, 58.42, "B", 90),   # /RES pull-up
     "C15": (19.05, 58.42, "B", 90),   # V0
     "C16": (21.59, 58.42, "B", 90),   # V1
@@ -695,7 +700,7 @@ def main():
         lib = blocks[refs.index("J2")].split('"', 2)[1]
         if "Displaytech_64128M" not in lib:     # "F32Q" on main, "FH34SRJ" on mip
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         (38.0, 60.75) at 180 is worked out for the "
+                  "         (38.0, 57.75) at 180 is worked out for the "
                   "Displaytech 64128M,\n"
                   "         so the panel has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"

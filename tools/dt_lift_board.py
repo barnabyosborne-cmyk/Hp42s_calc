@@ -12,7 +12,11 @@ a board whose outline still reaches 155; it refuses anything else.
 Tracks that crossed Y 59.3 come out bent; route_power.py and
 route_signals.py replace every one of them.
 
-    python3 tools/dt_lift_board.py
+    python3 tools/dt_lift_board.py              # mip (155) -> dt
+    python3 tools/dt_lift_board.py --from 6     # dt at 150 -> dt at 146
+
+1 October 2026, second use: holes A and B moved up (Barnaby), the glass
+starts at Y 6.5 instead of 10.5, DROP 6 -> 2, board 150 -> 146.
 """
 import re
 import sys
@@ -24,9 +28,11 @@ import variant                      # noqa: E402
 
 PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kicad_pcb"
 PAIR = re.compile(r'\((start|end|mid|center|xy|at) (-?[\d.]+) (-?[\d.]+)')
-MIP_DROP = 11.0
-LINE = variant.DROP_FROM + MIP_DROP          # 59.3
-LIFT = MIP_DROP - variant.DROP               # 5.0
+# --from N: the DROP the board in the file was built with (11 for mip, 6 for
+# the first dt board). Everything below DROP_FROM + N comes up by N - DROP.
+MIP_DROP = float(sys.argv[sys.argv.index("--from") + 1]) if "--from" in sys.argv else 11.0
+LINE = variant.DROP_FROM + MIP_DROP
+LIFT = MIP_DROP - variant.DROP
 NOTCH = (29.01, 42.01)
 
 
@@ -44,9 +50,9 @@ def shift(m):
 
 def main():
     text = PCB.read_text()
-    if abs(rp.board_box(text)[3] - 155.0) > 1e-6:
-        raise SystemExit("the outline does not reach Y 155: not the mip board, "
-                         "or already done")
+    if abs(rp.board_box(text)[3] - (144.0 + MIP_DROP)) > 1e-6:
+        raise SystemExit(f"the outline does not reach Y {144 + MIP_DROP:g}: "
+                         "wrong --from, or already done")
     out, pos = [], 0
     for m in re.finditer(r'\n\t\((\w+)', text):
         start = m.start() + 2
