@@ -53,11 +53,21 @@ and the 0.3 mm FPC, so about 2.05 mm. Fold apex to far glass edge is
 **82 mm** does, with room for the 1.2 mm wall beside the fold that Barnaby
 already accepted.
 
-The board stays 76 mm wide, with the glass at X 0.8 to 76.8 and the tail
-wrapping the left edge to J2 on the back, as the e-paper's does. The active
-area then sits about 2.6 mm off the case centreline. That follows from the
-FPC being at one end and cannot be designed out; centre the window on the
-image, as on the e-paper (`docs/display-mounting.md`).
+The board stays 76 mm wide. **The glass is flush with it, X 0.00 to 76.00**
+(Barnaby, 1 October 2026), which gives the most viewing area; the case masks
+the right-hand side so the window matches visually. The tail wraps the left
+edge to J2 on the back. Its half turn is centred 0.8 mm beyond the glass, so
+its outside stands at **X -2.16**, past the board edge: the case has a
+special cut-out for it.
+
+Visible region: polarisers 73.2 x 46.02 at X 2.30 to 75.50, Y 12.50 to
+58.52; active area 68.072 x 42.672 at **X 5.748 to 73.820, Y 14.174 to
+56.846**. It is centred on the glass's height and 39.784 from the tail end.
+
+Stack above the board's front face: 0.20 mm contact adhesive film (tesa
+4965 is 0.205), then the 0.705 mm panel, so the front face is at
+**0.905 mm**. The flex is bonded on top of the TFT glass's 2.3 mm ledge.
+`hardware/LS032B7DD02_on_board.step` has all of it in the board's frame.
 
 ## Height: board 155 mm, case 159 mm
 
@@ -80,8 +90,8 @@ Done on 30 September 2026, in `elec/src/display.ato` and `parts.ato`:
    disconnects its output when off.
 3. **J2 is the Hirose FH34SRJ-10S** (C324723), land from the FH34 catalogue.
    Connector pin n is panel pin n; the reasoning is in `parts.ato`
-   (MIPConnector). J2 sits on the back at (8.20, 35.51), 90°, mouth at
-   X 4.50, which leaves the tail 2 mm of slack like the e-paper's.
+   (MIPConnector). J2 sits on the back at (7.05, 35.51), 90°, mouth at
+   X 3.35, which leaves the tail 2 mm of slack like the e-paper's.
 4. **EXTCOMIN from an RV-8263-C7** (C5137460, the C7 package so its land is
    Micro Crystal's own drawing) on the gauge's I2C bus. CLKOUT is EXTCOMIN;
    CLKOE comes from IO36 with a 1 M pulldown, because the RTC wakes up
@@ -159,3 +169,13 @@ leaves plenty of height for Plus42's taller layouts.
    lengthen the frontlight sliver to six LEDs.~~ Done. Then, after the
    re-import: place the new parts, reroute with the same tools.
 4. Firmware: the MIP driver and the ×4 Plus42 blitter, in `sim/host` first.
+
+## Shelved, 1 October 2026
+
+Barnaby shelved this branch to try the Displaytech 64128M (branch `dt`).
+State when shelved: glass moved flush left and J2 to X 7.05 in the tables and
+the board, but **the signal routing was not rewritten**: route_signals'
+audit stopped on one gnd via at (37.05, 10.2), 0.186 mm from usb_dm, that
+`nudge_vias` cannot find room to move. The mip_* tracks on the board still
+end at J2's old pads. To resume: fix that via, run route_signals, then
+mech_models and the checks.

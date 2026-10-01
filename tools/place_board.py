@@ -294,15 +294,18 @@ FIRST_PASS = {
     #   At 90 degrees on the back its mouth faces -X and its pad 1 is the
     #   low-Y end, which is where the panel's pin 1 arrives (parts.ato,
     #   MIPConnector).
-    #   The tail is 13.63 beyond the glass. 0.8 straight, then a half turn of
-    #   about 1.1 mm radius round the left edge, 3.5 mm of flex, leaves about
-    #   9.4 mm on the back; the stiffener seats about 2.9 mm inside the
-    #   mouth. Mouth at X 4.50, with 2 mm left over as the same slack loop
-    #   the e-paper tail has (1.5 mm at the -0.5 tolerance). The footprint's
-    #   front face is 3.70 from its pad row, so the pads are at X 8.20.
+    #   The tail is 13.63 beyond the glass. The glass is flush with the
+    #   board's left edge (1 October 2026), so the flex runs 0.8 straight
+    #   past the edge, half-turns at about 1.21 mm mean radius (the panel's
+    #   ledge is 0.515 above the board on 0.2 of adhesive, the back face
+    #   1.6 below) for 3.79 mm, and has 9.04 mm left on the back, ending at
+    #   X 8.24 if pulled tight. The stiffener seats 2.9 mm inside the mouth,
+    #   so a mouth at X 3.35 leaves the same 2 mm slack loop as before
+    #   (1.5 mm at the -0.5 tolerance). The footprint's front face is 3.70
+    #   from its pad row, so the pads are at X 7.05.
     #   Y 35.51 is the glass's centre, 12.00 + 47.02 / 2, and the tail is
     #   centred on it.
-    "J2": (8.2, 35.51, "B", 90),
+    "J2": (7.05, 35.51, "B", 90),
 
     # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
     # MIP branch. Where the e-paper's gate booster was, in the same corner
@@ -749,7 +752,7 @@ def main():
         lib = blocks[refs.index("J2")].split('"', 2)[1]
         if "FH34SRJ" not in lib:     # "F32Q" on main
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         X 8.20 is worked out from the Hirose FH34SRJ's "
+                  "         X 7.05 is worked out from the Hirose FH34SRJ's "
                   "own depth, so the mouth\n"
                   "         has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"

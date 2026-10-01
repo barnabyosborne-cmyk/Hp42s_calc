@@ -4206,7 +4206,7 @@
 	(footprint "hp42s:Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal"
 		(layer "B.Cu")
 		(uuid "95e89bf2-1b62-4775-8aba-d4f096f02aa4")
-		(at 8.2 35.51 90)
+		(at 7.05 35.51 90)
 		(descr "Hirose FH34SRJ-10S-0.5SH(50), 10 way 0.5 mm FPC, top and bottom contact, back-flip actuator, 1.0 mm high. Lands from the FH34 catalogue recommended PCB mounting pattern. FPC enters from +y; contact 1 at +x. The LS032B7DD02 MIP panel's connector.")
 		(tags "FPC FFC connector Hirose FH34SRJ 0.5mm")
 		(property "Reference" "J2"

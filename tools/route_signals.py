@@ -1160,7 +1160,7 @@ def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
 
     The 0.05 mm grid rounds, so now and then a via lands 0.01-0.02 mm short
     of CLEAR from a foreign track (usb_dm on the MIP board, 30 September
-    2026). Rather than re-route, try spots up to 0.3 mm away, keep the first
+    2026). Rather than re-route, try spots up to 1.2 mm away, keep the first
     where the via and a short track back to the old spot, on every layer
     the via's own tracks arrive on, clear everything exactly."""
     boundary = edge.exterior
@@ -1181,9 +1181,10 @@ def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
         arrive = sorted({L for n, L, a, b, w in new_segs
                          if n == net and (a == v or b == v)}) or ["B.Cu"]
         best = None
-        for r in (0.02, 0.04, 0.06, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3):
-            for k in range(24):
-                t = 2 * math.pi * k / 24
+        for r in (0.02, 0.04, 0.06, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3, 0.4, 0.5, 0.6,
+                  0.7, 0.8, 0.9, 1.0, 1.2):
+            for k in range(48):
+                t = 2 * math.pi * k / 48
                 q = (round(v[0] + r * math.cos(t), 4),
                      round(v[1] + r * math.sin(t), 4))
                 gq = Point(q).buffer(VIA_D / 2, quad_segs=16)

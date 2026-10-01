@@ -39,8 +39,8 @@ BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
 # MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
-# tail to the left. TFT glass 76.00 x 47.02 at X 0.80..76.80 (0.8 over the
-# board's right edge; the case is 82 wide), Y 12.00..59.02. Stack, bottom up:
+# tail to the left. TFT glass 76.00 x 47.02 at X 0.00..76.00, flush with
+# both long edges of the board (Barnaby, 1 October 2026), Y 12.00..59.02. Stack, bottom up:
 # bottom polariser 0.115, TFT glass 0.2, CF glass 0.2, top polariser 0.19,
 # 0.705 in all. The CF glass and both polarisers are 73.2 x 46.02, 0.5 in
 # from the far end and the long edges, leaving a 2.3 mm TFT-glass ledge at the
@@ -48,21 +48,22 @@ MODELS = ("Mech_Cell", "Mech_Panel")
 # not drawn by Sharp; taken as the top one's.) Active area 68.072 x 42.672,
 # centred 39.784 from the tail-end edge and on the glass's height. Tail 9.47
 # wide on Y 35.51, 0.3 thick, leaving the ledge at the TFT glass's top face;
-# the half turn is centred on X 0.00, 0.8 beyond the glass, as before.
-# Back leg ends 2.9 inside J2's mouth at X 4.50. (main: the e-paper's.)
+# the half turn is centred on X -0.80, 0.8 beyond the glass (Sharp's nearest
+# bend), so it stands out past the board edge and the case has a pocket for
+# it. Back leg ends 2.9 inside J2's mouth at X 3.35. (main: the e-paper's.)
 # ADHESIVE is the allowance for a contact adhesive film between the bottom
 # polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
-GLASS = (0.80, 76.80, 12.00, 59.02)          # TFT glass: X0, X1, Y0, Y1, board mm
-POL = (0.80 + 2.3, 76.80 - 0.5, 12.50, 58.52)   # 3.10..76.30
-ACTIVE = (6.548, 74.620, 14.174, 56.846)
+GLASS = (0.00, 76.00, 12.00, 59.02)          # TFT glass: X0, X1, Y0, Y1, board mm
+POL = (0.00 + 2.3, 76.00 - 0.5, 12.50, 58.52)   # 2.30..75.50
+ACTIVE = (5.748, 73.820, 14.174, 56.846)
 ADHESIVE = 0.20
 BOT_POL_T, TFT_T, CF_T, TOP_POL_T = 0.115, 0.2, 0.2, 0.19
 GLASS_T = BOT_POL_T + TFT_T + CF_T + TOP_POL_T   # 0.705
 LEDGE_Z = ADHESIVE + BOT_POL_T + TFT_T           # top of the TFT glass
 TAIL_Y = (30.775, 40.245)
 TAIL_T = 0.30
-TAIL_END_X = 7.40                             # back leg ends here, in J2
-BEND_X = 0.0                                  # centre of the half turn
+TAIL_END_X = 6.25                             # back leg ends here, in J2
+BEND_X = -0.80                                 # centre of the half turn
 CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
 
 
