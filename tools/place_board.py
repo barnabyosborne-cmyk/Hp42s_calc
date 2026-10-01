@@ -235,111 +235,50 @@ FIRST_PASS = {
     "R19": (52.07, 4.445, "B", 0),
     "R20": (48.895, 4.445, "B", 0),
 
-    # -- FRONT, Y 48.3..57 ---------------------------------------------------
-    # TP1 and TP2 are the frontlight sliver's solder lands, 60 mm apart
-    # because that is the sliver's length. TP3 is a ground point to clip a
-    # scope to while the frontlight is being set up.
-    "TP1": (9.5, 50.5, "F", 0),
-    "TP2": (69.5, 50.5, "F", 0),
-    "TP3": (3.81, 53.34, "F", 0),
+    # -- FRONT, top band: the faceplate bond -------------------------------
+    # dt branch. No frontlight, so no sliver lands. TP1 is the faceplate's
+    # ground bond (ChassisPad, TP3 on main): its old spot at (3.81, 53.34) is
+    # under the 64128M's glass, so it moves into the band above the glass,
+    # clear of hole A's 6 mm circle and on the USB side as docs/front-face.md
+    # asks. It is also what mech_models.py hangs the 3D models off.
+    "TP1": (14.605, 6.35, "F", 0),
 
-    # -- BACK, Y 20..40, left edge: the panel's FPC connector ----------------
-    # The one placement on the board with no slack in it, and it was wrong in
-    # both of the ways it could be until 23 September 2026. It was at 90
-    # degrees; it wants 270.
-    #
-    # WHICH WAY THE MOUTH FACES. The flex comes around the left board edge
-    # and runs rightwards along the back, so the connector's mouth has to
-    # face LEFT and its body has to sit to the RIGHT of it. At 90 degrees it
-    # was the other way round: mouth at X 12.00 facing right, body running
-    # back to X 4.10, with the flex arriving at the closed end of it.
-    #
-    # HOW FAR IN. The back leg of the tail ends at X 10.50 and cannot be
-    # made to end anywhere else -- see docs/display-mounting.md. The F32Q's
-    # body is 3.00 mm deep, so its BACK WALL goes at X 10.50 and the flex
-    # bottoms out against it: mouth at X 7.50, and the flex's own 3.00 mm of
-    # exposed finger runs X 7.50..10.50, which is exactly the body. Wherever
-    # inside that body the contact point actually is, it is on copper.
-    # X 9.75 is what put the back wall there, with the solder pads, which
-    # stand 0.65 mm proud of the mouth, at X 6.85.
-    #
-    # 2 MM OF SLACK (Barnaby, 2026-09-29). A tail cut to end exactly at the
-    # back wall has no give: any case tolerance pulls on the connector. So
-    # J2 sits 2.00 mm further left, at X 7.75: back wall X 8.50, mouth
-    # X 5.50, pads X 4.85, and the 2 mm the tail no longer needs to reach
-    # becomes a loose curve in the space under the board. At the tail's
-    # -0.3 mm tolerance there is still 1.7 mm of slack.
-    #
-    # Y 30.15 is the tail's own centreline: the tail is centred on the
-    # panel's 36.30 mm edge, 11.90 + 12.50 + 11.90, and the glass spans
-    # Y 12.00..48.30.
-    #
-    # PIN ORDER. On the panel's own front view the tail leaves the bottom
-    # edge with pin 1 at the left. Mounted landscape with the tail to the
-    # left that is a quarter turn clockwise, which puts pin 1 at the TOP of
-    # the board. The fold is about the board's left edge, a vertical axis,
-    # so it mirrors X and leaves Y alone, and pin 1 arrives at Y 24.40 with
-    # pin 24 at Y 35.90. 270 degrees gives that. 90 gave the reverse, which
-    # is the same single error as the mouth pointing the wrong way.
-    #
-    # WHERE THE CELL GOES. At 270 the connector's body runs right to
-    # X 12.50 instead of stopping at 12.00 the wrong way round, so the cell
-    # has to start at X 14 rather than the 10 the bay was drawn at. It has
-    # the room -- 60 mm of cell in a 62 mm bay -- but it is a note for the
-    # case model, and it is why BAY in check_placement.py now starts at 13.
-    # THE MIP BRANCH'S J2 is the Hirose FH34SRJ-10S, and everything above
-    # about the F32Q is the e-paper's. The same reasoning, redone for the
-    # LS032B7DD02 (docs/mip-display.md):
-    #
-    #   At 90 degrees on the back its mouth faces -X and its pad 1 is the
-    #   low-Y end, which is where the panel's pin 1 arrives (parts.ato,
-    #   MIPConnector).
-    #   The tail is 13.63 beyond the glass. The glass is flush with the
-    #   board's left edge (1 October 2026), so the flex runs 0.8 straight
-    #   past the edge, half-turns at about 1.21 mm mean radius (the panel's
-    #   ledge is 0.515 above the board on 0.2 of adhesive, the back face
-    #   1.6 below) for 3.79 mm, and has 9.04 mm left on the back, ending at
-    #   X 8.24 if pulled tight. The stiffener seats 2.9 mm inside the mouth,
-    #   so a mouth at X 3.35 leaves the same 2 mm slack loop as before
-    #   (1.5 mm at the -0.5 tolerance). The footprint's front face is 3.70
-    #   from its pad row, so the pads are at X 7.05.
-    #   Y 35.51 is the glass's centre, 12.00 + 47.02 / 2, and the tail is
-    #   centred on it.
-    "J2": (7.05, 35.51, "B", 90),
+    # -- FRONT: the panel itself ---------------------------------------------
+    # dt branch: J2 is the Displaytech 64128M COG, glass 75 x 50 on the front,
+    # 28 clip pins through the board at 1.27 mm, hand-soldered after JLC. It
+    # is upright (pins at the bottom, the standard 6 o'clock part), so the
+    # footprint, drawn for the panel turned over, goes in at 180: pin 1 ends
+    # up on the right as the datasheet's front view has it. The origin is the
+    # middle of the pin row; Y 54.75 here is board Y 60.75 after drop(), the
+    # glass 10.5..60.5 (variant.GLASS_Y). X 38.0 centres the image on the
+    # board; the glass's seal bump (10 x 1.0 max, left edge, Y 34..44) then
+    # stands 0.5 mm past the board edge into the case wall.
+    # 64128M COG series spec v1.0, page 7.
+    "J2": (38.0, 54.75, "F", 180),
 
-    # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
-    # MIP branch. Where the e-paper's gate booster was, in the same corner
-    # under J2, and like it kept out of the battery bay. (Y here is the
-    # e-paper table's; drop() moves it down with everything else.)
-    # U6 is the TPS610997, L2 its inductor, C11 its input off SYS and
-    # C12/C13 the 20 uF on its output; C10 is the panel's own 5 V bypass,
-    # as near J2's VDD pins as the bay lets it get. R14 holds EN low.
-    "U6":  (8.89, 66.04, "B", 0),
-    "L2":  (12.7, 66.04, "B", 0),
-    "C11": (12.7, 69.215, "B", 0),    # SYS into L2
-    "C12": (5.08, 65.405, "B", 0),    # 5 V out
-    "C13": (5.08, 67.945, "B", 0),
-    "C10": (7.62, 60.325, "B", 0),    # at the panel
-    "R14": (8.89, 69.85, "B", 0),     # EN pulldown
-    # U7, the RV-8263: its CLKOUT is the panel's EXTCOMIN, its I2C is the
-    # gauge's bus. C14 is its bypass, R15 holds CLKOE low.
-    "U7":  (19.05, 64.77, "B", 0),
-    "C14": (19.05, 61.595, "B", 0),
-    "R15": (22.86, 61.595, "B", 0),
+    # -- BACK, just under J2's pin row: the ST7565R's capacitors -------------
+    # dt branch. The four booster caps and the five bias caps, all 1 uF, in a
+    # row in the order of the pins they serve (V0 at the left end, VDD at the
+    # right), 1 mm below J2's back courtyard and clear of BT1 to the right.
+    # R14 is /RES's pull-up. Y 58.42 here is board Y 64.42.
+    "R14": (16.51, 58.42, "B", 90),   # /RES pull-up
+    "C15": (19.05, 58.42, "B", 90),   # V0
+    "C16": (21.59, 58.42, "B", 90),   # V1
+    "C17": (24.13, 58.42, "B", 90),   # V2
+    "C18": (26.67, 58.42, "B", 90),   # V3
+    "C19": (29.21, 58.42, "B", 90),   # V4
+    "C12": (31.75, 58.42, "B", 90),   # CAP2P-CAP2N
+    "C11": (34.29, 58.42, "B", 90),   # CAP1P-CAP1N
+    "C13": (36.83, 58.42, "B", 90),   # CAP3P-CAP1N
+    "C14": (39.37, 58.42, "B", 90),   # VOUT
+    "C10": (41.91, 58.42, "B", 90),   # VDD
 
-    # -- BACK, Y 59.5..72, right: the frontlight boost -----------------------
-    # U6 sits at the sliver's FB end, so the high-impedance feedback trace is
-    # short and the 38 V rail is what takes the long way to TP1. L3, D6 and
-    # C20 close the switching loop in that order.
-    "U8":  (66.04, 66.04, "B", 0),    # U6 on main
-    "L3":  (60.325, 66.04, "B", 0),
-    "C16": (60.325, 61.595, "B", 0),  # SYS into L3 (C21 on main)
-    "D3":  (66.04, 61.595, "B", 0),    # D6 on main
-    "C15": (71.12, 61.595, "B", 0),   # VLED reservoir, after D3 (C20 on main)
-    "C17": (71.12, 65.405, "B", 0),   # COMP, at U8 pin 5 (C22 on main)
-    "R21": (71.12, 67.945, "B", 0),   # FB sense, at U6 pin 6
-    "R22": (63.5, 70.485, "B", 0),    # CTRL divider, at U6 pin 2
-    "R23": (66.675, 70.485, "B", 0),
+    # U6, the RV-8263, is kept as a clock with CLKOUT unused; its I2C is the
+    # gauge's bus. C20 is its bypass, R15 holds CLKOE low. One grid step
+    # lower than on mip to keep 1 mm from the cap row.
+    "U6":  (19.05, 65.405, "B", 0),
+    "C20": (19.05, 62.23, "B", 0),
+    "R15": (22.86, 62.23, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
     # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
@@ -383,7 +322,7 @@ FIRST_PASS = {
     # JLC Basic parts (28 September 2026). Turned 180 so its pad 1, the
     # cfg3_mid end, faces R8's pad 2. route_power.py's SYS loop runs 2.2 mm
     # further south than it did to make room.
-    "R24": (28.575, 97.79, "B", 180), # CFG3, second half
+    "R21": (28.575, 97.79, "B", 180), # CFG3, second half
 
     # -- BACK, Y 87..91, left: the fuel gauge --------------------------------
     # The one analogue part on the board, so it is kept away from both
@@ -420,16 +359,16 @@ FIRST_PASS = {
     "C9":  (27.305, 137.795, "B", 0),
     "C7":  (47.625, 136.525, "B", 0),  # EN, at pin 45
     "R13": (47.625, 133.985, "B", 0),
-    "TP10": (50.8, 136.525, "B", 0),  # EN
-    "TP11": (27.94, 132.08, "B", 0),  # BOOT
-    "TP8": (48.26, 130.81, "B", 0),   # UART0 TX, at pin 39
-    "TP9": (48.26, 128.27, "B", 0),   # UART0 RX, at pin 40
+    "TP8": (50.8, 136.525, "B", 0),  # EN
+    "TP9": (27.94, 132.08, "B", 0),  # BOOT
+    "TP6": (48.26, 130.81, "B", 0),   # UART0 TX, at pin 39
+    "TP7": (48.26, 128.27, "B", 0),   # UART0 RX, at pin 40
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
-    "TP4": (50.8, 86.36, "B", 0),     # BAT
-    "TP5": (53.34, 86.36, "B", 0),    # SYS
-    "TP6": (50.8, 88.9, "B", 0),      # 3V3
-    "TP7": (53.34, 88.9, "B", 0),     # GND
+    "TP2": (50.8, 86.36, "B", 0),     # BAT
+    "TP3": (53.34, 86.36, "B", 0),    # SYS
+    "TP4": (50.8, 88.9, "B", 0),      # 3V3
+    "TP5": (53.34, 88.9, "B", 0),     # GND
 }
 
 # Where anything not in the table goes, if the netlist grows.
@@ -750,11 +689,11 @@ def main():
     # Hirose FH12 it replaced had 1.85 and wanted 9.00.
     if "J2" in refs:
         lib = blocks[refs.index("J2")].split('"', 2)[1]
-        if "FH34SRJ" not in lib:     # "F32Q" on main
+        if "Displaytech_64128M" not in lib:     # "F32Q" on main, "FH34SRJ" on mip
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         X 7.05 is worked out from the Hirose FH34SRJ's "
-                  "own depth, so the mouth\n"
-                  "         has landed in the wrong place. Rebuild and "
+                  "         (38.0, 60.75) at 180 is worked out for the "
+                  "Displaytech 64128M,\n"
+                  "         so the panel has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"
                   "         then run this again.")
     return 0

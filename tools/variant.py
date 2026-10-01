@@ -1,5 +1,5 @@
-"""Where the e-paper board (branch `main`) and the MIP board (branch `mip`)
-differ in shape.
+"""Where the e-paper board (branch `main`), the MIP board (branch `mip`) and
+the Displaytech board (branch `dt`) differ in shape.
 
 The MIP panel's glass is taller than the e-paper's, so on that branch
 everything below the old glass -- the frontlight lands, the keyboard, every
@@ -10,18 +10,26 @@ through drop(), so a fix to one of those tables on `main` merges into `mip`
 unchanged.
 
 On `main` DROP is 0 and every tool behaves exactly as it did before this
-file existed. THIS IS THE `mip` BRANCH'S COPY: keep it when merging main.
+file existed. THIS IS THE `dt` BRANCH'S COPY (Displaytech 64128M): keep it
+when merging main or mip.
 """
 
 BOARD_W = 76.0
-BOARD_H = 155.0             # 144 on the e-paper board
+BOARD_H = 150.0             # 144 on the e-paper board, 155 on mip
 
-# The LS032B7DD02's glass is 47.02 tall against the e-paper's 36.30; the top
-# edge stays at Y 12, so the lower edge moves 10.72 mm and everything below
-# it moves 11.0. docs/mip-display.md.
-GLASS_Y = (12.0, 59.02)     # the panel glass, board Y, front
+# The 64128M's glass is 75 x 50, mounted upright (pins at the bottom, the
+# standard 6 o'clock part). Its top edge sits at Y 10.5, below mounting holes
+# A and B's 6 mm clear circles; the clip-pin row is 0.25 mm below the glass,
+# at Y 60.75, and the first dome sites start 2 mm under the pads. Everything
+# below the e-paper glass's old lower edge moves 6.0. 64128M COG series spec
+# v1.0, page 7; docs/displaytech-display.md.
+GLASS_Y = (10.5, 60.5)      # the panel glass, board Y, front
+PIN_ROW_Y = 60.75           # J2's pin row, footprint origin
 DROP_FROM = 48.3            # the e-paper glass's lower edge
-DROP = 11.0
+DROP = 6.0
+# The cell stays 45 mm long (Y 13..58): the pin row's back-side joints sit
+# just below it instead of the bay growing with DROP the way mip's does.
+BAY_BOTTOM = 58.0
 
 
 def drop(y):
