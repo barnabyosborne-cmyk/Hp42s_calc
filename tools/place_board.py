@@ -240,11 +240,12 @@ FIRST_PASS = {
     # ground bond (ChassisPad, TP3 on main): its old spot at (3.81, 53.34) is
     # under the 64128M's glass. Barnaby wants it in the keypad zone (1 October
     # 2026), so it sits in the widest gap there, between the left column and
-    # the numeric block, between rows 5 and 6 -- 3.1 mm from every dome
-    # courtyard, nothing on the back under it, and well above the ESP32.
+    # the numeric block, between rows 5 and 6: centred in that channel
+    # (off the grid for it), its 4 mm courtyard 1.0 mm from the domes' either
+    # side, nothing on the back under it, and well above the ESP32.
     # Y 103.855 is board Y 109.855. It is also what mech_models.py hangs the
     # 3D models off.
-    "TP1": (14.605, 103.855, "F", 0),
+    "TP1": (14.75, 103.855, "F", 0),
 
     # -- FRONT: the panel itself ---------------------------------------------
     # dt branch: J2 is the Displaytech 64128M COG, glass 75 x 50 on the front,
@@ -279,7 +280,7 @@ FIRST_PASS = {
     # U6, the RV-8263, is kept as a clock with CLKOUT unused; its I2C is the
     # gauge's bus. C20 is its bypass, R15 holds CLKOE low. One grid step
     # lower than on mip to keep 1 mm from the cap row.
-    "U6":  (19.05, 65.405, "B", 0),
+    "U6":  (19.05, 66.04, "B", 0),
     "C20": (19.05, 62.23, "B", 0),
     "R15": (22.86, 62.23, "B", 0),
 

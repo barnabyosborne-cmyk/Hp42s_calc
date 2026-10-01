@@ -929,7 +929,7 @@
 	(footprint "TestPoint:TestPoint_Pad_3.0x3.0mm"
 		(layer "F.Cu")
 		(uuid "319fcb60-f09c-4185-89fd-251ea19b330a")
-		(at 14.605 6.35)
+		(at 14.75 109.855)
 		(descr "SMD rectangular pad as test Point, square 3.0mm side length")
 		(tags "test point SMD pad rectangle square")
 		(property "Reference" "TP1"
@@ -15293,7 +15293,7 @@
 	(footprint "hp42s:MicroCrystal_C7_3.2x1.5mm_RV-8263"
 		(layer "B.Cu")
 		(uuid "c72a3d00-d7e7-4751-ae61-382a4cae5932")
-		(at 19.05 71.405)
+		(at 19.05 72.04)
 		(descr "Micro Crystal C7 package, 3.2x1.5 mm, 8 pads 0.5x0.8 at 0.9 pitch, rows 1.2 apart. From the recommended solder pad drawing in the RV-8263-C7 datasheet. Pin 2 = VSS and the lid.")
 		(tags "RTC Micro Crystal C7 RV-8263-C7")
 		(property "Reference" "U6"

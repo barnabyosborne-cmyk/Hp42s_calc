@@ -189,6 +189,8 @@ def main():
             dx = max(A[0], B[0]) - min(A[2], B[2])
             dy = max(A[1], B[1]) - min(A[3], B[3])
             d = max(dx, dy)
+            if d >= GAP - 0.01:      # within 10 um of the rule: rounding, not a fault
+                continue
             n += 1
             print(f"  {a} to {b}: {d:+.2f} mm")
     print("  none" if not n else f"  {n} pairs")

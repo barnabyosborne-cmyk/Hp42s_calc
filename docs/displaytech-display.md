@@ -46,7 +46,7 @@ turned 180°, glass below the pins; `place_board.py` puts it in at 180.
 - `tools/dt_lift_board.py` (run once): everything below Y 59.3 up 5 mm,
   outline to 150, the FPC notch on the left edge closed.
 - The faceplate bond pad (now TP1) moved from under the glass into the
-  keypad (Barnaby's choice): board (14.605, 109.855) on the front, in the gap
+  keypad (Barnaby's choice): board (14.75, 109.855) on the front, in the gap
   between the left column and the numeric block, between rows 5 and 6. Its
   ground via is in `route_power.py`.
 - The ST7565R's ten 1 uF caps and the /RES pull-up sit in a row on the back
