@@ -148,6 +148,22 @@ ROUTES.append(dict(net="gnd", layer="F.Cu",
                    widths=[POWER_W],
                    why="TP1 down to a via into the ground plane"))
 
+# U4 (MAX17048) pins 1 and 4 are ground on the cell side of the package, and
+# on dt the bat track into pin 3 and col0's via beside pin 1 leave the B.Cu
+# pour no way in to either (Barnaby's DRC, 1 October 2026: both unconnected).
+# Each takes a short 0.2 mm leg across into the exposed pad, which already
+# reaches the plane, passing 0.27 mm from pins 2 and 3.
+ROUTES += [
+    dict(net="gnd", layer="B.Cu",
+         path=[(6.800, 88.150), (7.600, 88.150), (7.600, 88.500)],
+         widths=[FINE_W, FINE_W],
+         why="U4 pin 4 across into its exposed pad"),
+    dict(net="gnd", layer="B.Cu",
+         path=[(6.800, 89.650), (7.600, 89.650), (7.600, 89.300)],
+         widths=[FINE_W, FINE_W],
+         why="U4 pin 1 across into its exposed pad"),
+]
+
 # Pads joined to another 3.3 V pad by the routes above, so they need no via
 # of their own.
 SHARES_PLANE_VIA = set()      # {("L2", "1")} on main, for the e-paper booster
