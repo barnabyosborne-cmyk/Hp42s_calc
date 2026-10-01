@@ -173,6 +173,10 @@ SHARES_PLANE_VIA = set()      # {("L2", "1")} on main, for the e-paper booster
 # ground plane underneath, so nothing loses its return path. It descends at
 # x 38.420, which is the middle of the 1.615 mm gap between R3/R5 and R6 -- the
 # obvious x 38.000 is 0.39 mm from R5's ground pad and will not do.
+# dt: the 64128M's 28 clip pins are a wall across the board at y 60.75 (board),
+# x 20.4..54.6, on every layer. vbus goes round its right-hand end at x 56.2,
+# back west in the 1.65 mm between the pads and the ST7565R caps (board y
+# 62.6), and down between C13 and C14 at x 38.1.
 ROUTES += [
     dict(net="vbus", layer="B.Cu",
          path=[(40.400, 6.400), (40.400, 8.000), (41.770, 9.800)],
@@ -181,8 +185,10 @@ ROUTES += [
 
     dict(net="vbus", layer="B.Cu",
          path=[(41.770, 10.160), (41.770, 14.000), (38.420, 20.000),
-               (38.420, 74.500), (34.033, 74.500), (34.033, 73.250)],
-         widths=[POWER_W, POWER_W, POWER_W, POWER_W, NECK_W],
+               (38.420, 47.000), (56.200, 47.000), (56.200, 56.600),
+               (38.100, 56.600), (38.100, 74.500), (34.033, 74.500),
+               (34.033, 73.250)],
+         widths=[POWER_W] * 8 + [NECK_W],
          why="C1 down the board and up into U2 pin 10 from below"),
 
     dict(net="vbus", layer="B.Cu",
@@ -824,8 +830,10 @@ def plane_vias(pads, keepouts, box, fixed_vias, islands=()):
     is the stub that reaches it. Nearest legal position wins, which keeps the
     stub short; a via on the pad itself would be shorter still and would need
     the fab to fill and cap it, so the search starts outside the pad."""
+    # A through-hole pad (dt's J2 clip pins) is in the plane already.
     targets = [p for p in pads if p["net"] == VIA_TO_PLANE
-               and (p["ref"], p["pad"]) not in SHARES_PLANE_VIA]
+               and (p["ref"], p["pad"]) not in SHARES_PLANE_VIA
+               and not ("*.Cu" in p["layers"] or "In2.Cu" in p["layers"])]
     base = legs()
     placed, stubs, failed, tight = list(fixed_vias), [], [], []
 
