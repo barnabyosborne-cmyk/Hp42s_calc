@@ -596,7 +596,7 @@ component ESP32S3MINI1:
     signal IO38 ~ pin 34
     signal IO39 ~ pin 35
     signal IO40 ~ pin 36
-    signal IO41 ~ pin 37   # frontlight PWM
+    signal IO41 ~ pin 37
     signal IO47 ~ pin 27
     signal IO48 ~ pin 30
     signal USB_DM ~ pin 23

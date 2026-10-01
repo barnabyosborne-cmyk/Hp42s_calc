@@ -126,6 +126,8 @@ def source_values():
             "power.ato": "power.", "hp42s.ato": ""}
     out = {}
     for f, prefix in mods.items():
+        if not (src / f).exists():      # the dt branch has no frontlight
+            continue
         for m in re.finditer(r'^\s+(\w+)\.value = "([^"]*)"',
                              (src / f).read_text(), re.M):
             out[prefix + m.group(1)] = m.group(2)
