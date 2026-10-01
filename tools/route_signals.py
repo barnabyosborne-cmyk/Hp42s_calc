@@ -95,7 +95,7 @@ SKIP = {"gnd"}
 # runs, from the panel's connector at the top left and the USB receptacle at
 # the top edge down to the module at the bottom.
 BUSES = {"epd_sck", "epd_mosi", "epd_cs", "epd_dc", "epd_rst", "epd_busy",
-         "mip_sck", "mip_mosi", "mip_cs", "mip_disp", "mip_pwr", "mip_clkoe",
+         "lcd_sck", "lcd_mosi", "lcd_cs", "lcd_rst", "lcd_a0",
          "usb_dp", "usb_dm"}
 
 # Layer costs and via cost, per kind of net: (B.Cu, F.Cu, via in mm).
@@ -596,7 +596,7 @@ def negotiate(grid, order, pads_by_net, copper, trackB, viaB,
     def route_one(net, pres):
         is_m = bool(MATRIX.match(net))
         kind = net[:3] if is_m else "plain"
-        noisy = is_m or net.startswith(("epd_", "mip_"))
+        noisy = is_m or net.startswith(("epd_", "mip_", "lcd_"))
         tb = {L: trackB.blocked(L, base(net)) for L in LAYERS}
         terms, stubs, opened = terminals(net, tb)
         if any(not t for _p, t in terms):

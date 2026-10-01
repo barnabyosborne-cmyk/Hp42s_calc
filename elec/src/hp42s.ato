@@ -43,12 +43,11 @@ module HP42S:
 
     # Named so the netlist carries readable net names into KiCad. Without
     # these the panel bus comes through as net, net-1, net-2 ...
-    signal mip_cs
-    signal mip_disp
-    signal mip_pwr
-    signal mip_clkoe
-    signal mip_sck
-    signal mip_mosi
+    signal lcd_cs
+    signal lcd_rst
+    signal lcd_a0
+    signal lcd_sck
+    signal lcd_mosi
     signal buzzer
     signal ir_led
     signal uart0_tx
@@ -189,30 +188,26 @@ module HP42S:
     mcu.IO13 ~ keypad.row5
     mcu.IO14 ~ keypad.row6
 
-    # --- MIP panel ------------------------------------------------------------
-    # The same six pins the e-paper used, so nothing else on the board moves.
-    # DISP, the 5 V enable and CLKOE all have to hold their level through deep
-    # sleep, because the panel keeps its picture while the calculator is off:
-    # the firmware latches them with gpio_hold_en before sleeping.
-    mcu.IO33 ~ mip_cs
-    mcu.IO34 ~ mip_disp
-    mcu.IO35 ~ mip_pwr
-    mcu.IO36 ~ mip_clkoe
-    mcu.IO37 ~ mip_sck
-    mcu.IO38 ~ mip_mosi
+    # --- LCD ------------------------------------------------------------------
+    # Four of the six pins the e-paper used. The ST7565R keeps its picture
+    # only while powered, and the calculator blanks it when off, as a 42S does.
+    # IO36 and IO35 are now free.
+    mcu.IO33 ~ lcd_cs
+    mcu.IO34 ~ lcd_rst
+    mcu.IO35 ~ lcd_a0
+    mcu.IO37 ~ lcd_sck
+    mcu.IO38 ~ lcd_mosi
 
-    # The panel, its 5 V boost and the clock that toggles its EXTCOMIN. See
-    # display.ato.
+    # The Displaytech 64128M, its booster and bias capacitors, and the clock.
+    # See display.ato.
     display = new DisplayDrive
     display.v3v3 ~ v3v3
-    display.sys  ~ power.sys
     display.gnd  ~ gnd
-    display.cs   ~ mip_cs
-    display.disp ~ mip_disp
-    display.pwr_en ~ mip_pwr
-    display.clkoe ~ mip_clkoe
-    display.sck  ~ mip_sck
-    display.mosi ~ mip_mosi
+    display.cs   ~ lcd_cs
+    display.rst  ~ lcd_rst
+    display.a0   ~ lcd_a0
+    display.sck  ~ lcd_sck
+    display.mosi ~ lcd_mosi
     display.i2c_sda ~ power.i2c_sda
     display.i2c_scl ~ power.i2c_scl
 

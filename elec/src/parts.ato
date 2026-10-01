@@ -880,6 +880,43 @@ component FrontlightInductor:
 
 # --- the MIP panel (branch `mip` only) --------------------------------------
 
+component DisplaytechModule:
+    # Displaytech 64128M COG: 128 x 64 FSTN, ST7565R-G on the glass, 28 clip
+    # pins at 1.27 mm along one long edge, soldered through the board by
+    # hand after assembly. Pin list from the 64128M COG series specification
+    # v1.0, page 7. Mounted turned 180 degrees, pins at the top.
+    footprint = "hp42s:Displaytech_64128M_1x28_P1.27mm"
+    designator_prefix = "J"
+    value = "64128M COG"
+    signal CS1   ~ pin 1
+    signal RES   ~ pin 2
+    signal A0    ~ pin 3
+    signal WR    ~ pin 4
+    signal RD    ~ pin 5
+    signal D0    ~ pin 6
+    signal D1    ~ pin 7
+    signal D2    ~ pin 8
+    signal D3    ~ pin 9
+    signal D4    ~ pin 10
+    signal D5    ~ pin 11
+    signal D6    ~ pin 12
+    signal D7    ~ pin 13
+    signal VDD   ~ pin 14
+    signal VSS   ~ pin 15
+    signal VOUT  ~ pin 16
+    signal CAP3P ~ pin 17
+    signal CAP1N ~ pin 18
+    signal CAP1P ~ pin 19
+    signal CAP2P ~ pin 20
+    signal CAP2N ~ pin 21
+    signal V4    ~ pin 22
+    signal V3    ~ pin 23
+    signal V2    ~ pin 24
+    signal V1    ~ pin 25
+    signal V0    ~ pin 26
+    signal C86   ~ pin 27
+    signal PS    ~ pin 28
+
 component MIPConnector:
     # Hirose FH34SRJ-10S-0.5SH(50), JLC C324723. Sharp's first recommendation
     # for the LS032B7DD02 (its table 8-2-1), 10 way at 0.5 mm, contacts top
