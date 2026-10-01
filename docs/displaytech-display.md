@@ -45,9 +45,10 @@ turned 180°, glass below the pins; `place_board.py` puts it in at 180.
 
 - `tools/dt_lift_board.py` (run once): everything below Y 59.3 up 5 mm,
   outline to 150, the FPC notch on the left edge closed.
-- The faceplate bond pad (now TP1) moved from under the glass to (14.605,
-  6.35) on the front, above the glass beside hole A; its ground via is in
-  `route_power.py`.
+- The faceplate bond pad (now TP1) moved from under the glass into the
+  keypad (Barnaby's choice): board (14.605, 109.855) on the front, in the gap
+  between the left column and the numeric block, between rows 5 and 6. Its
+  ground via is in `route_power.py`.
 - The ST7565R's ten 1 uF caps and the /RES pull-up sit in a row on the back
   under the pin row (board Y 64.42), in pin order.
 - Removed: the MIP 5 V boost, the frontlight boost and their power routes.
@@ -61,7 +62,8 @@ turned 180°, glass below the pins; `place_board.py` puts it in at 180.
    `fix_pads.py`, `check_placement.py`.
 2. Strip the stale copper, reroute (`route_power.py`, `route_signals.py`,
    `stitch_zones.py`), then `check_ends.py` and DRC.
-3. `mech_models.py`: a 64128M panel model in place of the Sharp one; anchor
-   is now TP1.
+3. `mech_models.py` now draws the 64128M (anchor TP1); run it after the
+   import to attach the models. `hardware/64128M_on_board.step` is the panel
+   alone in the board frame, for the case.
 4. Firmware: ST7565R driver and the Plus42 blitter at 1x, in `sim/host`
    first.

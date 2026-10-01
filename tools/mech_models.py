@@ -1,24 +1,26 @@
 #!/usr/bin/env python3
-"""Put the cell and the panel (the LS032 on this branch) into the board's 3D view.
+"""Put the cell and the panel (the Displaytech 64128M on this branch) into the
+board's 3D view.
 
     python3 tools/mech_models.py            # write the models and the board
     python3 tools/mech_models.py --check    # print where they go, write nothing
+    python3 tools/mech_models.py --panel-only   # just hardware/64128M_on_board.step
 
 Neither part has a vendor STEP: a pouch cell and a glass panel are boxes, so
-they are drawn here from the numbers in docs/display-mounting.md and
+they are drawn here from the numbers in docs/displaytech-display.md and
 docs/top-edge.md. They exist so the board's STEP export carries them into the
 case model, and so the 3D viewer shows what sits where.
 
-KiCad has no board-level 3D models, so both hang off TP3 as extra models:
-TP3 is on the front at 0 degrees, so a model's frame is simply the board's,
-moved to TP3 and with y turned over. Nothing about TP3's copper changes. If
-TP3 ever moves, re-run this and the models follow.
+KiCad has no board-level 3D models, so both hang off TP1 (the faceplate
+bond, TP3 on main) as extra models: it is on the front at 0 degrees, so a
+model's frame is simply the board's, moved to TP1 and with y turned over.
+Nothing about TP1's copper changes. If TP1 ever moves, re-run this and the
+models follow.
 
   - the cell, 55 x 45 x 6 mm, board X 14..69, Y 13..58, on the back
-  - the panel glass, 71.82 x 36.30 x 1.0 on 0.1 mm of adhesive, X 0.55..72.37,
-    Y 12.00..48.30, with the active area as a dark inlay on its face
-  - the flex tail, 12.50 wide and 0.30 thick, folded round the left edge at a
-    1.05 mm radius into J2 on the back, back leg ending at X 10.50
+  - the 64128M, upright: glass 75 x 50 at X 0.5..75.5, Y 10.5..60.5 on
+    0.2 mm of adhesive, the driver ledge at the bottom, 28 clip pins whose
+    legs run 8.0 mm back from the glass, through the board
 
 Needs cadquery.
 """
@@ -34,36 +36,34 @@ import cadquery as cq
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec" / "layout" / "default" / "default.kicad_pcb"
 SHAPES = ROOT / "elec" / "footprints" / "hp42s.3dshapes"
-ANCHOR = "TP3"
+ANCHOR = "TP1"
 BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
-# MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
-# tail to the left. TFT glass 76.00 x 47.02 at X 0.00..76.00, flush with
-# both long edges of the board (Barnaby, 1 October 2026), Y 12.00..59.02. Stack, bottom up:
-# bottom polariser 0.115, TFT glass 0.2, CF glass 0.2, top polariser 0.19,
-# 0.705 in all. The CF glass and both polarisers are 73.2 x 46.02, 0.5 in
-# from the far end and the long edges, leaving a 2.3 mm TFT-glass ledge at the
-# tail end where the flex is bonded on top. (The bottom polariser's outline is
-# not drawn by Sharp; taken as the top one's.) Active area 68.072 x 42.672,
-# centred 39.784 from the tail-end edge and on the glass's height. Tail 9.47
-# wide on Y 35.51, 0.3 thick, leaving the ledge at the TFT glass's top face;
-# the half turn is centred on X -0.80, 0.8 beyond the glass (Sharp's nearest
-# bend), so it stands out past the board edge and the case has a pocket for
-# it. Back leg ends 2.9 inside J2's mouth at X 3.35. (main: the e-paper's.)
-# ADHESIVE is the allowance for a contact adhesive film between the bottom
+# dt branch: the Displaytech 64128M COG (spec v1.0, page 7), upright, pins at
+# the bottom. Two 1.1 mm glasses: the back one is 75 x 50 and carries the
+# 7 mm ledge at the pin end, with the ST7565R bonded on its front face; the
+# front one is 75 x 43. Polarisers fill the rest of the 2.95 max (Displaytech
+# does not split it; taken as 0.40 behind, reflector included, and 0.35 in
+# front) and stop 0.5 short of the glass edges and 1.3 short of the front
+# glass's lower edge, as the drawing shows. Clip pins: a 0.9 wide clip over
+# the ledge edge, then a 0.4 x 0.4 leg 0.25 outside it, 8.0 back from the
+# back glass's rear face. Seal bump 10 x 1.0 on the left edge.
+# ADHESIVE is the allowance for a contact adhesive film between the back
 # polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
-GLASS = (0.00, 76.00, 12.00, 59.02)          # TFT glass: X0, X1, Y0, Y1, board mm
-POL = (0.00 + 2.3, 76.00 - 0.5, 12.50, 58.52)   # 2.30..75.50
-ACTIVE = (5.748, 73.820, 14.174, 56.846)
+GLASS = (0.50, 75.50, 10.50, 60.50)          # back glass: X0, X1, Y0, Y1, board mm
+FRONT_GLASS = (0.50, 75.50, 10.50, 53.50)
+POL = (1.00, 75.00, 11.00, 52.20)
+VIEW = (3.00, 73.00, 12.00, 52.00)
+ACTIVE = (4.74, 71.26, 15.38, 48.62)
+CHIP = (33.20, 42.80, 55.00, 56.40, 0.35)    # ST7565R on the ledge, centred
+BUMP = (-0.50, 0.50, 27.00, 37.00)
 ADHESIVE = 0.20
-BOT_POL_T, TFT_T, CF_T, TOP_POL_T = 0.115, 0.2, 0.2, 0.19
-GLASS_T = BOT_POL_T + TFT_T + CF_T + TOP_POL_T   # 0.705
-LEDGE_Z = ADHESIVE + BOT_POL_T + TFT_T           # top of the TFT glass
-TAIL_Y = (30.775, 40.245)
-TAIL_T = 0.30
-TAIL_END_X = 6.25                             # back leg ends here, in J2
-BEND_X = -0.80                                 # centre of the half turn
+BACK_POL_T, GLASS_T1, FRONT_POL_T = 0.40, 1.10, 0.35
+PIN_X = [54.645 - 1.27 * k for k in range(28)]   # pin 1 first, at the right
+PIN_Y = 60.75
+LEG = 0.40
+LEG_BACK = 8.0
 CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
 
 
@@ -88,24 +88,41 @@ def box(ax, x0, x1, y0, y1, z0, z1):
             .translate((x0 - fx, -(y1 - fy), z0)))
 
 
-def tail(ax):
-    """The flex: a stub out of the glass, a half turn round the board edge
-    and the back leg into J2, as one bent sheet."""
-    fx, fy = ax
-    y0, y1 = TAIL_Y
-    top = LEDGE_Z + TAIL_T                   # front leg, on the TFT glass ledge
-    bot = -BOARD_T                           # back leg, against the back face
-    zc = (top - TAIL_T + bot) / 2            # centre of the bend
-    r_in = (top - TAIL_T - bot) / 2
-    r_out = r_in + TAIL_T
-    xc = BEND_X
-    front = box(ax, xc, GLASS[0] + 1.5, y0, y1, top - TAIL_T, top)
-    back = box(ax, xc, TAIL_END_X, y0, y1, bot - TAIL_T, bot)
-    ring = cq.Workplane("XZ").circle(r_out).circle(r_in).extrude(-(y1 - y0))
-    keep = cq.Workplane("XZ").rect(r_out, 2 * r_out, centered=(False, True)) \
-        .extrude(-(y1 - y0)).translate((-r_out, 0, 0))
-    bend = ring.intersect(keep).translate((xc - fx, -(y1 - fy), zc))
-    return front.union(back).union(bend)
+def build_panel(ax):
+    z0 = ADHESIVE
+    z1 = z0 + BACK_POL_T                     # back glass
+    z2 = z1 + GLASS_T1                       # front glass, ledge face
+    z3 = z2 + GLASS_T1                       # front polariser
+    z4 = z3 + FRONT_POL_T
+    p = cq.Assembly(name="Mech_Panel")
+    p.add(box(ax, *POL, z0, z1), name="back_polariser",
+          color=cq.Color(0.55, 0.55, 0.52))
+    p.add(box(ax, *GLASS, z1, z2), name="back_glass",
+          color=cq.Color(0.86, 0.88, 0.84, 0.6))
+    p.add(box(ax, *FRONT_GLASS, z2, z3), name="front_glass",
+          color=cq.Color(0.86, 0.88, 0.84, 0.6))
+    p.add(box(ax, *POL, z3, z4), name="front_polariser",
+          color=cq.Color(0.70, 0.73, 0.65))
+    p.add(box(ax, *ACTIVE, z4, z4 + 0.01), name="active_area",
+          color=cq.Color(0.45, 0.48, 0.42))
+    p.add(box(ax, *VIEW, z4 + 0.005, z4 + 0.008), name="view_area",
+          color=cq.Color(0.62, 0.65, 0.58))
+    p.add(box(ax, *CHIP[:4], z2, z2 + CHIP[4]), name="st7565r",
+          color=cq.Color(0.15, 0.15, 0.17))
+    p.add(box(ax, *BUMP, z1 + 0.6, z2 + 0.5), name="seal_bump",
+          color=cq.Color(0.9, 0.9, 0.85))
+    pins = None
+    edge = GLASS[3]
+    for x in PIN_X:
+        clip = (box(ax, x - 0.45, x + 0.45, edge - 2.40, edge + 0.45, z2, z2 + 0.20)
+                .union(box(ax, x - 0.45, x + 0.45, edge - 1.20, edge + 0.45, z1 - 0.20, z1))
+                .union(box(ax, x - 0.45, x + 0.45, edge + 0.05, edge + 0.45, z1 - 0.20, z2 + 0.20)))
+        leg = box(ax, x - LEG / 2, x + LEG / 2, PIN_Y - LEG / 2, PIN_Y + LEG / 2,
+                  z1 - LEG_BACK, z1)
+        one = clip.union(leg)
+        pins = one if pins is None else pins.union(one)
+    p.add(pins, name="clip_pins", color=cq.Color(0.80, 0.80, 0.82))
+    return p
 
 
 def build(ax):
@@ -114,19 +131,7 @@ def build(ax):
     cell.add(box(ax, x0, x1, y0, y1, -BOARD_T - h, -BOARD_T), name="cell",
              color=cq.Color(0.75, 0.75, 0.78))
 
-    panel = cq.Assembly(name="Mech_Panel")
-    z = ADHESIVE
-    panel.add(box(ax, *POL, z, z + BOT_POL_T), name="bottom_polariser",
-              color=cq.Color(0.30, 0.30, 0.30))
-    z += BOT_POL_T
-    panel.add(box(ax, *GLASS, z, z + TFT_T), name="tft_glass",
-              color=cq.Color(0.86, 0.86, 0.82))
-    z += TFT_T
-    panel.add(box(ax, *POL, z, z + CF_T + TOP_POL_T), name="cf_glass_top_polariser",
-              color=cq.Color(0.80, 0.82, 0.80))
-    panel.add(box(ax, *ACTIVE, ADHESIVE + GLASS_T, ADHESIVE + GLASS_T + 0.01),
-              name="active_area", color=cq.Color(0.25, 0.25, 0.28))
-    panel.add(tail(ax), name="flex_tail", color=cq.Color(0.85, 0.55, 0.15))
+    panel = build_panel(ax)
     return {"Mech_Cell": cell, "Mech_Panel": panel}
 
 
@@ -163,7 +168,12 @@ def attach(text):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--check", action="store_true")
+    ap.add_argument("--panel-only", action="store_true")
     args = ap.parse_args()
+    if args.panel_only:
+        build_panel((0.0, 0.0)).save(str(ROOT / "hardware" / "64128M_on_board.step"))
+        print("wrote hardware/64128M_on_board.step")
+        return 0
     text = PCB.read_text()
     ax = anchor(text)
     for name, asm in build(ax).items():
@@ -177,8 +187,8 @@ def main():
         # The same panel in the board's own frame, for the case model: origin
         # at the board's top-left corner on its front face, X right, Y up
         # (so board Y 35 is model Y -35), Z out of the front.
-        build((0.0, 0.0))["Mech_Panel"].save(
-            str(ROOT / "hardware" / "LS032B7DD02_on_board.step"))
+        build_panel((0.0, 0.0)).save(
+            str(ROOT / "hardware" / "64128M_on_board.step"))
     if args.check:
         print("--check: nothing written")
         return 0

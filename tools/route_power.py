@@ -142,9 +142,9 @@ ROUTES = [
 # -- the big square the mechanical models hang off -- and F.Cu has no pour,
 # so nothing reached it. check_pour.py only looks at B.Cu and never asked.
 # One via straight down. On dt the glass covers its old spot, so it is in the
-# top band beside hole A, and the via drops clear of R18 on the back.
+# keypad, in the gap left of the numeric block; the via is just below it.
 ROUTES.append(dict(net="gnd", layer="F.Cu",
-                   path=[(14.605, 7.300), (14.605, 8.600)],
+                   path=[(14.605, 104.800), (14.605, 106.200)],
                    widths=[POWER_W],
                    why="TP1 down to a via into the ground plane"))
 
@@ -337,7 +337,7 @@ VIAS = [
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),
     ("bat", 29.900, 80.500),
-    ("gnd", 14.605, 8.600),
+    ("gnd", 14.605, 106.200),
 ]
 
 # The MIP branch's board is taller below the panel; see variant.py. A no-op on
