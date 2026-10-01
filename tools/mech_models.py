@@ -39,19 +39,30 @@ BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
 # MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
-# tail to the left. Glass 76.00 x 47.02 x 0.705 at X 0.80..76.80 (0.8 over the
-# board's right edge; the case is 82 wide), Y 12.00..59.02. Active area
-# 68.072 x 42.672, centred 39.784 from the tail-end edge and on the glass's
-# height. Tail 9.47 wide on Y 35.51; Sharp's bend zone starts 0.8 beyond the
-# glass, so the half turn is centred on X 0.00 and its outside is at X -1.15.
+# tail to the left. TFT glass 76.00 x 47.02 at X 0.80..76.80 (0.8 over the
+# board's right edge; the case is 82 wide), Y 12.00..59.02. Stack, bottom up:
+# bottom polariser 0.115, TFT glass 0.2, CF glass 0.2, top polariser 0.19,
+# 0.705 in all. The CF glass and both polarisers are 73.2 x 46.02, 0.5 in
+# from the far end and the long edges, leaving a 2.3 mm TFT-glass ledge at the
+# tail end where the flex is bonded on top. (The bottom polariser's outline is
+# not drawn by Sharp; taken as the top one's.) Active area 68.072 x 42.672,
+# centred 39.784 from the tail-end edge and on the glass's height. Tail 9.47
+# wide on Y 35.51, 0.3 thick, leaving the ledge at the TFT glass's top face;
+# the half turn is centred on X 0.00, 0.8 beyond the glass, as before.
 # Back leg ends 2.9 inside J2's mouth at X 4.50. (main: the e-paper's.)
-GLASS = (0.80, 76.80, 12.00, 59.02)          # X0, X1, Y0, Y1, board mm
+# ADHESIVE is the allowance for a contact adhesive film between the bottom
+# polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
+GLASS = (0.80, 76.80, 12.00, 59.02)          # TFT glass: X0, X1, Y0, Y1, board mm
+POL = (0.80 + 2.3, 76.80 - 0.5, 12.50, 58.52)   # 3.10..76.30
 ACTIVE = (6.548, 74.620, 14.174, 56.846)
-ADHESIVE, GLASS_T = 0.1, 0.705
+ADHESIVE = 0.20
+BOT_POL_T, TFT_T, CF_T, TOP_POL_T = 0.115, 0.2, 0.2, 0.19
+GLASS_T = BOT_POL_T + TFT_T + CF_T + TOP_POL_T   # 0.705
+LEDGE_Z = ADHESIVE + BOT_POL_T + TFT_T           # top of the TFT glass
 TAIL_Y = (30.775, 40.245)
 TAIL_T = 0.30
 TAIL_END_X = 7.40                             # back leg ends here, in J2
-FOLD_APEX_X = -1.15                           # 0.65 clear of an 82 mm case's 1.2 mm wall
+BEND_X = 0.0                                  # centre of the half turn
 CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
 
 
@@ -81,13 +92,13 @@ def tail(ax):
     and the back leg into J2, as one bent sheet."""
     fx, fy = ax
     y0, y1 = TAIL_Y
-    top = ADHESIVE + TAIL_T                  # front leg, level with the glass underside
+    top = LEDGE_Z + TAIL_T                   # front leg, on the TFT glass ledge
     bot = -BOARD_T                           # back leg, against the back face
     zc = (top - TAIL_T + bot) / 2            # centre of the bend
     r_in = (top - TAIL_T - bot) / 2
     r_out = r_in + TAIL_T
-    xc = FOLD_APEX_X + r_out                 # centre, so the outside of the bend is at the apex
-    front = box(ax, xc, GLASS[0] + 1.0, y0, y1, top - TAIL_T, top)
+    xc = BEND_X
+    front = box(ax, xc, GLASS[0] + 1.5, y0, y1, top - TAIL_T, top)
     back = box(ax, xc, TAIL_END_X, y0, y1, bot - TAIL_T, bot)
     ring = cq.Workplane("XZ").circle(r_out).circle(r_in).extrude(-(y1 - y0))
     keep = cq.Workplane("XZ").rect(r_out, 2 * r_out, centered=(False, True)) \
@@ -103,8 +114,15 @@ def build(ax):
              color=cq.Color(0.75, 0.75, 0.78))
 
     panel = cq.Assembly(name="Mech_Panel")
-    g = box(ax, *GLASS, ADHESIVE, ADHESIVE + GLASS_T)
-    panel.add(g, name="glass", color=cq.Color(0.86, 0.86, 0.82))
+    z = ADHESIVE
+    panel.add(box(ax, *POL, z, z + BOT_POL_T), name="bottom_polariser",
+              color=cq.Color(0.30, 0.30, 0.30))
+    z += BOT_POL_T
+    panel.add(box(ax, *GLASS, z, z + TFT_T), name="tft_glass",
+              color=cq.Color(0.86, 0.86, 0.82))
+    z += TFT_T
+    panel.add(box(ax, *POL, z, z + CF_T + TOP_POL_T), name="cf_glass_top_polariser",
+              color=cq.Color(0.80, 0.82, 0.80))
     panel.add(box(ax, *ACTIVE, ADHESIVE + GLASS_T, ADHESIVE + GLASS_T + 0.01),
               name="active_area", color=cq.Color(0.25, 0.25, 0.28))
     panel.add(tail(ax), name="flex_tail", color=cq.Color(0.85, 0.55, 0.15))
