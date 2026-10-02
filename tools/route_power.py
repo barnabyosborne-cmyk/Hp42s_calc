@@ -485,6 +485,12 @@ def pad_shapes(pad, px, py, pr):
     siz = re.search(r'\(size ([\d.]+) ([\d.]+)\)', pad)
     if siz:
         w, h = float(siz.group(1)) / 2, float(siz.group(2)) / 2
+        if " np_thru_hole " in pad[:40]:
+            # A bare hole is held off by the 0.25 mm hole rule, not the
+            # 0.2 mm copper one: grow it by the difference. cc1 passed 0.22 mm
+            # from J1's peg hole on the dt board (1 October 2026) and only
+            # DRC saw it.
+            w, h = w + 0.05, h + 0.05
         head = re.search(r'\(pad "[^"]*" \S+ (\S+)', pad)
         shape = head.group(1) if head else "rect"
         if shape == "custom":
