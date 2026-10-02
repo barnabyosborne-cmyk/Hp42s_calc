@@ -1,0 +1,148 @@
+Info: Reading netlist file '/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/build/default.net'.
+
+Info: Using tstamps (unique IDs) to match symbols and footprints.
+
+Info: Processing symbol 'R3:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R5:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'U6:hp42s:TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm'.
+Info: Processing symbol 'R6:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'U1:hp42s:TI_DQA0010A_USON-10_2.5x1mm_P0.5mm'.
+Info: Processing symbol 'R7:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'D2:hp42s:LiteOn_LTST-S326_BiColor_RA'.
+Info: Processing symbol 'R8:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'SW1:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'R19:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'SW3:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'R18:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'SW5:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW7:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW8:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW9:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW10:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW11:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW12:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW13:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW38:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW14:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW15:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW16:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW17:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW33:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW28:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW23:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW2:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW19:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW20:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW21:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW22:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW24:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW25:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW26:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW27:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW29:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW30:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW31:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW32:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW34:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW35:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW36:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW37:hp42s:Dome_4Leg_10mm'.
+Info: Processing symbol 'SW39:hp42s:Alps_SKRTLAE010_SidePush'.
+Info: Processing symbol 'SW40:hp42s:Alps_SKRTLAE010_SidePush'.
+Info: Processing symbol 'TP11:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP10:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP9:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP8:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP7:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP6:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP5:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP4:TestPoint:TestPoint_Pad_D1.5mm'.
+Info: Processing symbol 'TP3:TestPoint:TestPoint_Pad_3.0x3.0mm'.
+Info: Processing symbol 'TP2:TestPoint:TestPoint_Pad_2.0x2.0mm'.
+Info: Processing symbol 'TP1:TestPoint:TestPoint_Pad_2.0x2.0mm'.
+Info: Processing symbol 'R24:Resistor_SMD:R_0603_1608Metric'.
+Info: Processing symbol 'R4:Resistor_SMD:R_0603_1608Metric'.
+Info: Processing symbol 'R9:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R12:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R1:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R10:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R11:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R2:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'D1:hp42s:Vishay_VSMB2943SLX01_SideView'.
+Info: Processing symbol 'U3:hp42s:TI_DSK0010A_WSON-10-1EP_2.5x2.5mm_P0.5mm_EP2x1.2mm'.
+Info: Processing symbol 'U7:hp42s:MicroCrystal_C7_3.2x1.5mm_RV-8263'.
+Info: Processing symbol 'J2:hp42s:Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal'.
+Info: Processing symbol 'SW18:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'R23:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R22:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R21:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R20:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'SW4:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'SW6:hp42s:Dome_4Leg_8.5mm'.
+Info: Processing symbol 'R17:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R16:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R15:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R14:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'R13:Resistor_SMD:R_0402_1005Metric'.
+Info: Processing symbol 'U5:RF_Module:ESP32-S2-MINI-1'.
+Info: Processing symbol 'U8:Package_TO_SOT_SMD:SOT-23-6'.
+Info: Processing symbol 'Q1:Package_TO_SOT_SMD:SOT-23'.
+Info: Processing symbol 'U2:Package_DFN_QFN:Texas_DSQ0010A_WSON-10-1EP_2x2mm_P0.4mm_EP0.9x1.5mm'.
+Info: Processing symbol 'U4:Package_DFN_QFN:TDFN-8-1EP_2x2mm_P0.5mm_EP0.8x1.2mm'.
+Info: Processing symbol 'L2:Inductor_SMD:L_Murata_DFE201610P'.
+Info: Processing symbol 'L1:Inductor_SMD:L_Coilcraft_XxL4020'.
+Info: Processing symbol 'L3:Inductor_SMD:L_APV_ANR3015'.
+Info: Processing symbol 'D3:Diode_SMD:D_SOD-123'.
+Info: Processing symbol 'J1:Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal'.
+Info: Processing symbol 'BT1:Connector_JST:JST_PH_S2B-PH-SM4-TB_1x02-1MP_P2.00mm_Horizontal'.
+Info: Processing symbol 'C2:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'C3:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'C4:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'C8:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'C15:Capacitor_SMD:C_0805_2012Metric'.
+Info: Processing symbol 'C13:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C16:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C12:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C11:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C10:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C1:Capacitor_SMD:C_0603_1608Metric'.
+Info: Processing symbol 'C5:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C6:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C7:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C9:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C14:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'C17:Capacitor_SMD:C_0402_1005Metric'.
+Info: Processing symbol 'LS1:Buzzer_Beeper:Buzzer_Murata_PKLCS1212E'.
+Removed unused net display-sw.
+Warning: No net found for component U1 pad 10 (no pin 10 in symbol).
+Warning: No net found for component U1 pad 7 (no pin 7 in symbol).
+Warning: No net found for component U1 pad 9 (no pin 9 in symbol).
+Warning: No net found for component U1 pad 6 (no pin 6 in symbol).
+Warning: No net found for component U5 pad 26 (no pin 26 in symbol).
+Warning: No net found for component U5 pad 41 (no pin 41 in symbol).
+Warning: No net found for component U5 pad 7 (no pin 7 in symbol).
+Warning: No net found for component U5 pad 44 (no pin 44 in symbol).
+Warning: No net found for component U5 pad 38 (no pin 38 in symbol).
+Warning: No net found for component BT1 pad MP (no pin MP in symbol).
+Warning: No net found for component BT1 pad MP (no pin MP in symbol).
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+Warning: Via connected to unknown net ().
+
+
+Info: Total warnings: 29, errors: 0.

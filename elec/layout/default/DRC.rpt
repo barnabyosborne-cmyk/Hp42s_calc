@@ -1,0 +1,79 @@
+** Drc report for default.kicad_pcb **
+** Created on 2026-10-02T12:43:01 **
+** Report includes: Errors, Warnings **
+
+** Found 16 DRC violations **
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1500 mm)
+    Rule: board setup constraints hole; error
+    @(69.4600 mm, 0.7500 mm): Pad MP [gnd] of SW39 on B.Cu
+    @(69.1850 mm, 1.8000 mm): NPTH pad of SW39
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0993 mm)
+    Rule: board setup constraints hole; error
+    @(70.0850 mm, 2.7000 mm): Pad 1 [en] of SW39 on B.Cu
+    @(69.1850 mm, 1.8000 mm): NPTH pad of SW39
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0993 mm)
+    Rule: board setup constraints hole; error
+    @(72.5350 mm, 2.7000 mm): Pad 1 [en] of SW39 on B.Cu
+    @(73.4350 mm, 1.8000 mm): NPTH pad of SW39
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1500 mm)
+    Rule: board setup constraints hole; error
+    @(73.1600 mm, 0.7500 mm): Pad MP [gnd] of SW39 on B.Cu
+    @(73.4350 mm, 1.8000 mm): NPTH pad of SW39
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)
+    Rule: board setup constraints hole; error
+    @(34.8000 mm, 6.1550 mm): Pad A1 [gnd] of J1 on B.Cu
+    @(35.1100 mm, 5.0800 mm): NPTH pad of J1
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0993 mm)
+    Rule: board setup constraints hole; error
+    @(59.4250 mm, 2.7000 mm): Pad 1 [boot] of SW40 on B.Cu
+    @(58.5250 mm, 1.8000 mm): NPTH pad of SW40
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1500 mm)
+    Rule: board setup constraints hole; error
+    @(58.8000 mm, 0.7500 mm): Pad MP [gnd] of SW40 on B.Cu
+    @(58.5250 mm, 1.8000 mm): NPTH pad of SW40
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.0993 mm)
+    Rule: board setup constraints hole; error
+    @(61.8750 mm, 2.7000 mm): Pad 1 [boot] of SW40 on B.Cu
+    @(62.7750 mm, 1.8000 mm): NPTH pad of SW40
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1500 mm)
+    Rule: board setup constraints hole; error
+    @(62.5000 mm, 0.7500 mm): Pad MP [gnd] of SW40 on B.Cu
+    @(62.7750 mm, 1.8000 mm): NPTH pad of SW40
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)
+    Rule: board setup constraints hole; error
+    @(41.2000 mm, 6.1550 mm): Pad A12 [gnd] of J1 on B.Cu
+    @(40.8900 mm, 5.0800 mm): NPTH pad of J1
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)
+    Rule: board setup constraints hole; error
+    @(41.2000 mm, 6.1550 mm): Pad B1 [gnd] of J1 on B.Cu
+    @(40.8900 mm, 5.0800 mm): NPTH pad of J1
+[hole_clearance]: Hole clearance violation (board setup constraints hole clearance 0.2500 mm; actual 0.1944 mm)
+    Rule: board setup constraints hole; error
+    @(34.8000 mm, 6.1550 mm): Pad B12 [gnd] of J1 on B.Cu
+    @(35.1100 mm, 5.0800 mm): NPTH pad of J1
+[silk_edge_clearance]: Silkscreen clipped by board edge
+    Rule: board setup constraints silk; warning
+    @(72.0000 mm, 147.0000 mm): Segment on Edge.Cuts
+    @(29.9250 mm, 147.1000 mm): Segment of U5 on B.Silkscreen
+[lib_footprint_mismatch]: Footprint 'ESP32-S2-MINI-1' does not match copy in library 'RF_Module'
+    Local override; warning
+    @(38.0000 mm, 136.5000 mm): Footprint U5
+[lib_footprint_mismatch]: Footprint 'Alps_SKRTLAE010_SidePush' does not match copy in library 'hp42s'
+    Local override; warning
+    @(60.6500 mm, 1.8000 mm): Footprint SW40
+[lib_footprint_mismatch]: Footprint 'Alps_SKRTLAE010_SidePush' does not match copy in library 'hp42s'
+    Local override; warning
+    @(71.3100 mm, 1.8000 mm): Footprint SW39
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** Ignored checks **
+    - Footprint has no courtyard defined
+    - Track endpoint not centered on via
+    - Tuning profile track geometries
+    - Footprint doesn't match symbol's footprint filters
+    - Footprint component type doesn't match footprint pads
+
+** End of Report **
