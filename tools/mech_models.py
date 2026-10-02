@@ -9,10 +9,10 @@ they are drawn here from the numbers in docs/display-mounting.md and
 docs/top-edge.md. They exist so the board's STEP export carries them into the
 case model, and so the 3D viewer shows what sits where.
 
-KiCad has no board-level 3D models, so both hang off TP3 as extra models:
-TP3 is on the front at 0 degrees, so a model's frame is simply the board's,
-moved to TP3 and with y turned over. Nothing about TP3's copper changes. If
-TP3 ever moves, re-run this and the models follow.
+KiCad has no board-level 3D models, so both hang off TP1 as extra models:
+TP1 is on the front at 0 degrees, so a model's frame is simply the board's,
+moved to TP1 and with y turned over. Nothing about TP1's copper changes. If
+TP1 ever moves, re-run this and the models follow.
 
   - the cell, 55 x 45 x 6 mm, board X 14..69, Y 13..58, on the back
   - the panel glass, 71.82 x 36.30 x 1.0 on 0.1 mm of adhesive, X 0.55..72.37,
@@ -34,33 +34,34 @@ import cadquery as cq
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec" / "layout" / "default" / "default.kicad_pcb"
 SHAPES = ROOT / "elec" / "footprints" / "hp42s.3dshapes"
-ANCHOR = "TP3"
+ANCHOR = "TP1"
 BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
 # MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
 # tail to the left. TFT glass 76.00 x 47.02 at X 0.00..76.00, flush with
-# both long edges of the board (Barnaby, 1 October 2026), Y 12.00..59.02. Stack, bottom up:
+# both long edges of the board (Barnaby, 1 October 2026), Y 7.50..54.52
+# (9.5 mm top bezel in the 150 case, 2 October 2026). Stack, bottom up:
 # bottom polariser 0.115, TFT glass 0.2, CF glass 0.2, top polariser 0.19,
 # 0.705 in all. The CF glass and both polarisers are 73.2 x 46.02, 0.5 in
 # from the far end and the long edges, leaving a 2.3 mm TFT-glass ledge at the
 # tail end where the flex is bonded on top. (The bottom polariser's outline is
 # not drawn by Sharp; taken as the top one's.) Active area 68.072 x 42.672,
 # centred 39.784 from the tail-end edge and on the glass's height. Tail 9.47
-# wide on Y 35.51, 0.3 thick, leaving the ledge at the TFT glass's top face;
+# wide on Y 31.01, 0.3 thick, leaving the ledge at the TFT glass's top face;
 # the half turn is centred on X -0.80, 0.8 beyond the glass (Sharp's nearest
 # bend), so it stands out past the board edge and the case has a pocket for
 # it. Back leg ends 2.9 inside J2's mouth at X 3.35. (main: the e-paper's.)
 # ADHESIVE is the allowance for a contact adhesive film between the bottom
 # polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
-GLASS = (0.00, 76.00, 12.00, 59.02)          # TFT glass: X0, X1, Y0, Y1, board mm
-POL = (0.00 + 2.3, 76.00 - 0.5, 12.50, 58.52)   # 2.30..75.50
-ACTIVE = (5.748, 73.820, 14.174, 56.846)
+GLASS = (0.00, 76.00, 7.50, 54.52)          # TFT glass: X0, X1, Y0, Y1, board mm
+POL = (0.00 + 2.3, 76.00 - 0.5, 8.00, 54.02)   # 2.30..75.50
+ACTIVE = (5.748, 73.820, 9.674, 52.346)
 ADHESIVE = 0.20
 BOT_POL_T, TFT_T, CF_T, TOP_POL_T = 0.115, 0.2, 0.2, 0.19
 GLASS_T = BOT_POL_T + TFT_T + CF_T + TOP_POL_T   # 0.705
 LEDGE_Z = ADHESIVE + BOT_POL_T + TFT_T           # top of the TFT glass
-TAIL_Y = (30.775, 40.245)
+TAIL_Y = (26.275, 35.745)
 TAIL_T = 0.30
 TAIL_END_X = 6.25                             # back leg ends here, in J2
 BEND_X = -0.80                                 # centre of the half turn
@@ -68,7 +69,7 @@ CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
 
 
 def anchor(text):
-    """TP3's position, which must be on the front at 0 degrees."""
+    """TP1's position, which must be on the front at 0 degrees."""
     for f in re.split(r"\n\t\(footprint ", text)[1:]:
         if f'"Reference" "{ANCHOR}"' in f:
             layer = re.search(r'\(layer "([^"]+)"\)', f)[1]

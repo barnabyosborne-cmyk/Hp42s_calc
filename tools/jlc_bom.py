@@ -36,7 +36,9 @@ PARTS = {
     "power.gauge": ("MAX17048 fuel gauge", "MAX17048G+T10"),
     "power.l_sw": ("2.2uH XFL4020", "Coilcraft XFL4020-222MEC"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB"),
-    "mcu": ("ESP32-S3-MINI-1-N8", "ESP32-S3-MINI-1-N8"),
+    "mcu": ("ESP32-S3-WROOM-1-N16R2", "ESP32-S3-WROOM-1-N16R2"),
+    # 2 Gbit SLC SPI NAND; Winbond W25N02KVZEIR is the drop-in second source
+    "flash": ("2Gbit SPI NAND, 8-bit ECC", "Micron MT29F2G01ABAGDWB-IT:G"),
     "sw_reset": ("Side tact switch", "Alps SKRTLAE010"),
     "sw_boot": ("Side tact switch", "Alps SKRTLAE010"),
     "display.epd": ("24P 0.5mm FPC connector", "Amphenol F32Q-1A7H1-11024"),
@@ -81,7 +83,7 @@ SUBS = {
 LCSC = {
     "power.usb": "C3020560", "power.esd": "C138714", "power.chg": "C19725033",
     "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5361188",
-    "power.cell": "C295747", "mcu": "C2913206", "sw_reset": "C110293",
+    "power.cell": "C295747", "mcu": "C2913205", "flash": "C410863", "sw_reset": "C110293",
     "sw_boot": "C110293", "display.panel": "C324723",
     "display.boost": "C2072359", "display.l_boost": "C79317",
     "display.rtc": "C5137460", "ls": "C113159",
@@ -114,6 +116,7 @@ CAP_V = {
     "power.c_sys": "22uF 10V*", "power.c_out": "22uF 10V*",
     "power.c_out_hf": "100nF 16V*", "power.c_gauge": "100nF 16V*",
     "c_en": "1uF 10V*", "c_mcu_bulk": "22uF 10V*", "c_mcu": "100nF 16V*",
+    "c_flash": "100nF 16V*",
     "frontlight.c_out": "1uF 50V", "frontlight.c_in": "4.7uF 10V*",
     "frontlight.c_comp": "220nF 16V*",
     "display.c_panel": "1uF 25V*", "display.c_rtc": "100nF 16V*",
@@ -128,6 +131,8 @@ def source_values():
             "power.ato": "power.", "hp42s.ato": ""}
     out = {}
     for f, prefix in mods.items():
+        if not (src / f).exists():      # the dt branch has no frontlight
+            continue
         for m in re.finditer(r'^\s+(\w+)\.value = "([^"]*)"',
                              (src / f).read_text(), re.M):
             out[prefix + m.group(1)] = m.group(2)

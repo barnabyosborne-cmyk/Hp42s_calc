@@ -14,14 +14,16 @@ file existed. THIS IS THE `mip` BRANCH'S COPY: keep it when merging main.
 """
 
 BOARD_W = 76.0
-BOARD_H = 155.0             # 144 on the e-paper board
+BOARD_H = 146.0             # 144 on the e-paper board
 
 # The LS032B7DD02's glass is 47.02 tall against the e-paper's 36.30; the top
-# edge stays at Y 12, so the lower edge moves 10.72 mm and everything below
-# it moves 11.0. docs/mip-display.md.
-GLASS_Y = (12.0, 59.02)     # the panel glass, board Y, front
+# edge was at Y 12 with the frontlight sliver below it (DROP 11, board 155).
+# 2 October 2026 (Barnaby): no sliver or frontlight, and a 9.5 mm top bezel,
+# so the glass starts at Y 7.5 and everything below it moves 2.0, board 146,
+# case 150. docs/mip-display.md.
+GLASS_Y = (7.5, 54.52)      # the panel glass, board Y, front
 DROP_FROM = 48.3            # the e-paper glass's lower edge
-DROP = 11.0
+DROP = 2.0
 
 
 def drop(y):

@@ -181,3 +181,35 @@ On resuming, main was merged in (L1 to XFL4020-222MEB; routers hold copper
 with the glass flush left and J2 at X 7.05: 96 nets, 0 failed, audit clean,
 `check_ends`, `check_pour`, `check_placement` clean, every NPTH cleared by
 0.25 mm. The via that stopped the last attempt is gone.
+
+## 146 mm board, WROOM-1 and SPI NAND (2 October 2026)
+
+Barnaby's choices, all on this branch:
+
+- **No frontlight and no sliver.** The panel is reflective and reads in
+  daylight. The boost (old U8, L3, D3, C15-C17, R21-R23) and the sliver
+  lands are gone from the source and the board.
+- **9.5 mm top bezel.** The glass is at Y 7.5..54.52, J2 and the FPC notch
+  are 4.5 higher, everything below Y 59.3 is 9 higher (`variant.DROP` 2),
+  board **76 x 146, case 150**. Holes A and B are at (10, 3.5) and (66, 3.5)
+  with 4.5 mm rings, as on dt. The faceplate pad (now TP1) is in the keypad
+  at (14.75, 105.855), as on dt. `tools/mip_shorten_146.py` did the move.
+- **ESP32-S3-WROOM-1-N16R2** (16 MB flash, 2 MB quad PSRAM, C2913205)
+  instead of the MINI-1-N8. It has no IO33/IO34, so mip_cs is IO40 and
+  mip_disp is IO45 (a strap pin: its pull-down holds DISP low at reset,
+  which is harmless; never put a pull-up on it). Footprint
+  `hp42s:ESP32-S3-WROOM-1` is KiCad 10's without the thermal vias under
+  pad 41 (they would come through under the domes). The antenna end sits
+  0.25 mm from the bottom edge; the bottom-centre key's dome ring reaches
+  1.25 mm over the antenna's feed end on the front (0.25 with the MINI).
+  Never fit an -R8 module: octal PSRAM takes IO35-37.
+- **2 Gbit SLC SPI NAND**, Micron MT29F2G01ABAGDWB-IT (C410863), with
+  Winbond W25N02KV as a drop-in on the same land
+  (`hp42s:SPI_NAND_UPDFN-8_8x6mm_P1.27mm`). Shares SCK (IO37) and MOSI
+  (IO38) with the panel; CS# on IO41 with a 10k pull-up, SO on IO42; WP#
+  and HOLD# to 3V3. U8, with R16 and C15, beside the module.
+
+Designators after the re-import (tstamp-linked): TP3..TP11 become
+TP1..TP9, R16..R20 become R17..R21, R24 becomes R22; new R16 (CS pull-up),
+C15 (NAND bypass), U8 (NAND). `place_board.py` is already written in the
+new names.

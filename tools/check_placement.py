@@ -61,11 +61,13 @@ BAY = BAY[:3] + (variant.drop(BAY[3]),)   # taller on the MIP board
 # courtyard that sticks out past the module body, and it moves whenever the
 # module moves, turns or changes side.
 ANTENNA_REF = "U5"
-ANTENNA_BODY_HALF_W = 7.95
-# The bottom key row's dome rings reach 0.25 mm into the keepout and cannot
-# move -- the key grid is measured from a real 42S. A quarter of a millimetre
-# of copper ring will not detune a 2.4 GHz antenna; a ground pour would.
-ANTENNA_PAD_ALLOWANCE = 0.3
+ANTENNA_BODY_HALF_W = 9.75     # WROOM-1 courtyard half width (7.95 for the MINI)
+# The bottom key row's dome rings reach into the keepout and cannot move --
+# the key grid is measured from a real 42S. 0.25 mm with the MINI; 1.25 mm
+# with the WROOM-1 (2 October 2026), whose antenna is longer and already
+# sits 0.25 from the board edge. A thin ring at the antenna's feed end
+# detunes it far less than a ground pour would, which is what this guards.
+ANTENNA_PAD_ALLOWANCE = 1.3
 GRID_IC = 1.27
 GRID_PASSIVE = 0.635
 # Positions that come from the case, the panel or the antenna, not the grid.
@@ -73,7 +75,7 @@ GRID_PASSIVE = 0.635
 # their designators shift whenever a part before them in the source is added or
 # removed, so naming them literally here goes stale silently. See BY_NET there.
 # D1, D2 are D4, D5 on main
-OFF_GRID = {"J2", "U5", "TP1", "TP2", "J1", "D1", "D2"} | set(pb.RESOLVED.values())
+OFF_GRID = {"J2", "U5", "TP1", "J1", "D1", "D2"} | set(pb.RESOLVED.values())
 
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
 FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')
@@ -254,7 +256,7 @@ def main():
         if parts[r]["side"] != "F":
             continue
         x0, y0, x1, y1 = parts[r]["bb"]
-        if r in ("TP1", "TP2", "TP3") or r.startswith("SW"):
+        if r == "TP1" or r.startswith("SW"):
             continue
         if y1 > GLASS[0] and y0 < GLASS[1]:
             n += 1

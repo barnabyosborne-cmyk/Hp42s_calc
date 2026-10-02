@@ -229,19 +229,18 @@ FIRST_PASS = {
     "C1":  (42.545, 10.16, "B", 0),
     # The IR emitter's driver, behind D4.
     "Q1":  (25.4, 8.89, "B", 0),     # Q2 on main
-    "R17": (24.13, 4.445, "B", 0),
-    "R18": (20.955, 8.89, "B", 0),
+    "R18": (24.13, 4.445, "B", 0),
+    "R19": (20.955, 8.89, "B", 0),
     # The status LED's two ballast resistors, behind D5.
-    "R19": (52.07, 4.445, "B", 0),
-    "R20": (48.895, 4.445, "B", 0),
+    "R20": (52.07, 4.445, "B", 0),
+    "R21": (48.895, 4.445, "B", 0),
 
-    # -- FRONT, Y 48.3..57 ---------------------------------------------------
-    # TP1 and TP2 are the frontlight sliver's solder lands, 60 mm apart
-    # because that is the sliver's length. TP3 is a ground point to clip a
-    # scope to while the frontlight is being set up.
-    "TP1": (9.5, 50.5, "F", 0),
-    "TP2": (69.5, 50.5, "F", 0),
-    "TP3": (3.81, 53.34, "F", 0),
+    # -- FRONT, in the keypad: the faceplate ground bond ---------------------
+    # TP1 (TP3 on main). Under the glass on the 146 board (2 October 2026),
+    # so it moved into the keypad as on dt: the gap between the left column
+    # and the numeric block, between rows 5 and 6. route_power.py puts its
+    # ground via just below it.
+    "TP1": (14.75, 103.855, "F", 0),
 
     # -- BACK, Y 20..40, left edge: the panel's FPC connector ----------------
     # The one placement on the board with no slack in it, and it was wrong in
@@ -303,9 +302,9 @@ FIRST_PASS = {
     #   so a mouth at X 3.35 leaves the same 2 mm slack loop as before
     #   (1.5 mm at the -0.5 tolerance). The footprint's front face is 3.70
     #   from its pad row, so the pads are at X 7.05.
-    #   Y 35.51 is the glass's centre, 12.00 + 47.02 / 2, and the tail is
-    #   centred on it.
-    "J2": (7.05, 35.51, "B", 90),
+    #   Y 31.01 is the glass's centre, 7.50 + 47.02 / 2, and the tail is
+    #   centred on it (35.51 until the 146 board, 2 October 2026).
+    "J2": (7.05, 31.01, "B", 90),
 
     # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
     # MIP branch. Where the e-paper's gate booster was, in the same corner
@@ -326,20 +325,6 @@ FIRST_PASS = {
     "U7":  (19.05, 64.77, "B", 0),
     "C14": (19.05, 61.595, "B", 0),
     "R15": (22.86, 61.595, "B", 0),
-
-    # -- BACK, Y 59.5..72, right: the frontlight boost -----------------------
-    # U6 sits at the sliver's FB end, so the high-impedance feedback trace is
-    # short and the 38 V rail is what takes the long way to TP1. L3, D6 and
-    # C20 close the switching loop in that order.
-    "U8":  (66.04, 66.04, "B", 0),    # U6 on main
-    "L3":  (60.325, 66.04, "B", 0),
-    "C16": (60.325, 61.595, "B", 0),  # SYS into L3 (C21 on main)
-    "D3":  (66.04, 61.595, "B", 0),    # D6 on main
-    "C15": (71.12, 61.595, "B", 0),   # VLED reservoir, after D3 (C20 on main)
-    "C17": (71.12, 65.405, "B", 0),   # COMP, at U8 pin 5 (C22 on main)
-    "R21": (71.12, 67.945, "B", 0),   # FB sense, at U6 pin 6
-    "R22": (63.5, 70.485, "B", 0),    # CTRL divider, at U6 pin 2
-    "R23": (66.675, 70.485, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
     # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
@@ -379,11 +364,11 @@ FIRST_PASS = {
     "R9":  (28.575, 90.17, "B", 0),   # CFG1
     "R10": (28.575, 92.71, "B", 0),   # CFG2
     "R8":  (28.575, 95.25, "B", 0),   # CFG3
-    # R24 is the 1.2k in series with R8 that makes CFG3's 16.2k out of two
+    # R22 (R24 on main) is the 1.2k in series with R8 that makes CFG3's 16.2k out of two
     # JLC Basic parts (28 September 2026). Turned 180 so its pad 1, the
     # cfg3_mid end, faces R8's pad 2. route_power.py's SYS loop runs 2.2 mm
     # further south than it did to make room.
-    "R24": (28.575, 97.79, "B", 180), # CFG3, second half
+    "R22": (28.575, 97.79, "B", 180), # CFG3, second half
 
     # -- BACK, Y 87..91, left: the fuel gauge --------------------------------
     # The one analogue part on the board, so it is kept away from both
@@ -397,7 +382,7 @@ FIRST_PASS = {
 
     # -- BACK, Y 108..125, right: the sounder --------------------------------
     "LS1": (64.77, 118.11, "B", 0),
-    "R16": (64.77, 108.585, "B", 0),
+    "R17": (64.77, 108.585, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
     # U5's position and rotation are set by its antenna, not by the grid.
@@ -415,21 +400,35 @@ FIRST_PASS = {
     #
     # Everything around the module mirrors with it: 3V3 (pin 3) and BOOT
     # (pin 4) are on the left now, EN (pin 45) and the UART on the right.
-    "U5":  (38, 133.5, "B", 0),
-    "C8":  (27.305, 135.255, "B", 0),  # 3V3, at pin 3
-    "C9":  (27.305, 137.795, "B", 0),
-    "C7":  (47.625, 136.525, "B", 0),  # EN, at pin 45
-    "R13": (47.625, 133.985, "B", 0),
-    "TP10": (50.8, 136.525, "B", 0),  # EN
-    "TP11": (27.94, 132.08, "B", 0),  # BOOT
-    "TP8": (48.26, 130.81, "B", 0),   # UART0 TX, at pin 39
-    "TP9": (48.26, 128.27, "B", 0),   # UART0 RX, at pin 40
+    #
+    # 2 October 2026: the module is the ESP32-S3-WROOM-1-N16R2, 18 x 25.5,
+    # same rule. Its antenna end sits 0.25 from the bottom edge, which is as
+    # low as it goes; the bottom-centre key's dome ring still reaches 1.25 mm
+    # over the antenna's feed end on the front (0.25 with the MINI). Its pins
+    # turn over the same way: 3V3 (pin 2) and EN (pin 3) on the left, near
+    # the antenna end; IO0 (27) top right; UART (36, 37) lower right; the
+    # NAND's pins (IO37/38/40/41/42) the upper half of the right side.
+    "U5":  (38, 131.0, "B", 0),
+    "C8":  (26.035, 134.62, "B", 0),  # 22 uF, at pin 2 (3V3)
+    "C9":  (26.67, 136.525, "B", 0),  # 100 nF
+    "C7":  (26.67, 132.715, "B", 0),  # EN, at pin 3
+    "R13": (26.67, 131.445, "B", 0),
+    "TP8": (23.495, 132.08, "B", 0),  # EN
+    "TP9": (49.53, 119.38, "B", 0),   # BOOT, at pin 27
+    "TP6": (49.53, 134.62, "B", 0),   # UART0 TX, at pin 37
+    "TP7": (52.07, 134.62, "B", 0),   # UART0 RX, at pin 36
+    # U8 is the 2 Gbit SPI NAND, between the module and the sounder, its
+    # CS/SO side facing the module's IO41/IO42. R16 holds CS# high, C15 is
+    # its bypass at VCC (pin 8).
+    "U8":  (53.34, 127.0, "B", 0),
+    "R16": (50.165, 131.445, "B", 0),
+    "C15": (56.515, 131.445, "B", 0),
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
-    "TP4": (50.8, 86.36, "B", 0),     # BAT
-    "TP5": (53.34, 86.36, "B", 0),    # SYS
-    "TP6": (50.8, 88.9, "B", 0),      # 3V3
-    "TP7": (53.34, 88.9, "B", 0),     # GND
+    "TP2": (50.8, 86.36, "B", 0),     # BAT
+    "TP3": (53.34, 86.36, "B", 0),    # SYS
+    "TP4": (50.8, 88.9, "B", 0),      # 3V3
+    "TP5": (53.34, 88.9, "B", 0),     # GND
 }
 
 # Where anything not in the table goes, if the netlist grows.

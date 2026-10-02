@@ -45,8 +45,11 @@ NS = uuid.UUID("5c1e4a9e-8d37-4f0b-9a55-2b1d0a7c6e42")
 # 27 September 2026 so rubber feet in the rear case line up. RESET sets B's
 # y and the antenna keepout and bottom-row domes set D's x; A and C follow.
 HOLES = {
-    "A": (4.5, 7.5, 2.2, 6.0),       # top left, level with B
-    "B": (71.5, 7.5, 2.2, 6.0),      # top right, below RESET
+    # Up to Y 3.5 (dt 1 October, mip 2 October 2026) so the glass can start
+    # high. B sits in the 5 mm between the two side buttons, so both take C
+    # and D's 4.5 mm ring, and A mirrors it.
+    "A": (10.0, 3.5, 2.2, 4.5),      # top left, level with B
+    "B": (66.0, 3.5, 2.2, 4.5),      # top right, between RESET and BOOT
     "C": (6.0, 141.5, 2.2, 4.5),     # bottom left, D mirrored
     "D": (70.0, 141.5, 2.2, 4.5),    # bottom right, the tightest corner
     "G": (38.25, 80.0, 1.7, 4.0),    # centre of the keypad, where four keys meet

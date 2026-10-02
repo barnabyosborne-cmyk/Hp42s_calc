@@ -138,13 +138,16 @@ ROUTES = [
     # small enough for route_signals.py.
 ]
 
-# TP3 is the one ground pad on F.Cu alone -- the big square the cell's
-# mechanical model hangs off -- and F.Cu has no pour, so nothing reached it.
-# check_pour.py only looks at B.Cu and never asked. One via straight down.
+# TP1 (the faceplate bond, TP3 on main) is the one ground pad on F.Cu alone
+# -- the big square the mechanical models hang off -- and F.Cu has no pour,
+# so nothing reached it. check_pour.py only looks at B.Cu and never asked.
+# One via straight down. On the 146 board (2 October 2026) the glass covers
+# its old spot, so it is in the keypad, in the gap left of the numeric block,
+# as on dt; the via is just below it.
 ROUTES.append(dict(net="gnd", layer="F.Cu",
-                   path=[(3.810, 54.500), (3.810, 55.600)],
+                   path=[(14.750, 104.800), (14.750, 106.200)],
                    widths=[POWER_W],
-                   why="TP3 down to a via into the ground plane"))
+                   why="TP1 down to a via into the ground plane"))
 
 # Pads joined to another 3.3 V pad by the routes above, so they need no via
 # of their own.
@@ -196,7 +199,7 @@ ROUTES += [
 
 # `sys` is the battery-side rail: out of the charger at U2 pin 1, down the
 # corridor to the buck-boost at U3, then east under U3 and L1, north past the
-# cell to the test point, and on to the frontlight boost at x 59 to 65.
+# cell to the test point. (On main it goes on to the frontlight boost.)
 # U3's sys pins are its two bottom corners, pins 1 and 10, with the ground pad
 # between them, so the rail runs beneath at y 91.400 and taps up into each
 # corner rather than crossing the middle.
@@ -287,29 +290,16 @@ ROUTES += [
          why="up into U3 pin 10"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(56.000, 91.400), (56.000, 68.500)],
+         path=[(56.000, 91.400), (56.000, 86.360)],
          widths=[POWER_W],
-         why="north up the free lane between the cell and the right dome column"),
+         why="north up the free lane between the cell and the right dome column, "
+             "as far as the sys test point (no frontlight boost above it now)"),
 
     dict(net="sys", layer="B.Cu",
          path=[(56.000, 86.360), (53.500, 86.360)],
          widths=[POWER_W],
          why="the branch into TP5, the sys test point"),
 
-    dict(net="sys", layer="B.Cu",
-         path=[(56.000, 68.500), (64.900, 68.500)],
-         widths=[POWER_W],
-         why="east under the frontlight boost, below every part of it"),
-
-    dict(net="sys", layer="B.Cu",
-         path=[(64.900, 68.500), (64.900, 67.100)],
-         widths=[POWER_W],
-         why="up into U6 pin 1, the frontlight boost's supply"),
-
-    dict(net="sys", layer="B.Cu",
-         path=[(59.300, 68.500), (59.300, 61.700)],
-         widths=[POWER_W],
-         why="north through L3's pad to C21, the frontlight boost's input cap"),
 ]
 
 # `bat` is the other side of the charger: the cell at BT1, the gauge at U4 with
@@ -387,7 +377,7 @@ VIAS = [
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),
     ("bat", 29.900, 80.500),
-    ("gnd", 3.810, 55.600),
+    ("gnd", 14.750, 106.200),
 ]
 
 # The MIP branch's board is taller below the panel; see variant.py. A no-op on
