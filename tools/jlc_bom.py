@@ -154,7 +154,7 @@ def main():
         path = path.group(1) if path else ""
         fp = m.group(1).split(":")[-1]
         on_board.add(path)
-        if ref.startswith("TP"):
+        if ref.startswith("TP") or re.search(r"\(attr [^)]*exclude_from_bom", blk):
             continue
         if ref.startswith(SKIP_PREFIX) and path not in PARTS:
             continue
