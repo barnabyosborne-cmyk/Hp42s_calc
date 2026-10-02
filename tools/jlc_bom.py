@@ -55,6 +55,8 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 # design's part is kept in the source; these are what JLC can place.
 #   L1  XFL4020-222MEC had 1 in stock. XEL4020-222MEC is the same Coilcraft
 #       4020 family on the same XxL4020 land: 2.2 uH, 35 mOhm, 4 A.
+#       2 October 2026: XEL4020 down to 4 and XFL4020-222MEC to 0, so
+#       XFL4020-222MEB (93): the design's own part, only the packing differs.
 #   L2  SRN4018-470M had none. Sunlord SWPA4018S470MT is 47 uH in the same
 #       4 x 4 x 1.8 body, 845 mOhm, 420 mA -- the panel boost draws tens of mA.
 #       Different maker's land: check it sits on the pads in JLC's preview.
@@ -68,14 +70,14 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 #       netlist re-import. Check its polarity in JLC's preview.
 SUBS = {
     "led_status": ("Red/green LED side view, common anode", "Lite-On LTST-S326KGJRKT"),
-    "power.l_sw": ("2.2uH XEL4020", "Coilcraft XEL4020-222MEC"),
+    "power.l_sw": ("2.2uH XFL4020", "Coilcraft XFL4020-222MEB"),
     "display.l_boost": ("47uH 4018 shielded", "Sunlord SWPA4018S470MT"),
     "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB(LF)(SN)"),
 }
 LCSC = {
     "power.usb": "C3020560", "power.esd": "C138714", "power.chg": "C19725033",
-    "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5369025",
+    "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5361188",
     "power.cell": "C295747", "mcu": "C2913206", "sw_reset": "C110293",
     "sw_boot": "C110293", "display.epd": "C3168917",
     "display.l_boost": "C83445", "display.q_boost": "C469327", "ls": "C113159",
