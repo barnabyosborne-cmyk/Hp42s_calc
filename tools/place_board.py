@@ -409,20 +409,24 @@ FIRST_PASS = {
     # left, near the antenna end; IO0 (27) top right; UART (36, 37) lower
     # right; the NAND's pins (IO37/38/40/41/42) the upper half of the right.
     "U5":  (38, 132.5, "B", 0),
-    "C8":  (26.035, 135.89, "B", 0),  # 22 uF, at pin 2 (3V3)
-    "C9":  (26.67, 137.795, "B", 0),  # 100 nF
-    "C7":  (26.67, 133.985, "B", 0),  # EN, at pin 3
-    "R13": (26.67, 132.715, "B", 0),
-    "TP8": (23.495, 133.35, "B", 0),  # EN
+    # Left, top to bottom, 1 mm courtyard gaps: the EN RC at pin 3, then the
+    # 22 uF and 100 nF at pin 2 (3V3), the last clear of the antenna keepout.
+    # Both turned 180 so their 3V3 pads face the module: route_power.py ties
+    # them to pin 2, because SW34's dome keepout leaves them no via of their own.
+    "R13": (26.035, 130.81, "B", 0),
+    "C7":  (26.035, 133.35, "B", 0),  # EN, at pin 3
+    "C8":  (25.4, 135.89, "B", 180),  # 22 uF, at pin 2 (3V3)
+    "C9":  (26.035, 138.43, "B", 180),  # 100 nF
+    "TP8": (22.86, 130.81, "B", 0),   # EN
     "TP9": (49.53, 120.65, "B", 0),   # BOOT, at pin 27
     "TP6": (49.53, 135.89, "B", 0),   # UART0 TX, at pin 37
     "TP7": (52.07, 135.89, "B", 0),   # UART0 RX, at pin 36
-    # U8 is the 2 Gbit SPI NAND, between the module and the sounder, its
-    # CS/SO side facing the module's IO41/IO42. R16 holds CS# high, C15 is
-    # its bypass at VCC (pin 8).
-    "U8":  (53.34, 128.27, "B", 0),
-    "R16": (50.165, 132.715, "B", 0),
-    "C15": (56.515, 132.715, "B", 0),
+    # U8 is the 2 Gbit SPI NAND, turned 90 to fit between the module and the
+    # sounder, beside the module's IO37-IO42. R16 holds CS# high, C15 is its
+    # bypass; both just right of it, below the sounder.
+    "U8":  (52.07, 127.0, "B", 90),
+    "R16": (57.15, 126.365, "B", 90),
+    "C15": (57.15, 129.54, "B", 90),
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
     "TP2": (50.8, 86.36, "B", 0),     # BAT

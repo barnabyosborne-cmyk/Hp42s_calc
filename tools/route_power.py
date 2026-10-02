@@ -151,7 +151,19 @@ ROUTES.append(dict(net="gnd", layer="F.Cu",
 
 # Pads joined to another 3.3 V pad by the routes above, so they need no via
 # of their own.
-SHARES_PLANE_VIA = set()      # {("L2", "1")} on main, for the e-paper booster
+# MIP branch, WROOM (2 October 2026): C8 and C9 sit inside dome SW34's via
+# keepout, so they reach the plane through U5 pin 2's via instead.
+SHARES_PLANE_VIA = {("C8", "1"), ("C9", "1")}   # {("L2", "1")} on main
+ROUTES += [
+    dict(net="v3v3", layer="B.Cu",
+         path=[(26.515, 138.430), (26.515, 136.400)],
+         widths=[NECK_W],
+         why="C9 up into C8, both 3V3 bypasses, inside SW34's via keepout"),
+    dict(net="v3v3", layer="B.Cu",
+         path=[(26.350, 136.490), (29.250, 136.490)],
+         widths=[NECK_W],
+         why="C8 across into U5 pin 2 (3V3)"),
+]
 
 # 9.2 -- POWER DISTRIBUTION, AND HOW THE CORRIDOR IS SHARED
 #

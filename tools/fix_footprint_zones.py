@@ -137,6 +137,11 @@ def main():
                 off = min(math.hypot(x - fx, y - fy) for x, y in have)
                 unknown.append((ref, libname, name, off))
                 continue
+            # A footprint on the back is mirrored in y before it is turned,
+            # as place_board.py's flip() does (U5, the WROOM, 2 October 2026:
+            # without this its antenna keepout was put up in the keyboard).
+            if re.search(r'\n\t\t\(layer "B\.Cu"\)', fp):
+                want = [(x, -y) for x, y in want]
             want = [(fx + dx, fy + dy) for dx, dy in (rot(x, y, fa) for x, y in want)]
             if same(have, want):
                 ok.append((ref, name))

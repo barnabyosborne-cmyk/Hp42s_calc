@@ -214,3 +214,11 @@ Designators after the re-import (tstamp-linked): TP3..TP11 become
 TP1..TP9, R16..R20 become R17..R21, R24 becomes R22; new R16 (CS pull-up),
 C15 (NAND bypass), U8 (NAND). `place_board.py` is already written in the
 new names.
+
+Placed and fully rerouted after Barnaby's import: 104 nets, 0 failed, audit
+clean; `check_ends`, `check_pour` clean, every NPTH cleared by 0.25 mm,
+antenna keepout empty. C8/C9 (3V3 bypass) sit in SW34's dome via keepout and
+reach the plane through U5 pin 2 (route_power.py SHARES_PLANE_VIA). The
+faceplate pad TP1 is 1.00 mm from SW18/SW23's courtyards, as on dt.
+`fix_footprint_zones.py` now mirrors back-side footprints' zones (it had the
+Alps switches' keepouts on the wrong side; main and dt still do).
