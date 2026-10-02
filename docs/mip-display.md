@@ -170,12 +170,14 @@ leaves plenty of height for Plus42's taller layouts.
    re-import: place the new parts, reroute with the same tools.
 4. Firmware: the MIP driver and the ×4 Plus42 blitter, in `sim/host` first.
 
-## Shelved, 1 October 2026
+## Shelved 1 October, resumed 2 October 2026
 
-Barnaby shelved this branch to try the Displaytech 64128M (branch `dt`).
-State when shelved: glass moved flush left and J2 to X 7.05 in the tables and
-the board, but **the signal routing was not rewritten**: route_signals'
-audit stopped on one gnd via at (37.05, 10.2), 0.186 mm from usb_dm, that
-`nudge_vias` cannot find room to move. The mip_* tracks on the board still
-end at J2's old pads. To resume: fix that via, run route_signals, then
-mech_models and the checks.
+Barnaby tried the Displaytech 64128M (branch `dt`) and then a 2.9" frontlit
+e-paper (GDEY029T94-FL03, which needed an 83 mm case and left the image 3 mm
+off centre), and came back to this one.
+
+On resuming, main was merged in (L1 to XFL4020-222MEB; routers hold copper
+0.25 mm off bare holes) and the board was stripped and routed from scratch
+with the glass flush left and J2 at X 7.05: 96 nets, 0 failed, audit clean,
+`check_ends`, `check_pour`, `check_placement` clean, every NPTH cleared by
+0.25 mm. The via that stopped the last attempt is gone.
