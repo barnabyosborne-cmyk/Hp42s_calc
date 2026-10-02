@@ -587,6 +587,10 @@ def dsbga_yff(name, descr, tags):
     """
     D, E = 1.226, 0.884
     out = _head(name, descr, tags, -D / 2 - 1.0, D / 2 + 1.0)
+    # The 0.23 balls on 0.4 pitch are 0.17 apart, under the 0.2 board rule.
+    out.insert(out.index('\t(attr smd allow_soldermask_bridges)') + 1
+               if '\t(attr smd allow_soldermask_bridges)' in out else 7,
+               '\t(clearance 0.15)')
     h, w = D / 2, E / 2
     c = 0.2
     out.append(
@@ -621,17 +625,23 @@ def microcrystal_c7(name, descr, tags):
         0.9         pitch along the 3.2 mm side
         0.4         gap between the two rows, so centres 1.2 apart
 
-    Laid with the long side along x, as the drawing is: pins 1..4 left to
-    right along the top row, 5..8 right to left along the bottom. The lid is
-    on pin 2, VSS.
+    Laid with the long side along x, in TOP view as the datasheet's "PIN
+    CONNECTIONS, TOP VIEW" has it: pin 1 bottom left, 1..4 left to right
+    along the bottom row, 5..8 right to left along the top. The lid is on
+    pin 2, VSS.
+
+    Until 2 October 2026 this copied the "Package" drawing, which shows the
+    pads and so is the BOTTOM view: 1..4 along the top. That mirrored the
+    part -- NC on SDA's pad, VSS on SCL's, VDD on INT's. Barnaby's vendor
+    STEP, whose pin-1 dot sat in the other corner, is what caught it.
     """
     L, W = 3.2, 1.5
     out = _head(name, descr, tags, -W / 2 - 1.2, W / 2 + 1.2)
     h, w = W / 2, L / 2
     c = 0.3
     out.append(
-        f'\t(fp_poly (pts (xy {-w:.3f} {-h + c:.3f}) (xy {-w + c:.3f} {-h:.3f}) '
-        f'(xy {w:.3f} {-h:.3f}) (xy {w:.3f} {h:.3f}) (xy {-w:.3f} {h:.3f})) '
+        f'\t(fp_poly (pts (xy {-w:.3f} {h - c:.3f}) (xy {-w + c:.3f} {h:.3f}) '
+        f'(xy {w:.3f} {h:.3f}) (xy {w:.3f} {-h:.3f}) (xy {-w:.3f} {-h:.3f})) '
         '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
     py = 0.6
     cx, cy = w + 0.25, max(h, py + 0.4) + 0.25
@@ -639,16 +649,16 @@ def microcrystal_c7(name, descr, tags):
         f'\t(fp_rect (start {-cx:.3f} {-cy:.3f}) (end {cx:.3f} {cy:.3f}) '
         '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
     out.append(
-        f'\t(fp_circle (center {-w - 0.35:.3f} {-py:.3f}) (end {-w - 0.2:.3f} {-py:.3f}) '
+        f'\t(fp_circle (center {-w - 0.35:.3f} {py:.3f}) (end {-w - 0.2:.3f} {py:.3f}) '
         '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
     xs = [-1.35, -0.45, 0.45, 1.35]
     for i, x in enumerate(xs):
         out.append(
-            f'\t(pad "{i + 1}" smd roundrect (at {x:.3f} {-py:.3f}) (size 0.5 0.8) '
+            f'\t(pad "{i + 1}" smd roundrect (at {x:.3f} {py:.3f}) (size 0.5 0.8) '
             '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
     for i, x in enumerate(reversed(xs)):
         out.append(
-            f'\t(pad "{i + 5}" smd roundrect (at {x:.3f} {py:.3f}) (size 0.5 0.8) '
+            f'\t(pad "{i + 5}" smd roundrect (at {x:.3f} {-py:.3f}) (size 0.5 0.8) '
             '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
     out.append(')')
     return "\n".join(out) + "\n"
@@ -662,14 +672,21 @@ def hirose_fh34srj(name, descr, tags, n):
         0.3 x 0.8     signal lands, 0.5 pitch, B = 0.5(n-1) centre to centre
         E / F         inner / outer edges of the two fitting lands, so the
                       fittings are (F-E)/2 = 0.4 wide and 0.8 tall
-        3.3           signal land centreline to fitting land centreline
-        A             body width; 3.8 deep including the 0.5 of lead
+        3.3           OVERALL pattern height, outer edge of the signal
+                      lands to outer edge of the fitting lands, so the land
+                      centrelines are 3.3 - 0.8 = 2.5 apart
+        A             body width; 3.8 deep including the actuator
+
+    Until 2 October 2026 this read 3.3 as centre to centre and put the
+    fitting lands 0.8 mm too far towards the mouth. Hirose's own STEP model
+    (feet 2.45 apart) showed it; a zoom of page 5 confirms the 3.3 arrow runs
+    edge to edge.
 
     Origin is the middle of the signal lands. Contact 1 is at +x, as the
     drawing has it. The FPC goes in from +y, the fitting side: the back-flip
-    actuator hinges over the leads at -y. The body outline on F.Fab is read
-    off the drawing's side view, lead tip at y -0.1, front face at y 3.7;
-    the lands are the dimensioned numbers.
+    actuator hinges over the leads at -y. The body outline on F.Fab is
+    Hirose's model with its feet centred on the lands: actuator edge at
+    y -0.775, front face (the mouth) at y 3.025.
     """
     B = 0.5 * (n - 1)
     A = 0.5 * (n - 1) + 2.5
@@ -678,18 +695,18 @@ def hirose_fh34srj(name, descr, tags, n):
     mx = (E + F) / 4
     out = _head(name, descr, tags, -1.6, 5.0)
     out.append(
-        f'\t(fp_rect (start {-A/2:.3f} -0.100) (end {A/2:.3f} 3.700) '
+        f'\t(fp_rect (start {-A/2:.3f} -0.775) (end {A/2:.3f} 3.025) '
         '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
     # where the flex goes in
     out.append(
-        f'\t(fp_line (start {-B/2 - 0.25:.3f} 3.700) (end {B/2 + 0.25:.3f} 3.700) '
+        f'\t(fp_line (start {-B/2 - 0.25:.3f} 3.025) (end {B/2 + 0.25:.3f} 3.025) '
         '(stroke (width 0.3) (type solid)) (layer "F.Fab"))')
     cx = max(A / 2, F / 2) + 0.25
     out.append(
-        f'\t(fp_rect (start {-cx:.3f} -0.650) (end {cx:.3f} 3.950) '
+        f'\t(fp_rect (start {-cx:.3f} -1.025) (end {cx:.3f} 3.275) '
         '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
     out.append(
-        f'\t(fp_circle (center {B/2 + 0.55:.3f} -0.550) (end {B/2 + 0.7:.3f} -0.550) '
+        f'\t(fp_circle (center {A/2 + 0.4:.3f} 0) (end {A/2 + 0.55:.3f} 0) '
         '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
     for i in range(n):
         x = B / 2 - i * 0.5
@@ -698,7 +715,7 @@ def hirose_fh34srj(name, descr, tags, n):
             '(layers "F.Cu" "F.Paste" "F.Mask"))')
     for x in (-mx, mx):
         out.append(
-            f'\t(pad "MP" smd rect (at {x:.3f} 3.300) (size 0.4 0.8) '
+            f'\t(pad "MP" smd rect (at {x:.3f} 2.500) (size 0.4 0.8) '
             '(layers "F.Cu" "F.Paste" "F.Mask"))')
     out.append(')')
     return "\n".join(out) + "\n"
@@ -779,7 +796,8 @@ def main():
         ),
         "TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm": dsbga_yff(
             name="TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm",
-            descr="TI YFF0006 DSBGA-6, 0.4 mm pitch, 0.23 mm NSMD lands. From TI "
+            descr="Footprint clearance 0.15: the 0.23 mm balls on 0.4 mm pitch are "
+                  "0.17 apart, under the 0.2 board rule. TI YFF0006 DSBGA-6, 0.4 mm pitch, 0.23 mm NSMD lands. From TI "
                   "drawing 4223785/A example board layout. Used by TPS610997 "
                   "(the MIP panel's 5 V rail).",
             tags="DSBGA WCSP YFF TPS61099 TPS610997",

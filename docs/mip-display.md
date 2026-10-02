@@ -90,7 +90,7 @@ Done on 30 September 2026, in `elec/src/display.ato` and `parts.ato`:
    disconnects its output when off.
 3. **J2 is the Hirose FH34SRJ-10S** (C324723), land from the FH34 catalogue.
    Connector pin n is panel pin n; the reasoning is in `parts.ato`
-   (MIPConnector). J2 sits on the back at (7.05, 35.51), 90°, mouth at
+   (MIPConnector). J2 sits on the back at (6.375, 31.01), 90°, mouth at
    X 3.35, which leaves the tail 2 mm of slack like the e-paper's.
 4. **EXTCOMIN from an RV-8263-C7** (C5137460, the C7 package so its land is
    Micro Crystal's own drawing) on the gauge's I2C bus. CLKOUT is EXTCOMIN;
@@ -222,3 +222,22 @@ reach the plane through U5 pin 2 (route_power.py SHARES_PLANE_VIA). The
 faceplate pad TP1 is 1.00 mm from SW18/SW23's courtyards, as on dt.
 `fix_footprint_zones.py` now mirrors back-side footprints' zones (it had the
 Alps switches' keepouts on the wrong side; main and dt still do).
+
+## Vendor models, 2 October 2026
+
+Barnaby found STEP models for U6 (TI TPS61099YFFT, same YFF0006 package),
+U7 (RV-8263-C7), U8 (Micron MT29F2G01) and J2 (Hirose FH34SRJ-10S). Landing
+them caught two land faults, both fixed in `tools/gen_ic_footprints.py`, the
+library and the board:
+
+- **U7, RV-8263-C7: the land was mirrored.** It had been copied from the
+  datasheet's bottom-view package drawing, so pins 1-4 were on the wrong
+  row. Micro Crystal's model puts pin 1 bottom left in top view. Every U7
+  track was rerouted. (dt uses the same footprint and still has the fault.)
+- **J2, FH34SRJ: the fitting lands were 0.8 mm too far out.** The
+  catalogue's 3.3 mm is the mounting pattern's overall height (outer edge of
+  the signal lands to outer edge of the fitting lands), so the land centres
+  are 2.5 apart, not 3.3. Hirose's model has its feet 2.45 apart. The body is
+  also shallower than the side-view reading: the mouth is 3.025 from the pad
+  row, not 3.70, so J2 moved from X 7.05 to 6.375 to keep the mouth at
+  X 3.35 and the tail's 2 mm slack.

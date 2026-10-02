@@ -132,6 +132,29 @@ PLACEMENT = {
         "leads running on to 8.6; moved 4.4 so the body fills KiCad's fab "
         "outline (-3.2..4.4) and the leads land on pads 1 and 2. The leads "
         "dip 0.1 below JST's zero, so the 0.1 lift seats them."),
+    "SPI_NAND_UPDFN-8_8x6mm_P1.27mm": (
+        "Micron-MT29F2G01ABAGDWB.step", X, 90, (0, 0, 0),
+        "Micron (via SamacSys, 2 October 2026) drew it standing on Y. A "
+        "quarter turn about X lays it flat, already centred and seated at 0; "
+        "the MT logo then sits at pin 1, top left, as the footprint has it."),
+    "MicroCrystal_C7_3.2x1.5mm_RV-8263": (
+        "MicroCrystal-RV-8263-C7.step", Z, 0, (0, 0, 0),
+        "Already in KiCad's frame. Its pin-1 dot is bottom left in top view, "
+        "which is what showed the footprint had been drawn from the "
+        "datasheet's bottom view (fixed 2 October 2026)."),
+    "TI_YFF0006_DSBGA-6_0.88x1.23mm_P0.4mm": (
+        "TI-YFF0006-TPS61099.step", Z, 0, (0, 0, 0),
+        "TI's TPS61099YFFT: the same YFF0006 package as the TPS610997. Already "
+        "in KiCad's frame, balls at +-0.2, 0 and +-0.4 like the lands."),
+    "Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal": (
+        "Hirose-FH34SRJ-10S-0.5SH.step", Z, 0, (0, -1.125, 0),
+        "Hirose's own model (Barnaby, 2 October 2026), right way up with the "
+        "mouth at footprint +y. Its feet sit 2.45 apart, signal row to "
+        "fittings, against the land's 3.3 -- which showed that the "
+        "catalogue's 3.3 is the pattern's overall height, not centre to "
+        "centre, and the fitting lands were 0.8 too far out (fixed). Moved "
+        "1.125 so both rows of feet sit centred on their lands. The housing "
+        "is symmetric, so it cannot show which end is contact 1."),
     "Amphenol_F32Q-1A7x1-11024_1x24-1MP_P0.5mm_Horizontal": (
         "Amphenol-F32Q-1A7H1-11024.step", [(Y, -90), (Z, 180)], None,
         (5.35, 2.25, 0),

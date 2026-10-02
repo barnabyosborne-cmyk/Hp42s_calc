@@ -300,11 +300,12 @@ FIRST_PASS = {
     #   1.6 below) for 3.79 mm, and has 9.04 mm left on the back, ending at
     #   X 8.24 if pulled tight. The stiffener seats 2.9 mm inside the mouth,
     #   so a mouth at X 3.35 leaves the same 2 mm slack loop as before
-    #   (1.5 mm at the -0.5 tolerance). The footprint's front face is 3.70
-    #   from its pad row, so the pads are at X 7.05.
+    #   (1.5 mm at the -0.5 tolerance). The footprint's front face is 3.025
+    #   from its pad row (Hirose's STEP model, 2 October 2026; it was 3.70
+    #   read off the catalogue's side view), so the pads are at X 6.375.
     #   Y 31.01 is the glass's centre, 7.50 + 47.02 / 2, and the tail is
     #   centred on it (35.51 until the 146 board, 2 October 2026).
-    "J2": (7.05, 31.01, "B", 90),
+    "J2": (6.375, 31.01, "B", 90),
 
     # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
     # MIP branch. Where the e-paper's gate booster was, in the same corner
@@ -755,7 +756,7 @@ def main():
         lib = blocks[refs.index("J2")].split('"', 2)[1]
         if "FH34SRJ" not in lib:     # "F32Q" on main
             print(f"WARNING: J2 is still {lib}.\n"
-                  "         X 7.05 is worked out from the Hirose FH34SRJ's "
+                  "         X 6.375 is worked out from the Hirose FH34SRJ's "
                   "own depth, so the mouth\n"
                   "         has landed in the wrong place. Rebuild and "
                   "re-import the netlist,\n"

@@ -1172,6 +1172,47 @@ def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
                     return False
         return True
 
+    def rejoin(net, v, segs, drop):
+        """No room for a via that the grid squeezed in: if it is a ground
+        tail, with one B.Cu track from a pad and nothing else, drop it and
+        run that pad straight to the nearest other ground pad or via
+        instead. U1's gnd pin 3 beside usb_dm, 2 October 2026: twice the
+        grid put its via 0.186 from usb_dm with no room to move, and pin 8,
+        0.83 across, already has one."""
+        if net != "gnd":
+            return None
+        arrive = [s for s in segs if s[0] == net and v in (s[2], s[3])]
+        if len(arrive) != 1 or arrive[0][1] != "B.Cu":
+            return None
+        a = arrive[0][2] if arrive[0][3] == v else arrive[0][3]
+        here = Point(v).buffer(VIA_D / 2 + 0.01)
+        cands = []
+        for n, g in copper.items["B.Cu"]:
+            if (n != net or g.geom_type != "Polygon" or g.area > 2.0
+                    or g.intersects(here) or g.contains(Point(a))):
+                continue
+            c = g.centroid
+            if not g.contains(c):
+                continue
+            q = (round(c.x, 4), round(c.y, 4))
+            if math.dist(a, q) <= 1.5:
+                cands.append((math.dist(a, q), q))
+        for _d, q in sorted(cands):
+            link = LineString([a, q]).buffer(W / 2, quad_segs=16)
+            if (clear(link, ["B.Cu"], net)
+                    and not any(link.intersects(pg) for _n, pg in ko_t)):
+                drop.add(arrive[0])
+                for L in LAYERS:
+                    copper.items[L] = [
+                        (n, o) for n, o in copper.items[L]
+                        if not (n == net and o.geom_type == "Polygon"
+                                and abs(o.bounds[2] - o.bounds[0] - VIA_D) < 0.01
+                                and o.centroid.distance(Point(v)) < 1e-6)]
+                copper.add("B.Cu", net, LineString([a, q]).buffer(W / 2, quad_segs=8))
+                return (net, "B.Cu", a, q, W)
+        return None
+
+    drop = set()
     out_v, extra, count = [], [], 0
     for net, v in new_vias:
         g = Point(v).buffer(VIA_D / 2, quad_segs=16)
@@ -1198,6 +1239,11 @@ def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
             if best:
                 break
         if best is None:
+            link = rejoin(net, v, new_segs, drop)
+            if link:
+                count += 1
+                extra.append(link)
+                continue
             out_v.append((net, v))      # the audit will say so
             continue
         count += 1
@@ -1212,7 +1258,7 @@ def nudge_vias(copper, new_segs, new_vias, edge, ko_t, ko_v):
         for L in arrive:
             extra.append((net, L, v, best, W))
             copper.add(L, net, LineString([v, best]).buffer(W / 2, quad_segs=8))
-    return new_segs + extra, out_v, count
+    return [x for x in new_segs if x not in drop] + extra, out_v, count
 
 
 def merge_vias(new_segs, new_vias, keep_vias):
