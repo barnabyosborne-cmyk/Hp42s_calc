@@ -93,10 +93,15 @@ def islands(pads, segs, vias, edge, keepouts):
     def join(a, b):
         parent[find(a)] = find(b)
 
+    # A pad joins a piece only where the pour OVERLAPS it. Touching along an
+    # edge is not a connection to KiCad's filler: U4's gnd pins 1 and 4 sit
+    # inside the 0.5 mm clearance of their bat and cell neighbours, the pour
+    # stopped exactly on their edge, and DRC called them unconnected while
+    # this said they were fine (2 October 2026).
     tree = shapely.STRtree(pieces)
     for k, (_label, g, _thru) in enumerate(gnd_shapes):
         for m in tree.query(g):
-            if pieces[m].intersects(g):
+            if pieces[m].intersection(g).area > 1e-3:
                 join(len(pieces) + k, m)
     # Two gnd shapes that overlap (a track into a pad) are one.
     gtree = shapely.STRtree([g for _l, g, _t in gnd_shapes])

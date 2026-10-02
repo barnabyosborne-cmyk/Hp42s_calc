@@ -1071,6 +1071,8 @@ def main():
     src = Path(__file__).read_text()
     h.update(src.encode())
     h.update((Path(__file__).parent / "astar.c").read_bytes())
+    # check_pour decides which gnd pads are stranded, so it shapes the result.
+    h.update((Path(__file__).parent / "check_pour.py").read_bytes())
     h.update(repr(order).encode())
     cache = Path(tempfile.gettempdir()) / f"hp42s-route-{h.hexdigest()[:16]}.pkl"
     if cache.exists():
