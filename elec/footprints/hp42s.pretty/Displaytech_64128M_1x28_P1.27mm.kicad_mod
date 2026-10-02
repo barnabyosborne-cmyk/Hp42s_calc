@@ -4,7 +4,7 @@
 	(layer "F.Cu")
 	(descr "Displaytech 64128M COG LCD module, 28 clip pins at 1.27 mm, soldered through by hand after assembly. From the 64128M COG series spec v1.0 page 7 (drawing T653 rev D): glass 75 x 50 (+-0.2, 2.95 max thick), view area 70 x 40, active area 66.52 x 33.24, pin row 34.29 mm centred on the 75 mm edge, leg 0.4 x 0.4 about 0.25 mm outside the ledge edge, 8.0 mm long behind the glass. Footprint is drawn for the panel turned 180 degrees (pins at the top, glass below them): seen from the front, pin 1 is then on the left. Seal bump (10 x 1.0 max) on the right edge.")
 	(tags "LCD 128x64 ST7565R Displaytech 64128M COG clip pins")
-	(attr through_hole)
+	(attr through_hole exclude_from_pos_files exclude_from_bom)
 	(fp_text reference "REF**" (at 0 -2.20) (layer "F.SilkS") (effects (font (size 1 1) (thickness 0.15))))
 	(fp_text value "64128M COG" (at 0 25.00) (layer "F.Fab") (effects (font (size 1 1) (thickness 0.15))))
 	(fp_rect (start -37.500 0.250) (end 37.500 50.250) (stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))

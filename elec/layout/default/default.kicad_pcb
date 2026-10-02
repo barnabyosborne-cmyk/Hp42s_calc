@@ -13045,7 +13045,7 @@
 		)
 		(path "/e625e8df-266c-3e56-7d87-30235db2d4e1/e625e8df-266c-3e56-7d87-30235db2d4e1")
 		(sheetname "/Users/barnaby osborne/Documents/Personal/02 Projects/Calculator/Hp42s_calc1/elec/src/hp42s.ato:HP42S::display.panel")
-		(attr through_hole)
+		(attr through_hole exclude_from_pos_files exclude_from_bom)
 		(duplicate_pad_numbers_are_jumpers no)
 		(fp_circle
 			(center -18.4 0)
