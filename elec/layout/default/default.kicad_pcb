@@ -4400,6 +4400,11 @@
 			(uuid "eeadd989-ba90-4d53-b43f-397385ec3bda")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/SPI_NAND_UPDFN-8_8x6mm_P1.27mm.step"
+			(offset (xyz 0 0 0))
+			(scale (xyz 1 1 1))
+			(rotate (xyz 0 0 0))
+		)
 	)
 	(footprint "hp42s:Dome_4Leg_10mm"
 		(layer "F.Cu")
@@ -11921,6 +11926,11 @@
 			(uuid "1cf8d7f6-13b9-471a-904d-b02f23fef3c4")
 		)
 		(embedded_fonts no)
+		(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal.step"
+			(offset (xyz 0 0 0))
+			(scale (xyz 1 1 1))
+			(rotate (xyz 0 0 0))
+		)
 	)
 	(footprint "Capacitor_SMD:C_0603_1608Metric"
 		(layer "B.Cu")

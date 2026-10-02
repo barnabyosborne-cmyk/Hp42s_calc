@@ -23,4 +23,9 @@
 	(pad "10" smd rect (at -2.250 0) (size 0.3 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
 	(pad "MP" smd rect (at -3.250 3.300) (size 0.4 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
 	(pad "MP" smd rect (at 3.250 3.300) (size 0.4 0.8) (layers "F.Cu" "F.Paste" "F.Mask"))
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/Hirose_FH34SRJ-10S-0.5SH_1x10-1MP_P0.50mm_Horizontal.step"
+		(offset (xyz 0 0 0))
+		(scale (xyz 1 1 1))
+		(rotate (xyz 0 0 0))
+	)
 )
