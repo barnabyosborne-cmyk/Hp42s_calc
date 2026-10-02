@@ -402,27 +402,27 @@ FIRST_PASS = {
     # (pin 4) are on the left now, EN (pin 45) and the UART on the right.
     #
     # 2 October 2026: the module is the ESP32-S3-WROOM-1-N16R2, 18 x 25.5,
-    # same rule. Its antenna end sits 0.25 from the bottom edge, which is as
-    # low as it goes; the bottom-centre key's dome ring still reaches 1.25 mm
-    # over the antenna's feed end on the front (0.25 with the MINI). Its pins
-    # turn over the same way: 3V3 (pin 2) and EN (pin 3) on the left, near
-    # the antenna end; IO0 (27) top right; UART (36, 37) lower right; the
-    # NAND's pins (IO37/38/40/41/42) the upper half of the right side.
-    "U5":  (38, 131.0, "B", 0),
-    "C8":  (26.035, 134.62, "B", 0),  # 22 uF, at pin 2 (3V3)
-    "C9":  (26.67, 136.525, "B", 0),  # 100 nF
-    "C7":  (26.67, 132.715, "B", 0),  # EN, at pin 3
-    "R13": (26.67, 131.445, "B", 0),
-    "TP8": (23.495, 132.08, "B", 0),  # EN
-    "TP9": (49.53, 119.38, "B", 0),   # BOOT, at pin 27
-    "TP6": (49.53, 134.62, "B", 0),   # UART0 TX, at pin 37
-    "TP7": (52.07, 134.62, "B", 0),   # UART0 RX, at pin 36
+    # same rule. Its antenna is longer than the MINI's, so the module hangs
+    # 1.25 mm over the bottom edge (Barnaby: the case takes it), which puts
+    # the antenna's feed end 0.25 mm clear of the bottom-row dome rings.
+    # Its pins turn over the same way: 3V3 (pin 2) and EN (pin 3) on the
+    # left, near the antenna end; IO0 (27) top right; UART (36, 37) lower
+    # right; the NAND's pins (IO37/38/40/41/42) the upper half of the right.
+    "U5":  (38, 132.5, "B", 0),
+    "C8":  (26.035, 135.89, "B", 0),  # 22 uF, at pin 2 (3V3)
+    "C9":  (26.67, 137.795, "B", 0),  # 100 nF
+    "C7":  (26.67, 133.985, "B", 0),  # EN, at pin 3
+    "R13": (26.67, 132.715, "B", 0),
+    "TP8": (23.495, 133.35, "B", 0),  # EN
+    "TP9": (49.53, 120.65, "B", 0),   # BOOT, at pin 27
+    "TP6": (49.53, 135.89, "B", 0),   # UART0 TX, at pin 37
+    "TP7": (52.07, 135.89, "B", 0),   # UART0 RX, at pin 36
     # U8 is the 2 Gbit SPI NAND, between the module and the sounder, its
     # CS/SO side facing the module's IO41/IO42. R16 holds CS# high, C15 is
     # its bypass at VCC (pin 8).
-    "U8":  (53.34, 127.0, "B", 0),
-    "R16": (50.165, 131.445, "B", 0),
-    "C15": (56.515, 131.445, "B", 0),
+    "U8":  (53.34, 128.27, "B", 0),
+    "R16": (50.165, 132.715, "B", 0),
+    "C15": (56.515, 132.715, "B", 0),
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
     "TP2": (50.8, 86.36, "B", 0),     # BAT

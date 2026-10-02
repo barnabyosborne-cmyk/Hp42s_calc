@@ -199,9 +199,10 @@ Barnaby's choices, all on this branch:
   mip_disp is IO45 (a strap pin: its pull-down holds DISP low at reset,
   which is harmless; never put a pull-up on it). Footprint
   `hp42s:ESP32-S3-WROOM-1` is KiCad 10's without the thermal vias under
-  pad 41 (they would come through under the domes). The antenna end sits
-  0.25 mm from the bottom edge; the bottom-centre key's dome ring reaches
-  1.25 mm over the antenna's feed end on the front (0.25 with the MINI).
+  pad 41 (they would come through under the domes). **The module hangs
+  1.25 mm over the bottom board edge** (Barnaby: the case takes it), so
+  the antenna's feed end is 0.25 mm clear of the bottom-row dome rings.
+  The board-level antenna keepout is X 14..62 from Y 141.25 to the edge.
   Never fit an -R8 module: octal PSRAM takes IO35-37.
 - **2 Gbit SLC SPI NAND**, Micron MT29F2G01ABAGDWB-IT (C410863), with
   Winbond W25N02KV as a drop-in on the same land

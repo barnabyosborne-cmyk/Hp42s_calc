@@ -62,12 +62,12 @@ BAY = BAY[:3] + (variant.drop(BAY[3]),)   # taller on the MIP board
 # module moves, turns or changes side.
 ANTENNA_REF = "U5"
 ANTENNA_BODY_HALF_W = 9.75     # WROOM-1 courtyard half width (7.95 for the MINI)
-# The bottom key row's dome rings reach into the keepout and cannot move --
-# the key grid is measured from a real 42S. 0.25 mm with the MINI; 1.25 mm
-# with the WROOM-1 (2 October 2026), whose antenna is longer and already
-# sits 0.25 from the board edge. A thin ring at the antenna's feed end
-# detunes it far less than a ground pour would, which is what this guards.
-ANTENNA_PAD_ALLOWANCE = 1.3
+# The bottom key row's dome rings reach 0.25 mm into the keepout with the
+# MINI and cannot move -- the key grid is measured from a real 42S. The
+# WROOM-1 (2 October 2026) hangs 1.25 mm over the bottom edge instead, which
+# leaves them 0.25 clear. A quarter of a millimetre of copper ring will not
+# detune a 2.4 GHz antenna; a ground pour would.
+ANTENNA_PAD_ALLOWANCE = 0.3
 GRID_IC = 1.27
 GRID_PASSIVE = 0.635
 # Positions that come from the case, the panel or the antenna, not the grid.
