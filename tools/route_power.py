@@ -192,11 +192,16 @@ ROUTES += [
          widths=[NECK_W, POWER_W],
          why="J1 pins A9/B4 down to C1, the USB bulk cap"),
 
+    # ls027 (4 October 2026): the panel's FPC slot and J2 now sit across
+    # x 38.42 below the glass, so vbus comes down at x 31.40 instead -- left
+    # of the slot's keepout, right of U7 -- and crosses back under J2's C10
+    # and C19 to resume the old descent between R3/R5 and R6.
     dict(net="vbus", layer="B.Cu",
-         path=[(41.770, 10.160), (41.770, 14.000), (38.420, 20.000),
+         path=[(41.770, 10.160), (41.770, 14.000), (31.400, 24.370),
+               (31.400, 67.500), (38.420, 67.500),
                (38.420, 74.500), (34.033, 74.500), (34.033, 73.250)],
-         widths=[POWER_W, POWER_W, POWER_W, POWER_W, NECK_W],
-         why="C1 down the board and up into U2 pin 10 from below"),
+         widths=[POWER_W] * 6 + [NECK_W],
+         why="C1 down the board, round the FPC slot, into U2 pin 10 from below"),
 
     dict(net="vbus", layer="B.Cu",
          path=[(35.600, 6.400), (35.600, 7.400)],

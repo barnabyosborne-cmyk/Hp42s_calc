@@ -878,7 +878,12 @@ component FrontlightInductor:
 
 component MIPConnector:
     # Hirose FH34SRJ-10S-0.5SH(50), JLC C324723. Sharp's first recommendation
-    # for the LS032B7DD02 (its table 8-2-1), 10 way at 0.5 mm, contacts top
+    # for the LS032B7DD02 (its table 8-2-1), 10 way at 0.5 mm, and also right
+    # for the LS027B7DH01 on branch ls027: same 10 pins in the same order
+    # (LD-28305A table 4-1), and its 0.5 pitch, 0.3 thick FPC. On ls027 the
+    # tail folds BACK through a board slot under the glass, so the paragraph
+    # below about the left-edge fold is the mip arrangement. Sharp's LS027
+    # drawing does not mark pin 1; check the panel's own FPC before fitting. contacts top
     # AND bottom, so it does not matter which face of the flex arrives on
     # top after the fold. Land from the FH34 catalogue: see
     # tools/gen_ic_footprints.py.
@@ -991,3 +996,18 @@ component LIS2MDL:
     signal VDDIO ~ pin 10
     signal NC11  ~ pin 11
     signal NC12  ~ pin 12
+
+component FrontlightWirePads:
+    # Azumo 11103-06 front light's LED flex, 2.49 mm wide, two contacts 0.8
+    # wide at 1.0 pitch on its last 3.32 mm (Azumo drawing 11103-06 T7,
+    # detail A). Lying along the back of the board as it leaves the light
+    # coupler, its contacts face AWAY from the board (the stiffener is on the
+    # board side, per Azumo's STEP), so it cannot be soldered flat to pads.
+    # Two short wires instead, from the flex's + and - to these pads, which
+    # also makes polarity a matter of following the flex's own marking.
+    # Fitted by hand, and only on boards built with the front light.
+    footprint = "hp42s:Azumo_FLP_LED_WirePads"
+    designator_prefix = "J"
+    value = "Azumo FLP LED"
+    signal anode   ~ pin 1
+    signal cathode ~ pin 2

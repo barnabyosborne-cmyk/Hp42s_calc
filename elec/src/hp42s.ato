@@ -1,6 +1,6 @@
 from "parts.ato" import ESP32S3WROOM1, SPINAND, Buzzer, IRLED, TactSwitchSide, StatusLED
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad, ChassisPad
-from "parts.ato" import LSM6DSV16X, LIS2MDL
+from "parts.ato" import LSM6DSV16X, LIS2MDL, FrontlightWirePads, BoostFET
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
@@ -8,9 +8,10 @@ from "keypad.ato" import Keypad
 # ---------------------------------------------------------------------------
 # hp42s.ato -- top level.
 #
-# An HP-42S-shaped calculator running Plus42 on an ESP32-S3, with a 3.16 inch
-# Sharp memory LCD (branch `mip`; `main` has the 2.66 inch e-paper) and a
-# 37-key metal dome keypad. Case 150 x 80 x 15 mm on this branch.
+# An HP-42S-shaped calculator running Plus42 on an ESP32-S3, with a 2.7 inch
+# Sharp LS027B7DH01 memory LCD and an optional Azumo 11103-06 front light
+# (branch `ls027`; `mip` has the 3.16 inch LS032, `main` the e-paper) and a
+# 37-key metal dome keypad. Board 76 x 142, case 80 x 146 on this branch.
 #
 # The GPIO map below is not free choice. Three things pin it down:
 #   - IO19/IO20 are the USB PHY. Fixed in silicon, not reassignable.
@@ -36,7 +37,10 @@ from "keypad.ato" import Keypad
 # pad and nothing else; pulling it down with IO46 left at its default 0 is
 # exactly Espressif's joint download boot.
 #
-# Still free: IO46 (strap). IO3 went to the IMU on 4 October 2026. The sliver, frontlight and its PWM pin are
+# No pins left. IO3 went to the IMU and IO46 to the front light switch on
+# 4 October 2026 (branch ls027). IO46's own weak pull-down, plus 100k here,
+# holds the light off through reset and boot, which is also the strap value
+# this board wants. The sliver, frontlight and its PWM pin are
 # gone (2 October 2026): the panel is reflective and readable in daylight.
 # Hardware JTAG on IO39-IO42 is already gone, see the status LED below.
 # ---------------------------------------------------------------------------
@@ -416,3 +420,39 @@ module HP42S:
     c_mag_sr.value = "220n"
     c_mag_sr.p1 ~ mag.C1
     c_mag_sr.p2 ~ gnd
+
+    # --- 2.7 inch panel extras (branch ls027, 4 October 2026) ---------------
+    # Sharp LD-28305A figure 9-1 asks for 560 pF on DISP. It is on IO45, a
+    # strap the board wants LOW, so a capacitor to ground only helps.
+    c_disp = new Capacitor
+    c_disp.value = "560p"
+    c_disp.p1 ~ mip_disp
+    c_disp.p2 ~ gnd
+
+    # --- optional front light (Azumo 11103-06) -------------------------------
+    # One white LED, 20 mA typical, 25 mA absolute, Vf 3.0 V (Azumo drawing).
+    # From the panel's 5 V rail through 100R: (5.0 - 3.0 - ~0.01) / 100 =
+    # 20 mA, and +-0.2 V of Vf moves it only +-2 mA, which a 3.3 V supply
+    # with 15R could not promise. The 5 V boost is already on whenever the
+    # panel shows anything. IO46 switches it, PWM for brightness. With no
+    # front light fitted, its two pads stay empty and nothing else changes.
+    signal fl_en
+    signal fl_k
+    signal fl_a
+    mcu.IO46 ~ fl_en
+    fl = new FrontlightWirePads
+    r_fl = new Resistor
+    r_fl.value = "100"
+    r_fl.footprint = "Resistor_SMD:R_0603_1608Metric"
+    r_fl.p1 ~ display.v5
+    r_fl.p2 ~ fl_a
+    fl.anode ~ fl_a
+    fl.cathode ~ fl_k
+    q_fl = new BoostFET
+    q_fl.drain ~ fl_k
+    q_fl.source ~ gnd
+    q_fl.gate ~ fl_en
+    r_fl_g = new Resistor
+    r_fl_g.value = "100k"
+    r_fl_g.p1 ~ fl_en
+    r_fl_g.p2 ~ gnd

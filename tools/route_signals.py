@@ -125,7 +125,13 @@ def outline(text):
         b = (float(m.group(3)), float(m.group(4)))
         segs.append((a, b))
     lines = [LineString(s) for s in segs]
-    poly = shapely.get_geometry(shapely.polygonize(lines), 0)
+    # The outline and any cut-outs (ls027's coupler and FPC slot) come out
+    # as separate polygons: the board is the biggest less the others.
+    polys = list(shapely.get_parts(shapely.polygonize(lines)))
+    polys.sort(key=lambda p: -p.area)
+    poly = polys[0]
+    for h in polys[1:]:
+        poly = poly.difference(h)
     return poly
 
 

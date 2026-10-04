@@ -305,7 +305,15 @@ FIRST_PASS = {
     #   read off the catalogue's side view), so the pads are at X 6.375.
     #   Y 31.01 is the glass's centre, 7.50 + 47.02 / 2, and the tail is
     #   centred on it (35.51 until the 146 board, 2 October 2026).
-    "J2": (6.375, 31.01, "B", 90),
+    # ls027 (4 October 2026): the LS027's tail folds back through the slot
+    # under the glass (variant.CUTOUTS) and runs down the back to J2, centred
+    # on it at X 38.0. On the back at 0 degrees the mouth faces -Y, towards
+    # the slot, and contact 1 is at +X. 13.63 of tail less 0.9 out, two
+    # quarter bends and 2.0 down through the board leaves its end at
+    # Y 61.25 pulled tight; the stiffener seats 2.9 inside the mouth, so a
+    # mouth at Y 56.9 (pads 3.025 behind it, Y 59.9) leaves 1.5 mm of slack.
+    # (Y below is the e-paper table's, so board Y + 2.)
+    "J2": (38.0, 61.9, "B", 0),
 
     # -- BACK, Y 59.5..73, left: the panel's 5 V and its clock --------------
     # MIP branch. Where the e-paper's gate booster was, in the same corner
@@ -319,13 +327,13 @@ FIRST_PASS = {
     "C11": (12.7, 69.215, "B", 0),    # SYS into L2
     "C12": (5.08, 65.405, "B", 0),    # 5 V out
     "C13": (5.08, 67.945, "B", 0),
-    "C10": (7.62, 60.325, "B", 0),    # at the panel
+    "C10": (37.465, 65.405, "B", 0),   # at J2's VDD/VDDA (pins 6, 7)
     "R14": (8.89, 69.85, "B", 0),     # EN pulldown
     # U7, the RV-8263: its CLKOUT is the panel's EXTCOMIN, its I2C is the
     # gauge's bus. C14 is its bypass, R15 holds CLKOE low.
-    "U7":  (19.05, 64.77, "B", 0),
-    "C14": (19.05, 61.595, "B", 0),
-    "R15": (22.86, 61.595, "B", 0),
+    "U7":  (27.94, 60.96, "B", 0),    # ls027: beside J2, CLKOUT to its pin 4
+    "C14": (27.94, 64.135, "B", 0),
+    "R15": (24.13, 60.96, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
     # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
@@ -382,8 +390,10 @@ FIRST_PASS = {
     "R12": (11.43, 90.17, "B", 0),
 
     # -- BACK, Y 108..125, right: the sounder --------------------------------
-    "LS1": (64.77, 118.11, "B", 0),
-    "R17": (64.77, 108.585, "B", 0),
+    # ls027: the sounder sits with the module and NAND it hangs off, not
+    # out on its own at the right edge.
+    "LS1": (66.04, 124.46, "B", 0),
+    "R17": (62.865, 115.57, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
     # U5's position and rotation are set by its antenna, not by the grid.
@@ -430,6 +440,28 @@ FIRST_PASS = {
     "C15": (57.15, 129.54, "B", 90),
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
+    # -- ls027 additions (4 October 2026) ---------------------------------------
+    # The 2.7 inch panel's DISP capacitor, beside C10 at J2's pin 5.
+    "C19": (40.64, 65.405, "B", 0),
+    # Motion: the IMU (U9) and the magnetometer (U10) one above the other in
+    # the via-legal corridor between the left dome column and the numeric
+    # block (X 12..17.5), above and below TP1 on the front. U10 is 35 mm from
+    # L1, 50 from L2 and 13 from the module's can. C16 and C17 are their
+    # bypasses, C18 the magnetometer's set/reset capacitor.
+    "U9":  (15.24, 99.06, "B", 0),
+    "C16": (15.24, 95.885, "B", 0),
+    "U10": (15.24, 113.03, "B", 0),
+    "C17": (15.24, 109.855, "B", 0),
+    "C18": (15.24, 116.205, "B", 0),
+    # The front light's switch, at the end of the Azumo LED flex, which lies
+    # down the back at X 63.3..66 from the coupler (variant.FLEX). J3 is the
+    # pair of wire pads, R23 the 100R from 5 V, Q2 the switch, R24 its gate
+    # pull-down.
+    "J3":  (69.85, 78.74, "B", 0),
+    "Q2":  (69.85, 74.93, "B", 0),
+    "R23": (69.85, 71.755, "B", 0),
+    "R24": (73.025, 74.93, "B", 0),
+
     "TP2": (50.8, 86.36, "B", 0),     # BAT
     "TP3": (53.34, 86.36, "B", 0),    # SYS
     "TP4": (50.8, 88.9, "B", 0),      # 3V3

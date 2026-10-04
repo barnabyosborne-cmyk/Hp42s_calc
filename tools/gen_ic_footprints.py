@@ -809,6 +809,24 @@ def st_lga12_2x2(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def wire_pads_2(name, descr, tags):
+    """Two 1.4 x 1.4 mm pads 2.0 mm apart for short hand-soldered wires,
+    pad 1 (+) at -x. Silk marks + and -. No paste: nothing is reflowed here.
+    """
+    out = _head(name, descr, tags, -2.0, 2.0)
+    out.append('\t(fp_rect (start -2.0 -1.0) (end 2.0 1.0) '
+               '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append('\t(fp_text user "+" (at -1.0 -1.6) (layer "F.SilkS") '
+               '(effects (font (size 0.8 0.8) (thickness 0.12))))')
+    out.append('\t(fp_text user "-" (at 1.0 -1.6) (layer "F.SilkS") '
+               '(effects (font (size 0.8 0.8) (thickness 0.12))))')
+    for n, x in ((1, -1.0), (2, 1.0)):
+        out.append(f'\t(pad "{n}" smd roundrect (at {x:.2f} 0) (size 1.4 1.4) '
+                   '(layers "F.Cu" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -917,6 +935,12 @@ def main():
             descr="ST LGA-12 2.0x2.0x0.7 mm, 0.5 mm pitch, 0.3 mm square lands. From "
                   "figure 9 of the LIS2MDL datasheet DocID030621 rev 5.",
             tags="LGA-12 ST LIS2MDL magnetometer",
+        ),
+        "Azumo_FLP_LED_WirePads": wire_pads_2(
+            name="Azumo_FLP_LED_WirePads",
+            descr="Two 1.4 mm pads, 2.0 mm apart, for wires to the Azumo 11103-06 "
+                  "front light's LED flex. Pad 1 = anode (+). Hand soldered.",
+            tags="wire pads front light Azumo LED",
         ),
     }
     only = sys.argv[1:]          # footprint names to write; none = all

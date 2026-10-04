@@ -31,6 +31,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from variant import drop    # noqa: E402  the MIP branch's taller board
+import variant              # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 PCB = ROOT / "elec" / "layout" / "default" / "default.kicad_pcb"
@@ -126,6 +127,13 @@ def items():
     for k, (x, y) in POSTS.items():
         out.append(zone(f"case post {k}", circle(x, y, POST_D),
                         ["F.Cu", "B.Cu"], pour=True))
+    # Board cut-outs (ls027: the light coupler and the FPC slot) are milled
+    # holes like these, so copper keeps the same 0.5 mm off their edges.
+    for k, (x0, y0, x1, y1) in enumerate(getattr(variant, "CUTOUTS", [])):
+        g = 0.5
+        out.append(zone(f"cutout {k} keepout",
+                        [(x0 - g, y0 - g), (x1 + g, y0 - g), (x1 + g, y1 + g), (x0 - g, y1 + g)],
+                        ["F.Cu", "B.Cu", "In1.Cu", "In2.Cu"], pour=False))
     return out
 
 
@@ -134,6 +142,7 @@ def strip(text):
     # above is removed from the board too.
     ours = {str(uuid.uuid5(NS, n)) for k in "ABCDEFGH" for n in
             (f"mounting hole {k}", f"mounting hole {k} keepout", f"case post {k}")}
+    ours |= {str(uuid.uuid5(NS, f"cutout {k} keepout")) for k in range(8)}
     out, i = [], 0
     for m in re.finditer(r"\n\t\((?:zone|gr_circle)\n", text):
         if m.start() + 1 < i:          # inside a block already removed

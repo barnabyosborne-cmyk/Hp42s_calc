@@ -55,7 +55,7 @@ BAY = (14.0, 13.0, 69.0, 58.0)       # back only: the cell, 6 x 45 x 55 mm.
                                      # docs/top-edge.md has the arithmetic.
 GLASS = variant.GLASS_Y               # front only, full width
 KEYS_TOP = variant.drop(57.0)         # front only, below this the domes live
-BAY = BAY[:3] + (variant.drop(BAY[3]),)   # taller on the MIP board
+BAY = getattr(variant, "BAY", BAY[:3] + (variant.drop(BAY[3]),))   # per branch
 # The ESP32 module's antenna keepout is worked out from the module's own
 # courtyard in the board file, not typed in here: it is the wing of that
 # courtyard that sticks out past the module body, and it moves whenever the
