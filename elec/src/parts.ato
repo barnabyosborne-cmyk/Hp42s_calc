@@ -947,3 +947,47 @@ component MIPBoostInductor:
     value = "2u2 DFE201612P-2R2M"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
+
+component LSM6DSV16X:
+    # ST LSM6DSV16X, 6-axis IMU (accelerometer + gyroscope), JLC C5267406.
+    # LGA-14L 3.0 x 2.5 x 0.86 mm. Pins from table 2 of DS13510 rev 4.
+    # On I2C: CS high selects I2C, SDO/SA0 low gives address 0x6A. SDx/SCx
+    # (pins 2 and 3) go to GND with the analog hub and Qvar unused; OCS_Aux
+    # and SDO_Aux (10, 11) are left unconnected but soldered, as ST says.
+    footprint = "hp42s:ST_LGA-14L_3x2.5mm_P0.5mm"
+    designator_prefix = "U"
+    value = "LSM6DSV16XTR"
+    signal SA0     ~ pin 1
+    signal SDX     ~ pin 2
+    signal SCX     ~ pin 3
+    signal INT1    ~ pin 4
+    signal VDDIO   ~ pin 5
+    signal GND1    ~ pin 6
+    signal GND2    ~ pin 7
+    signal VDD     ~ pin 8
+    signal INT2    ~ pin 9
+    signal OCS_AUX ~ pin 10
+    signal SDO_AUX ~ pin 11
+    signal CS      ~ pin 12
+    signal SCL     ~ pin 13
+    signal SDA     ~ pin 14
+
+component LIS2MDL:
+    # ST LIS2MDL, 3-axis magnetometer, JLC C919695. LGA-12 2.0 x 2.0 x 0.7 mm.
+    # Pins from table 2 of DocID030621 rev 5. Fixed I2C address 0x1E. C1 is
+    # the set/reset pulse capacitor: 220 nF, low ESR, right against pins 5/6.
+    footprint = "hp42s:ST_LGA-12_2x2mm_P0.5mm"
+    designator_prefix = "U"
+    value = "LIS2MDLTR"
+    signal SCL   ~ pin 1
+    signal NC2   ~ pin 2
+    signal CS    ~ pin 3
+    signal SDA   ~ pin 4
+    signal C1    ~ pin 5
+    signal GND6  ~ pin 6
+    signal INT   ~ pin 7
+    signal GND8  ~ pin 8
+    signal VDD   ~ pin 9
+    signal VDDIO ~ pin 10
+    signal NC11  ~ pin 11
+    signal NC12  ~ pin 12

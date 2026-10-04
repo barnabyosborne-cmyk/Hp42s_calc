@@ -1,5 +1,6 @@
 from "parts.ato" import ESP32S3WROOM1, SPINAND, Buzzer, IRLED, TactSwitchSide, StatusLED
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad, ChassisPad
+from "parts.ato" import LSM6DSV16X, LIS2MDL
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
@@ -25,7 +26,9 @@ from "keypad.ato" import Keypad
 # Strapping pins, per Espressif table 4-1: IO0 (weak pull-up), IO3 (floating),
 # IO45 (weak pull-down) and IO46 (weak pull-down). Those defaults are already
 # the configuration this board wants -- SPI boot, VDD_SPI at 3.3 V, ROM
-# messages on, JTAG over USB. IO3 and IO46 get nothing on them. IO45 drives
+# messages on, JTAG over USB. IO46 gets nothing on it; IO3 takes the IMU's
+# INT1 (below), harmless as a strap because IO3 is only read when the
+# STRAP_JTAG_SEL eFuse is burnt, and it is not. IO45 drives
 # the panel's DISP input, which is a CMOS input with no pull of its own, so
 # the strap's internal pull-down still sets it low at reset (VDD_SPI 3.3 V,
 # which the N16R2 needs) and the panel is simply blanked until firmware runs.
@@ -33,7 +36,7 @@ from "keypad.ato" import Keypad
 # pad and nothing else; pulling it down with IO46 left at its default 0 is
 # exactly Espressif's joint download boot.
 #
-# Still free: IO3, IO46 (straps). The sliver, frontlight and its PWM pin are
+# Still free: IO46 (strap). IO3 went to the IMU on 4 October 2026. The sliver, frontlight and its PWM pin are
 # gone (2 October 2026): the panel is reflective and readable in daylight.
 # Hardware JTAG on IO39-IO42 is already gone, see the status LED below.
 # ---------------------------------------------------------------------------
@@ -368,3 +371,48 @@ module HP42S:
     r_cfg3_trim.footprint = "Resistor_SMD:R_0603_1608Metric"
     r_cfg3_trim.p1 ~ power.cfg3_mid
     r_cfg3_trim.p2 ~ gnd
+
+    # --- motion: IMU and magnetometer (4 October 2026) ------------------------
+    # Both on the existing I2C bus (gauge 0x36, RTC 0x51; these are 0x6A and
+    # 0x1E). The IMU's INT1 goes to IO3, the last free RTC-capable pin, so a
+    # tap, a raise or a flip can wake the chip from deep sleep. The
+    # magnetometer's own INT is unused: it is only read while running.
+    # Declared last so no existing designator moves.
+    signal imu_int1
+    imu = new LSM6DSV16X
+    imu.VDD ~ v3v3
+    imu.VDDIO ~ v3v3
+    imu.GND1 ~ gnd
+    imu.GND2 ~ gnd
+    imu.SA0 ~ gnd
+    imu.SDX ~ gnd
+    imu.SCX ~ gnd
+    imu.CS ~ v3v3
+    imu.SCL ~ power.i2c_scl
+    imu.SDA ~ power.i2c_sda
+    imu.INT1 ~ imu_int1
+    mcu.IO3 ~ imu_int1
+    c_imu = new Capacitor
+    c_imu.value = "100n"
+    c_imu.p1 ~ v3v3
+    c_imu.p2 ~ gnd
+
+    mag = new LIS2MDL
+    mag.VDD ~ v3v3
+    mag.VDDIO ~ v3v3
+    mag.GND6 ~ gnd
+    mag.GND8 ~ gnd
+    mag.CS ~ v3v3
+    mag.NC2 ~ gnd
+    mag.NC11 ~ gnd
+    mag.NC12 ~ gnd
+    mag.SCL ~ power.i2c_scl
+    mag.SDA ~ power.i2c_sda
+    c_mag = new Capacitor
+    c_mag.value = "100n"
+    c_mag.p1 ~ v3v3
+    c_mag.p2 ~ gnd
+    c_mag_sr = new Capacitor
+    c_mag_sr.value = "220n"
+    c_mag_sr.p1 ~ mag.C1
+    c_mag_sr.p2 ~ gnd

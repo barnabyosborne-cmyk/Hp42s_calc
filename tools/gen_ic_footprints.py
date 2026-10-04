@@ -40,6 +40,7 @@ LOOKING INTO THE LENS, which puts it on -x once the lens faces -y.
 """
 
 import os
+import sys
 
 OUTDIR = os.path.join(os.path.dirname(__file__), "..", "elec", "footprints", "hp42s.pretty")
 
@@ -721,6 +722,93 @@ def hirose_fh34srj(name, descr, tags, n):
     return "\n".join(out) + "\n"
 
 
+def st_lga14l(name, descr, tags):
+    """ST LGA-14L, 3.0 x 2.5 x 0.86 mm (LSM6DSV16X datasheet DS13510 rev 4,
+    figure 33, page 175). The figure is a BOTTOM view; this is the top view,
+    pin 1 top left, numbering anticlockwise:
+
+        1..4    left side, top to bottom, y -0.75 -0.25 0.25 0.75
+        5..7    bottom row, left to right, x -0.5 0 0.5
+        8..11   right side, bottom to top
+        12..14  top row, right to left
+
+    Package pads 0.475 x 0.25, outer ends 0.1 inside the body edge. The land
+    is the pad lengthened 0.1 outward (TN0018 practice) and 0.03 wider.
+    """
+    W, L = 3.0, 2.5
+    out = _head(name, descr, tags, -L / 2 - 1.0, L / 2 + 1.0)
+    w, h = W / 2, L / 2
+    c = 0.3
+    out.append(
+        f'\t(fp_poly (pts (xy {-w:.3f} {-h + c:.3f}) (xy {-w + c:.3f} {-h:.3f}) '
+        f'(xy {w:.3f} {-h:.3f}) (xy {w:.3f} {h:.3f}) (xy {-w:.3f} {h:.3f})) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    cx, cy = w + 0.25, h + 0.25
+    out.append(
+        f'\t(fp_rect (start {-cx:.3f} {-cy:.3f}) (end {cx:.3f} {cy:.3f}) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(
+        f'\t(fp_circle (center {-w - 0.3:.3f} {-h - 0.1:.3f}) (end {-w - 0.2:.3f} {-h - 0.1:.3f}) '
+        '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
+    sx = w - 0.1 - 0.475 / 2 + 0.05      # side land centre, x
+    ty = h - 0.1 - 0.475 / 2 + 0.05      # top/bottom land centre, y
+    pads = []
+    for i, y in enumerate((-0.75, -0.25, 0.25, 0.75)):
+        pads.append((1 + i, -sx, y, 0.575, 0.28))
+    for i, x in enumerate((-0.5, 0.0, 0.5)):
+        pads.append((5 + i, x, ty, 0.28, 0.575))
+    for i, y in enumerate((0.75, 0.25, -0.25, -0.75)):
+        pads.append((8 + i, sx, y, 0.575, 0.28))
+    for i, x in enumerate((0.5, 0.0, -0.5)):
+        pads.append((12 + i, x, -ty, 0.28, 0.575))
+    for n, x, y, a, b in pads:
+        out.append(
+            f'\t(pad "{n}" smd roundrect (at {x:.4f} {y:.4f}) (size {a} {b}) '
+            '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
+def st_lga12_2x2(name, descr, tags):
+    """ST LGA-12, 2.0 x 2.0 x 0.7 mm (LIS2MDL datasheet DocID030621 rev 5,
+    figure 9 page 37 and figure 2 page 7). Twelve 0.25 mm square pads round
+    the edge of a 4 x 4 grid on 0.5 pitch. Both figures are BOTTOM views;
+    this is the top view, pin 1 top left, numbering anticlockwise:
+
+        1..4    left column, top to bottom
+        4..7    bottom row, left to right (4 and 7 are the corners)
+        7..10   right column, bottom to top
+        10..12  top row, right to left
+
+    Land 0.3 square on the pad centres, leaving 0.2 between neighbours.
+    """
+    S = 2.0
+    out = _head(name, descr, tags, -S / 2 - 1.0, S / 2 + 1.0)
+    h = S / 2
+    c = 0.25
+    out.append(
+        f'\t(fp_poly (pts (xy {-h:.3f} {-h + c:.3f}) (xy {-h + c:.3f} {-h:.3f}) '
+        f'(xy {h:.3f} {-h:.3f}) (xy {h:.3f} {h:.3f}) (xy {-h:.3f} {h:.3f})) '
+        '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    out.append(
+        f'\t(fp_rect (start {-h - 0.25:.3f} {-h - 0.25:.3f}) (end {h + 0.25:.3f} {h + 0.25:.3f}) '
+        '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(
+        f'\t(fp_circle (center {-h - 0.3:.3f} {-h - 0.1:.3f}) (end {-h - 0.2:.3f} {-h - 0.1:.3f}) '
+        '(stroke (width 0.12) (type solid)) (fill solid) (layer "F.SilkS"))')
+    g = (-0.75, -0.25, 0.25, 0.75)
+    pos = {1: (g[0], g[0]), 2: (g[0], g[1]), 3: (g[0], g[2]), 4: (g[0], g[3]),
+           5: (g[1], g[3]), 6: (g[2], g[3]), 7: (g[3], g[3]), 8: (g[3], g[2]),
+           9: (g[3], g[1]), 10: (g[3], g[0]), 11: (g[2], g[0]), 12: (g[1], g[0])}
+    for n in range(1, 13):
+        x, y = pos[n]
+        out.append(
+            f'\t(pad "{n}" smd roundrect (at {x:.3f} {y:.3f}) (size 0.3 0.3) '
+            '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -818,8 +906,23 @@ def main():
             tags="FPC FFC connector Hirose FH34SRJ 0.5mm",
             n=10,
         ),
+        "ST_LGA-14L_3x2.5mm_P0.5mm": st_lga14l(
+            name="ST_LGA-14L_3x2.5mm_P0.5mm",
+            descr="ST LGA-14L 3.0x2.5x0.86 mm, 0.5 mm pitch. From figure 33 of the "
+                  "LSM6DSV16X datasheet DS13510 rev 4. Pin 1 top left in top view.",
+            tags="LGA-14 ST LSM6DSV16X IMU",
+        ),
+        "ST_LGA-12_2x2mm_P0.5mm": st_lga12_2x2(
+            name="ST_LGA-12_2x2mm_P0.5mm",
+            descr="ST LGA-12 2.0x2.0x0.7 mm, 0.5 mm pitch, 0.3 mm square lands. From "
+                  "figure 9 of the LIS2MDL datasheet DocID030621 rev 5.",
+            tags="LGA-12 ST LIS2MDL magnetometer",
+        ),
     }
+    only = sys.argv[1:]          # footprint names to write; none = all
     for name, text in fps.items():
+        if only and name not in only:
+            continue
         path = os.path.join(outdir, name + ".kicad_mod")
         with open(path, "w") as f:
             f.write(text)
