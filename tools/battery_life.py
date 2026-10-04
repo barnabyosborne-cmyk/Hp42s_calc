@@ -40,7 +40,8 @@ import math
 
 PARTS = {
     # --- cell ---
-    "cell_mAh":          (1600, "mAh", "6 x 45 x 55 mm LiPo, docs/top-edge.md", True),
+    "cell_mAh":          (1250, "mAh", "6 x 38 x 50 mm LiPo (the 2.7in board's bay), "
+                                       "scaled from 1600 for 6x45x55 by volume", True),
     "cell_usable":       (0.90, "",    "fraction above the firmware's low-battery "
                                        "cut-off; a LiPo at ~3.4 V under load "
                                        "has ~5-10 % left", False),
@@ -75,6 +76,8 @@ PARTS = {
     "chg_iq_uA":         (4.0,  "uA",  "BQ25185 battery-only quiescent current, "
                                        "docs/connections.md", False),
     "gauge_uA":          (4.0,  "uA",  "MAX17048 hibernate, docs/connections.md", False),
+    "imu_uA":            (6.0,  "uA",  "LSM6DSV16X + LIS2MDL both powered down, about "
+                                       "3 uA each (ST datasheets, not yet read here)", False),
     "frontlight_standby_uA": (5.0, "uA", "TPS61165 shutdown + 1 M pull-down, "
                                        "docs/front-face.md", True),
     "frontlight_mA":     (20,   "mA",  "reading level, from the cell, "
@@ -146,7 +149,7 @@ def day(hours_on, keys, offs, ble_min=0.0, light_min=0.0, frontlight=False):
     ble_h = ble_min / 60
     off_h = max(24.0 - max(hours_on, busy_h), 0.0)
 
-    rail_floor = (P("leak_uA") + P("panel_sleep_uA")) * uA  # always there
+    rail_floor = (P("leak_uA") + P("panel_sleep_uA") + P("imu_uA")) * uA  # always there
     idle_rail = P("esp_light_sleep_uA") * uA + rail_floor
     off_rail = P("esp_deep_sleep_uA") * uA + rail_floor
     refresh_rail = P("esp_light_sleep_uA") * uA + P("panel_refresh_mA") + rail_floor
