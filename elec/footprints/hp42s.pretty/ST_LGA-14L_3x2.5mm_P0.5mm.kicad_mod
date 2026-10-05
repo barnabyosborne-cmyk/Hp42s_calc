@@ -24,4 +24,15 @@
 	(pad "12" smd roundrect (at 0.5000 -0.9625) (size 0.28 0.575) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "13" smd roundrect (at 0.0000 -0.9625) (size 0.28 0.575) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
 	(pad "14" smd roundrect (at -0.5000 -0.9625) (size 0.28 0.575) (layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))
+	(model "${KIPRJMOD}/../../footprints/hp42s.3dshapes/ST_LGA-14L_3x2.5mm_P0.5mm.step"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz 0 0 0)
+		)
+	)
 )

@@ -722,6 +722,14 @@ def hirose_fh34srj(name, descr, tags, n):
     return "\n".join(out) + "\n"
 
 
+def _body_model(name):
+    """A plain body STEP made for parts with no vendor model to hand."""
+    return (f'\t(model "${{KIPRJMOD}}/../../footprints/hp42s.3dshapes/{name}.step"\n'
+            '\t\t(offset\n\t\t\t(xyz 0 0 0)\n\t\t)\n'
+            '\t\t(scale\n\t\t\t(xyz 1 1 1)\n\t\t)\n'
+            '\t\t(rotate\n\t\t\t(xyz 0 0 0)\n\t\t)\n\t)')
+
+
 def st_lga14l(name, descr, tags):
     """ST LGA-14L, 3.0 x 2.5 x 0.86 mm (LSM6DSV16X datasheet DS13510 rev 4,
     figure 33, page 175). The figure is a BOTTOM view; this is the top view,
@@ -765,6 +773,7 @@ def st_lga14l(name, descr, tags):
         out.append(
             f'\t(pad "{n}" smd roundrect (at {x:.4f} {y:.4f}) (size {a} {b}) '
             '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(_body_model(name))
     out.append(')')
     return "\n".join(out) + "\n"
 
@@ -805,6 +814,7 @@ def st_lga12_2x2(name, descr, tags):
         out.append(
             f'\t(pad "{n}" smd roundrect (at {x:.3f} {y:.3f}) (size 0.3 0.3) '
             '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    out.append(_body_model(name))
     out.append(')')
     return "\n".join(out) + "\n"
 

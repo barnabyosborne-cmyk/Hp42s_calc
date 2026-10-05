@@ -123,7 +123,7 @@ def convert(ref, c, nets):
         lines.append("\t\t" + it.replace("\n", "\n\t"))
     path = f'/{c["ts"]}/{c["ts"]}'
     lines.append(f'\t\t(path "{path}")')
-    lines.append(f'\t\t(sheetname "{c["names"]}")')
+    lines.append('\t\t(sheetname "")')        # as KiCad's own import writes it
     lines.append("\t)")
     return "\n".join(lines) + "\n"
 

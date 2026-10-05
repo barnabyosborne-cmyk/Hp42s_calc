@@ -14,11 +14,11 @@ TP1 is on the front at 0 degrees, so a model's frame is simply the board's,
 moved to TP1 and with y turned over. Nothing about TP1's copper changes. If
 TP1 ever moves, re-run this and the models follow.
 
-  - the cell, 55 x 45 x 6 mm, board X 14..69, Y 13..58, on the back
-  - the panel glass, 71.82 x 36.30 x 1.0 on 0.1 mm of adhesive, X 0.55..72.37,
-    Y 12.00..48.30, with the active area as a dark inlay on its face
-  - the flex tail, 12.50 wide and 0.30 thick, folded round the left edge at a
-    1.05 mm radius into J2 on the back, back leg ending at X 10.50
+  - the cell, 50 x 38 x 6 mm, board X 5..55, Y 12.5..50.5, on the back
+  - the LS027 glass, 62.80 x 42.82 x 1.65 on 0.2 mm of adhesive, X 6.6..69.4,
+    Y 7.50..50.32, with the active area as a dark inlay on its face
+  - the FPC, 9.47 wide and 0.30 thick, down through the slot into J2 on the
+    back, back leg ending at Y 61.0
 
 Needs cadquery.
 """
@@ -38,34 +38,23 @@ ANCHOR = "TP1"
 BOARD_T = 1.6
 MODELS = ("Mech_Cell", "Mech_Panel")
 
-# MIP branch: the Sharp LS032B7DD02 (spec LD-2023X13 page 60), landscape,
-# tail to the left. TFT glass 76.00 x 47.02 at X 0.00..76.00, flush with
-# both long edges of the board (Barnaby, 1 October 2026), Y 7.50..54.52
-# (9.5 mm top bezel in the 150 case, 2 October 2026). Stack, bottom up:
-# bottom polariser 0.115, TFT glass 0.2, CF glass 0.2, top polariser 0.19,
-# 0.705 in all. The CF glass and both polarisers are 73.2 x 46.02, 0.5 in
-# from the far end and the long edges, leaving a 2.3 mm TFT-glass ledge at the
-# tail end where the flex is bonded on top. (The bottom polariser's outline is
-# not drawn by Sharp; taken as the top one's.) Active area 68.072 x 42.672,
-# centred 39.784 from the tail-end edge and on the glass's height. Tail 9.47
-# wide on Y 31.01, 0.3 thick, leaving the ledge at the TFT glass's top face;
-# the half turn is centred on X -0.80, 0.8 beyond the glass (Sharp's nearest
-# bend), so it stands out past the board edge and the case has a pocket for
-# it. Back leg ends 2.9 inside J2's mouth at X 3.35. (main: the e-paper's.)
-# ADHESIVE is the allowance for a contact adhesive film between the bottom
-# polariser and the board's front face: 0.20 (tesa 4965 is 0.205).
-GLASS = (0.00, 76.00, 7.50, 54.52)          # TFT glass: X0, X1, Y0, Y1, board mm
-POL = (0.00 + 2.3, 76.00 - 0.5, 8.00, 54.02)   # 2.30..75.50
-ACTIVE = (5.748, 73.820, 9.674, 52.346)
+# ls027 branch: the Sharp LS027B7DH01 (LD-28305A page 24), landscape, FPC
+# off the bottom long edge. Glass 62.8 x 42.82 x 1.65, centred across the
+# board at X 6.6..69.4, Y 7.50..50.32. Active area 58.8 x 35.28, centred
+# along the length, 2.0 from the top edge and 5.54 from the FPC edge. FPC
+# 9.47 wide, centred, folds through the slot at Y 51.2..52.9 to J2 on the
+# back at Y 59.9. ADHESIVE as before. The cell is the 6 x 38 x 50 the bay
+# takes. The Azumo front light is not drawn; its STEP is in the project
+# files (outputs/display-options).
 ADHESIVE = 0.20
-BOT_POL_T, TFT_T, CF_T, TOP_POL_T = 0.115, 0.2, 0.2, 0.19
-GLASS_T = BOT_POL_T + TFT_T + CF_T + TOP_POL_T   # 0.705
-LEDGE_Z = ADHESIVE + BOT_POL_T + TFT_T           # top of the TFT glass
-TAIL_Y = (26.275, 35.745)
+GLASS = (6.60, 69.40, 7.50, 50.32)
+GLASS_T = 1.65
+ACTIVE = (8.60, 67.40, 9.50, 44.78)
+TAIL_X = (33.265, 42.735)
 TAIL_T = 0.30
-TAIL_END_X = 6.25                             # back leg ends here, in J2
-BEND_X = -0.80                                 # centre of the half turn
-CELL = (14.0, 69.0, 13.0, 58.0, 6.0)
+SLOT_Y = 52.05                                 # centre of the FPC slot
+TAIL_END_Y = 61.0                              # back leg ends in J2's mouth
+CELL = (5.0, 55.0, 12.5, 50.5, 6.0)
 
 
 def anchor(text):
@@ -90,23 +79,15 @@ def box(ax, x0, x1, y0, y1, z0, z1):
 
 
 def tail(ax):
-    """The flex: a stub out of the glass, a half turn round the board edge
-    and the back leg into J2, as one bent sheet."""
-    fx, fy = ax
-    y0, y1 = TAIL_Y
-    top = LEDGE_Z + TAIL_T                   # front leg, on the TFT glass ledge
-    bot = -BOARD_T                           # back leg, against the back face
-    zc = (top - TAIL_T + bot) / 2            # centre of the bend
-    r_in = (top - TAIL_T - bot) / 2
-    r_out = r_in + TAIL_T
-    xc = BEND_X
-    front = box(ax, xc, GLASS[0] + 1.5, y0, y1, top - TAIL_T, top)
-    back = box(ax, xc, TAIL_END_X, y0, y1, bot - TAIL_T, bot)
-    ring = cq.Workplane("XZ").circle(r_out).circle(r_in).extrude(-(y1 - y0))
-    keep = cq.Workplane("XZ").rect(r_out, 2 * r_out, centered=(False, True)) \
-        .extrude(-(y1 - y0)).translate((-r_out, 0, 0))
-    bend = ring.intersect(keep).translate((xc - fx, -(y1 - fy), zc))
-    return front.union(back).union(bend)
+    """The FPC: off the glass's bottom edge, down through the slot and along
+    the back into J2, as three flat pieces."""
+    x0, x1 = TAIL_X
+    top = ADHESIVE + 0.7
+    bot = -BOARD_T
+    front = box(ax, x0, x1, GLASS[3] - 1.0, SLOT_Y + TAIL_T / 2, top - TAIL_T, top)
+    down = box(ax, x0, x1, SLOT_Y - TAIL_T / 2, SLOT_Y + TAIL_T / 2, bot - TAIL_T, top)
+    back = box(ax, x0, x1, SLOT_Y - TAIL_T / 2, TAIL_END_Y, bot - TAIL_T, bot)
+    return front.union(down).union(back)
 
 
 def build(ax):
@@ -116,15 +97,8 @@ def build(ax):
              color=cq.Color(0.75, 0.75, 0.78))
 
     panel = cq.Assembly(name="Mech_Panel")
-    z = ADHESIVE
-    panel.add(box(ax, *POL, z, z + BOT_POL_T), name="bottom_polariser",
-              color=cq.Color(0.30, 0.30, 0.30))
-    z += BOT_POL_T
-    panel.add(box(ax, *GLASS, z, z + TFT_T), name="tft_glass",
+    panel.add(box(ax, *GLASS, ADHESIVE, ADHESIVE + GLASS_T), name="glass",
               color=cq.Color(0.86, 0.86, 0.82))
-    z += TFT_T
-    panel.add(box(ax, *POL, z, z + CF_T + TOP_POL_T), name="cf_glass_top_polariser",
-              color=cq.Color(0.80, 0.82, 0.80))
     panel.add(box(ax, *ACTIVE, ADHESIVE + GLASS_T, ADHESIVE + GLASS_T + 0.01),
               name="active_area", color=cq.Color(0.25, 0.25, 0.28))
     panel.add(tail(ax), name="flex_tail", color=cq.Color(0.85, 0.55, 0.15))
@@ -179,7 +153,7 @@ def main():
         # at the board's top-left corner on its front face, X right, Y up
         # (so board Y 35 is model Y -35), Z out of the front.
         build((0.0, 0.0))["Mech_Panel"].save(
-            str(ROOT / "hardware" / "LS032B7DD02_on_board.step"))
+            str(ROOT / "hardware" / "LS027B7DH01_on_board.step"))
     if args.check:
         print("--check: nothing written")
         return 0
