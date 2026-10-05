@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Write a JLCPCB assembly BOM for the main board.
 
-    python3 tools/jlc_bom.py [out.csv]
+    python3 tools/jlc_bom.py [out.csv [cpl.csv]]
+
+With a second name it also writes JLC's placement (CPL) file for the same
+parts: Designator, Mid X, Mid Y, Layer, Rotation, exactly what KiCad's
+File > Fabrication Outputs > Component Placement writes (footprint origin,
+Y up, rotation as on the board, bottom-side X not negated). JLC's preview
+still decides each part's rotation: check every one there.
 
 JLC's columns are Comment, Designator, Footprint and LCSC Part #. The board
 file carries no values (atopile writes "?"), so the values come from the
@@ -54,6 +60,11 @@ PARTS = {
     "led_status": ("Red/green LED 1208 RA", "Dialight 599-0Q70-247F"),
     "frontlight.u": ("TPS61165 LED driver", "TPS61165DBVR"),
     "frontlight.l_fl": ("22uH NR3015", "Taiyo Yuden NR3015T220M"),
+    # ls027 branch (4-5 October 2026): IMU, magnetometer, front light switch
+    "imu": ("LSM6DSV16X 6-axis IMU", "ST LSM6DSV16XTR"),
+    "mag": ("LIS2MDL magnetometer", "ST LIS2MDLTR"),
+    "fl": ("2P 1.0mm FPC connector, top contact", "GUOCONN 1.0K-LS-2PWB-TW"),
+    "q_fl": ("Si1308EDL N-MOSFET", "Vishay SI1308EDL-T1-GE3"),
 }
 DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 
@@ -89,12 +100,13 @@ LCSC = {
     "display.rtc": "C5137460", "ls": "C113159",
     "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
     "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C7545693",
+    "imu": "C5267406", "mag": "C919695", "fl": "C53145530", "q_fl": "C469327",
 }
 # by Comment; Basic parts where JLC has one, else the best-stocked Extended
 PASSIVE_LCSC = {
     "1uF 25V* X7R/X5R": "C15849", "10uF 10V* X7R/X5R": "C15850",
     "22uF 10V* X7R/X5R": "C45783", "100nF 16V* X7R/X5R": "C1525",
-    "1uF 10V* X7R/X5R": "C52923", "1uF 25V X7R/X5R": "C15849",
+    "1uF 10V* X7R/X5R": "C52923", "560pF 50V X7R/X5R": "C107029", "1uF 25V X7R/X5R": "C15849",
     "4.7uF 16V X7R/X5R": "C19666", "1uF 50V X7R/X5R": "C28323",
     "4.7uF 10V* X7R/X5R": "C19666", "220nF 16V* X7R/X5R": "C16772",
     "5.1k 5%": "C25905", "18k 1%": "C25762",
@@ -108,6 +120,7 @@ PASSIVE_LCSC = {
 # where the Basic part is one size only, by (Comment, footprint)
 PASSIVE_FP_LCSC = {
     ("4.7uF 25V X7R/X5R", "C_0805_2012Metric"): "C1779",
+    ("100R 5%", "R_0603_1608Metric"): "C22775",
 }
 
 # values not given a voltage in the source get the * rating
@@ -120,6 +133,8 @@ CAP_V = {
     "frontlight.c_out": "1uF 50V", "frontlight.c_in": "4.7uF 10V*",
     "frontlight.c_comp": "220nF 16V*",
     "display.c_panel": "1uF 25V*", "display.c_rtc": "100nF 16V*",
+    "c_imu": "100nF 16V*", "c_mag": "100nF 16V*", "c_mag_sr": "220nF 16V*",
+    "c_disp": "560pF 50V",
 }
 SKIP_PREFIX = ("SW",)            # domes; the two tact switches are kept below
 
@@ -146,17 +161,32 @@ def pretty(v):
     return v
 
 
+def netlist_paths():
+    """ref -> instance path from build/default.net, for parts whose board
+    sheetname is empty (tools/inject_parts.py writes it that way)."""
+    net = Path(__file__).resolve().parent.parent / "build/default.net"
+    if not net.exists():
+        return {}
+    return {m.group(1): m.group(2) for m in re.finditer(
+        r'\(comp \(ref "([^"]+)"\)[\s\S]*?\(sheetpath \(names "[^"]*::([^"]*)"',
+        net.read_text())}
+
+
 def main():
     out = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("hp42s-bom-jlc.csv")
     text = rp.PCB.read_text()
     vals = source_values()
+    from_net = netlist_paths()
     groups = OrderedDict()
     on_board = set()
+    place = {}
     for m in re.finditer(r'\n\t\(footprint "([^"]+)"', text):
         blk = rp.block_at(text, m.start() + 1)
         ref = re.search(r'\(property "Reference" "([^"]*)"', blk).group(1)
         path = re.search(r'\(sheetname "[^"]*::([^"]*)"', blk)
-        path = path.group(1) if path else ""
+        path = path.group(1) if path else from_net.get(ref, "")
+        if not path:
+            raise SystemExit(f"{ref} has no instance path; run ato build first")
         fp = m.group(1).split(":")[-1]
         on_board.add(path)
         if ref.startswith("TP") or re.search(r"\(attr [^)]*exclude_from_bom", blk):
@@ -188,6 +218,10 @@ def main():
         lcsc = lcsc or PASSIVE_FP_LCSC.get((comment, fp)) or PASSIVE_LCSC.get(comment, "")
         key = (comment, fp, lcsc, mpn)
         groups.setdefault(key, []).append(ref)
+        at = re.search(r"\n\t\t\(at ([-\d.]+) ([-\d.]+)(?: ([-\d.]+))?\)", blk)
+        side = "Bottom" if re.search(r'\n\t\t\(layer "B\.Cu"\)', blk) else "Top"
+        place[ref] = (float(at.group(1)), -float(at.group(2)), side,
+                      float(at.group(3) or 0) % 360)
 
     # FrontlightStrip is in frontlight.ato but built as its own board
     sliver = {"frontlight.wire_a", "frontlight.wire_k"}
@@ -209,6 +243,15 @@ def main():
             w.writerow([comment, ",".join(refs), fp, lcsc, mpn, len(refs)])
     n = sum(len(r) for r in groups.values())
     print(f"wrote {out}: {len(groups)} lines, {n} parts")
+    if len(sys.argv) > 2:
+        cpl = Path(sys.argv[2])
+        with cpl.open("w", newline="") as fh:
+            w = csv.writer(fh)
+            w.writerow(["Designator", "Mid X", "Mid Y", "Layer", "Rotation"])
+            for ref in sorted(place, key=refkey):
+                x, y, side, r = place[ref]
+                w.writerow([ref, f"{x:.4f}mm", f"{y:.4f}mm", side, f"{r:g}"])
+        print(f"wrote {cpl}: {len(place)} placements")
 
 
 if __name__ == "__main__":
