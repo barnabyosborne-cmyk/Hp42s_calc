@@ -23195,8 +23195,8 @@
 		(descr "ST LGA-14L 3.0x2.5x0.86 mm, 0.5 mm pitch. From figure 33 of the LSM6DSV16X datasheet DS13510 rev 4. Pin 1 top left in top view.")
 		(tags "LGA-14 ST LSM6DSV16X IMU")
 		(attr smd)
-		(property "Reference" "U9" (at 0 2.25) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15))) (uuid "db1bea2f-ff1d-56ee-8ef7-fd440fc8e21c"))
-		(property "Value" "?" (at 0 -2.25) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15))) (uuid "f6f2e42a-3b53-5483-a549-284e0649358a"))
+		(property "Reference" "U9" (at 0 2.25) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "db1bea2f-ff1d-56ee-8ef7-fd440fc8e21c"))
+		(property "Value" "?" (at 0 -2.25) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "f6f2e42a-3b53-5483-a549-284e0649358a"))
 		(fp_poly (pts (xy -1.500 0.95) (xy -1.200 1.25) (xy 1.500 1.25) (xy 1.500 -1.25) (xy -1.500 -1.25)) (stroke (width 0.1) (type solid)) (fill none) (layer "B.Fab") (uuid "77254e6e-202e-5124-9b25-e68385c75caf"))
 		(fp_rect (start -1.750 1.5) (end 1.750 -1.5) (stroke (width 0.05) (type solid)) (fill none) (layer "B.CrtYd") (uuid "0b69fa65-8e49-5410-b243-2b668766b608"))
 		(fp_circle (center -1.800 1.35) (end -1.700 1.35) (stroke (width 0.12) (type solid)) (fill solid) (layer "B.SilkS") (uuid "08e0ab01-5a0b-5679-ae61-3744d4c45cbe"))
@@ -23235,8 +23235,8 @@
 		(descr "ST LGA-12 2.0x2.0x0.7 mm, 0.5 mm pitch, 0.3 mm square lands. From figure 9 of the LIS2MDL datasheet DocID030621 rev 5.")
 		(tags "LGA-12 ST LIS2MDL magnetometer")
 		(attr smd)
-		(property "Reference" "U10" (at 0 2) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15))) (uuid "beaa61a3-9730-53a6-a574-ed1a864b326c"))
-		(property "Value" "?" (at 0 -2) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15))) (uuid "fb6ba1b4-bfd2-5e09-a218-0b79161d111a"))
+		(property "Reference" "U10" (at 0 2) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "beaa61a3-9730-53a6-a574-ed1a864b326c"))
+		(property "Value" "?" (at 0 -2) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "fb6ba1b4-bfd2-5e09-a218-0b79161d111a"))
 		(fp_poly (pts (xy -1.000 0.75) (xy -0.750 1) (xy 1.000 1) (xy 1.000 -1) (xy -1.000 -1)) (stroke (width 0.1) (type solid)) (fill none) (layer "B.Fab") (uuid "79dce81b-f6d1-5f99-a1c0-242a742d14c0"))
 		(fp_rect (start -1.250 1.25) (end 1.250 -1.25) (stroke (width 0.05) (type solid)) (fill none) (layer "B.CrtYd") (uuid "83a1abee-e9e9-55f8-8c6d-efe653b47e48"))
 		(fp_circle (center -1.300 1.1) (end -1.200 1.1) (stroke (width 0.12) (type solid)) (fill solid) (layer "B.SilkS") (uuid "ae80ae91-cc5f-56ca-a74c-06256f766658"))
@@ -24664,8 +24664,8 @@
 		(descr "GUOCONN 1.0K-LS-2PWB-TW (LCSC C53145530), 1.0 mm FPC, 2 way, top contact, slide lock, H 2.0. For the Azumo 11103-06 LED flex.")
 		(tags "FPC FFC 1.0mm 2P ZIF top contact Azumo")
 		(attr smd)
-		(property "Reference" "J3" (at 0 4.2) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15))) (uuid "9efdc304-9968-5466-b783-76990d5d0430"))
-		(property "Value" "?" (at 0 -4.6) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15))) (uuid "8f8d0f47-4882-597f-81ea-f7b833668a51"))
+		(property "Reference" "J3" (at 0 4.2) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "9efdc304-9968-5466-b783-76990d5d0430"))
+		(property "Value" "?" (at 0 -4.6) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "8f8d0f47-4882-597f-81ea-f7b833668a51"))
 		(fp_rect (start -3.425 2.2) (end 3.425 -2.2) (stroke (width 0.1) (type solid)) (fill none) (layer "B.Fab") (uuid "c2d401ea-5f55-5e96-9cd7-115c7b849161"))
 		(fp_rect (start -4.35 3.2) (end 4.35 -3.35) (stroke (width 0.05) (type solid)) (fill none) (layer "B.CrtYd") (uuid "0f692ad6-e559-5535-8a4e-bc8e21ca7f4d"))
 		(fp_line (start -3.425 2.5) (end 3.425 2.5) (stroke (width 0.12) (type solid)) (layer "B.SilkS") (uuid "f52f54e1-455c-550e-94f8-f0c60f843a80"))
@@ -24694,8 +24694,8 @@
 		(descr "XINGLIGHT XL-C4040SURSYGC (LCSC C7545693) side-emitting red / yellow-green, back to back on two terminals, lens 2.0 above the board, looking at -y.")
 		(tags "LED side view bicolour XL-C4040")
 		(attr smd)
-		(property "Reference" "D2" (at -3.2 0 0) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15))) (uuid "c926a7ee-95b0-539e-a91c-c53cada0f7b5"))
-		(property "Value" "?" (at 0 -3) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15))) (uuid "40e3f308-7a48-5b96-bbb8-7b3a8cfe1ec0"))
+		(property "Reference" "D2" (at -3.2 0 0) (layer "B.SilkS") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "c926a7ee-95b0-539e-a91c-c53cada0f7b5"))
+		(property "Value" "?" (at 0 -3) (layer "B.Fab") (effects (font (size 1 1) (thickness 0.15)) (justify mirror)) (uuid "40e3f308-7a48-5b96-bbb8-7b3a8cfe1ec0"))
 		(fp_rect (start -1.975 1.775) (end 1.975 -1.775) (stroke (width 0.1) (type solid)) (fill none) (layer "B.Fab") (uuid "1e99bdc3-16ed-5659-aaeb-40c964d11ed0"))
 		(fp_line (start 0 2.6) (end 0 -1.775) (stroke (width 0.05) (type dot)) (layer "B.Fab") (uuid "45153e6c-a266-5970-9cad-91ec1eba0349"))
 		(fp_rect (start -2.350 2) (end 2.350 -2.1) (stroke (width 0.05) (type solid)) (fill none) (layer "B.CrtYd") (uuid "0f649b63-f46d-5502-b8f2-80b6bf4d656e"))
@@ -24717,132 +24717,6 @@
 		)
 		(path "/b096747b-7300-e0fc-ba24-8074b4ef0e14/b096747b-7300-e0fc-ba24-8074b4ef0e14")
 		(sheetname "")
-	)
-	(gr_circle
-		(center 63.0 66.0)
-		(end 63.85 66.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "55624c3b-9261-5f28-bc11-784515016c43")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "0abcabf7-c260-5468-b4e4-a7427df8d7d3")
-		(name "mounting hole I keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 65.0 66.3978) (xy 64.6955 67.1329) (xy 64.1329 67.6955) (xy 63.3978 68.0) (xy 62.6022 68.0) (xy 61.8671 67.6955) (xy 61.3045 67.1329) (xy 61.0 66.3978) (xy 61.0 65.6022) (xy 61.3045 64.8671) (xy 61.8671 64.3045) (xy 62.6022 64.0) (xy 63.3978 64.0) (xy 64.1329 64.3045) (xy 64.6955 64.8671) (xy 65.0 65.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 15.19 126.0)
-		(end 16.04 126.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "54b75b1e-fc6d-50af-994b-0ceb0b9422cc")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "23e2a4f2-2eab-54a8-b730-a60850e315ff")
-		(name "mounting hole J keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 17.19 126.3978) (xy 16.8855 127.1329) (xy 16.3229 127.6955) (xy 15.5878 128.0) (xy 14.7922 128.0) (xy 14.0571 127.6955) (xy 13.4945 127.1329) (xy 13.19 126.3978) (xy 13.19 125.6022) (xy 13.4945 124.8671) (xy 14.0571 124.3045) (xy 14.7922 124.0) (xy 15.5878 124.0) (xy 16.3229 124.3045) (xy 16.8855 124.8671) (xy 17.19 125.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 60.81 126.0)
-		(end 61.660000000000004 126.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "be3237a7-4d42-551f-b8ef-917ca40e5724")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "a4c4f8f2-1bb4-5202-b712-6db66fa8370f")
-		(name "mounting hole K keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 62.81 126.3978) (xy 62.5055 127.1329) (xy 61.9429 127.6955) (xy 61.2078 128.0) (xy 60.4122 128.0) (xy 59.6771 127.6955) (xy 59.1145 127.1329) (xy 58.81 126.3978) (xy 58.81 125.6022) (xy 59.1145 124.8671) (xy 59.6771 124.3045) (xy 60.4122 124.0) (xy 61.2078 124.0) (xy 61.9429 124.3045) (xy 62.5055 124.8671) (xy 62.81 125.6022)
-			)
-		)
 	)
 	(via
 		(at 24.7 63.65)
@@ -25675,530 +25549,6 @@
 		(layers "F.Cu" "B.Cu")
 		(net "col1")
 		(uuid "a71f7a9e-9bc5-574b-ba5c-664a5a3ebe26")
-	)
-	(gr_circle
-		(center 10.0 3.5)
-		(end 11.1 3.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "38b50bd0-3ec1-5ec7-8b37-d48d161a5b3b")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "41975d75-5b76-5700-a423-6d1db9e6ff85")
-		(name "mounting hole A keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 12.25 3.9476) (xy 11.9075 4.7745) (xy 11.2745 5.4075) (xy 10.4476 5.75) (xy 9.5524 5.75) (xy 8.7255 5.4075) (xy 8.0925 4.7745) (xy 7.75 3.9476) (xy 7.75 3.0524) (xy 8.0925 2.2255) (xy 8.7255 1.5925) (xy 9.5524 1.25) (xy 10.4476 1.25) (xy 11.2745 1.5925) (xy 11.9075 2.2255) (xy 12.25 3.0524)
-			)
-		)
-	)
-	(gr_circle
-		(center 66.0 3.5)
-		(end 67.1 3.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "153d11a0-4832-5e35-bf6c-a8c707a40e8b")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "6b8c9185-9005-524a-a722-51a591b09c20")
-		(name "mounting hole B keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 68.25 3.9476) (xy 67.9075 4.7745) (xy 67.2745 5.4075) (xy 66.4476 5.75) (xy 65.5524 5.75) (xy 64.7255 5.4075) (xy 64.0925 4.7745) (xy 63.75 3.9476) (xy 63.75 3.0524) (xy 64.0925 2.2255) (xy 64.7255 1.5925) (xy 65.5524 1.25) (xy 66.4476 1.25) (xy 67.2745 1.5925) (xy 67.9075 2.2255) (xy 68.25 3.0524)
-			)
-		)
-	)
-	(gr_circle
-		(center 6.0 139.5)
-		(end 7.1 139.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "842a889d-e050-5f72-84aa-e0d52fef0ece")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "f3f7163d-758c-57c0-aeb0-61f1f3480a7c")
-		(name "mounting hole C keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 8.25 139.9476) (xy 7.9075 140.7745) (xy 7.2745 141.4075) (xy 6.4476 141.75) (xy 5.5524 141.75) (xy 4.7255 141.4075) (xy 4.0925 140.7745) (xy 3.75 139.9476) (xy 3.75 139.0524) (xy 4.0925 138.2255) (xy 4.7255 137.5925) (xy 5.5524 137.25) (xy 6.4476 137.25) (xy 7.2745 137.5925) (xy 7.9075 138.2255) (xy 8.25 139.0524)
-			)
-		)
-	)
-	(gr_circle
-		(center 70.0 139.5)
-		(end 71.1 139.5)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "f389df2d-a16e-5d30-aa60-6c37c7e068f5")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "e48b38ca-61c8-5080-910e-c9477423c5f7")
-		(name "mounting hole D keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 72.25 139.9476) (xy 71.9075 140.7745) (xy 71.2745 141.4075) (xy 70.4476 141.75) (xy 69.5524 141.75) (xy 68.7255 141.4075) (xy 68.0925 140.7745) (xy 67.75 139.9476) (xy 67.75 139.0524) (xy 68.0925 138.2255) (xy 68.7255 137.5925) (xy 69.5524 137.25) (xy 70.4476 137.25) (xy 71.2745 137.5925) (xy 71.9075 138.2255) (xy 72.25 139.0524)
-			)
-		)
-	)
-	(gr_circle
-		(center 38.25 78.0)
-		(end 39.1 78.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "c79ef0ac-73bf-589c-9038-2b030de27dca")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "110cd80e-67fb-538e-9892-6e8a7d28b39c")
-		(name "mounting hole G keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 40.25 78.3978) (xy 39.9455 79.1329) (xy 39.3829 79.6955) (xy 38.6478 80.0) (xy 37.8522 80.0) (xy 37.1171 79.6955) (xy 36.5545 79.1329) (xy 36.25 78.3978) (xy 36.25 77.6022) (xy 36.5545 76.8671) (xy 37.1171 76.3045) (xy 37.8522 76.0) (xy 38.6478 76.0) (xy 39.3829 76.3045) (xy 39.9455 76.8671) (xy 40.25 77.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 3.3 9.0)
-		(end 4.4 9.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "e30b89bd-7f9a-525c-b7be-e2fa7bc1349e")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "ebc3648c-2c6a-5e40-85ee-fd8c8ec58419")
-		(name "mounting hole E keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 5.55 9.4476) (xy 5.2075 10.2745) (xy 4.5745 10.9075) (xy 3.7476 11.25) (xy 2.8524 11.25) (xy 2.0255 10.9075) (xy 1.3925 10.2745) (xy 1.05 9.4476) (xy 1.05 8.5524) (xy 1.3925 7.7255) (xy 2.0255 7.0925) (xy 2.8524 6.75) (xy 3.7476 6.75) (xy 4.5745 7.0925) (xy 5.2075 7.7255) (xy 5.55 8.5524)
-			)
-		)
-	)
-	(gr_circle
-		(center 72.7 9.0)
-		(end 73.8 9.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "4e1da399-7f5b-5dee-a257-795d18f6ba73")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "861ded03-fa0c-5878-92e5-b334c97e7a82")
-		(name "mounting hole F keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 74.95 9.4476) (xy 74.6075 10.2745) (xy 73.9745 10.9075) (xy 73.1476 11.25) (xy 72.2524 11.25) (xy 71.4255 10.9075) (xy 70.7925 10.2745) (xy 70.45 9.4476) (xy 70.45 8.5524) (xy 70.7925 7.7255) (xy 71.4255 7.0925) (xy 72.2524 6.75) (xy 73.1476 6.75) (xy 73.9745 7.0925) (xy 74.6075 7.7255) (xy 74.95 8.5524)
-			)
-		)
-	)
-	(gr_circle
-		(center 13.0 66.0)
-		(end 13.85 66.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "e3d3760e-1f07-5e6f-897b-12134779dec3")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "4f69e7dc-bbbe-599b-8a5c-2fa8780cc525")
-		(name "mounting hole H keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 15.0 66.3978) (xy 14.6955 67.1329) (xy 14.1329 67.6955) (xy 13.3978 68.0) (xy 12.6022 68.0) (xy 11.8671 67.6955) (xy 11.3045 67.1329) (xy 11.0 66.3978) (xy 11.0 65.6022) (xy 11.3045 64.8671) (xy 11.8671 64.3045) (xy 12.6022 64.0) (xy 13.3978 64.0) (xy 14.1329 64.3045) (xy 14.6955 64.8671) (xy 15.0 65.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 63.0 66.0)
-		(end 63.85 66.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "55624c3b-9261-5f28-bc11-784515016c43")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "0abcabf7-c260-5468-b4e4-a7427df8d7d3")
-		(name "mounting hole I keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 65.0 66.3978) (xy 64.6955 67.1329) (xy 64.1329 67.6955) (xy 63.3978 68.0) (xy 62.6022 68.0) (xy 61.8671 67.6955) (xy 61.3045 67.1329) (xy 61.0 66.3978) (xy 61.0 65.6022) (xy 61.3045 64.8671) (xy 61.8671 64.3045) (xy 62.6022 64.0) (xy 63.3978 64.0) (xy 64.1329 64.3045) (xy 64.6955 64.8671) (xy 65.0 65.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 15.19 126.0)
-		(end 16.04 126.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "54b75b1e-fc6d-50af-994b-0ceb0b9422cc")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "23e2a4f2-2eab-54a8-b730-a60850e315ff")
-		(name "mounting hole J keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 17.19 126.3978) (xy 16.8855 127.1329) (xy 16.3229 127.6955) (xy 15.5878 128.0) (xy 14.7922 128.0) (xy 14.0571 127.6955) (xy 13.4945 127.1329) (xy 13.19 126.3978) (xy 13.19 125.6022) (xy 13.4945 124.8671) (xy 14.0571 124.3045) (xy 14.7922 124.0) (xy 15.5878 124.0) (xy 16.3229 124.3045) (xy 16.8855 124.8671) (xy 17.19 125.6022)
-			)
-		)
-	)
-	(gr_circle
-		(center 60.81 126.0)
-		(end 61.660000000000004 126.0)
-		(stroke
-			(width 0.05)
-			(type solid)
-		)
-		(fill no)
-		(layer "Edge.Cuts")
-		(uuid "be3237a7-4d42-551f-b8ef-917ca40e5724")
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "a4c4f8f2-1bb4-5202-b712-6db66fa8370f")
-		(name "mounting hole K keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 62.81 126.3978) (xy 62.5055 127.1329) (xy 61.9429 127.6955) (xy 61.2078 128.0) (xy 60.4122 128.0) (xy 59.6771 127.6955) (xy 59.1145 127.1329) (xy 58.81 126.3978) (xy 58.81 125.6022) (xy 59.1145 124.8671) (xy 59.6771 124.3045) (xy 60.4122 124.0) (xy 61.2078 124.0) (xy 61.9429 124.3045) (xy 62.5055 124.8671) (xy 62.81 125.6022)
-			)
-		)
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "207861ab-7ab8-5c3e-a1c6-8df34f0cb872")
-		(name "cutout 0 keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 59.35 7.25) (xy 67.75 7.25) (xy 67.75 46.95) (xy 59.35 46.95)
-			)
-		)
-	)
-	(zone
-		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
-		(uuid "0366993f-a322-50af-b0a4-f3eb9a4d9ed4")
-		(name "cutout 1 keepout")
-		(hatch edge 0.5)
-		(connect_pads
-			(clearance 0)
-		)
-		(min_thickness 0.25)
-		(keepout
-			(tracks not_allowed)
-			(vias not_allowed)
-			(pads allowed)
-			(copperpour not_allowed)
-			(footprints allowed)
-		)
-		(placement
-			(enabled no)
-			(sheetname "")
-		)
-		(fill
-			(thermal_gap 0.5)
-			(thermal_bridge_width 0.5)
-			(island_removal_mode 0)
-		)
-		(polygon
-			(pts
-				(xy 32.25 50.7) (xy 43.75 50.7) (xy 43.75 53.4) (xy 32.25 53.4)
-			)
-		)
 	)
 	(segment
 		(start 34.3 87.4)
@@ -37999,5 +37349,529 @@
 		(layer "F.Cu")
 		(net "gnd")
 		(uuid "d14f05e1-52b8-5fed-890d-e12364766d6e")
+	)
+	(gr_circle
+		(center 10.0 3.5)
+		(end 11.1 3.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "38b50bd0-3ec1-5ec7-8b37-d48d161a5b3b")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "41975d75-5b76-5700-a423-6d1db9e6ff85")
+		(name "mounting hole A keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 12.25 3.9476) (xy 11.9075 4.7745) (xy 11.2745 5.4075) (xy 10.4476 5.75) (xy 9.5524 5.75) (xy 8.7255 5.4075) (xy 8.0925 4.7745) (xy 7.75 3.9476) (xy 7.75 3.0524) (xy 8.0925 2.2255) (xy 8.7255 1.5925) (xy 9.5524 1.25) (xy 10.4476 1.25) (xy 11.2745 1.5925) (xy 11.9075 2.2255) (xy 12.25 3.0524)
+			)
+		)
+	)
+	(gr_circle
+		(center 66.0 3.5)
+		(end 67.1 3.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "153d11a0-4832-5e35-bf6c-a8c707a40e8b")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "6b8c9185-9005-524a-a722-51a591b09c20")
+		(name "mounting hole B keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 68.25 3.9476) (xy 67.9075 4.7745) (xy 67.2745 5.4075) (xy 66.4476 5.75) (xy 65.5524 5.75) (xy 64.7255 5.4075) (xy 64.0925 4.7745) (xy 63.75 3.9476) (xy 63.75 3.0524) (xy 64.0925 2.2255) (xy 64.7255 1.5925) (xy 65.5524 1.25) (xy 66.4476 1.25) (xy 67.2745 1.5925) (xy 67.9075 2.2255) (xy 68.25 3.0524)
+			)
+		)
+	)
+	(gr_circle
+		(center 6.0 139.5)
+		(end 7.1 139.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "842a889d-e050-5f72-84aa-e0d52fef0ece")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "f3f7163d-758c-57c0-aeb0-61f1f3480a7c")
+		(name "mounting hole C keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 8.25 139.9476) (xy 7.9075 140.7745) (xy 7.2745 141.4075) (xy 6.4476 141.75) (xy 5.5524 141.75) (xy 4.7255 141.4075) (xy 4.0925 140.7745) (xy 3.75 139.9476) (xy 3.75 139.0524) (xy 4.0925 138.2255) (xy 4.7255 137.5925) (xy 5.5524 137.25) (xy 6.4476 137.25) (xy 7.2745 137.5925) (xy 7.9075 138.2255) (xy 8.25 139.0524)
+			)
+		)
+	)
+	(gr_circle
+		(center 70.0 139.5)
+		(end 71.1 139.5)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "f389df2d-a16e-5d30-aa60-6c37c7e068f5")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "e48b38ca-61c8-5080-910e-c9477423c5f7")
+		(name "mounting hole D keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 72.25 139.9476) (xy 71.9075 140.7745) (xy 71.2745 141.4075) (xy 70.4476 141.75) (xy 69.5524 141.75) (xy 68.7255 141.4075) (xy 68.0925 140.7745) (xy 67.75 139.9476) (xy 67.75 139.0524) (xy 68.0925 138.2255) (xy 68.7255 137.5925) (xy 69.5524 137.25) (xy 70.4476 137.25) (xy 71.2745 137.5925) (xy 71.9075 138.2255) (xy 72.25 139.0524)
+			)
+		)
+	)
+	(gr_circle
+		(center 38.25 78.0)
+		(end 39.1 78.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "c79ef0ac-73bf-589c-9038-2b030de27dca")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "110cd80e-67fb-538e-9892-6e8a7d28b39c")
+		(name "mounting hole G keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 40.25 78.3978) (xy 39.9455 79.1329) (xy 39.3829 79.6955) (xy 38.6478 80.0) (xy 37.8522 80.0) (xy 37.1171 79.6955) (xy 36.5545 79.1329) (xy 36.25 78.3978) (xy 36.25 77.6022) (xy 36.5545 76.8671) (xy 37.1171 76.3045) (xy 37.8522 76.0) (xy 38.6478 76.0) (xy 39.3829 76.3045) (xy 39.9455 76.8671) (xy 40.25 77.6022)
+			)
+		)
+	)
+	(gr_circle
+		(center 3.3 9.0)
+		(end 4.4 9.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "e30b89bd-7f9a-525c-b7be-e2fa7bc1349e")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "ebc3648c-2c6a-5e40-85ee-fd8c8ec58419")
+		(name "mounting hole E keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 5.55 9.4476) (xy 5.2075 10.2745) (xy 4.5745 10.9075) (xy 3.7476 11.25) (xy 2.8524 11.25) (xy 2.0255 10.9075) (xy 1.3925 10.2745) (xy 1.05 9.4476) (xy 1.05 8.5524) (xy 1.3925 7.7255) (xy 2.0255 7.0925) (xy 2.8524 6.75) (xy 3.7476 6.75) (xy 4.5745 7.0925) (xy 5.2075 7.7255) (xy 5.55 8.5524)
+			)
+		)
+	)
+	(gr_circle
+		(center 72.7 9.0)
+		(end 73.8 9.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "4e1da399-7f5b-5dee-a257-795d18f6ba73")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "861ded03-fa0c-5878-92e5-b334c97e7a82")
+		(name "mounting hole F keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 74.95 9.4476) (xy 74.6075 10.2745) (xy 73.9745 10.9075) (xy 73.1476 11.25) (xy 72.2524 11.25) (xy 71.4255 10.9075) (xy 70.7925 10.2745) (xy 70.45 9.4476) (xy 70.45 8.5524) (xy 70.7925 7.7255) (xy 71.4255 7.0925) (xy 72.2524 6.75) (xy 73.1476 6.75) (xy 73.9745 7.0925) (xy 74.6075 7.7255) (xy 74.95 8.5524)
+			)
+		)
+	)
+	(gr_circle
+		(center 13.0 66.0)
+		(end 13.85 66.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "e3d3760e-1f07-5e6f-897b-12134779dec3")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "4f69e7dc-bbbe-599b-8a5c-2fa8780cc525")
+		(name "mounting hole H keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 15.0 66.3978) (xy 14.6955 67.1329) (xy 14.1329 67.6955) (xy 13.3978 68.0) (xy 12.6022 68.0) (xy 11.8671 67.6955) (xy 11.3045 67.1329) (xy 11.0 66.3978) (xy 11.0 65.6022) (xy 11.3045 64.8671) (xy 11.8671 64.3045) (xy 12.6022 64.0) (xy 13.3978 64.0) (xy 14.1329 64.3045) (xy 14.6955 64.8671) (xy 15.0 65.6022)
+			)
+		)
+	)
+	(gr_circle
+		(center 63.0 66.0)
+		(end 63.85 66.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "55624c3b-9261-5f28-bc11-784515016c43")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "0abcabf7-c260-5468-b4e4-a7427df8d7d3")
+		(name "mounting hole I keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 65.0 66.3978) (xy 64.6955 67.1329) (xy 64.1329 67.6955) (xy 63.3978 68.0) (xy 62.6022 68.0) (xy 61.8671 67.6955) (xy 61.3045 67.1329) (xy 61.0 66.3978) (xy 61.0 65.6022) (xy 61.3045 64.8671) (xy 61.8671 64.3045) (xy 62.6022 64.0) (xy 63.3978 64.0) (xy 64.1329 64.3045) (xy 64.6955 64.8671) (xy 65.0 65.6022)
+			)
+		)
+	)
+	(gr_circle
+		(center 15.19 126.0)
+		(end 16.04 126.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "54b75b1e-fc6d-50af-994b-0ceb0b9422cc")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "23e2a4f2-2eab-54a8-b730-a60850e315ff")
+		(name "mounting hole J keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 17.19 126.3978) (xy 16.8855 127.1329) (xy 16.3229 127.6955) (xy 15.5878 128.0) (xy 14.7922 128.0) (xy 14.0571 127.6955) (xy 13.4945 127.1329) (xy 13.19 126.3978) (xy 13.19 125.6022) (xy 13.4945 124.8671) (xy 14.0571 124.3045) (xy 14.7922 124.0) (xy 15.5878 124.0) (xy 16.3229 124.3045) (xy 16.8855 124.8671) (xy 17.19 125.6022)
+			)
+		)
+	)
+	(gr_circle
+		(center 60.81 126.0)
+		(end 61.660000000000004 126.0)
+		(stroke
+			(width 0.05)
+			(type solid)
+		)
+		(fill no)
+		(layer "Edge.Cuts")
+		(uuid "be3237a7-4d42-551f-b8ef-917ca40e5724")
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "a4c4f8f2-1bb4-5202-b712-6db66fa8370f")
+		(name "mounting hole K keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 62.81 126.3978) (xy 62.5055 127.1329) (xy 61.9429 127.6955) (xy 61.2078 128.0) (xy 60.4122 128.0) (xy 59.6771 127.6955) (xy 59.1145 127.1329) (xy 58.81 126.3978) (xy 58.81 125.6022) (xy 59.1145 124.8671) (xy 59.6771 124.3045) (xy 60.4122 124.0) (xy 61.2078 124.0) (xy 61.9429 124.3045) (xy 62.5055 124.8671) (xy 62.81 125.6022)
+			)
+		)
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "207861ab-7ab8-5c3e-a1c6-8df34f0cb872")
+		(name "cutout 0 keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 59.35 7.25) (xy 67.75 7.25) (xy 67.75 46.95) (xy 59.35 46.95)
+			)
+		)
+	)
+	(zone
+		(layers "F.Cu" "B.Cu" "In1.Cu" "In2.Cu")
+		(uuid "0366993f-a322-50af-b0a4-f3eb9a4d9ed4")
+		(name "cutout 1 keepout")
+		(hatch edge 0.5)
+		(connect_pads
+			(clearance 0)
+		)
+		(min_thickness 0.25)
+		(keepout
+			(tracks not_allowed)
+			(vias not_allowed)
+			(pads allowed)
+			(copperpour not_allowed)
+			(footprints allowed)
+		)
+		(placement
+			(enabled no)
+			(sheetname "")
+		)
+		(fill
+			(thermal_gap 0.5)
+			(thermal_bridge_width 0.5)
+			(island_removal_mode 0)
+		)
+		(polygon
+			(pts
+				(xy 32.25 50.7) (xy 43.75 50.7) (xy 43.75 53.4) (xy 32.25 53.4)
+			)
+		)
 	)
 )

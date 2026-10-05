@@ -652,6 +652,9 @@ def swap_layers(text):
         lambda g: f'"{"B" if g.group(1) == "F" else "F"}.{g.group(2)}"', text)
 
 
+ONE_LINE_FONT_RE = re.compile(r"\(effects (\(font \(size [^)]*\) \(thickness [^)]*\)\))\)")
+
+
 def flip(block):
     """Turn a footprint block over.
 
@@ -681,8 +684,11 @@ def flip(block):
     if side_of(head) == "B":
         rest = FONT_RE.sub(
             lambda g: f"(effects\n{g.group(1)}{g.group(2)}(justify mirror)\n", rest)
+        # inject_parts.py writes its text on one line
+        rest = ONE_LINE_FONT_RE.sub(r"(effects \1 (justify mirror))", rest)
     else:
         rest = re.sub(r'\n\t+\(justify mirror\)', '', rest)
+        rest = rest.replace(" (justify mirror))", ")")
 
     def turn_one_pad(g):
         ang = (-float(g.group(4) or 0.0)) % 360

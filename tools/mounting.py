@@ -152,8 +152,10 @@ def items():
 
 def strip(text):
     # Every letter ever used, so a hole or post taken out of the tables
-    # above is removed from the board too.
-    ours = {str(uuid.uuid5(NS, n)) for k in "ABCDEFGH" for n in
+    # above is removed from the board too. (It stopped at H until 5 October
+    # 2026, so I, J and K were written again on every run: DRC saw the
+    # doubled Edge.Cuts circles as a self-intersecting outline.)
+    ours = {str(uuid.uuid5(NS, n)) for k in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" for n in
             (f"mounting hole {k}", f"mounting hole {k} keepout", f"case post {k}")}
     ours |= {str(uuid.uuid5(NS, f"cutout {k} keepout")) for k in range(8)}
     out, i = [], 0
