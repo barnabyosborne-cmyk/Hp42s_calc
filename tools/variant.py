@@ -48,7 +48,7 @@ BAY = (5.0, 12.5, 55.0, 50.5)
 
 # Back-side strip the front light's LED flex lies along, from the coupler to
 # its two wire pads: keep parts out of it.
-FLEX = (62.8, 46.0, 66.6, 79.0)
+FLEX = (62.8, 46.0, 66.6, 73.4)   # stops short of J3, the flex connector
 
 
 def drop(y):

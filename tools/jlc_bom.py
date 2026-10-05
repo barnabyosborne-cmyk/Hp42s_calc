@@ -75,7 +75,7 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 #       inside the Dialight pads; a footprint of its own waits for the next
 #       netlist re-import. Check its polarity in JLC's preview.
 SUBS = {
-    "led_status": ("Red/green LED side view, common anode", "Lite-On LTST-S326KGJRKT"),
+    "led_status": ("Red/yellow-green LED side view, back to back, lens 2.0 up", "XINGLIGHT XL-C4040SURSYGC"),
     "power.l_sw": ("2.2uH XFL4020", "Coilcraft XFL4020-222MEB"),
     "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB(LF)(SN)"),
@@ -88,7 +88,7 @@ LCSC = {
     "display.boost": "C2072359", "display.l_boost": "C79317",
     "display.rtc": "C5137460", "ls": "C113159",
     "ir": "C511094", "q_ir": "C8545", "frontlight.u": "C58756",
-    "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C125116",
+    "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C7545693",
 }
 # by Comment; Basic parts where JLC has one, else the best-stocked Extended
 PASSIVE_LCSC = {

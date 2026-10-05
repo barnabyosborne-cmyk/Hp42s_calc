@@ -75,7 +75,7 @@ GRID_PASSIVE = 0.635
 # their designators shift whenever a part before them in the source is added or
 # removed, so naming them literally here goes stale silently. See BY_NET there.
 # D1, D2 are D4, D5 on main
-OFF_GRID = {"J2", "U5", "TP1", "J1", "D1", "D2"} | set(pb.RESOLVED.values())
+OFF_GRID = {"J2", "J3", "U5", "TP1", "J1", "D1", "D2"} | set(pb.RESOLVED.values())   # J3 sits on the LED flex
 
 REF_RE = re.compile(r'\(property "Reference" "([^"]+)"')
 FP_AT = re.compile(r'\n\t\t\(at (-?[\d.]+) (-?[\d.]+)((?: -?[\d.]+)?)\)')

@@ -192,7 +192,7 @@ FIRST_PASS = {
     # arrangement, not a derived one.
     "D1":   (25.33, 0.900, "B", 180),  # IR emitter (D4 on main)
     "J1":   (38.00, 2.475, "B", 0),    # USB-C, on the board's centreline
-    "D2":   (50.57, 1.050, "B", 180),  # status LED (D5 on main)
+    "D2":   (50.57, 1.775, "B", 180),  # status LED (D5 on main); XL-C4040 since 5 Oct 2026, its front face on the board edge
     # The two tact switches are NOT here. Their designators move, so they are
     # resolved by net below -- see BY_NET.
 
@@ -232,8 +232,8 @@ FIRST_PASS = {
     "R18": (24.13, 4.445, "B", 0),
     "R19": (20.955, 8.89, "B", 0),
     # The status LED's two ballast resistors, behind D5.
-    "R20": (52.07, 4.445, "B", 0),
-    "R21": (48.895, 4.445, "B", 0),
+    "R20": (52.07, 5.08, "B", 0),
+    "R21": (48.895, 5.08, "B", 0),
 
     # -- FRONT, in the keypad: the faceplate ground bond ---------------------
     # TP1 (TP3 on main). Under the glass on the 146 board (2 October 2026),
@@ -323,8 +323,8 @@ FIRST_PASS = {
     # C12/C13 the 20 uF on its output; C10 is the panel's own 5 V bypass,
     # as near J2's VDD pins as the bay lets it get. R14 holds EN low.
     "U6":  (8.89, 66.04, "B", 0),
-    "L2":  (12.7, 66.04, "B", 0),
-    "C11": (12.7, 69.215, "B", 0),    # SYS into L2
+    "L2":  (12.7, 62.865, "B", 180),   # above the board-to-front-shell hole at (13, 66)
+    "C11": (16.51, 62.865, "B", 0),   # SYS into L2
     "C12": (5.08, 65.405, "B", 0),    # 5 V out
     "C13": (5.08, 67.945, "B", 0),
     "C10": (37.465, 65.405, "B", 0),   # at J2's VDD/VDDA (pins 6, 7)
@@ -392,7 +392,7 @@ FIRST_PASS = {
     # -- BACK, Y 108..125, right: the sounder --------------------------------
     # ls027: the sounder sits with the module and NAND it hangs off, not
     # out on its own at the right edge.
-    "LS1": (66.04, 124.46, "B", 0),
+    "LS1": (69.215, 124.46, "B", 0),  # right, clear of the hole at (60.81, 126)
     "R17": (62.865, 115.57, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
@@ -454,13 +454,16 @@ FIRST_PASS = {
     "C17": (15.24, 109.855, "B", 0),
     "C18": (15.24, 116.205, "B", 0),
     # The front light's switch, at the end of the Azumo LED flex, which lies
-    # down the back at X 63.3..66 from the coupler (variant.FLEX). J3 is the
-    # pair of wire pads, R23 the 100R from 5 V, Q2 the switch, R24 its gate
-    # pull-down.
-    "J3":  (69.85, 78.74, "B", 0),
-    "Q2":  (69.85, 74.93, "B", 0),
-    "R23": (69.85, 71.755, "B", 0),
-    "R24": (73.025, 74.93, "B", 0),
+    # down the back from the coupler (variant.FLEX). J3 is the 2-way 1.0 mm
+    # top-contact FPC connector the flex's stiffened end plugs into: centred
+    # on the flex (X 64.725, from Azumo's STEP as placed in the mock-up),
+    # mouth facing up the board at Y 74.5 so the tail, whose tip is at
+    # Y 78.09, goes 3.6 mm in. R23 is the 100R from 5 V, Q2 the switch, R24
+    # its gate pull-down, moved up clear of J3.
+    "J3":  (64.725, 78.7, "B", 180),
+    "Q2":  (69.85, 73.66, "B", 0),
+    "R23": (69.85, 70.485, "B", 0),
+    "R24": (73.025, 73.66, "B", 0),
 
     "TP2": (50.8, 86.36, "B", 0),     # BAT
     "TP3": (53.34, 86.36, "B", 0),    # SYS

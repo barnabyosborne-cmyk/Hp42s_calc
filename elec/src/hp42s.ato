@@ -1,6 +1,6 @@
 from "parts.ato" import ESP32S3WROOM1, SPINAND, Buzzer, IRLED, TactSwitchSide, StatusLED
 from "parts.ato" import Resistor, Capacitor, Diode, NFET, TestPad, ChassisPad
-from "parts.ato" import LSM6DSV16X, LIS2MDL, FrontlightWirePads, BoostFET
+from "parts.ato" import LSM6DSV16X, LIS2MDL, FrontlightFPC, BoostFET
 from "display.ato" import DisplayDrive
 from "power.ato" import Power
 from "keypad.ato" import Keypad
@@ -307,18 +307,20 @@ module HP42S:
     mcu.IO16 ~ led_red
     mcu.IO39 ~ led_green
 
+    # Back to back since 5 October 2026 (see StatusLED): red is IO16 high
+    # and IO39 low, green the other way round, through both 1k in series,
+    # (3.3 - 2.0) / 2k = 0.65 mA, ample for an 800 mcd part behind a window.
     led_status = new StatusLED
-    led_status.anode ~ v3v3
 
     r_led_red = new Resistor
     r_led_red.value = "1k"
     r_led_red.p1 ~ led_red
-    r_led_red.p2 ~ led_status.red
+    r_led_red.p2 ~ led_status.t_red
 
     r_led_green = new Resistor
     r_led_green.value = "1k"
     r_led_green.p1 ~ led_green
-    r_led_green.p2 ~ led_status.ygreen
+    r_led_green.p2 ~ led_status.t_green
 
     # --- faceplate ground bond -----------------------------------------------
     # The etched steel plate over the keyboard and display is an ESD entry
@@ -440,7 +442,7 @@ module HP42S:
     signal fl_k
     signal fl_a
     mcu.IO46 ~ fl_en
-    fl = new FrontlightWirePads
+    fl = new FrontlightFPC
     r_fl = new Resistor
     r_fl.value = "100"
     r_fl.footprint = "Resistor_SMD:R_0603_1608Metric"
@@ -448,6 +450,7 @@ module HP42S:
     r_fl.p2 ~ fl_a
     fl.anode ~ fl_a
     fl.cathode ~ fl_k
+    fl.mp ~ gnd
     q_fl = new BoostFET
     q_fl.drain ~ fl_k
     q_fl.source ~ gnd

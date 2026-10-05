@@ -271,25 +271,24 @@ ROUTES += [
          why="over bat's y 70 run, between the SW8 and SW9 keepouts"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(25.800, 68.900), (25.800, 68.300), (11.950, 68.300),
-               (11.950, 66.500)],
+         path=[(25.800, 68.900), (25.800, 68.300), (15.735, 68.300),
+               (15.735, 62.865)],
          widths=[NECK_W, NECK_W, NECK_W],
-         why="west between dome rows, north of C11, up into L2"),
+         why="west between dome rows as before, but north up x 15.735 into "
+             "C11 short of the hole at (13, 66) (ls027), not across it"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(11.950, 68.300), (11.950, 69.200)],
+         path=[(15.735, 62.865), (13.425, 62.865)],
          widths=[NECK_W],
-         why="south into C11, the MIP boost's input cap"),
+         why="C11, the boost's input cap, into L2"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(8.690, 66.440), (8.690, 66.950)],
-         widths=[0.15],
-         why="out of U6 ball A1, narrow beside its gnd ball A2"),
-
-    dict(net="sys", layer="B.Cu",
-         path=[(8.690, 66.950), (11.950, 66.950)],
-         widths=[NECK_W],
-         why="east under U6 to the C11-L2 run"),
+         path=[(8.690, 66.440), (7.500, 66.440), (7.500, 61.600),
+               (13.425, 61.600), (13.425, 62.865)],
+         widths=[0.15] + [NECK_W] * 3,
+         why="out of U6 ball A1 west, then north and east over L2 into its "
+             "sys end (ls027: leaves U6's east side free for v5, mip_pwr and "
+             "the ground tails, and stays clear of the hole at (13, 66))"),
 
     dict(net="sys", layer="B.Cu",
          path=[(31.100, 91.400), (56.000, 91.400)],

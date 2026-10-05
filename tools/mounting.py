@@ -54,6 +54,19 @@ HOLES = {
     "C": (6.0, 141.5, 2.2, 4.5),     # bottom left, D mirrored
     "D": (70.0, 141.5, 2.2, 4.5),    # bottom right, the tightest corner
     "G": (38.25, 80.0, 1.7, 4.0),    # centre of the keypad, where four keys meet
+    # ls027, 5 October 2026: Barnaby's board-to-front-shell screws, so the
+    # PCB is held to the front first and the corners only join the shells.
+    # Mirrored about x = 38. E/F beside the glass's top corners (M2, room
+    # to spare). H/I in the four-key gaps of the top two rows, whose centres
+    # mirror exactly (13.0 / 63.0). J/K between the bottom two rows, where
+    # the gaps are at 14.875 and 60.5 and do not mirror, so each is 0.31
+    # off its gap's centre. All y here are e-paper y (board y + 2 below 48.3).
+    "E": (3.3, 9.0, 2.2, 4.5),       # left of the glass's top corner
+    "F": (72.7, 9.0, 2.2, 4.5),      # right of it
+    "H": (13.0, 68.0, 1.7, 4.0),     # SW1 / SW2 / SW7 / SW8
+    "I": (63.0, 68.0, 1.7, 4.0),     # SW5 / SW6 / SW11 / SW12
+    "J": (15.19, 128.0, 1.7, 4.0),   # SW28 / SW29 / SW33 / SW34
+    "K": (60.81, 128.0, 1.7, 4.0),   # SW31 / SW32 / SW36 / SW37
 }
 HOLES = {k: (x, drop(y), d, keep) for k, (x, y, d, keep) in HOLES.items()}
 POSTS = {}

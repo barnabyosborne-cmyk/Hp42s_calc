@@ -41,8 +41,15 @@ board, the pin map in `elec/src/hp42s.ato` must be mirrored before ordering.
 
 ## Front light (fit or leave off)
 
-The Azumo LED flex's contacts face away from the board, so it is wired to J3,
-two 1.4 mm pads on the back at (69.85, 76.74), beside the flex end.
+The Azumo LED flex ends in a standard 1.0 mm ZIF tail: two contacts 0.8 wide
+at 1.0 pitch on its last 3.32 mm, stiffened there to 0.30 mm, 2.49 wide
+(Azumo drawing detail A; thickness from Azumo's STEP). Lying along the back
+its contacts face away from the board, so J3 is a top-contact connector:
+GUOCONN 1.0K-LS-2PWB-TW (LCSC C53145530), slide lock, 2.0 high, on the back
+at (64.725, 76.7), mouth up the board at Y 74.5. The flex tip lands at
+Y 78.09, 3.6 mm in. The slot is made for a 3.0 mm tail, so the 2.49 mm one
+has 0.3 mm of side play; the 0.8 mm fingers still land. + is the contact
+nearer the short glass edge the flex leaves beside, which is board +X: pad 1.
 
     v5 (5.0 V) -> R23 100R -> J3.1 (+) LED J3.2 (-) -> Q2 Si1308EDL -> gnd
     Q2 gate = IO46, R24 100k pull-down (light off at reset and in sleep)
@@ -53,7 +60,7 @@ Hand calculation: Vf 3.0 V typical, so (5.0 - 3.0) / 100 = 20 mA; over Vf
 hundred milliohms, a few mV. From the cell that is about 32 mA while lit.
 PWM on IO46 dims it.
 
-Without the front light, leave J3 empty; R23, Q2 and R24 can stay fitted.
+Without the front light, leave J3 empty or fitted; R23, Q2 and R24 can stay.
 
 ## IMU
 
@@ -81,3 +88,25 @@ the front light, so the module has no spare GPIO left.
 `tools/inject_parts.py` added the parts new since the mip import (R23, R24,
 C16..C19, U9, U10, J3, Q2) straight into the board file; Update PCB from
 Netlist in KiCad, linking by unique ids, picks them up without renumbering.
+
+## Status LED (D2)
+
+XINGLIGHT XL-C4040SURSYGC (LCSC C7545693) since 5 October 2026: lens centre
+2.0 mm above the board, in line with the USB mouth (1.28) and the buttons
+(1.65) against the wall centreline at 1.7. Its red and yellow-green dice are
+back to back, so firmware drives IO16 high and IO39 low for red, the other
+way for green, both high impedance for off (was: common anode, active low).
+
+## Fixing holes
+
+Corners A-D (M2) join the two shells. Six more hold the board to the front
+shell first, mirrored about X 38 (board coordinates):
+
+| | X | Y | screw |
+|---|---|---|---|
+| E / F | 3.3 / 72.7 | 9.0 | M2, beside the glass's top corners |
+| H / I | 13.0 / 63.0 | 66.0 | M1.6, the top rows' four-key gaps |
+| J / K | 15.19 / 60.81 | 126.0 | M1.6, between the bottom rows (0.31 off each gap's centre, since those gaps do not mirror) |
+| G | 38.25 | 78.0 | M1.6, keypad centre (existing) |
+
+L2 and C11 moved above the H hole, the buzzer 3.2 mm right of K.

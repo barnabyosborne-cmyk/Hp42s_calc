@@ -837,6 +837,74 @@ def wire_pads_2(name, descr, tags):
     return "\n".join(out) + "\n"
 
 
+def fpc_1mm_2p_top(name, descr, tags):
+    """GUOCONN / HDGC 1.0K-LS-2PWB-TW: 1.0 mm FPC, 2 way, slide lock, top
+    contact, 2.0 mm high (HDGC drawing 1.0K-LS-nPWB A001, n = 2: body C 6.85,
+    D 8.15 over the lock ears, 4.40 deep; takes a 0.30 mm tail). Mouth faces
+    -y. Signal lands 0.30 x 1.25 at x -0.5 / +0.5, their rear ends 0.90 behind
+    the body; fitting lands 2.0 x 3.0, outer edge 3.0 out from the outer
+    signal land's centre, starting 1.45 in front of the signal lands' rear
+    ends. The courtyard allows 0.8 in front of the mouth for the slider.
+    """
+    out = _head(name, descr, tags, -4.2, 4.6)
+    bw, bd = 6.85 / 2, 4.40 / 2
+    out.append(f'\t(fp_rect (start {-bw} {-bd}) (end {bw} {bd}) '
+               '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    out.append(f'\t(fp_rect (start -4.35 {-bd - 1.0:.2f}) (end 4.35 {bd + 1.15:.2f}) '
+               '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append(f'\t(fp_line (start {-bw} {-bd - 0.3:.2f}) (end {bw} {-bd - 0.3:.2f}) '
+               '(stroke (width 0.12) (type solid)) (layer "F.SilkS"))')
+    rear = bd + 0.90
+    for n, x in ((1, -0.5), (2, 0.5)):
+        out.append(f'\t(pad "{n}" smd roundrect (at {x:.2f} {rear - 0.625:.3f}) (size 0.3 1.25) '
+                   '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.15))')
+    my = rear - 1.45 - 1.5
+    for x in (-2.5, 2.5):
+        out.append(f'\t(pad "MP" smd roundrect (at {x:.2f} {my:.3f}) (size 2.0 3.0) '
+                   '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.1))')
+    out.append(_body_model(name))
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
+def xl_c4040(name, descr, tags):
+    """XINGLIGHT XL-C4040SURSYGC, red + yellow-green, side-emitting ("lying
+    on its side") 4040: lens face 3.95 wide x 4.00 high, 3.55 deep, lens
+    centre 2.00 above the board (datasheet page 7). The lens looks out at
+    -y; the body's front face is the origin's y - 1.775.
+
+    The two dice are BACK TO BACK on two terminals, not on a common anode:
+    pins 1 and 3 (the front pair, nearer the lens) are the red anode and the
+    yellow-green cathode; pins 2 and 4 (the back pair) the other ends. So
+    1 = 3 and 2 = 4 here, and red lights when 1/3 is driven high.
+
+    Recommended pattern 4.2 x 3.7 outer, four 1.35 squares, 1.5 and 1.0
+    apart. The front pair is cut back to start 0.25 behind the body's front
+    face, so the face can sit on the board edge and keep the 0.25 copper to
+    edge rule; the lead feet are under the body, behind that line.
+    """
+    out = _head(name, descr, tags, -3.0, 3.0)
+    out.append('\t(fp_rect (start -1.975 -1.775) (end 1.975 1.775) '
+               '(stroke (width 0.1) (type solid)) (fill none) (layer "F.Fab"))')
+    out.append('\t(fp_line (start 0 -2.600) (end 0 1.775) '
+               '(stroke (width 0.05) (type dot)) (layer "F.Fab"))')
+    out.append('\t(fp_rect (start -2.350 -2.000) (end 2.350 2.100) '
+               '(stroke (width 0.05) (type solid)) (fill none) (layer "F.CrtYd"))')
+    out.append('\t(fp_line (start 2.300 -1.400) (end 2.300 -0.500) '
+               '(stroke (width 0.15) (type solid)) (layer "F.SilkS"))')
+    fy0, fy1 = -1.775 + 0.25, -0.5          # front pair, cut back
+    for n, x in ((1, 1.425), (3, -1.425)):
+        out.append(f'\t(pad "{n}" smd roundrect (at {x} {(fy0 + fy1) / 2:.4f}) '
+                   f'(size 1.35 {fy1 - fy0:.3f}) '
+                   '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.1))')
+    for n, x in ((2, 1.425), (4, -1.425)):
+        out.append(f'\t(pad "{n}" smd roundrect (at {x} 1.175) (size 1.35 1.35) '
+                   '(layers "F.Cu" "F.Paste" "F.Mask") (roundrect_rratio 0.1))')
+    out.append(_body_model(name))
+    out.append(')')
+    return "\n".join(out) + "\n"
+
+
 def main():
     outdir = os.path.abspath(OUTDIR)
     os.makedirs(outdir, exist_ok=True)
@@ -945,6 +1013,19 @@ def main():
             descr="ST LGA-12 2.0x2.0x0.7 mm, 0.5 mm pitch, 0.3 mm square lands. From "
                   "figure 9 of the LIS2MDL datasheet DocID030621 rev 5.",
             tags="LGA-12 ST LIS2MDL magnetometer",
+        ),
+        "XINGLIGHT_XL-C4040_SideView": xl_c4040(
+            name="XINGLIGHT_XL-C4040_SideView",
+            descr="XINGLIGHT XL-C4040SURSYGC (LCSC C7545693) side-emitting red / "
+                  "yellow-green, back to back on two terminals, lens 2.0 above "
+                  "the board, looking at -y.",
+            tags="LED side view bicolour XL-C4040",
+        ),
+        "FPC_1.0mm_2P_TopContact_1.0K-LS": fpc_1mm_2p_top(
+            name="FPC_1.0mm_2P_TopContact_1.0K-LS",
+            descr="GUOCONN 1.0K-LS-2PWB-TW (LCSC C53145530), 1.0 mm FPC, 2 way, "
+                  "top contact, slide lock, H 2.0. For the Azumo 11103-06 LED flex.",
+            tags="FPC FFC 1.0mm 2P ZIF top contact Azumo",
         ),
         "Azumo_FLP_LED_WirePads": wire_pads_2(
             name="Azumo_FLP_LED_WirePads",
