@@ -41,10 +41,13 @@ DROP = -2.0
 CUTOUTS = [(59.85, 7.75, 67.25, 46.45),     # Azumo light coupler
            (32.75, 51.2, 43.25, 52.9)]      # LS027 FPC slot
 
-# The cell on the back: 6 x 38 x 50 (603850 class). 45 x 55 no longer fits
+# The cell on the back: 6 x 40 x 50 (604050). 45 x 55 no longer fits
 # between the top-edge parts and the FPC's fold, and the coupler takes the
-# right-hand 9 mm.
-BAY = (5.0, 12.5, 55.0, 50.5)
+# right-hand 9 mm. It was 38 x 50 from Y 12.5 until 5 October 2026, when the
+# IR driver went up beside D1, C1 right of J1, and U1/R1/R2 into one row
+# under J1; the top is now J1's body (Y 7.23) plus that row. X starts at 5.5
+# to keep 0.4 mm off hole E's screw head.
+BAY = (5.5, 10.5, 55.5, 50.5)
 
 # Back-side strip the front light's LED flex lies along, from the coupler to
 # its two wire pads: keep parts out of it.

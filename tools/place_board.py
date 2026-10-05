@@ -223,14 +223,17 @@ FIRST_PASS = {
     # part each one serves directly in front of it. They are back on their grids
     # afterwards -- 1.27 mm for U1, 0.635 for the passives -- which is why the
     # shifts are not exactly the shifts above.
-    "U1":  (38.1, 10.16, "B", 0),
-    "R1":  (31.115, 10.16, "B", 0),
-    "R2":  (34.29, 10.16, "B", 0),
-    "C1":  (42.545, 10.16, "B", 0),
+    # ls027, 5 October 2026 (Barnaby): moved up out of the cell's way so the
+    # bay starts at Y 10.5 and takes a 604050. U1 turned 90 degrees so U1, R1
+    # and R2 make one row under J1; C1 right of J1; the IR driver up beside D1.
+    "U1":  (38.1, 9.0, "B", 90),
+    "R1":  (34.29, 8.89, "B", 0),
+    "R2":  (41.91, 8.89, "B", 0),
+    "C1":  (46.355, 8.89, "B", 0),
     # The IR emitter's driver, behind D4.
-    "Q1":  (25.4, 8.89, "B", 0),     # Q2 on main
-    "R18": (24.13, 4.445, "B", 0),
-    "R19": (20.955, 8.89, "B", 0),
+    "Q1":  (27.94, 6.35, "B", 0),     # Q2 on main
+    "R18": (29.21, 2.54, "B", 90),
+    "R19": (23.495, 7.62, "B", 0),
     # The status LED's two ballast resistors, behind D5.
     "R20": (52.07, 5.08, "B", 0),
     "R21": (48.895, 5.08, "B", 0),

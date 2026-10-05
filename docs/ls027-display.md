@@ -11,11 +11,17 @@ FLP 11103-06 front light. Branched from `mip` (the 3.16" LS032 board) on
 | Board | 76 x 142 mm, 1.6 mm 4-layer, chamfers 2 mm top, 4 mm bottom |
 | Case | 146 mm long (was 150 for the 3.16") |
 | Glass | X 6.6..69.4, Y 7.5..50.32 (62.8 x 42.82), centred across |
-| Cell bay | X 5..55, Y 12.5..50.5: a **6 x 38 x 50 mm** cell (about 1250 mAh) |
+| Cell bay | X 5.5..55.5, Y 10.5..50.5: a **6 x 40 x 50 mm** cell (604050, about 1300 mAh) |
 
 The 6 x 45 x 55 mm cell of the other boards clashes with the panel FPC fold,
-so this board takes the smaller cell. `tools/battery_life.py` now uses
-1250 mAh: about 16 months of daily use instead of 20.
+so this board takes a smaller cell. `tools/battery_life.py` uses 1300 mAh:
+about 17 months of daily use instead of 20.
+
+On 5 October 2026 the bay grew from 38 x 50 (Y 12.5) to 40 x 50 by moving
+the top-band parts out of its way: the IR driver (Q1, R18, R19) up beside
+D1, C1 right of J1, and U1, R1, R2 into one row just under J1 (Y 8.1..9.8),
+which the cell could not use anyway since J1's body reaches Y 7.23. VBUS now
+runs J1 to C1 along Y 7.75 and leaves C1 down x 45.58.
 
 Everything below the glass moved up 4.2 mm from the mip board
 (`tools/ls027_from_mip.py`, run once). `tools/variant.py` holds the geometry:
@@ -31,6 +37,16 @@ Everything below the glass moved up 4.2 mm from the mip board
 Each has a 0.5 mm copper keepout (`tools/mounting.py`). The LED flex lies flat
 on the back from the coupler down to Y 79 (strip X 62.8..66.6 kept clear of
 parts).
+
+## 3D model
+
+`tools/mech_models.py` builds the panel from Azumo's own STEP for the
+FLP 11103-06 on the LS027B7DH01 (`elec/footprints/vendor-3d/`), turned into
+the board's frame: glass, light guide, film carrier and roll, the coupler
+down through its cut-out and the LED flex along the back. The flat panel
+FPC is cut at Y 50.92 and drawn folded through the slot into J2. The cell is
+a 6 x 40 x 50 box. Both hang off TP1; `hardware/LS027B7DH01_on_board.step`
+is the same panel in the board's own frame for the case model.
 
 ## Display connector J2
 

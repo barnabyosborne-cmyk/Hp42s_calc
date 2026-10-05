@@ -40,7 +40,7 @@ import math
 
 PARTS = {
     # --- cell ---
-    "cell_mAh":          (1250, "mAh", "6 x 38 x 50 mm LiPo (the 2.7in board's bay), "
+    "cell_mAh":          (1300, "mAh", "6 x 40 x 50 mm LiPo, a 604050 (the 2.7in board's bay), "
                                        "scaled from 1600 for 6x45x55 by volume", True),
     "cell_usable":       (0.90, "",    "fraction above the firmware's low-battery "
                                        "cut-off; a LiPo at ~3.4 V under load "
