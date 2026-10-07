@@ -44,15 +44,18 @@ component Capacitor:
     signal p2 ~ pin 2
 
 component Inductor:
-    # The buck-boost's 2.2 uH. Coilcraft XFL4020-222ME, from TI's own
-    # recommended list (TPS63900 table 8-2): 3.5 A saturation, 21 mOhm,
-    # 4 x 4 x 2 mm. The other four on TI's list are smaller and four to five
-    # times the DC resistance; this board has room on the back and would
-    # rather have the efficiency, because battery life is the headline
-    # number. KiCad's L_Coilcraft_XxL4020 is the land pattern for it.
-    footprint = "Inductor_SMD:L_Coilcraft_XxL4020"
+    # The buck-boost's 2.2 uH. Was Coilcraft XFL4020-222ME from TI's own
+    # recommended list (TPS63900 table 8-2: 2.2 uH, saturation >= 2 A for the
+    # "unlimited" current setting this board uses). At JLC that cost $5.23
+    # each with 31 in stock (7 October 2026), so it is now the SXN SMNR4020-
+    # 2.2UH (LCSC C135262, $0.05, 100k in stock): same 4 x 4 x 2 body,
+    # 3.4 A, 40 mOhm max against Coilcraft's 21. The extra 19 mOhm costs
+    # under 0.5 % efficiency at 100 mA and nothing measurable asleep. Its
+    # terminals sit further out than Coilcraft's, so it has its own land
+    # (SXN datasheet: pads 0.95 x 3.3 with a 2.1 gap).
+    footprint = "hp42s:L_SXN_SMNR4020"
     designator_prefix = "L"
-    value = "2u2 XFL4020-222ME"
+    value = "2u2 SMNR4020-2.2UH"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
@@ -289,9 +292,14 @@ component USBCReceptacle:
     # each and get tied together for USB 2.0. CC1 and CC2 must NOT be tied --
     # they are how the sink tells the source which way round the plug went in.
     # SBU1/SBU2 are for alternate modes and stay unconnected.
+    #
+    # The -120 suffix (7 October 2026): JLC's plain USB4105-GF-A was all
+    # reserved. GCT's suffix is only the shell stake length (blank 0.95 mm,
+    # -060, -120); same land, same body, and 1.20 mm still sits inside this
+    # 1.6 mm board. LCSC C5184243.
     footprint = "Connector_USB:USB_C_Receptacle_GCT_USB4105-xx-A_16P_TopMnt_Horizontal"
     designator_prefix = "J"
-    value = "GCT USB4105-GF-A"
+    value = "GCT USB4105-GF-A-120"
     signal GND_A1  ~ pin A1
     signal VBUS_A4 ~ pin A4
     signal CC1     ~ pin A5

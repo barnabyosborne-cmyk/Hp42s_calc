@@ -59,8 +59,10 @@ the outline.
 - Upload `hp42s-ls027-bom-jlc.csv` and `hp42s-ls027-cpl-jlc.csv`.
 - 66 parts on 43 lines; 23 lines are Extended parts (JLC adds a loading fee
   for each). Stock on 5 October 2026 was fine for 5 boards, but low on D1
-  (VSMB2943, 25), L1 (XFL4020-222MEB, 52), U7 (RV-8263, 255) and D2
-  (XL-C4040, 397): check again on the day.
+  (VSMB2943, 25), U7 (RV-8263, 255) and D2 (XL-C4040, 397): check again on
+  the day. On 7 October L1 became the SXN SMNR4020-2.2UH (C135262; the
+  Coilcraft was $5.23 each with 31 left) and J1 the USB4105-GF-A-120
+  (C5184243; the plain -GF-A was all reserved).
 - **Edge rails**: the ESP32 module hangs 1.25 mm over the bottom edge. If JLC
   adds rails, ask for them on the two long sides only.
 - If Economic assembly rejects a part (U6 is a 0.4 mm DSBGA, U2 a 0.4 mm

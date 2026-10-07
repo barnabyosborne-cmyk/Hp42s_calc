@@ -35,12 +35,12 @@ import route_power as rp            # noqa: E402
 
 # instance path -> (comment, manufacturer part or "")
 PARTS = {
-    "power.usb": ("USB-C receptacle 16P", "GCT USB4105-GF-A"),
+    "power.usb": ("USB-C receptacle 16P", "GCT USB4105-GF-A-120"),
     "power.esd": ("TPD4E05U06 USB ESD", "TPD4E05U06DQAR"),
     "power.chg": ("BQ25185 charger", "BQ25185DLHR"),
     "power.reg": ("TPS63900 buck-boost", "TPS63900DSKR"),
     "power.gauge": ("MAX17048 fuel gauge", "MAX17048G+T10"),
-    "power.l_sw": ("2.2uH XFL4020", "Coilcraft XFL4020-222MEC"),
+    "power.l_sw": ("2.2uH 4020 shielded", "SXN SMNR4020-2.2UH"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB"),
     "mcu": ("ESP32-S3-WROOM-1-N16R2", "ESP32-S3-WROOM-1-N16R2"),
     # 2 Gbit SLC SPI NAND; Winbond W25N02KVZEIR is the drop-in second source
@@ -85,15 +85,16 @@ DIODE = ("B5819W Schottky 40V 1A", "CJ B5819W SL")
 #       pads and green on the back one. Its land (datasheet section 6.2) sits
 #       inside the Dialight pads; a footprint of its own waits for the next
 #       netlist re-import. Check its polarity in JLC's preview.
+#   7 October 2026: L1 is now the SXN SMNR4020-2.2UH in the source (on its
+#   own land), and J1 the USB4105-GF-A-120, so neither needs a substitute.
 SUBS = {
     "led_status": ("Red/yellow-green LED side view, back to back, lens 2.0 up", "XINGLIGHT XL-C4040SURSYGC"),
-    "power.l_sw": ("2.2uH XFL4020", "Coilcraft XFL4020-222MEB"),
     "frontlight.l_fl": ("22uH 3015", "ANR3015T220M"),
     "power.cell": ("JST PH 2-pin SMD right angle", "JST S2B-PH-SM4-TB(LF)(SN)"),
 }
 LCSC = {
-    "power.usb": "C3020560", "power.esd": "C138714", "power.chg": "C19725033",
-    "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C5361188",
+    "power.usb": "C5184243", "power.esd": "C138714", "power.chg": "C19725033",
+    "power.reg": "C1518762", "power.gauge": "C2682616", "power.l_sw": "C135262",
     "power.cell": "C295747", "mcu": "C2913205", "flash": "C410863", "sw_reset": "C110293",
     "sw_boot": "C110293", "display.panel": "C324723",
     "display.boost": "C2072359", "display.l_boost": "C79317",
