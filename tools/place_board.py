@@ -231,12 +231,12 @@ FIRST_PASS = {
     "R2":  (41.91, 8.89, "B", 0),
     "C1":  (46.355, 8.89, "B", 0),
     # The IR emitter's driver, behind D4.
-    "Q1":  (27.94, 6.35, "B", 0),     # Q2 on main
+    "Q1":  (27.94, 7.62, "B", 0),     # Q2 on main
     "R18": (29.21, 2.54, "B", 90),
     "R19": (23.495, 7.62, "B", 0),
     # The status LED's two ballast resistors, behind D5.
-    "R20": (52.07, 5.08, "B", 0),
-    "R21": (48.895, 5.08, "B", 0),
+    "R20": (52.07, 5.715, "B", 0),
+    "R21": (47.625, 5.715, "B", 0),
 
     # -- FRONT, in the keypad: the faceplate ground bond ---------------------
     # TP1 (TP3 on main). Under the glass on the 146 board (2 October 2026),
@@ -331,12 +331,12 @@ FIRST_PASS = {
     "C12": (5.08, 65.405, "B", 0),    # 5 V out
     "C13": (5.08, 67.945, "B", 0),
     "C10": (37.465, 65.405, "B", 0),   # at J2's VDD/VDDA (pins 6, 7)
-    "R14": (8.89, 69.85, "B", 0),     # EN pulldown
+    "R14": (9.525, 69.85, "B", 0),     # EN pulldown
     # U7, the RV-8263: its CLKOUT is the panel's EXTCOMIN, its I2C is the
     # gauge's bus. C14 is its bypass, R15 holds CLKOE low.
     "U7":  (27.94, 60.96, "B", 0),    # ls027: beside J2, CLKOUT to its pin 4
     "C14": (27.94, 64.135, "B", 0),
-    "R15": (24.13, 60.96, "B", 0),
+    "R15": (23.495, 60.96, "B", 0),
 
     # -- BACK, Y 60..79, centre: the battery and the charger -----------------
     # BT1 is hard against the bottom edge of the bay, turned 180 so its mouth
@@ -350,10 +350,13 @@ FIRST_PASS = {
     "C2":  (28.575, 71.755, "B", 0),  # BAT, at U2 pin 2
     "C3":  (28.575, 74.93, "B", 0),   # SYS, at U2 pin 1
     "R7":  (28.575, 68.58, "B", 0),   # CHG_STAT2 pullup, at pin 3
-    "R5":  (36.83, 70.485, "B", 0),   # TS_MR, at pin 6
-    "R3":  (36.83, 73.025, "B", 0),   # ILIM_VSET, at pin 7
-    "R4":  (36.83, 75.565, "B", 0),   # ISET, at pin 8
-    "R6":  (40.005, 70.485, "B", 0),  # CHG_STAT pullup, at pin 9
+    # 0805 since 25 October 2026: R3/R4/R5 one grid step further from U2
+    # than the 0402s were, which keeps the same 1.7 mm channel between U2's
+    # pins and the resistor pads, and R6 out past VBUS's descent at x 40.4.
+    "R5":  (37.465, 70.485, "B", 0),   # TS_MR, at pin 6
+    "R3":  (37.465, 73.025, "B", 0),   # ILIM_VSET, at pin 7
+    "R4":  (37.465, 76.2, "B", 0),   # ISET, at pin 8
+    "R6":  (43.18, 70.485, "B", 0),  # CHG_STAT pullup, at pin 9
 
     # -- BACK, Y 86..96, centre: the 3V3 regulator ---------------------------
     # L1 straddles the TPS63900's two switch pins. C4 and C5 are the output
@@ -369,18 +372,18 @@ FIRST_PASS = {
     # unchanged and the turn costs nothing at all. See tools/route_power.py.
     "L1":  (38.735, 88.9, "B", 90),
     "C4":  (33.02, 92.71, "B", 0),    # 3V3 out, at U3 pin 6
-    "C5":  (36.83, 92.71, "B", 0),
+    "C5":  (37.465, 92.71, "B", 0),
     # There was an R11 here, the 1 M that held EN down. EN is tied to SYS now
     # that there is no power slider, so the part went with it -- and taking it
     # out of the source renumbered every resistor after it. See RENUMBERING.
+    # 0805 since 25 October 2026, on a 3.175 mm pitch rather than 2.54 so
+    # each ground pad keeps room for its via between the rows.
     "R9":  (28.575, 90.17, "B", 0),   # CFG1
-    "R10": (28.575, 92.71, "B", 0),   # CFG2
-    "R8":  (28.575, 95.25, "B", 0),   # CFG3
-    # R22 (R24 on main) is the 1.2k in series with R8 that makes CFG3's 16.2k out of two
-    # JLC Basic parts (28 September 2026). Turned 180 so its pad 1, the
-    # cfg3_mid end, faces R8's pad 2. route_power.py's SYS loop runs 2.2 mm
-    # further south than it did to make room.
-    "R22": (28.575, 97.79, "B", 180), # CFG3, second half
+    "R10": (28.575, 93.345, "B", 0),   # CFG2
+    "R8":  (28.575, 96.52, "B", 0),   # CFG3
+    # R22 (R24 on main) was the 1.2k in series with R8 that made CFG3's 16.2k
+    # out of two JLC Basic parts (28 September 2026). Gone on the
+    # hand-assembled board (25 October 2026): R8 is one 16.2k now.
 
     # -- BACK, Y 87..91, left: the fuel gauge --------------------------------
     # The one analogue part on the board, so it is kept away from both
@@ -388,7 +391,7 @@ FIRST_PASS = {
     # frontlight's. C6 is its BAT bypass, at pin 3; R11 and R12 pull the
     # I2C bus up, at pins 7 and 8.
     "U4":  (7.62, 88.9, "B", 0),
-    "C6":  (3.81, 89.535, "B", 0),
+    "C6":  (3.175, 89.535, "B", 0),
     "R11": (11.43, 87.63, "B", 0),
     "R12": (11.43, 90.17, "B", 0),
 
@@ -427,10 +430,13 @@ FIRST_PASS = {
     # 22 uF and 100 nF at pin 2 (3V3), the last clear of the antenna keepout.
     # Both turned 180 so their 3V3 pads face the module: route_power.py ties
     # them to pin 2, because SW34's dome keepout leaves them no via of their own.
-    "R13": (26.035, 130.81, "B", 0),
-    "C7":  (26.035, 133.35, "B", 0),  # EN, at pin 3
-    "C8":  (25.4, 135.89, "B", 180),  # 22 uF, at pin 2 (3V3)
-    "C9":  (26.035, 138.43, "B", 180),  # 100 nF
+    # The four moved 0.635 up the board with the 0805s (25 October 2026) so
+    # C9 stays out of the antenna keepout, which KiCad's DRC measures by
+    # courtyard and check_placement.py by copper.
+    "R13": (26.035, 130.175, "B", 0),
+    "C7":  (26.035, 132.715, "B", 0),  # EN, at pin 3
+    "C8":  (25.4, 135.255, "B", 180),  # 22 uF, at pin 2 (3V3)
+    "C9":  (26.035, 137.795, "B", 180),  # 100 nF
     "TP8": (22.86, 130.81, "B", 0),   # EN
     "TP9": (49.53, 120.65, "B", 0),   # BOOT, at pin 27
     "TP6": (49.53, 135.89, "B", 0),   # UART0 TX, at pin 37
@@ -439,13 +445,13 @@ FIRST_PASS = {
     # sounder, beside the module's IO37-IO42. R16 holds CS# high, C15 is its
     # bypass; both just right of it, below the sounder.
     "U8":  (52.07, 127.0, "B", 90),
-    "R16": (57.15, 126.365, "B", 90),
+    "R16": (57.15, 125.095, "B", 90),
     "C15": (57.15, 129.54, "B", 90),
 
     # -- BACK, Y 85..90, right: the power test points ------------------------
     # -- ls027 additions (4 October 2026) ---------------------------------------
     # The 2.7 inch panel's DISP capacitor, beside C10 at J2's pin 5.
-    "C19": (40.64, 65.405, "B", 0),
+    "C19": (41.91, 65.405, "B", 0),
     # Motion: the IMU (U9) and the magnetometer (U10) one above the other in
     # the via-legal corridor between the left dome column and the numeric
     # block (X 12..17.5), above and below TP1 on the front. U10 is 35 mm from
@@ -466,7 +472,7 @@ FIRST_PASS = {
     "J3":  (64.725, 78.7, "B", 180),
     "Q2":  (69.85, 73.66, "B", 0),
     "R23": (69.85, 70.485, "B", 0),
-    "R24": (73.025, 73.66, "B", 0),
+    "R24": (73.66, 73.66, "B", 0),
 
     "TP2": (50.8, 86.36, "B", 0),     # BAT
     "TP3": (53.34, 86.36, "B", 0),    # SYS

@@ -1,5 +1,9 @@
 # The 2.7" board (`ls027` branch)
 
+For the hand-assembled version (0805 passives, consolidated BOM, stencil
+and bare board from JLC) see `docs/hand-assembly.md` on the
+`ls027-hand-assembly` branch.
+
 Sharp LS027B7DH01 memory-in-pixel panel (400 x 240), with or without an Azumo
 FLP 11103-06 front light. Branched from `mip` (the 3.16" LS032 board) on
 4 October 2026. `main` stays e-paper, `mip` stays 3.16".

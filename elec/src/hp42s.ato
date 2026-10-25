@@ -366,17 +366,6 @@ module HP42S:
     tp_boot.value = "BOOT (IO0)"
     tp_boot.p ~ boot
 
-    # --- TPS63900 CFG3, the second half --------------------------------------
-    # The 1.2k that, with power.r_cfg3's 15k, makes the 16.2k that sets 3.3 V.
-    # It belongs in power.ato and lives here only so it is the last resistor
-    # declared: atopile hands out designators in source order, so this one
-    # becomes R24 and no existing resistor is renumbered. Place it against
-    # R8, on U3's CFG3 side.
-    r_cfg3_trim = new Resistor
-    r_cfg3_trim.value = "1.2k 1%"
-    r_cfg3_trim.footprint = "Resistor_SMD:R_0603_1608Metric"
-    r_cfg3_trim.p1 ~ power.cfg3_mid
-    r_cfg3_trim.p2 ~ gnd
 
     # --- motion: IMU and magnetometer (4 October 2026) ------------------------
     # Both on the existing I2C bus (gauge 0x36, RTC 0x51; these are 0x6A and
@@ -444,8 +433,11 @@ module HP42S:
     mcu.IO46 ~ fl_en
     fl = new FrontlightFPC
     r_fl = new Resistor
+    # Designators pinned since 25 October 2026: deleting the CFG3 trim
+    # resistor (was R22, declared before these) would otherwise renumber
+    # R23 and R24 down by one and scramble place_board.py's tables.
+    r_fl.designator = "R23"
     r_fl.value = "100"
-    r_fl.footprint = "Resistor_SMD:R_0603_1608Metric"
     r_fl.p1 ~ display.v5
     r_fl.p2 ~ fl_a
     fl.anode ~ fl_a
@@ -456,6 +448,7 @@ module HP42S:
     q_fl.source ~ gnd
     q_fl.gate ~ fl_en
     r_fl_g = new Resistor
+    r_fl_g.designator = "R24"
     r_fl_g.value = "100k"
     r_fl_g.p1 ~ fl_en
     r_fl_g.p2 ~ gnd

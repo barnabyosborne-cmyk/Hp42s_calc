@@ -28,16 +28,20 @@
 # 'string'". Assigning per instance works in both.
 
 # --- passives --------------------------------------------------------------
+# 0805 since 25 October 2026 (was 0402). The board is now assembled by hand:
+# bare board and stencil from JLC, parts placed with tweezers, reflowed at
+# home. 0805 is the smallest size that is easy to pick up, see the polarity
+# of and rework without a microscope. docs/hand-assembly.md.
 
 component Resistor:
-    footprint = "Resistor_SMD:R_0402_1005Metric"
+    footprint = "Resistor_SMD:R_0805_2012Metric"
     designator_prefix = "R"
     value = "?"
     signal p1 ~ pin 1
     signal p2 ~ pin 2
 
 component Capacitor:
-    footprint = "Capacitor_SMD:C_0402_1005Metric"
+    footprint = "Capacitor_SMD:C_0805_2012Metric"
     designator_prefix = "C"
     value = "?"
     signal p1 ~ pin 1
@@ -447,9 +451,10 @@ component BoostInductor:
 
 
 component CapBoost:
-    # 0603, X5R/X7R, 25 V rating. The rating is not optional: VGH sits near
-    # +22 V and VGL near -20 V, and a 16 V part there dies.
-    footprint = "Capacitor_SMD:C_0603_1608Metric"
+    # 0805 (was 0603; hand assembly, 25 October 2026), X5R/X7R, 25 V rating.
+    # The rating is not optional on the e-paper board: VGH sits near +22 V
+    # and VGL near -20 V, and a 16 V part there dies.
+    footprint = "Capacitor_SMD:C_0805_2012Metric"
     designator_prefix = "C"
     value = "?"
     signal p1 ~ pin 1

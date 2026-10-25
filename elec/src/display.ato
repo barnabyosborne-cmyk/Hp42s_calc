@@ -69,7 +69,6 @@ module DisplayDrive:
     # the current peaks when COM inverts.
     c_panel = new Capacitor
     c_panel.value = "1u"
-    c_panel.footprint = "Capacitor_SMD:C_0603_1608Metric"
     c_panel.p1 ~ v5
     c_panel.p2 ~ gnd
 
@@ -87,19 +86,22 @@ module DisplayDrive:
     l_boost.p2 ~ sw5
 
     # 10 uF in, as TI recommends; 20 uF out, TI's stated minimum for a 1-2.2 uH
-    # inductor (8.2.2.5). CL10A106KP8NNNC, JLC Basic C19702.
+    # inductor (8.2.2.5). Was 2 x 10 uF 10 V 0603, which at 5 V of bias is
+    # nearer 8 uF than 20. Since 25 October 2026 the outputs are 22 uF 25 V
+    # 0805, the part already used for 22 uF elsewhere: about 2 x 12 uF at
+    # 5 V, so above the minimum, and no new BOM line.
     c_in = new CapBoost
-    c_in.value = "10u 10V"
+    c_in.value = "10u"
     c_in.p1 ~ sys
     c_in.p2 ~ gnd
 
     c_out1 = new CapBoost
-    c_out1.value = "10u 10V"
+    c_out1.value = "22u"
     c_out1.p1 ~ v5
     c_out1.p2 ~ gnd
 
     c_out2 = new CapBoost
-    c_out2.value = "10u 10V"
+    c_out2.value = "22u"
     c_out2.p1 ~ v5
     c_out2.p2 ~ gnd
 

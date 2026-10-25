@@ -149,6 +149,15 @@ ROUTES.append(dict(net="gnd", layer="F.Cu",
                    widths=[POWER_W],
                    why="TP1 down to a via into the ground plane"))
 
+# SW40's left mounting pad sits in the corner between the board edge, the
+# switch's peg hole and the boot track, and on the hand-assembly board
+# (25 October 2026) the B.Cu pour no longer reached it. A via of its own,
+# just outside the switch's courtyard.
+ROUTES.append(dict(net="gnd", layer="B.Cu",
+                   path=[(58.300, 0.750), (57.650, 0.750), (57.400, 1.000)],
+                   widths=[NECK_W, NECK_W],
+                   why="SW40's left mounting pad out to a via into the plane"))
+
 # Pads joined to another 3.3 V pad by the routes above, so they need no via
 # of their own.
 # MIP branch, WROOM (2 October 2026): C8 and C9 sit inside dome SW34's via
@@ -156,12 +165,12 @@ ROUTES.append(dict(net="gnd", layer="F.Cu",
 SHARES_PLANE_VIA = {("C8", "1"), ("C9", "1")}   # {("L2", "1")} on main
 ROUTES += [
     dict(net="v3v3", layer="B.Cu",
-         path=[(26.515, 138.430), (26.515, 136.400)],
+         path=[(26.515, 137.795), (26.515, 135.765)],
          widths=[NECK_W],
          why="C9 up into C8, both 3V3 bypasses, inside SW34's via keepout"),
     dict(net="v3v3", layer="B.Cu",
-         path=[(26.350, 136.490), (29.250, 136.490)],
-         widths=[NECK_W],
+         path=[(26.350, 135.700), (27.140, 136.490), (29.250, 136.490)],
+         widths=[NECK_W, NECK_W],
          why="C8 across into U5 pin 2 (3V3)"),
 ]
 
@@ -185,10 +194,15 @@ ROUTES += [
 # at 500 mA, and the slot it cuts in the B.Cu pour is backed by the In1.Cu
 # ground plane underneath, so nothing loses its return path. It descends at
 # x 38.420, which is the middle of the 1.615 mm gap between R3/R5 and R6 -- the
-# obvious x 38.000 is 0.39 mm from R5's ground pad and will not do.
+# obvious x 38.000 is 0.39 mm from R5's ground pad and will not do. Since the
+# 0805s (25 October 2026) R3/R4/R5 sit 0.635 mm and R6 3.175 mm further right,
+# and the descent is at x 40.400: room for a ground via beside R3's and R5's
+# ground pads, which the router needs.
 ROUTES += [
+    # y 7.70, not 7.75, since R2 became 0805 (25 October 2026): 0.49 mm
+    # from its pads.
     dict(net="vbus", layer="B.Cu",
-         path=[(40.400, 6.400), (40.400, 7.750), (45.580, 7.750), (45.580, 8.890)],
+         path=[(40.400, 6.400), (40.400, 7.700), (45.580, 7.700), (45.580, 8.890)],
          widths=[NECK_W, POWER_W, POWER_W],
          why="J1 pins A9/B4 across to C1, the USB bulk cap, right of R2 (ls027: "
              "the top-band parts moved up out of the cell's way, 5 Oct 2026)"),
@@ -199,8 +213,8 @@ ROUTES += [
     # and C19 to resume the old descent between R3/R5 and R6.
     dict(net="vbus", layer="B.Cu",
          path=[(45.580, 8.890), (45.580, 14.000), (31.400, 28.180),
-               (31.400, 67.500), (38.420, 67.500),
-               (38.420, 74.500), (34.033, 74.500), (34.033, 73.250)],
+               (31.400, 67.500), (40.400, 67.500),
+               (40.400, 74.500), (34.033, 74.500), (34.033, 73.250)],
          widths=[POWER_W] * 6 + [NECK_W],
          why="C1 down the board, round the FPC slot, into U2 pin 10 from below"),
 
@@ -243,9 +257,10 @@ ROUTES += [
     # its resistor, so two of the three could never be routed. Found by
     # route_signals.py on 27 September 2026. Going round costs about 20 mm of
     # 0.5 mm copper, a few milliohms. The south leg is at y 99.2, not 97,
-    # since R24 went in under R8 on 28 September 2026.
+    # since R24 went in under R8 on 28 September 2026. The west leg is at
+    # x 26.4, not 26.8, since the CFG resistors became 0805 (25 Oct 2026).
     dict(net="sys", layer="B.Cu",
-         path=[(31.200, 81.500), (26.800, 81.500), (26.800, 99.200),
+         path=[(31.200, 81.500), (26.400, 81.500), (26.400, 99.200),
                (31.100, 99.200), (31.100, 91.400)],
          widths=[POWER_W, POWER_W, POWER_W, POWER_W],
          why="round the west and south of U3's CFG resistors to beneath U3"),
@@ -356,9 +371,10 @@ ROUTES += [
          why="on west, under the keypad, to the gauge's end of the board"),
 
     dict(net="bat", layer="B.Cu",
-         path=[(2.600, 80.500), (2.600, 89.535), (3.300, 89.535)],
-         widths=[POWER_W, POWER_W],
-         why="down the left edge into C6, the gauge's bypass"),
+         path=[(2.600, 80.500), (2.600, 89.535)],
+         widths=[POWER_W],
+         why="down the left edge into C6, the gauge's bypass (C6 moved "
+             "0.635 left onto the run when it became 0805)"),
 
     dict(net="bat", layer="B.Cu",
          path=[(2.600, 87.800), (5.800, 87.800), (5.800, 88.650), (6.500, 88.650)],
@@ -395,6 +411,7 @@ VIAS = [
     ("bat", 32.500, 80.500),
     ("bat", 29.900, 80.500),
     ("gnd", 14.750, 106.200),
+    ("gnd", 57.400, 1.000),
 ]
 
 # The MIP branch's board is taller below the panel; see variant.py. A no-op on

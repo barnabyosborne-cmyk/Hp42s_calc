@@ -80,7 +80,6 @@ module Power:
 
     c_vbus = new Capacitor
     c_vbus.value = "1u"
-    c_vbus.footprint = "Capacitor_SMD:C_0603_1608Metric"
     c_vbus.p1 ~ vbus
     c_vbus.p2 ~ gnd
 
@@ -113,10 +112,10 @@ module Power:
     # which is fine for something that charges overnight.
     #
     # It was 750 ohm (400 mA) until 28 September 2026. 820 ohm 0603 is a JLC
-    # Basic part and 750 ohm in any size is not.
+    # Basic part and 750 ohm in any size is not. (0805 since 25 October 2026,
+    # like every passive on the hand-assembled board.)
     r_iset = new Resistor
     r_iset.value = "820R 1%"
-    r_iset.footprint = "Resistor_SMD:R_0603_1608Metric"
     r_iset.p1 ~ chg.ISET
     r_iset.p2 ~ gnd
 
@@ -202,17 +201,16 @@ module Power:
     # CFG3 = 16.2k -> VO(1) = 3.3 V, which is what SEL low selects.
     # Datasheet table 7-3, and 1% is a requirement there, not a preference.
     #
-    # Since 28 September 2026 the 16.2k is 15k here in series with 1.2k,
-    # both 1% and both JLC Basic parts; 16.2k is not one. Two 1% parts in
-    # series stay inside 1% of the sum, and both are 100 ppm, inside TI's
-    # 200. The 1.2k is r_cfg3_trim at the very end of hp42s.ato, not here:
-    # atopile numbers parts in source order, and a resistor added here would
-    # renumber every resistor after it (see docs/layout-walkthrough.md).
-    signal cfg3_mid
+    # From 28 September to 25 October 2026 this was 15k in series with 1.2k,
+    # because 16.2k is not a JLC Basic part and both of those were. The board
+    # is hand-assembled now, so Basic versus Extended no longer costs a feeder
+    # fee and one 16.2k 1% (100 ppm, inside TI's 200) replaces the pair: one
+    # part and one BOM line fewer. The 1.2k was declared last in hp42s.ato,
+    # so deleting it renumbers nothing.
     r_cfg3 = new Resistor
-    r_cfg3.value = "15k 1%"
+    r_cfg3.value = "16.2k 1%"
     r_cfg3.p1 ~ reg.CFG3
-    r_cfg3.p2 ~ cfg3_mid
+    r_cfg3.p2 ~ gnd
 
     # CFG1 and CFG2 set VO(2) and the input current limit. We never select
     # VO(2), but the pins still have to be defined, so both are 0 ohm: that
@@ -321,12 +319,16 @@ module Power:
     # 21 uA rather than 10. Against roughly 2 %/month of self-discharge on a
     # lithium pouch cell, the last of those is not a real number.
 
+    # 5.1k, not 4.7k, since 25 October 2026: the same part as the USB CC
+    # pull-downs, so one BOM line instead of two. Four devices on a few
+    # centimetres of bus is well under 50 pF; 5.1k x 50 pF gives a 0.85RC
+    # rise of 216 ns, inside the 300 ns that 400 kHz allows.
     r_sda = new Resistor
-    r_sda.value = "4.7k"
+    r_sda.value = "5.1k"
     r_sda.p1 ~ i2c_sda
     r_sda.p2 ~ v3v3
 
     r_scl = new Resistor
-    r_scl.value = "4.7k"
+    r_scl.value = "5.1k"
     r_scl.p1 ~ i2c_scl
     r_scl.p2 ~ v3v3

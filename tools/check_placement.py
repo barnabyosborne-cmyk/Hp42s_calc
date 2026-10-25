@@ -6,7 +6,7 @@ Check the placement in default.kicad_pcb against the rules we are using.
 
 It reads the board file, not KiCad, so it can be run any time. It reports:
 
-  * courtyards closer than 1.0 mm on the same side of the board
+  * courtyards closer than 0.5 mm on the same side of the board
   * anything crossing the board outline
   * anything on the back inside the battery bay
   * anything inside the ESP32 module's antenna keepout -- measured on copper
@@ -19,8 +19,8 @@ Sides are read from the board file, not from place_board.py's table, so this
 also catches a part that ended up on the wrong side.
 
 Every distance here is between COURTYARDS, which already include the
-manufacturer's own handling clearance, so 1.0 mm between two courtyards is
-about 1.5 mm between the parts themselves.
+manufacturer's own handling clearance, so 0.5 mm between two courtyards is
+about 1.0 mm between the parts themselves.
 
 U5 is measured by its lands, with the antenna keepout checked separately:
 its courtyard is the keepout rectangle, which is 45 mm wide and would
@@ -39,7 +39,11 @@ import variant                      # noqa: E402
 PCB = Path(__file__).resolve().parent.parent / "elec/layout/default/default.kicad_pcb"
 
 BOARD_W, BOARD_H = variant.BOARD_W, variant.BOARD_H
-GAP = 1.0                 # between courtyards, same side
+GAP = 0.5                 # between courtyards, same side. Was 1.0 for JLC's
+                          # pick-and-place; 0.5 since the hand-assembly 0805s
+                          # (25 October 2026): about 1 mm between part bodies,
+                          # room for tweezer tips, and the board could not
+                          # take 1.0 round 0805s without a re-layout.
 EDGE = 0.5                # courtyard to board outline
 BAY = (14.0, 13.0, 69.0, 58.0)       # back only: the cell, 6 x 45 x 55 mm.
                                      # X used to start at 10; J2 turned the
@@ -186,7 +190,7 @@ def main():
             if parts[a]["side"] != parts[b]["side"]:
                 continue
             A, B = parts[a]["bb"], parts[b]["bb"]
-            if not boxes_overlap(A, B, GAP):
+            if not boxes_overlap(A, B, GAP - 1e-6):
                 continue
             dx = max(A[0], B[0]) - min(A[2], B[2])
             dy = max(A[1], B[1]) - min(A[3], B[3])

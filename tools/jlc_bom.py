@@ -20,8 +20,9 @@ so re-check anything JLC flags.
 
 Left out: the 38 domes (attr exclude_from_pos_files, fitted by hand), the
 test pads and the two sliver lands (bare copper, nothing to place).
-Where a capacitor's voltage is not in the source, the rating below is a
-choice made here, marked with *.
+Since 25 October 2026 the same file is the parts list for the hand-built
+board: upload it to LCSC's BOM tool, times the number of boards plus spares
+(docs/hand-assembly.md). Every passive is 0805, one part per value.
 """
 
 import csv
@@ -103,40 +104,26 @@ LCSC = {
     "frontlight.l_fl": "C6364792", "diode": "C8598", "led_status": "C7545693",
     "imu": "C5267406", "mag": "C919695", "fl": "C53145530", "q_fl": "C469327",
 }
-# by Comment; Basic parts where JLC has one, else the best-stocked Extended
-PASSIVE_LCSC = {
-    "1uF 25V* X7R/X5R": "C15849", "10uF 10V* X7R/X5R": "C15850",
-    "22uF 10V* X7R/X5R": "C45783", "100nF 16V* X7R/X5R": "C1525",
-    "1uF 10V* X7R/X5R": "C52923", "560pF 50V X7R/X5R": "C107029", "1uF 25V X7R/X5R": "C15849",
-    "4.7uF 16V X7R/X5R": "C19666", "1uF 50V X7R/X5R": "C28323",
-    "4.7uF 10V* X7R/X5R": "C19666", "220nF 16V* X7R/X5R": "C16772",
-    "5.1k 5%": "C25905", "18k 1%": "C25762",
-    "10k 5%": "C25744", "100k 5%": "C25741", "15k 1%": "C25756",
-    "1.2k 1%": "C22765", "820R 1%": "C23253",
-    "4.7k 5%": "C25900",
-    "1M 5%": "C26083", "2R2 1%": "C22939", "1k 5%": "C11702",
-    "22R 5%": "C25092", "10R 5%": "C25077", "0R 5%": "C17168",
-    "10uF 10V X7R/X5R": "C19702",
+# Passives, by Comment. Since 25 October 2026 the board is hand-assembled
+# (bare board + stencil from JLC, parts from LCSC), so every R and C is 0805
+# and each value is ONE part: one voltage rating per capacitor value, 1% for
+# every resistor. JLC's Basic/Extended split no longer costs anything, so the
+# choice is simply a well-stocked common part. Checked against JLC's parts
+# search on 25 October 2026.
+CAP_RATING = {
+    "1uF": "50V X7R", "10uF": "25V X5R", "22uF": "25V X5R",
+    "100nF": "50V X7R", "220nF": "50V X7R", "560pF": "50V C0G",
 }
-# where the Basic part is one size only, by (Comment, footprint)
-PASSIVE_FP_LCSC = {
-    ("4.7uF 25V X7R/X5R", "C_0805_2012Metric"): "C1779",
-    ("100R 5%", "R_0603_1608Metric"): "C22775",
+PASSIVE_LCSC = {
+    "1uF 50V X7R": "C28323", "10uF 25V X5R": "C15850",
+    "22uF 25V X5R": "C45783", "100nF 50V X7R": "C49678",
+    "220nF 50V X7R": "C5378", "560pF 50V C0G": "C107119",
+    "0R 1%": "C17477", "22R 1%": "C17561", "100R 1%": "C17408",
+    "820R 1%": "C17837", "1k 1%": "C17513", "5.1k 1%": "C27834",
+    "10k 1%": "C17414", "16.2k 1%": "C17481", "18k 1%": "C17506",
+    "100k 1%": "C149504", "1M 1%": "C17514",
 }
 
-# values not given a voltage in the source get the * rating
-CAP_V = {
-    "power.c_vbus": "1uF 25V*", "power.c_bat": "10uF 10V*",
-    "power.c_sys": "22uF 10V*", "power.c_out": "22uF 10V*",
-    "power.c_out_hf": "100nF 16V*", "power.c_gauge": "100nF 16V*",
-    "c_en": "1uF 10V*", "c_mcu_bulk": "22uF 10V*", "c_mcu": "100nF 16V*",
-    "c_flash": "100nF 16V*",
-    "frontlight.c_out": "1uF 50V", "frontlight.c_in": "4.7uF 10V*",
-    "frontlight.c_comp": "220nF 16V*",
-    "display.c_panel": "1uF 25V*", "display.c_rtc": "100nF 16V*",
-    "c_imu": "100nF 16V*", "c_mag": "100nF 16V*", "c_mag_sr": "220nF 16V*",
-    "c_disp": "560pF 50V",
-}
 SKIP_PREFIX = ("SW",)            # domes; the two tact switches are kept below
 
 
@@ -159,6 +146,7 @@ def pretty(v):
     v = re.sub(r"^(\d+)u(\d)\b", r"\1.\2u", v)
     v = re.sub(r"(\d)u\b", r"\1uF", v).replace("uF", "uF")
     v = re.sub(r"(\d)n\b", r"\1nF", v)
+    v = re.sub(r"(\d)p\b", r"\1pF", v)
     return v
 
 
@@ -203,20 +191,16 @@ def main():
             comment, mpn = DIODE
             lcsc = LCSC["diode"]
         elif ref.startswith("C"):
-            v = CAP_V.get(path) or pretty(vals[path])
-            if "V" not in v:
-                v += " 25V" if path.startswith("display.") else ""
-            comment, mpn = f"{v} X7R/X5R", ""
+            v = pretty(vals[path].split()[0])
+            comment, mpn = f"{v} {CAP_RATING[v]}", ""
         elif ref.startswith("R"):
-            v = vals[path]
-            tol = "1%" if "1%" in v else "5%"
-            ohms = v.split()[0]
+            ohms = vals[path].split()[0]
             if re.fullmatch(r"[\d.]+", ohms):
                 ohms += "R"             # a bare "10" is 10 ohms, not 10k
-            comment, mpn = f"{ohms} {tol}", ""
+            comment, mpn = f"{ohms} 1%", ""
         else:
             raise SystemExit(f"{ref} ({path}) has no BOM entry")
-        lcsc = lcsc or PASSIVE_FP_LCSC.get((comment, fp)) or PASSIVE_LCSC.get(comment, "")
+        lcsc = lcsc or PASSIVE_LCSC.get(comment, "")
         key = (comment, fp, lcsc, mpn)
         groups.setdefault(key, []).append(ref)
         at = re.search(r"\n\t\t\(at ([-\d.]+) ([-\d.]+)(?: ([-\d.]+))?\)", blk)

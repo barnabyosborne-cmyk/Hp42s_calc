@@ -87,6 +87,15 @@ def u(*k):
     return str(uuid.uuid5(NS, "/".join(k)))
 
 
+def tail(it, extra):
+    """Append fields to a library child the way KiCad writes them: one per
+    line before the closing paren, so a later line-anchored regex (such as
+    check_placement.py's courtyard reader) still finds where it ends."""
+    if it.endswith("\n\t)"):
+        return it[:-3] + "".join(f"\n\t\t{e}" for e in extra) + "\n\t)"
+    return it[:-1] + "".join(f" {e}" for e in extra) + ")"
+
+
 def convert(ref, c, nets):
     src = library(c["fp"])
     body = src[src.index("\n") + 1:src.rindex(")")]
@@ -103,21 +112,21 @@ def convert(ref, c, nets):
             txt = ref if kind == "Reference" else c["value"]
             it = re.sub(r'^\(fp_text (reference|value) "[^"]*"', f'(property "{kind}" "{txt}"', it)
             it = it.replace("(at ", "(at ", 1)
-            it = it[:-1] + f' (uuid "{u(ref, kind)}"))'
+            it = tail(it, [f'(uuid "{u(ref, kind)}")'])
         elif k == "property":
             name = re.match(r'\(property "([^"]+)"', it).group(1)
             if name == "Reference":
                 it = re.sub(r'^\(property "Reference" "[^"]*"', f'(property "Reference" "{ref}"', it)
             elif name == "Value":
                 it = re.sub(r'^\(property "Value" "[^"]*"', f'(property "Value" "{c["value"]}"', it)
-            it = it[:-1] + f' (uuid "{u(ref, "prop", name)}"))'
+            it = tail(it, [f'(uuid "{u(ref, "prop", name)}")'])
         elif k == "pad":
             num = re.match(r'\(pad "([^"]*)"', it).group(1)
             net = nets.get((ref, num))
-            extra = (f' (net "{net}")' if net else "") + f' (uuid "{u(ref, "pad", num, it[:60])}")'
-            it = it[:-1] + extra + ")"
+            it = tail(it, ([f'(net "{net}")'] if net else [])
+                      + [f'(uuid "{u(ref, "pad", num, it[:60])}")'])
         elif k in ("fp_line", "fp_rect", "fp_circle", "fp_poly", "fp_arc", "fp_text"):
-            it = it[:-1] + f' (uuid "{u(ref, k, it)}"))'
+            it = tail(it, [f'(uuid "{u(ref, k, it)}")'])
         elif k == "model":
             pass
         lines.append("\t\t" + it.replace("\n", "\n\t"))
