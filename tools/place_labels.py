@@ -13,7 +13,7 @@ CLEAR from:
   - every mask opening on its side of the board (pads, domes);
   - every silkscreen line, circle and outline on its side;
   - every other label on its side, including ones already moved;
-  - the board edge;
+  - the board edge, and the mounting and stake holes cut in it;
 
 and, if such a spot exists, off every other part's courtyard as well, so the
 label is not hidden under a component once the board is assembled. The dome
@@ -165,6 +165,19 @@ def text_box(x, y, n, size, thick, ang):
     return box(x - w / 2, y - h / 2, x + w / 2, y + h / 2)
 
 
+def holes(text):
+    """The Edge.Cuts circles: mounting and stake holes inside the board."""
+    out = []
+    for m in re.finditer(r'\(gr_circle\s*\(center ([-\d.]+) ([-\d.]+)\)\s*'
+                         r'\(end ([-\d.]+) ([-\d.]+)\)(.*?)\(layer "([^"]+)"',
+                         text, re.S):
+        if m.group(6) != "Edge.Cuts":
+            continue
+        cx, cy, ex, ey = map(float, m.group(1, 2, 3, 4))
+        out.append(Point(cx, cy).buffer(math.dist((cx, cy), (ex, ey)) + EDGE))
+    return out
+
+
 def main():
     check = "--check" in sys.argv
     text = PCB.read_text()
@@ -187,7 +200,8 @@ def main():
     moves, stuck = [], []
     for s in ("F", "B"):
         mine = [p for p in parts if p["side"] == s]
-        hard = unary_union([g for p in mine for g in p["silk"] + p["mask"]])
+        hard = unary_union([g for p in mine for g in p["silk"] + p["mask"]]
+                           + holes(text))
         boxes = {}
         for p in mine:
             L = p["lab"]

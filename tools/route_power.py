@@ -211,10 +211,13 @@ ROUTES += [
     # x 38.42 below the glass, so vbus comes down at x 31.40 instead -- left
     # of the slot's keepout, right of U7 -- and crosses back under J2's C10
     # and C19 to resume the old descent between R3/R5 and R6.
+    # Hand assembly (26 October 2026): the stake hole M at board (38, 66)
+    # sits on the old descent, so vbus crosses north of C10/C19 at board
+    # y 61.5 and comes down at x 39.70, east of the hole's keepout.
     dict(net="vbus", layer="B.Cu",
          path=[(45.580, 8.890), (45.580, 14.000), (31.400, 28.180),
-               (31.400, 67.500), (40.400, 67.500),
-               (40.400, 74.500), (34.033, 74.500), (34.033, 73.250)],
+               (31.400, 63.500), (39.700, 63.500),
+               (39.700, 74.500), (34.033, 74.500), (34.033, 73.250)],
          widths=[POWER_W] * 6 + [NECK_W],
          why="C1 down the board, round the FPC slot, into U2 pin 10 from below"),
 
@@ -276,20 +279,25 @@ ROUTES += [
     # then goes west along y 68.3, between dome rows, taps south into C11 (the
     # boost's input cap) and runs up into L2. U6's VIN is ball A1, beside A2 (gnd), so it
     # leaves south at 0.15 mm, the net class minimum, until clear of A2.
+    # Hand-assembly board, 26 October 2026: the stake hole L at board
+    # (25.5, 66) sits on the old route, so the hop slants east and runs up
+    # x 27.1 on F.Cu, east of L, and sys comes back to B.Cu north of it at
+    # y 64.3. The B.Cu leg stays at x 25.8: C2's and C3's ground vias need
+    # x 26.9.
     dict(net="sys", layer="B.Cu",
          path=[(27.625, 74.900), (25.800, 74.900), (25.800, 71.000)],
          widths=[NECK_W, NECK_W],
          why="out of C3 west and north, inside bat's loop"),
 
     dict(net="sys", layer="F.Cu",
-         path=[(25.800, 71.000), (25.800, 68.900)],
-         widths=[NECK_W],
-         why="over bat's y 70 run, between the SW8 and SW9 keepouts"),
+         path=[(25.800, 71.000), (27.100, 69.700), (27.100, 66.300)],
+         widths=[NECK_W, NECK_W],
+         why="over bat's y 70 run and past stake hole L on its east side"),
 
     dict(net="sys", layer="B.Cu",
-         path=[(25.800, 68.900), (25.800, 68.300), (15.735, 68.300),
+         path=[(27.100, 66.300), (15.735, 66.300),
                (15.735, 62.865)],
-         widths=[NECK_W, NECK_W, NECK_W],
+         widths=[NECK_W, NECK_W],
          why="west between dome rows as before, but north up x 15.735 into "
              "C11 short of the hole at (13, 66) (ls027), not across it"),
 
@@ -354,7 +362,7 @@ ROUTES += [
          why="the branch into TP4, the bat test point"),
 
     dict(net="bat", layer="B.Cu",
-         path=[(52.070, 80.500), (41.500, 80.500), (41.500, 83.000),
+         path=[(52.070, 78.350), (41.500, 78.350), (41.500, 83.000),
                (35.000, 83.000), (35.000, 80.500), (32.500, 80.500)],
          widths=[POWER_W] * 5,
          why="west along the empty band at y 80.5 to the sys crossing, "
@@ -365,13 +373,15 @@ ROUTES += [
          widths=[POWER_W],
          why="over sys on F.Cu, in the gap between the dome rows at 74 and 86"),
 
+    # y 78.35, not 80.5, since the stake holes N, O and P went on the
+    # y 80 corners (26 October 2026); the F.Cu hop over sys stays at 80.5.
     dict(net="bat", layer="B.Cu",
-         path=[(29.900, 80.500), (2.600, 80.500)],
-         widths=[POWER_W],
+         path=[(29.900, 80.500), (29.900, 78.350), (2.600, 78.350)],
+         widths=[POWER_W, POWER_W],
          why="on west, under the keypad, to the gauge's end of the board"),
 
     dict(net="bat", layer="B.Cu",
-         path=[(2.600, 80.500), (2.600, 89.535)],
+         path=[(2.600, 78.350), (2.600, 89.535)],
          widths=[POWER_W],
          why="down the left edge into C6, the gauge's bypass (C6 moved "
              "0.635 left onto the run when it became 0805)"),
@@ -382,7 +392,7 @@ ROUTES += [
          why="round U4's ground pads and in along pin 3's centreline"),
 
     dict(net="bat", layer="B.Cu",
-         path=[(24.500, 80.500), (24.500, 70.000), (30.450, 70.000)],
+         path=[(24.500, 78.350), (24.500, 70.000), (30.450, 70.000)],
          widths=[POWER_W, POWER_W],
          why="north clear of C17 and D1, then east above C2's ground pad"),
 
@@ -405,7 +415,7 @@ ROUTES += [
 # Vias placed by hand: the two ends of each F.Cu jumper above.
 VIAS = [
     ("sys", 25.800, 71.000),     # MIP: the hop over bat, both ends
-    ("sys", 25.800, 68.900),
+    ("sys", 27.100, 66.300),
     ("vbus", 35.600, 7.400),
     ("vbus", 40.400, 7.400),
     ("bat", 32.500, 80.500),

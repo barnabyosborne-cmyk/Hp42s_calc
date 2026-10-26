@@ -67,6 +67,32 @@ HOLES = {
     "I": (63.0, 68.0, 1.7, 4.0),     # SW5 / SW6 / SW11 / SW12
     "J": (15.19, 128.0, 1.7, 4.0),   # SW28 / SW29 / SW33 / SW34
     "K": (60.81, 128.0, 1.7, 4.0),   # SW31 / SW32 / SW36 / SW37
+    # Hand-assembly board, 26 October 2026: Barnaby's keyboard-to-faceplate
+    # fixing, copied from an old Pioneer calculator. A 1.0 mm hole at every
+    # inner corner where four keys meet, for a case post to heat-stake
+    # through or a small screw, each with 2.4 mm kept clear on every layer
+    # for the stake's head on the back. Board y (e-paper y - 2):
+    #   rows 1-3 (12.5 mm columns) corners at x 13/25.5/38/50.5/63,
+    #     y 66 and 78; rows 4-7 (15 mm numeric columns) at x 14.875/30.5/
+    #     45.5/60.5, y 102, 114 and 126. Rows 3 and 4 have no four-key
+    #     corners: their columns do not line up.
+    #   Already a screw: (13, 66) H, (63, 66) I, (38, 78) G, (14.875, 126) J,
+    #     (60.5, 126) K.
+    #   Left out, something solid is there: (50.5, 66) under BT1's body,
+    #     (63, 78) under J3, (30.5, 126) and (45.5, 126) under the ESP32
+    #     module, (14.875, 102) under TP1, the faceplate's ground pad.
+    "L": (25.5, 68.0, 1.0, 2.4),
+    "M": (38.0, 68.0, 1.0, 2.4),
+    "N": (13.0, 80.0, 1.0, 2.4),
+    "O": (25.5, 80.0, 1.0, 2.4),
+    "P": (50.5, 80.0, 1.0, 2.4),
+    "Q": (30.5, 104.0, 1.0, 2.4),
+    "R": (45.5, 104.0, 1.0, 2.4),
+    "S": (60.5, 104.0, 1.0, 2.4),
+    "T": (14.875, 116.0, 1.0, 2.4),
+    "U": (30.5, 116.0, 1.0, 2.4),
+    "V": (45.5, 116.0, 1.0, 2.4),
+    "W": (60.5, 116.0, 1.0, 2.4),
 }
 HOLES = {k: (x, drop(y), d, keep) for k, (x, y, d, keep) in HOLES.items()}
 POSTS = {}

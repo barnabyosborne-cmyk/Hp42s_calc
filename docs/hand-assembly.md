@@ -63,6 +63,41 @@ SW40's left mounting pad got a ground via of its own (the pour stopped
 reaching it). Then the whole board was
 rerouted with the repo's own tools and checked with KiCad 10's DRC.
 
+## Keyboard stake holes (26 October 2026)
+
+Barnaby is copying the keyboard-to-faceplate fixing of an old Pioneer
+calculator: posts on the front case come through the board at the inner
+corners where four keys meet, and are heat-staked or take a small screw.
+`tools/mounting.py` now cuts a **1.0 mm unplated hole** at each of those
+corners, with 2.4 mm kept free of copper on every layer for the stake's
+head on the back.
+
+Board coordinates (origin top left, y down):
+
+| Rows | Columns | Corners at y |
+|---|---|---|
+| 1 to 3 (12.5 mm keys) | x 13, 25.5, 38, 50.5, 63 | 66, 78 |
+| 4 to 7 (15 mm numeric keys) | x 14.875, 30.5, 45.5, 60.5 | 102, 114, 126 |
+
+Rows 3 and 4 have no four-key corners because their columns do not line
+up. Of the 22 corners:
+
+- **12 new holes**, L to W: (25.5, 66), (38, 66), (13, 78), (25.5, 78),
+  (50.5, 78), (30.5, 102), (45.5, 102), (60.5, 102), (14.875, 114),
+  (30.5, 114), (45.5, 114), (60.5, 114).
+- **5 already have a screw hole** (M1.6, 1.7 mm): H (13, 66), I (63, 66),
+  G (38, 78), J (15.19, 126) and K (60.81, 126). A 1 mm post fits these too,
+  or use them for the screws.
+- **5 left out** because something solid is on the back there: (50.5, 66)
+  under the cell connector BT1, (63, 78) under the front-light ZIF J3,
+  (30.5, 126) and (45.5, 126) under the ESP32 module, and (14.875, 102)
+  under TP1. TP1 could move if that corner matters.
+
+To make room, C18 and R17 moved, and three power runs in `route_power.py`
+moved off the holes: `bat` now runs along board y 76.35, `sys` hops over on
+the front at x 27.1, and `vbus` crosses north of C10/C19 at y 61.5 and comes
+down at x 39.7. The rest was rerouted by `route_signals.py`.
+
 ## What could not get bigger
 
 These stay fine-pitch because no larger package of the same part exists,

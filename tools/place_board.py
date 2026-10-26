@@ -399,7 +399,7 @@ FIRST_PASS = {
     # ls027: the sounder sits with the module and NAND it hangs off, not
     # out on its own at the right edge.
     "LS1": (69.215, 124.46, "B", 0),  # right, clear of the hole at (60.81, 126)
-    "R17": (62.865, 115.57, "B", 0),
+    "R17": (64.135, 115.57, "B", 0),
 
     # -- BACK, Y 123..138: the ESP32 module ----------------------------------
     # U5's position and rotation are set by its antenna, not by the grid.
@@ -461,7 +461,7 @@ FIRST_PASS = {
     "C16": (15.24, 95.885, "B", 0),
     "U10": (15.24, 113.03, "B", 0),
     "C17": (15.24, 109.855, "B", 0),
-    "C18": (15.24, 116.205, "B", 0),
+    "C18": (15.24, 118.745, "B", 0),
     # The front light's switch, at the end of the Azumo LED flex, which lies
     # down the back from the coupler (variant.FLEX). J3 is the 2-way 1.0 mm
     # top-contact FPC connector the flex's stiffened end plugs into: centred
